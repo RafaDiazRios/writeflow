@@ -8,6 +8,11 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Por defecto, solo lectura. El permiso de escritura se concede únicamente al
+# trabajo que crea la release.
+permissions:
+  contents: read
+
 jobs:
   comprobaciones:
     name: Comprobaciones (TypeScript + Rust)
@@ -28,7 +33,7 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@stable
 
-      - uses: swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@v2
         with:
           workspaces: './src-tauri -> target'
 
@@ -47,6 +52,12 @@ jobs:
     name: Instalador de Windows (.msi y .exe)
     runs-on: windows-latest
     needs: comprobaciones
+    # Solo al publicar una etiqueta o al lanzarlo a mano: compilar Windows tarda
+    # diez minutos y no hace falta en cada push a main.
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    # tauri-action crea la release y sube los instaladores: necesita escritura.
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -57,7 +68,7 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@stable
 
-      - uses: swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@v2
         with:
           workspaces: './src-tauri -> target'
 
@@ -71,7 +82,7 @@ jobs:
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
         with:
           tagName: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
-          releaseName: 'WriteFlow ${{ github.ref_name }}'
+          releaseName: ${{ github.ref_type == 'tag' && format('WriteFlow {0}', github.ref_name) || '' }}
           releaseBody: 'Descarga el instalador `.exe` (recomendado) o el `.msi`.'
           releaseDraft: true
           prerelease: false
