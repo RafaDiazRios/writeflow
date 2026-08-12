@@ -1,0 +1,93 @@
+name: Compilar WriteFlow para Android
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  NDK_VERSION: 27.3.13750724
+
+jobs:
+  apk:
+    name: APK de Android
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # para adjuntar el APK a la release
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Instalar el NDK
+        run: sdkmanager --install "ndk;${NDK_VERSION}" "platforms;android-36" "build-tools;34.0.0"
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android,armv7-linux-androideabi,i686-linux-android,x86_64-linux-android
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+          key: android
+
+      - run: npm ci
+
+      # El keystore no está en el repositorio. Si los secretos existen, la release
+      # sale firmada; si no, sale sin firmar y sirve igual para probar.
+      - name: Preparar la firma
+        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+        env:
+          KEYSTORE: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          echo "$KEYSTORE" | base64 --decode > "$RUNNER_TEMP/writeflow.keystore"
+          cat > src-tauri/gen/android/keystore.properties <<EOF
+          password=$KEYSTORE_PASSWORD
+          keyAlias=$KEY_ALIAS
+          storeFile=$RUNNER_TEMP/writeflow.keystore
+          EOF
+
+      - name: Compilar el APK
+        env:
+          NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/${{ env.NDK_VERSION }}
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+        run: npm run android:build
+
+      - name: Renombrar con la versión
+        id: apk
+        run: |
+          SRC=$(find src-tauri/gen/android/app/build/outputs/apk -name "*-release*.apk" | head -1)
+          NAME="WriteFlow-${GITHUB_REF_NAME:-dev}.apk"
+          cp "$SRC" "$NAME"
+          echo "path=$NAME" >> "$GITHUB_OUTPUT"
+          ls -lh "$NAME"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: writeflow-android
+          path: ${{ steps.apk.outputs.path }}
+
+      # La release la crea el flujo de Windows; aquí solo se le añade el APK.
+      # Si aún no existe, no se considera un fallo: el artefacto ya está subido.
+      - name: Adjuntar a la release
+        if: startsWith(github.ref, 'refs/tags/v')
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload "$GITHUB_REF_NAME" "${{ steps.apk.outputs.path }}" --clobber

@@ -18,6 +18,10 @@ Con **búsqueda global** sobre los cuatro módulos, **objetivo diario de palabra
 y mapa de actividad del año, y exportación nativa a **.docx** (incluido el formato de manuscrito que piden agentes y editoriales),
 **.epub**, Markdown y HTML.
 
+Hay además una **versión para Android** que comparte el mismo código: diario, terapia,
+búsqueda y lectura de la novela, con el diario cifrado sincronizado entre los dos.
+Ver [`docs/ANDROID.md`](docs/ANDROID.md).
+
 Todo se guarda primero en tu ordenador (SQLite). La nube es opcional: cuando hay
 conexión, sincroniza con Supabase y puede volcar un archivo en Markdown a GitHub.
 
@@ -36,6 +40,7 @@ conexión, sincroniza con Supabase y puede volcar un archivo en Markdown a GitHu
 | Archivo | **GitHub** vía API REST | Copia en Markdown versionada, legible sin la app |
 | Exportación | **docx** + **JSZip** (carga diferida) | `.docx` y `.epub` generados en el propio equipo, sin red |
 | Búsqueda | **SQLite FTS5** | Una caja para los cuatro módulos, sin tildes ni mayúsculas, instantánea |
+| Android | **Tauri mobile** | El mismo código y la misma base de datos, con una piel táctil |
 
 Documento de arquitectura completo: [`docs/ARQUITECTURA.md`](docs/ARQUITECTURA.md).
 
@@ -51,6 +56,9 @@ Windows 11 y con Windows 10 actualizado).
 npm install
 npm run app:dev      # abre la app en modo desarrollo con recarga en caliente
 npm run app:build    # genera el instalador en src-tauri/target/release/bundle
+
+npm run android:dev    # en un móvil conectado por USB o en un emulador
+npm run android:build  # genera el APK
 ```
 
 La base de datos se crea sola la primera vez en
@@ -234,7 +242,9 @@ src/
   modules/      diario, novela, ensayos, terapia, ajustes
   data/         107 prompts, 47 ejercicios y 13 plantillas de ensayo (JSON)
 scripts/        pruebas de integración (esquema, repositorios y exportación)
+  modules/mobile/  diario y biblioteca en su versión táctil
 src-tauri/      backend en Rust: migraciones SQLite y cifrado
+src-tauri/gen/android/   proyecto Gradle generado por Tauri
 supabase/       migración de Postgres con RLS
 docs/           arquitectura y decisiones de diseño
 ```

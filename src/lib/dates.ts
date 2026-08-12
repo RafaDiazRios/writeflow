@@ -25,9 +25,14 @@ export function fromISODate(s: string): Date {
   return parseISO(s)
 }
 
+/** Solo la inicial: en español los días y los meses van en minúscula. */
+const upperFirst = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
+
 export function longDate(s: string | Date): string {
   const d = typeof s === 'string' ? parseISO(s) : s
-  return format(d, "EEEE d 'de' MMMM 'de' yyyy", { locale: es })
+  // `capitalize` de CSS pondría mayúscula en cada palabra («Miércoles 12 De
+  // Agosto De 2026»), que en español está mal. Se hace aquí, una sola vez.
+  return upperFirst(format(d, "EEEE d 'de' MMMM 'de' yyyy", { locale: es }))
 }
 
 export function shortDate(s: string | Date): string {
@@ -36,7 +41,7 @@ export function shortDate(s: string | Date): string {
 }
 
 export function monthLabel(d: Date): string {
-  return format(d, 'MMMM yyyy', { locale: es })
+  return upperFirst(format(d, 'MMMM yyyy', { locale: es }))
 }
 
 /** Rejilla de 6 semanas que contiene el mes dado, empezando en lunes. */
@@ -58,5 +63,7 @@ export function dayAndMonth(d: Date | string): string {
   const date = typeof d === 'string' ? parseISO(d) : d
   return format(date, "d 'de' LLLL", { locale: es })
 }
+
+export { upperFirst }
 
 export { addMonths, subMonths, isSameDay, isSameMonth, isToday, format, startOfMonth, endOfMonth }

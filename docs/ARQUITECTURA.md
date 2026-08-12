@@ -230,6 +230,27 @@ guardado y sin red.
 5. Descarga de plantillas de ensayo adicionales desde un repositorio en línea.
 6. Que «en este día» contemple el 29 de febrero (hoy, un año bisiesto no encuentra
    recuerdos del 29 en años normales).
+7. Exportar desde Android por el menú de compartir del sistema.
+8. Versión para iOS: el mismo camino que Android, pero exige un Mac para compilar.
+
+### Sobre Android
+
+La decisión de Tauri, tomada el primer día por el tamaño del instalador, resultó
+además ser la que permitió el móvil sin reescribir nada: el núcleo en Rust y todo el
+código de datos compilan para ARM sin un cambio.
+
+Lo que sí se bifurca es la presentación, y se decide en un solo sitio
+(`src/lib/platform.ts`) combinando sistema operativo y ancho de ventana. Que el ancho
+cuente permite desarrollar y fotografiar la interfaz táctil en el navegador del
+escritorio: sin eso, cada ajuste de un margen exigiría compilar un APK.
+
+En el móvil la novela y los ensayos se leen pero no se editan. No es una limitación
+técnica: es que un binder con arrastrar y soltar, un inspector y un tablero de tramas
+no caben en vertical, y forzarlos produce dos herramientas peores en lugar de una buena.
+
+Detalle que cuesta descubrir: los esquemas propios (`writeflow://`) hay que declararlos
+a mano en el `AndroidManifest.xml`. La configuración `mobile` del plugin de enlaces
+profundos es para App Links con `https`, no para esto.
 
 ### Sobre la búsqueda
 

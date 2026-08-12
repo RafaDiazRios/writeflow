@@ -268,7 +268,7 @@ export default function JournalModule() {
         {!active ? (
           <div className="grid flex-1 place-items-center p-8 text-center">
             <div>
-              <p className="mb-1 text-lg font-medium capitalize">{longDate(date)}</p>
+              <p className="mb-1 text-lg font-medium">{longDate(date)}</p>
               <p className="mb-5 text-sm text-ink-500 dark:text-ink-400">
                 Aún no hay nada escrito este día.
               </p>
@@ -281,7 +281,7 @@ export default function JournalModule() {
           <>
             <div className="border-b border-ink-200 px-6 py-3 dark:border-ink-800">
               <div className="mb-2 flex items-center gap-3">
-                <span className="text-xs font-medium capitalize text-accent-700 dark:text-accent-400">
+                <span className="text-xs font-medium text-accent-700 dark:text-accent-400">
                   {longDate(active.entry_date)}
                 </span>
                 <span className="text-xs text-ink-400">

@@ -135,7 +135,7 @@ export default function TherapyModule() {
         </header>
 
         <div className="min-h-0 flex-1 overflow-y-auto">
-          <div className="mx-auto max-w-3xl px-6 py-5">
+          <div className="mx-auto max-w-3xl px-4 py-4 sm:px-6 sm:py-5">
             <div className="card mb-5 border-l-4 border-l-emerald-500 p-4">
               <p className="panel-title mb-1.5">La consigna</p>
               <p className="font-serif text-[15px] leading-relaxed">{entry.prompt_text}</p>
@@ -186,7 +186,7 @@ export default function TherapyModule() {
   // ── historial ──
   if (view === 'history') {
     return (
-      <div className="mx-auto w-full max-w-3xl p-6">
+      <div className="mx-auto w-full max-w-3xl p-4 sm:p-6">
         <div className="mb-5 flex items-center gap-3">
           <button className="btn-ghost !px-1.5" onClick={() => setView('browse')}>
             <ArrowLeft size={16} />
@@ -224,9 +224,9 @@ export default function TherapyModule() {
   // ── catálogo ──
   return (
     <div className="h-full overflow-y-auto">
-      <div className="mx-auto w-full max-w-4xl p-6">
+      <div className="mx-auto w-full max-w-4xl p-4 sm:p-6">
         <div className="mb-1 flex items-center gap-3">
-          <h1 className="text-2xl font-semibold tracking-tight">Terapia narrativa</h1>
+          <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">Terapia narrativa</h1>
           <button className="btn-ghost ml-auto" onClick={() => setView('history')}>
             <History size={15} /> Historial ({history.length})
           </button>

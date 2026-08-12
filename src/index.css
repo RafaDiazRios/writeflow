@@ -181,3 +181,32 @@
 .tiptap .ProseMirror-selectednode {
   @apply outline outline-2 outline-accent-400;
 }
+
+/* ─────────────── ajustes táctiles (Android) ─────────────── */
+
+@layer base {
+  html {
+    /* Evita el rebote elástico que hace parecer que la app se despega. */
+    overscroll-behavior: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (pointer: coarse) {
+    /* En una pantalla táctil no hay puntero que aceche: la barra sobra. */
+    ::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+    /* El cuerpo de texto necesita ser mayor para leerse a distancia de brazo. */
+    .wf-prose {
+      font-size: 17px;
+      line-height: 1.7;
+    }
+    /* Área de toque mínima cómoda en los botones de icono. */
+    .btn-ghost,
+    .btn-outline,
+    .btn-primary {
+      min-height: 40px;
+    }
+  }
+}

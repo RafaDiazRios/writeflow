@@ -51,7 +51,7 @@ export default function Settings() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="mx-auto w-full max-w-3xl space-y-6 p-8">
+      <div className="mx-auto w-full max-w-3xl space-y-5 p-4 sm:space-y-6 sm:p-8">
         <h1 className="text-2xl font-semibold tracking-tight">Ajustes</h1>
 
         {/* ── Apariencia ── */}
@@ -387,7 +387,7 @@ function Section({
   children: React.ReactNode
 }) {
   return (
-    <section className="card p-5">
+    <section className="card p-4 sm:p-5">
       <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold">
         {icon}
         {title}

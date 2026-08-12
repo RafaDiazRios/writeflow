@@ -37,13 +37,13 @@ export default function Home() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="mx-auto w-full max-w-4xl p-8">
-        <p className="text-sm capitalize text-ink-400">{longDate(today)}</p>
-        <h1 className="mb-6 text-3xl font-semibold tracking-tight">{greeting}, Rafa.</h1>
+      <div className="mx-auto w-full max-w-4xl p-4 sm:p-8">
+        <p className="text-sm text-ink-400">{longDate(today)}</p>
+        <h1 className="mb-5 text-2xl font-semibold tracking-tight sm:mb-6 sm:text-3xl">{greeting}, Rafa.</h1>
 
-        <div className="card mb-6 border-l-4 border-l-accent-500 p-5">
+        <div className="card mb-5 border-l-4 border-l-accent-500 p-4 sm:mb-6 sm:p-5">
           <p className="panel-title mb-2">Para pensar hoy · {STREAM_LABEL[prompt.stream]}</p>
-          <p className="font-serif text-lg leading-relaxed">{prompt.text}</p>
+          <p className="font-serif text-[17px] leading-relaxed sm:text-lg">{prompt.text}</p>
           {prompt.source && <p className="mt-2 text-xs italic text-ink-500">{prompt.source}</p>}
           <button className="btn-primary mt-4" onClick={() => nav('/diario')}>
             <PenLine size={16} /> Escribir en el diario
@@ -88,13 +88,13 @@ export default function Home() {
           </section>
         )}
 
-        <div className="mb-6 grid grid-cols-3 gap-3">
+        <div className="mb-6 grid grid-cols-3 gap-2 sm:gap-3">
           <Metric value={stats.totalWords.toLocaleString('es-ES')} label="palabras escritas" />
           <Metric value={stats.journalEntries} label="entradas de diario" />
           <Metric value={stats.therapyEntries} label="sesiones de terapia" />
         </div>
 
-        <div className="mb-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <div className="mb-6 grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4">
           <Shortcut to="/diario" icon={<CalendarDays size={18} />} title="Diario" sub="Calendario y prompts" onGo={nav} />
           <Shortcut to="/novela" icon={<BookOpen size={18} />} title="Novela" sub={`${stats.novels} proyecto(s)`} onGo={nav} />
           <Shortcut to="/ensayos" icon={<ScrollText size={18} />} title="Ensayos" sub={`${stats.essays} en marcha`} onGo={nav} />

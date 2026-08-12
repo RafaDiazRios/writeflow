@@ -23,7 +23,9 @@ import FontFamily from '@tiptap/extension-font-family'
 import Focus from '@tiptap/extension-focus'
 import { useApp } from '@/store/app'
 import { docToText } from '@/lib/text'
+import { useIsMobile } from '@/lib/platform'
 import EditorToolbar from './EditorToolbar'
+import MobileToolbar from './MobileToolbar'
 
 export interface EditorProps {
   value: JSONContent | null
@@ -79,6 +81,7 @@ export default function Editor({
   autofocus = false,
 }: EditorProps) {
   const { focusMode, typewriter, fontScale } = useApp()
+  const isMobile = useIsMobile()
   const timer = useRef<number | null>(null)
   const lastPushed = useRef<string>('')
 
@@ -138,19 +141,24 @@ export default function Editor({
     }
   }, [])
 
+  // En móvil no hay hoja A4 —no tiene sentido imitar un folio en una pantalla de
+  // cinco pulgadas— y la barra de formato va abajo, encima del teclado.
+  const paged = page && !isMobile
+
   return (
-    <div className={`flex h-full flex-col ${focusMode ? 'wf-focus' : ''} ${className}`}>
-      {toolbar && editor && <EditorToolbar editor={editor} />}
-      <div className={`flex-1 overflow-y-auto ${page ? 'bg-ink-100 py-8 dark:bg-ink-950' : ''}`}>
+    <div className={`flex h-full min-h-0 flex-col ${focusMode ? 'wf-focus' : ''} ${className}`}>
+      {toolbar && editor && !isMobile && <EditorToolbar editor={editor} />}
+      <div className={`min-h-0 flex-1 overflow-y-auto ${paged ? 'bg-ink-100 py-8 dark:bg-ink-950' : ''}`}>
         <div
-          className={page ? 'wf-page' : 'px-6 py-4'}
+          className={paged ? 'wf-page' : isMobile ? 'px-4 py-3' : 'px-6 py-4'}
           style={{ fontSize: `${fontScale}em` }}
         >
-          <div className={typewriter ? 'wf-typewriter' : ''}>
+          <div className={typewriter && !isMobile ? 'wf-typewriter' : ''}>
             <EditorContent editor={editor} />
           </div>
         </div>
       </div>
+      {toolbar && editor && isMobile && <MobileToolbar editor={editor} />}
     </div>
   )
 }

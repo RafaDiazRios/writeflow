@@ -46,7 +46,7 @@ export default function Calendar({ selected, onSelect, refreshKey = 0 }: Props) 
           <ChevronLeft size={16} />
         </button>
         <button
-          className="text-sm font-semibold capitalize hover:underline"
+          className="text-sm font-semibold hover:underline"
           onClick={() => {
             setMonth(startOfMonth(new Date()))
             onSelect(toISODate())

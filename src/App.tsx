@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Shell from '@/components/Shell'
+import MobileShell from '@/components/MobileShell'
 import Toast from '@/components/Toast'
 import UnlockGate from '@/components/UnlockGate'
 import Home from '@/modules/Home'
@@ -9,6 +10,9 @@ import NovelModule from '@/modules/novel/NovelModule'
 import EssayModule from '@/modules/essay/EssayModule'
 import TherapyModule from '@/modules/therapy/TherapyModule'
 import Settings from '@/modules/settings/Settings'
+import MobileJournal from '@/modules/mobile/MobileJournal'
+import MobileLibrary from '@/modules/mobile/MobileLibrary'
+import { useIsMobile } from '@/lib/platform'
 import { useApp } from '@/store/app'
 import { db } from '@/lib/db'
 import { isE2EConfigured, isUnlocked } from '@/lib/crypto'
@@ -19,6 +23,7 @@ import { listenForAuthCallback } from '@/lib/deeplink'
 
 export default function App() {
   const app = useApp()
+  const isMobile = useIsMobile()
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -69,19 +74,35 @@ export default function App() {
     )
   }
 
+  // Mismo código, dos pieles. La lógica, la base de datos y el cifrado son los
+  // mismos; solo cambia cómo se distribuye en pantalla y qué se puede editar.
+  const Frame = isMobile ? MobileShell : Shell
+
   return (
     <>
-      <Shell>
+      <Frame>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/diario/*" element={<JournalModule />} />
-          <Route path="/novela/*" element={<NovelModule />} />
-          <Route path="/ensayos/*" element={<EssayModule />} />
+          <Route path="/diario/*" element={isMobile ? <MobileJournal /> : <JournalModule />} />
           <Route path="/terapia/*" element={<TherapyModule />} />
           <Route path="/ajustes" element={<Settings />} />
+          {isMobile ? (
+            <>
+              <Route path="/biblioteca/*" element={<MobileLibrary />} />
+              {/* En móvil la novela y los ensayos se leen, no se editan. */}
+              <Route path="/novela/*" element={<MobileLibrary />} />
+              <Route path="/ensayos/*" element={<MobileLibrary />} />
+            </>
+          ) : (
+            <>
+              <Route path="/novela/*" element={<NovelModule />} />
+              <Route path="/ensayos/*" element={<EssayModule />} />
+              <Route path="/biblioteca/*" element={<Navigate to="/novela" replace />} />
+            </>
+          )}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </Shell>
+      </Frame>
       <UnlockGate />
       <Toast />
     </>
