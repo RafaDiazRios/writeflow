@@ -49,6 +49,24 @@ jobs:
 
       - run: npm ci
 
+      # Gradle se cachea entre ejecuciones, así que a partir de la segunda vez ni
+      # siquiera hay que descargarlo.
+      - uses: gradle/actions/setup-gradle@v4
+
+      # services.gradle.org corta la descarga de vez en cuando y tumba la
+      # compilación entera. Se baja aquí, con reintentos, antes de empezar:
+      # así un corte pasajero cuesta quince segundos y no una ejecución.
+      - name: Descargar Gradle con reintentos
+        working-directory: src-tauri/gen/android
+        run: |
+          for i in 1 2 3 4; do
+            if ./gradlew --version; then echo "Gradle listo"; exit 0; fi
+            echo "::warning::Falló la descarga de Gradle (intento $i). Reintentando…"
+            sleep $((i * 15))
+          done
+          echo "::error::No se pudo descargar Gradle tras cuatro intentos"
+          exit 1
+
       # El keystore no está en el repositorio. Si los secretos existen, la release
       # sale firmada; si no, sale sin firmar y sirve igual para probar.
       - name: Preparar la firma
