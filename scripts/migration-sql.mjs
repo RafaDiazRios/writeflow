@@ -234,3 +234,25 @@ CREATE TABLE IF NOT EXISTS daily_stats (
   modules     TEXT NOT NULL DEFAULT ''        -- 'journal,novel,...'
 );
 `
+export const V2 = `
+CREATE TABLE IF NOT EXISTS search_docs (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  kind       TEXT NOT NULL,           -- journal | doc | therapy | character | project
+  ref_id     TEXT NOT NULL,
+  project_id TEXT,
+  parent     TEXT,                    -- título del proyecto o del ejercicio, para mostrar
+  date       TEXT,
+  updated_at TEXT,
+  UNIQUE (kind, ref_id)
+);
+CREATE INDEX IF NOT EXISTS idx_search_docs_ref ON search_docs(kind, ref_id);
+
+-- \`remove_diacritics 2\` hace que «cafe» encuentre «café» y al revés, que es
+-- justo lo que se espera escribiendo en español con prisa.
+CREATE VIRTUAL TABLE IF NOT EXISTS search_fts USING fts5(
+  title,
+  body,
+  tokenize = 'unicode61 remove_diacritics 2'
+);
+`
+export const ALL = V1 + "\n" + V2

@@ -1,9 +1,11 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import {
   BookOpen, CalendarDays, Cloud, CloudOff, Feather, Focus, Home as HomeIcon, Lock, Moon,
-  RefreshCw, ScrollText, Settings as SettingsIcon, Sun, Unlock, Wind,
+  RefreshCw, ScrollText, Search, Settings as SettingsIcon, Sun, Unlock, Wind,
 } from 'lucide-react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import GlobalSearch from './GlobalSearch'
+import { ensureIndex } from '@/lib/search'
 import { useApp } from '@/store/app'
 import { syncNow, startAutoSync, stopAutoSync } from '@/lib/sync'
 import { pendingCounts } from '@/lib/repo'
@@ -20,6 +22,13 @@ const NAV = [
 export default function Shell({ children }: { children: React.ReactNode }) {
   const app = useApp()
   const navigate = useNavigate()
+  const [searchOpen, setSearchOpen] = useState(false)
+
+  // Si el índice aún no existe (primer arranque tras actualizar), se construye
+  // una vez en segundo plano.
+  useEffect(() => {
+    ensureIndex().catch(() => {})
+  }, [])
 
   useEffect(() => {
     if (app.signedIn && app.unlocked) {
@@ -42,6 +51,10 @@ export default function Shell({ children }: { children: React.ReactNode }) {
       if (e.ctrlKey && e.key.toLowerCase() === 'j') {
         e.preventDefault()
         navigate('/diario')
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault()
+        setSearchOpen((v) => !v)
       }
     }
     window.addEventListener('keydown', onKey)
@@ -69,6 +82,17 @@ export default function Shell({ children }: { children: React.ReactNode }) {
           <Feather size={20} className="text-accent-600 dark:text-accent-400" />
           <span className="text-[15px] font-semibold tracking-tight">WriteFlow</span>
         </div>
+
+        <button
+          onClick={() => setSearchOpen(true)}
+          className="mx-2 mb-2 flex items-center gap-2 rounded-md border border-ink-200 px-2.5 py-1.5 text-left text-xs text-ink-400 transition hover:border-accent-400 hover:text-ink-600 dark:border-ink-700 dark:hover:text-ink-200"
+        >
+          <Search size={14} />
+          Buscar
+          <kbd className="ml-auto rounded bg-ink-200 px-1 py-0.5 text-[9px] font-sans text-ink-500 dark:bg-ink-800">
+            Ctrl K
+          </kbd>
+        </button>
 
         <nav className="flex-1 space-y-0.5 px-2">
           {NAV.map(({ to, label, icon: Icon, end }) => (
@@ -122,6 +146,8 @@ export default function Shell({ children }: { children: React.ReactNode }) {
 
       {/* ── Contenido ── */}
       <main className="flex min-w-0 flex-1 flex-col">{children}</main>
+
+      <GlobalSearch open={searchOpen} onClose={() => setSearchOpen(false)} />
 
       {/* botón flotante de sincronización */}
       {app.cloudConfigured && (

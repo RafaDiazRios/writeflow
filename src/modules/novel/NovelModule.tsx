@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import type { JSONContent } from '@tiptap/react'
 import { ArrowLeft, LayoutGrid, PanelRightClose, PanelRightOpen, PenLine, Users } from 'lucide-react'
 import ProjectList from '@/components/ProjectList'
@@ -46,6 +47,20 @@ export default function NovelModule() {
   useEffect(() => {
     if (projectId) load(projectId)
   }, [projectId, load])
+
+  // Llegada desde el buscador global: /novela?project=…&doc=…&tab=…&character=…
+  const [params, setParams] = useSearchParams()
+  useEffect(() => {
+    const p = params.get('project')
+    if (!p) return
+    const doc = params.get('doc')
+    const t = params.get('tab')
+    setProjectId(p)
+    load(p, doc ?? undefined)
+    if (t === 'characters') setTab('characters')
+    else if (doc) setTab('write')
+    setParams({}, { replace: true })
+  }, [params, setParams, load])
 
   async function createProject() {
     const title = window.prompt('Título de la novela', 'Novela sin título')

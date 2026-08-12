@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import type { JSONContent } from '@tiptap/react'
 import {
   FileDown, Flame, Heart, Plus, Search, Star, Trash2, X,
@@ -32,6 +33,7 @@ export default function JournalModule() {
   const [searchTerm, setSearchTerm] = useState('')
   const [results, setResults] = useState<JournalEntry[] | null>(null)
   const [entryTags, setEntryTags] = useState<string>('')
+  const [params, setParams] = useSearchParams()
 
   const active = useMemo(() => entries.find((e) => e.id === activeId) ?? null, [entries, activeId])
 
@@ -47,6 +49,23 @@ export default function JournalModule() {
   useEffect(() => {
     loadDay(date)
   }, [date, loadDay])
+
+  // Llegada desde el buscador global: /diario?entry=…&date=…
+  useEffect(() => {
+    const entry = params.get('entry')
+    const day = params.get('date')
+    if (!entry && !day) return
+    if (entry) {
+      journal.byId(entry).then((e) => {
+        if (!e) return
+        setDate(e.entry_date)
+        loadDay(e.entry_date, e.id)
+      })
+    } else if (day) {
+      setDate(day)
+    }
+    setParams({}, { replace: true })
+  }, [params, setParams, loadDay])
 
   useEffect(() => {
     journal.stats().then(setStats)

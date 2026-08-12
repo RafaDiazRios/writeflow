@@ -1,6 +1,7 @@
 import { v4 as uuid } from 'uuid'
 import { nowISO, one, query, run, softDelete, upsert } from './db'
 import { recordDelta, type WritingModule } from './stats'
+import { indexRow, removeFromIndex, type SearchKind } from './search'
 import type {
   Character,
   Doc,
@@ -42,6 +43,75 @@ async function trackWords(
     module = p?.kind === 'essay' ? 'essay' : 'novel'
   }
   await recordDelta(module, delta)
+}
+
+/**
+ * Vuelve a indexar una fila para la búsqueda global. Se llama después de cada
+ * guardado; relee la fila porque los parches son parciales y el índice necesita
+ * el texto completo.
+ */
+async function reindex(kind: SearchKind, id: string) {
+  try {
+    switch (kind) {
+      case 'journal': {
+        const r = await one<{ title: string; content_text: string; entry_date: string; prompt_text: string | null; deleted_at: string | null }>(
+          'SELECT title, content_text, entry_date, prompt_text, deleted_at FROM journal_entries WHERE id = ?', [id])
+        if (!r) return
+        if (r.deleted_at) return removeFromIndex(kind, id)
+        return indexRow({
+          kind, refId: id, title: r.title || r.entry_date, date: r.entry_date,
+          body: [r.content_text, r.prompt_text].filter(Boolean).join('\n'),
+        })
+      }
+      case 'doc': {
+        const r = await one<{ title: string; content_text: string; synopsis: string | null; notes: string | null; project_id: string; deleted_at: string | null; ptitle: string | null }>(
+          `SELECT d.title, d.content_text, d.synopsis, d.notes, d.project_id, d.deleted_at,
+                  p.title AS ptitle
+             FROM documents d LEFT JOIN projects p ON p.id = d.project_id
+            WHERE d.id = ?`, [id])
+        if (!r) return
+        if (r.deleted_at) return removeFromIndex(kind, id)
+        return indexRow({
+          kind, refId: id, title: r.title, projectId: r.project_id, parent: r.ptitle,
+          body: [r.content_text, r.synopsis, r.notes].filter(Boolean).join('\n'),
+        })
+      }
+      case 'therapy': {
+        const r = await one<{ exercise_name: string | null; content_text: string; session_date: string; school: string | null; deleted_at: string | null }>(
+          'SELECT exercise_name, content_text, session_date, school, deleted_at FROM therapy_entries WHERE id = ?', [id])
+        if (!r) return
+        if (r.deleted_at) return removeFromIndex(kind, id)
+        return indexRow({
+          kind, refId: id, title: r.exercise_name ?? 'Sesión', body: r.content_text,
+          date: r.session_date, parent: r.school,
+        })
+      }
+      case 'character': {
+        const r = await one<{ name: string; goal: string | null; backstory: string | null; notes: string | null; project_id: string; deleted_at: string | null; ptitle: string | null }>(
+          `SELECT c.name, c.goal, c.backstory, c.notes, c.project_id, c.deleted_at, p.title AS ptitle
+             FROM characters c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`, [id])
+        if (!r) return
+        if (r.deleted_at) return removeFromIndex(kind, id)
+        return indexRow({
+          kind, refId: id, title: r.name, projectId: r.project_id, parent: r.ptitle,
+          body: [r.goal, r.backstory, r.notes].filter(Boolean).join('\n'),
+        })
+      }
+      case 'project': {
+        const r = await one<{ title: string; kind: string; logline: string | null; synopsis: string | null; deleted_at: string | null }>(
+          'SELECT title, kind, logline, synopsis, deleted_at FROM projects WHERE id = ?', [id])
+        if (!r) return
+        if (r.deleted_at) return removeFromIndex(kind, id)
+        return indexRow({
+          kind, refId: id, title: r.title, projectId: id,
+          parent: r.kind === 'novel' ? 'Novela' : 'Ensayo',
+          body: [r.logline, r.synopsis].filter(Boolean).join('\n'),
+        })
+      }
+    }
+  } catch {
+    // El índice es un accesorio: si falla, escribir nunca debe romperse.
+  }
 }
 
 // ══════════════════════════════ DIARIO ══════════════════════════════
@@ -107,6 +177,7 @@ export const journal = {
       created_at: ts,
       deleted_at: null,
     })
+    await reindex('journal', id)
     return id
   },
 
@@ -119,10 +190,12 @@ export const journal = {
       `UPDATE journal_entries SET ${sets}, updated_at = ?, dirty = 1, rev = rev + 1 WHERE id = ?`,
       [...Object.values(patch), nowISO(), id],
     )
+    await reindex('journal', id)
   },
 
   async remove(id: string) {
     await softDelete('journal_entries', id)
+    await removeFromIndex('journal', id)
   },
 
   async stats(): Promise<{ entries: number; words: number; days: number; streak: number }> {
@@ -207,6 +280,7 @@ export const projects = {
       created_at: nowISO(),
       deleted_at: null,
     })
+    await reindex('project', id)
     return id
   },
   async update(id: string, patch: Partial<Project>) {
@@ -218,9 +292,11 @@ export const projects = {
       nowISO(),
       id,
     ])
+    await reindex('project', id)
   },
   async remove(id: string) {
     await softDelete('projects', id)
+    await removeFromIndex('project', id)
   },
   async wordCount(id: string): Promise<number> {
     const r = await one<{ w: number }>(
@@ -278,6 +354,7 @@ export const docs = {
       created_at: nowISO(),
       deleted_at: null,
     })
+    await reindex('doc', id)
     return id
   },
   async update(id: string, patch: Partial<Doc>) {
@@ -290,6 +367,7 @@ export const docs = {
       nowISO(),
       id,
     ])
+    await reindex('doc', id)
   },
   async remove(id: string) {
     // borra también los hijos
@@ -299,6 +377,7 @@ export const docs = {
     )
     for (const c of children) await docs.remove(c.id)
     await softDelete('documents', id)
+    await removeFromIndex('doc', id)
   },
   async reorder(id: string, parentId: string | null, position: number) {
     await docs.update(id, { parent_id: parentId, position })
@@ -316,7 +395,12 @@ export const docs = {
 
 // ══════════════════════════════ PERSONAJES, LUGARES, TRAMA ══════════════════════════════
 
-function crudFactory<T extends { id: string; project_id: string }>(table: string, orderBy = 'name') {
+function crudFactory<T extends { id: string; project_id: string }>(
+  table: string,
+  orderBy = 'name',
+  /** Solo los personajes entran en la búsqueda global; lugares y tramas no. */
+  searchKind?: SearchKind,
+) {
   return {
     async forProject(projectId: string): Promise<T[]> {
       return query<T>(
@@ -330,6 +414,7 @@ function crudFactory<T extends { id: string; project_id: string }>(table: string
     async create(input: Record<string, unknown> & { project_id: string }): Promise<string> {
       const id = (input.id as string) ?? uuid()
       await upsert(table, { ...input, id, created_at: nowISO(), deleted_at: null })
+      if (searchKind) await reindex(searchKind, id)
       return id
     },
     async update(id: string, patch: Record<string, unknown>) {
@@ -341,14 +426,16 @@ function crudFactory<T extends { id: string; project_id: string }>(table: string
         nowISO(),
         id,
       ])
+      if (searchKind) await reindex(searchKind, id)
     },
     async remove(id: string) {
       await softDelete(table, id)
+      if (searchKind) await removeFromIndex(searchKind, id)
     },
   }
 }
 
-export const characters = crudFactory<Character>('characters', 'name')
+export const characters = crudFactory<Character>('characters', 'name', 'character')
 export const places = crudFactory<Place>('places', 'name')
 export const threads = crudFactory<PlotThread>('plot_threads', 'position')
 export const beats = crudFactory<PlotBeat>('plot_beats', 'position')
@@ -382,6 +469,7 @@ export const therapy = {
       created_at: nowISO(),
       deleted_at: null,
     })
+    await reindex('therapy', id)
     return id
   },
   async update(id: string, patch: Partial<TherapyEntry>) {
@@ -393,9 +481,11 @@ export const therapy = {
       `UPDATE therapy_entries SET ${sets}, updated_at = ?, dirty = 1, rev = rev + 1 WHERE id = ?`,
       [...Object.values(patch), nowISO(), id],
     )
+    await reindex('therapy', id)
   },
   async remove(id: string) {
     await softDelete('therapy_entries', id)
+    await removeFromIndex('therapy', id)
   },
   /** Cuántas veces se ha hecho cada ejercicio (para sugerir los no visitados). */
   async usage(): Promise<Record<string, number>> {

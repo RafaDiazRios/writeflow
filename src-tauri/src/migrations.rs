@@ -240,11 +240,50 @@ CREATE TABLE IF NOT EXISTS daily_stats (
 );
 "#;
 
+/// Índice de búsqueda global sobre los cuatro módulos.
+///
+/// FTS5 viene compilado en el SQLite que empaqueta `tauri-plugin-sql`
+/// (`-DSQLITE_ENABLE_FTS5` en libsqlite3-sys), así que no hay que instalar nada.
+///
+/// El índice va en dos piezas a propósito: `search_fts` guarda solo el texto y
+/// `search_docs` la identidad de la fila (módulo, id, proyecto, fecha). Meter los
+/// metadatos dentro de la tabla FTS obligaría a recorrerla entera para actualizar
+/// una entrada; así basta con el `rowid`, que es una clave primaria de verdad.
+pub const V2: &str = r#"
+CREATE TABLE IF NOT EXISTS search_docs (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  kind       TEXT NOT NULL,           -- journal | doc | therapy | character | project
+  ref_id     TEXT NOT NULL,
+  project_id TEXT,
+  parent     TEXT,                    -- título del proyecto o del ejercicio, para mostrar
+  date       TEXT,
+  updated_at TEXT,
+  UNIQUE (kind, ref_id)
+);
+CREATE INDEX IF NOT EXISTS idx_search_docs_ref ON search_docs(kind, ref_id);
+
+-- `remove_diacritics 2` hace que «cafe» encuentre «café» y al revés, que es
+-- justo lo que se espera escribiendo en español con prisa.
+CREATE VIRTUAL TABLE IF NOT EXISTS search_fts USING fts5(
+  title,
+  body,
+  tokenize = 'unicode61 remove_diacritics 2'
+);
+"#;
+
 pub fn all() -> Vec<Migration> {
-    vec![Migration {
-        version: 1,
-        description: "esquema inicial de WriteFlow",
-        sql: V1,
-        kind: MigrationKind::Up,
-    }]
+    vec![
+        Migration {
+            version: 1,
+            description: "esquema inicial de WriteFlow",
+            sql: V1,
+            kind: MigrationKind::Up,
+        },
+        Migration {
+            version: 2,
+            description: "índice de búsqueda global con FTS5",
+            sql: V2,
+            kind: MigrationKind::Up,
+        },
+    ]
 }

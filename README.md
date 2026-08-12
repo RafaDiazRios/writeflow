@@ -13,8 +13,8 @@ espacios en una sola ventana:
   soluciones, breve estratégica, ACT, escritura expresiva y terapia de la compasión,
   repartidos en tres niveles de profundidad.
 
-Con **objetivo diario de palabras**, racha y mapa de actividad del año, y exportación
-nativa a **.docx** (incluido el formato de manuscrito que piden agentes y editoriales),
+Con **búsqueda global** sobre los cuatro módulos, **objetivo diario de palabras**, racha
+y mapa de actividad del año, y exportación nativa a **.docx** (incluido el formato de manuscrito que piden agentes y editoriales),
 **.epub**, Markdown y HTML.
 
 Todo se guarda primero en tu ordenador (SQLite). La nube es opcional: cuando hay
@@ -34,6 +34,7 @@ conexión, sincroniza con Supabase y puede volcar un archivo en Markdown a GitHu
 | Cifrado | **AES-256-GCM + Argon2id** en Rust | El diario y la terapia salen del equipo ya cifrados |
 | Archivo | **GitHub** vía API REST | Copia en Markdown versionada, legible sin la app |
 | Exportación | **docx** + **JSZip** (carga diferida) | `.docx` y `.epub` generados en el propio equipo, sin red |
+| Búsqueda | **SQLite FTS5** | Una caja para los cuatro módulos, sin tildes ni mayúsculas, instantánea |
 
 Documento de arquitectura completo: [`docs/ARQUITECTURA.md`](docs/ARQUITECTURA.md).
 
@@ -129,6 +130,24 @@ ralentizan el arranque.
 
 ---
 
+## Búsqueda global
+
+`Ctrl` + `K` desde cualquier pantalla. Busca a la vez en el diario, los capítulos y
+escenas, las secciones de ensayo, las fichas de personaje y la escritura terapéutica.
+
+- **Sin tildes ni mayúsculas**: `cafe` encuentra `café`, `LLOVÍA` encuentra `llovía`.
+- **Por palabras, no por subcadena**: es FTS5, no un `LIKE`. Buscar en cien mil palabras
+  cuesta lo mismo que buscar en cien.
+- **Prefijo mientras escribes**: `vac` ya encuentra `vacía`.
+- **Varias palabras exigen que estén todas**, y el fragmento resaltado te enseña dónde.
+- Los resultados se recorren con las flechas y se abren con `Enter`, directamente en el
+  documento y el día correctos.
+
+El índice se mantiene solo al guardar. Si alguna vez sospechas que le falta algo, en
+**Ajustes → Búsqueda global** puedes reconstruirlo entero.
+
+---
+
 ## Objetivo diario y racha
 
 En **Inicio** hay un objetivo de palabras al día (500 por defecto, editable con el lápiz)
@@ -183,6 +202,7 @@ ninguna de las dos versiones.
 
 | Atajo | Qué hace |
 |---|---|
+| `Ctrl` + `K` | Buscar en todo |
 | `Ctrl` + `J` | Ir al diario |
 | `Ctrl` + `Shift` + `F` | Modo concentración |
 | `Ctrl` + `B` / `I` / `U` | Negrita, cursiva, subrayado |

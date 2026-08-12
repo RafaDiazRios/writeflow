@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { invoke } from '@tauri-apps/api/core'
 import { openUrl } from '@tauri-apps/plugin-opener'
 import {
-  AlertTriangle, Check, Cloud, Github, KeyRound, LogOut, Palette, Sparkles, UploadCloud,
+  AlertTriangle, Check, Cloud, Github, KeyRound, LogOut, Palette, RefreshCw, Search, Sparkles,
+  UploadCloud,
 } from 'lucide-react'
 import { useApp } from '@/store/app'
 import { STREAM_DESC, STREAM_LABEL } from '@/lib/prompts'
@@ -12,6 +13,7 @@ import {
 import { backupToGitHub, getGitHubConfig, lastBackupAt, saveGitHubConfig, testGitHubToken, type GitHubConfig } from '@/lib/github'
 import { openConflicts, resolveConflict, syncNow } from '@/lib/sync'
 import { pendingCounts } from '@/lib/repo'
+import { indexedAt, indexSize, rebuildIndex } from '@/lib/search'
 import type { PromptStream } from '@/lib/types'
 
 export default function Settings() {
@@ -25,6 +27,8 @@ export default function Settings() {
   const [ghLast, setGhLast] = useState<string | null>(null)
   const [conflicts, setConflicts] = useState<Awaited<ReturnType<typeof openConflicts>>>([])
   const [pending, setPending] = useState<Record<string, number>>({})
+  const [idx, setIdx] = useState<{ n: number; at: string | null }>({ n: 0, at: null })
+  const [idxBusy, setIdxBusy] = useState(false)
 
   useEffect(() => {
     invoke<{ version: string; dataDir: string; dbPath: string }>('app_info').then(setInfo).catch(() => {})
@@ -36,6 +40,7 @@ export default function Settings() {
     lastBackupAt().then(setGhLast)
     openConflicts().then(setConflicts)
     pendingCounts().then(setPending)
+    Promise.all([indexSize(), indexedAt()]).then(([n, at]) => setIdx({ n, at }))
   }, [])
 
   function toggleStream(s: PromptStream) {
@@ -95,6 +100,42 @@ export default function Settings() {
                 </div>
               </label>
             ))}
+          </div>
+        </Section>
+
+        {/* ── Búsqueda ── */}
+        <Section icon={<Search size={16} />} title="Búsqueda global">
+          <p className="mb-3 text-xs leading-relaxed text-ink-500 dark:text-ink-400">
+            <kbd className="rounded bg-ink-100 px-1 dark:bg-ink-800">Ctrl</kbd> +{' '}
+            <kbd className="rounded bg-ink-100 px-1 dark:bg-ink-800">K</kbd> abre el buscador desde
+            cualquier pantalla. Busca por palabras completas en el diario, los documentos, las
+            fichas de personaje y la terapia, sin distinguir mayúsculas ni tildes. El índice se
+            actualiza solo al escribir; reconstruirlo solo hace falta si notas que falta algo.
+          </p>
+          <div className="flex items-center gap-3">
+            <button
+              className="btn-outline"
+              disabled={idxBusy}
+              onClick={async () => {
+                setIdxBusy(true)
+                try {
+                  const n = await rebuildIndex()
+                  setIdx({ n, at: new Date().toISOString() })
+                  app.notify('ok', `Índice reconstruido: ${n} elementos`)
+                } catch (e) {
+                  app.notify('error', e instanceof Error ? e.message : String(e))
+                } finally {
+                  setIdxBusy(false)
+                }
+              }}
+            >
+              <RefreshCw size={14} className={idxBusy ? 'animate-spin' : ''} />
+              Reconstruir el índice
+            </button>
+            <span className="text-xs text-ink-500">
+              {idx.n.toLocaleString('es-ES')} elementos indexados
+              {idx.at ? ` · ${new Date(idx.at).toLocaleString('es-ES')}` : ''}
+            </span>
           </div>
         </Section>
 

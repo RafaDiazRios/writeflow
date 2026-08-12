@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import type { JSONContent } from '@tiptap/react'
 import { ArrowLeft, Dices, History, Shield, Trash2 } from 'lucide-react'
 import Editor from '@/components/Editor'
@@ -33,6 +34,24 @@ export default function TherapyModule() {
   useEffect(() => {
     reload()
   }, [reload])
+
+  // Llegada desde el buscador global: /terapia?entry=…
+  const [params, setParams] = useSearchParams()
+  useEffect(() => {
+    const id = params.get('entry')
+    if (!id) return
+    therapy.byId(id).then((e) => {
+      if (!e) return
+      setEntry(e)
+      try {
+        setFollowups(JSON.parse(e.followups) as FollowupAnswer[])
+      } catch {
+        setFollowups([])
+      }
+      setView('write')
+    })
+    setParams({}, { replace: true })
+  }, [params, setParams])
 
   const list = exercisesByLevel(level).filter((e) => school === 'all' || e.school === school)
 

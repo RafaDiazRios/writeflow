@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import type { JSONContent } from '@tiptap/react'
 import { ArrowLeft, Info, Plus } from 'lucide-react'
 import ProjectList from '@/components/ProjectList'
@@ -33,6 +34,17 @@ export default function EssayModule() {
   useEffect(() => {
     if (projectId) load(projectId)
   }, [projectId, load])
+
+  // Llegada desde el buscador global: /ensayos?project=…&doc=…
+  const [params, setParams] = useSearchParams()
+  useEffect(() => {
+    const p = params.get('project')
+    if (!p) return
+    const doc = params.get('doc')
+    setProjectId(p)
+    load(p, doc ?? undefined)
+    setParams({}, { replace: true })
+  }, [params, setParams, load])
 
   async function createFromTemplate(t: EssayTemplate, title: string) {
     const id = await projects.create({

@@ -12,8 +12,8 @@ class Database {
   static async load(path) {
     if (!dbs.has(path)) {
       const d = new Database(path)
-      const { V1 } = await import('./migration-sql.mjs')
-      d.raw.exec(V1)
+      const { ALL } = await import('./migration-sql.mjs')
+      d.raw.exec(ALL)
       dbs.set(path, d)
     }
     return dbs.get(path)

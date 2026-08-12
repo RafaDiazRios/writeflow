@@ -214,18 +214,35 @@ guardado y sin red.
 - Exportación del diario por meses a un único documento
 - Objetivo diario de palabras contando el incremento neto por guardado, con racha,
   récord y mapa de actividad anual de escala secuencial
+- Búsqueda global con FTS5 sobre los cinco tipos de contenido, con navegación por
+  teclado y salto directo al documento
 - Flujo de GitHub Actions que produce `.exe` y `.msi`
 
 **Pendiente, por orden de utilidad**
 
-1. Búsqueda global de una sola caja sobre los cuatro módulos, con FTS5.
-2. Vista «este día en años anteriores» en el diario.
-3. Adjuntar imágenes desde el disco con copia a la carpeta de datos (hoy solo por URL,
+1. Vista «este día en años anteriores» en el diario.
+2. Adjuntar imágenes desde el disco con copia a la carpeta de datos (hoy solo por URL,
    y por eso tampoco se incrustan en el `.docx`).
-4. Reordenar escenas arrastrando en el tablero de tarjetas.
-5. Instantáneas de versión por documento, al estilo de los *snapshots* de Scrivener.
-6. Sincronizar `daily_stats` para que la racha sea la misma en todos los equipos.
-7. Descarga de plantillas de ensayo adicionales desde un repositorio en línea.
+3. Reordenar escenas arrastrando en el tablero de tarjetas.
+4. Instantáneas de versión por documento, al estilo de los *snapshots* de Scrivener.
+5. Sincronizar `daily_stats` para que la racha sea la misma en todos los equipos.
+6. Descarga de plantillas de ensayo adicionales desde un repositorio en línea.
+
+### Sobre la búsqueda
+
+El índice vive en dos tablas: `search_fts` (FTS5, solo texto) y `search_docs` (identidad
+de la fila). Meter los metadatos como columnas `UNINDEXED` dentro de la tabla FTS habría
+sido más corto, pero actualizar una entrada obligaría a recorrerla entera, porque una
+columna no indexada no tiene índice por el que buscarla. Con el `rowid` compartido, editar
+una escena cuesta dos sentencias con clave primaria.
+
+La consulta del usuario nunca llega cruda a `MATCH`: FTS5 tiene operadores propios y una
+consulta mal formada **lanza una excepción**, no devuelve cero filas. `toMatchQuery`
+entrecomilla cada palabra —lo que la neutraliza— y añade `*` solo a la última, que es lo
+que hace que aparezcan resultados mientras se teclea.
+
+`remove_diacritics 2` es lo que permite que «cafe» encuentre «café». Sin eso, escribir en
+español con prisa no encuentra nada, y nadie pone las tildes en un buscador.
 
 ### Sobre la exportación
 

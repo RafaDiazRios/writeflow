@@ -6,6 +6,8 @@ import { beats, characters, docs, globalStats, journal, pendingCounts, projects,
 import { countWords, docToText, EMPTY_DOC, textToDoc } from '../src/lib/text'
 import { docToMarkdown, compileProject } from '../src/lib/export'
 import { promptForDay, rerollPrompt, PROMPTS, EXERCISES, TEMPLATES, suggestExercise } from '../src/lib/prompts'
+import { hitRoute, indexSize, rebuildIndex, search, toMatchQuery } from '../src/lib/search'
+import { getGoal, recordDelta, setGoal, streaks, todayWords } from '../src/lib/stats'
 
 let fails = 0
 function check(name: string, cond: boolean, extra = '') {
@@ -145,6 +147,81 @@ async function main() {
   check('estadísticas globales', gs.novels === 1 && gs.essays === 1 && gs.therapyEntries === 1)
   const pend = await pendingCounts()
   check('todo pendiente de subir', (pend.journal_entries ?? 0) > 0 && (pend.projects ?? 0) === 2)
+
+  console.log('\n— objetivo diario y racha —')
+  await setGoal(300)
+  check('el objetivo se guarda', (await getGoal()) === 300)
+  await recordDelta('journal', 120)
+  await recordDelta('novel', 200)
+  const hoy = await todayWords()
+  check('suma los incrementos de varios módulos', hoy >= 320, `→ ${hoy}`)
+  const st = await streaks(300)
+  check('la racha cuenta el día cumplido', st.current === 1, `→ ${st.current}`)
+  check('registra el día en el histórico', st.daysMetYear === 1, `→ ${st.daysMetYear}`)
+  const st0 = await streaks(100000)
+  check('un objetivo inalcanzable deja la racha a cero', st0.current === 0)
+
+  console.log('\n— búsqueda global —')
+  check('entrecomilla cada palabra', toMatchQuery('casa vacia') === '"casa" AND "vacia"*')
+  check('neutraliza los operadores de FTS5', toMatchQuery('a AND* b:cd') === '"a" AND "AND" AND "b" AND "cd"*',
+    `→ ${toMatchQuery('a AND* b:cd')}`)
+  check('la última palabra de una letra no lleva comodín', toMatchQuery('hola a') === '"hola" AND "a"')
+  check('devuelve null si no hay nada', toMatchQuery('   ') === null)
+  check('sobrevive a solo símbolos', toMatchQuery('*** ::') === null)
+
+  // Fixture propio: las escenas de la novela se borraron más arriba al probar
+  // el borrado en cascada, así que la búsqueda necesita contenido vivo.
+  await journal.create({
+    entry_date: '2026-07-04',
+    title: 'Tarde de tormenta',
+    content_text: 'Llovía sobre Madrid y el café estaba frío. La casa vacía olía a cerrado.',
+    word_count: 14,
+  })
+
+  const n = await rebuildIndex()
+  check('el índice se construye', n > 0, `→ ${n} elementos`)
+  check('indexSize coincide', (await indexSize()) === n)
+
+  const r1 = await search('Llovía')
+  check('encuentra texto dentro de una entrada', r1.some((h) => h.kind === 'journal' && h.title === 'Tarde de tormenta'), `→ ${r1.length}`)
+  const r2 = await search('llovia')
+  check('ignora las tildes', r2.length === r1.length && r2.length > 0)
+  const r3 = await search('LLOVÍA')
+  check('ignora las mayúsculas', r3.length === r1.length)
+  const r4 = await search('Nadia')
+  check('encuentra fichas de personaje', r4.some((h) => h.kind === 'character'), `→ ${r4.map(h=>h.kind).join(',')}`)
+  const r5 = await search('vac')
+  check('busca por prefijo mientras escribes', r5.length > 0, `→ ${r5.length}`)
+  const r5b = await search('cafe')
+  check('«cafe» encuentra «café»', r5b.length > 0, `→ ${r5b.length}`)
+  const r5c = await search('Madrid tormenta')
+  check('varias palabras exigen que estén todas', r5c.length === 1, `→ ${r5c.length}`)
+  const r5d = await search('Madrid rinoceronte')
+  check('si falta una palabra no hay resultado', r5d.length === 0)
+  const r6 = await search('estanoexisteenningunsitio')
+  check('sin resultados no revienta', r6.length === 0)
+  const r7 = await search('casa', { kinds: ['project'] })
+  check('filtra por tipo', r7.every((h) => h.kind === 'project'))
+  const conSnippet = r1.find((h) => h.snippet.includes('«'))
+  check('marca la coincidencia en el fragmento', Boolean(conSnippet), `→ ${JSON.stringify(r1[0]?.snippet ?? '')}`)
+
+  // el índice sigue vivo tras editar y borrar
+  const target = (await journal.byDate('2026-07-04'))[0]
+  await journal.update(target.id, { content_text: 'palabraunicaindexada', word_count: 1 })
+  check('reindexa al editar', (await search('palabraunicaindexada')).length === 1)
+  await journal.remove(target.id)
+  check('sale del índice al borrar', (await search('palabraunicaindexada')).length === 0)
+
+  const kinds = { p1: 'essay', p2: 'novel' }
+  check('ruta del diario',
+    hitRoute({ kind: 'journal', refId: 'x', projectId: null, parent: null, date: '2026-08-12', title: '', snippet: '', rank: 0 }, kinds)
+      === '/diario?entry=x&date=2026-08-12')
+  check('ruta de un documento de ensayo',
+    hitRoute({ kind: 'doc', refId: 'd', projectId: 'p1', parent: null, date: null, title: '', snippet: '', rank: 0 }, kinds)
+      === '/ensayos?project=p1&doc=d')
+  check('ruta de un documento de novela',
+    hitRoute({ kind: 'doc', refId: 'd', projectId: 'p2', parent: null, date: null, title: '', snippet: '', rank: 0 }, kinds)
+      === '/novela?project=p2&doc=d')
 
   console.log(fails === 0 ? '\n✔ Todas las pruebas pasan\n' : `\n✖ ${fails} prueba(s) fallan\n`)
   process.exit(fails === 0 ? 0 : 1)
