@@ -3,8 +3,9 @@
 Aplicación de escritura para Windows que funciona **igual con y sin conexión**. Cuatro
 espacios en una sola ventana:
 
-- **Diario** calendarizado, con las entradas ancladas al día en que se escribieron y una
-  sugerencia diaria para pensar (estoica, filosófica o psicológica).
+- **Diario** calendarizado, con las entradas ancladas al día en que se escribieron, una
+  sugerencia diaria para pensar (estoica, filosófica o psicológica) y **«en este día»**,
+  que te devuelve lo que escribiste el mismo día de años anteriores.
 - **Novela**, con estructura de carpetas, capítulos y escenas, fichas de personaje,
   tablero de tarjetas y líneas de trama — al estilo de Scrivener 3.
 - **Ensayos**, con 13 estructuras documentadas (argumentativa, Toulmin, rogeriana,
@@ -127,6 +128,20 @@ en un solo documento, una por día con su fecha como encabezado.
 Todo se genera dentro de la aplicación, sin enviar tu texto a ningún servicio. Las
 librerías pesadas (`docx`, `jszip`) se cargan solo al pulsar exportar, así que no
 ralentizan el arranque.
+
+---
+
+## En este día
+
+En el diario, junto al calendario, aparece lo que escribiste **el mismo día y mes de años
+anteriores**, con el año, cuánto hace y el estado de ánimo de entonces. Un clic te lleva a
+la entrada completa. También sale en Inicio cuando hay algo que recordar de hoy.
+
+Solo mira el diario. La escritura terapéutica también está fechada, pero sacarla a la
+superficie sin que la pidas puede caer en mal momento: ese material se visita a propósito.
+
+El panel no aparece si no hay nada. Un recuadro que diga «sin recuerdos» ocupa media
+columna para no decir nada.
 
 ---
 

@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import Calendar from './Calendar'
 import PromptCard from './PromptCard'
+import OnThisDay from './OnThisDay'
 import Editor from '@/components/Editor'
 import { journal, tags as tagRepo } from '@/lib/repo'
 import { countWords, EMPTY_DOC, excerpt, parseDoc, textToDoc } from '@/lib/text'
@@ -211,6 +212,15 @@ export default function JournalModule() {
             >
               <FileDown size={14} /> Exportar {monthLabel(new Date(date))}
             </button>
+
+            <OnThisDay
+              date={date}
+              refreshKey={refreshKey}
+              onOpen={(e) => {
+                setDate(e.entry_date)
+                loadDay(e.entry_date, e.id)
+              }}
+            />
 
             <PromptCard date={date} onWriteAbout={(p) => newEntry(p)} />
 

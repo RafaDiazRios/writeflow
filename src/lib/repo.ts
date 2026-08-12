@@ -146,6 +146,47 @@ export const journal = {
     )
   },
 
+  /**
+   * «En este día»: entradas del mismo día y mes de años anteriores.
+   *
+   * Solo mira el diario. La escritura terapéutica también está fechada, pero
+   * sacarla a la superficie sin que la pidas puede caer en mal momento: ese
+   * material se visita a propósito, no de refilón.
+   */
+  async onThisDay(date: string, limit = 20): Promise<JournalEntry[]> {
+    const monthDay = date.slice(5) // MM-DD
+    const year = date.slice(0, 4)
+    return query<JournalEntry>(
+      `SELECT * FROM journal_entries
+        WHERE ${ALIVE}
+          AND substr(entry_date, 6) = ?
+          AND substr(entry_date, 1, 4) < ?
+          AND (content_text <> '' OR title <> '')
+        ORDER BY entry_date DESC
+        LIMIT ?`,
+      [monthDay, year, limit],
+    )
+  },
+
+  /**
+   * Cuántos años distintos tienen entrada en este día.
+   *
+   * Aplica exactamente los mismos filtros que `onThisDay`, incluida la exclusión
+   * de entradas vacías: si no, el contador anunciaría recuerdos que la lista no
+   * enseña.
+   */
+  async onThisDayCount(date: string): Promise<number> {
+    const r = await one<{ n: number }>(
+      `SELECT COUNT(DISTINCT substr(entry_date, 1, 4)) n FROM journal_entries
+        WHERE ${ALIVE}
+          AND substr(entry_date, 6) = ?
+          AND substr(entry_date, 1, 4) < ?
+          AND (content_text <> '' OR title <> '')`,
+      [date.slice(5), date.slice(0, 4)],
+    )
+    return r?.n ?? 0
+  },
+
   async search(term: string, limit = 100): Promise<JournalEntry[]> {
     const like = `%${term}%`
     return query<JournalEntry>(

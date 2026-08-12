@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { BookOpen, CalendarDays, PenLine, ScrollText, Wind } from 'lucide-react'
+import { BookOpen, CalendarDays, History, PenLine, ScrollText, Wind } from 'lucide-react'
 import GoalCard from '@/components/GoalCard'
 import ActivityHeatmap from '@/components/ActivityHeatmap'
 import { globalStats, journal } from '@/lib/repo'
@@ -20,6 +20,7 @@ export default function Home() {
   })
   const [recent, setRecent] = useState<JournalEntry[]>([])
   const [goal, setGoal] = useState(500)
+  const [memories, setMemories] = useState<JournalEntry[]>([])
 
   const today = toISODate()
   const prompt = promptForDay(today, streams)
@@ -28,6 +29,7 @@ export default function Home() {
     globalStats().then(setStats)
     journal.recent(5).then(setRecent)
     getGoal().then(setGoal)
+    journal.onThisDay(toISODate(), 3).then(setMemories)
   }, [])
 
   const hour = new Date().getHours()
@@ -54,6 +56,37 @@ export default function Home() {
             <ActivityHeatmap goal={goal} />
           </div>
         </div>
+
+        {memories.length > 0 && (
+          <section className="mb-6">
+            <h2 className="mb-2 flex items-center gap-1.5 panel-title">
+              <History size={13} /> En este día
+            </h2>
+            <div className="space-y-2">
+              {memories.map((e) => {
+                const years = Number(today.slice(0, 4)) - Number(e.entry_date.slice(0, 4))
+                return (
+                  <button
+                    key={e.id}
+                    onClick={() => nav(`/diario?entry=${e.id}`)}
+                    className="card w-full border-l-4 border-l-amber-400 p-3 text-left transition hover:shadow-md"
+                  >
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-sm font-medium">{e.title || 'Sin título'}</span>
+                      <span className="text-[11px] text-amber-700 dark:text-amber-500">
+                        {years === 1 ? 'hace un año' : `hace ${years} años`}
+                      </span>
+                      <span className="ml-auto text-xs text-ink-400">{shortDate(e.entry_date)}</span>
+                    </div>
+                    <p className="mt-0.5 line-clamp-2 text-xs text-ink-500 dark:text-ink-400">
+                      {excerpt(e.content_text, 160)}
+                    </p>
+                  </button>
+                )
+              })}
+            </div>
+          </section>
+        )}
 
         <div className="mb-6 grid grid-cols-3 gap-3">
           <Metric value={stats.totalWords.toLocaleString('es-ES')} label="palabras escritas" />

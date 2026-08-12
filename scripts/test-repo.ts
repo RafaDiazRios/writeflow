@@ -148,6 +148,23 @@ async function main() {
   const pend = await pendingCounts()
   check('todo pendiente de subir', (pend.journal_entries ?? 0) > 0 && (pend.projects ?? 0) === 2)
 
+  console.log('\n— «en este día» —')
+  await journal.create({ entry_date: '2023-08-12', title: 'Hace tres años', content_text: 'Una tarde de agosto de 2023.', word_count: 6 })
+  await journal.create({ entry_date: '2024-08-12', title: 'Hace dos años', content_text: 'Otro doce de agosto.', word_count: 4 })
+  await journal.create({ entry_date: '2024-08-13', title: 'El día siguiente', content_text: 'No debería salir.', word_count: 3 })
+  await journal.create({ entry_date: '2027-08-12', title: 'Del futuro', content_text: 'Tampoco debería salir.', word_count: 3 })
+  await journal.create({ entry_date: '2022-08-12', title: '', content_text: '', word_count: 0 })
+
+  const recuerdos = await journal.onThisDay('2026-08-12')
+  check('trae solo el mismo día y mes', recuerdos.every((e) => e.entry_date.endsWith('08-12')), `→ ${recuerdos.map(e=>e.entry_date).join(', ')}`)
+  check('excluye años posteriores', !recuerdos.some((e) => e.entry_date.startsWith('2027')))
+  check('excluye el día siguiente', !recuerdos.some((e) => e.entry_date === '2024-08-13'))
+  check('descarta las entradas vacías', !recuerdos.some((e) => e.entry_date === '2022-08-12'))
+  check('ordena de más reciente a más antigua', recuerdos[0]?.entry_date === '2024-08-12', `→ ${recuerdos[0]?.entry_date}`)
+  check('cuenta los años con recuerdo', (await journal.onThisDayCount('2026-08-12')) === 2,
+    `→ ${await journal.onThisDayCount('2026-08-12')}`)
+  check('un día sin historia no devuelve nada', (await journal.onThisDay('2026-03-07')).length === 0)
+
   console.log('\n— objetivo diario y racha —')
   await setGoal(300)
   check('el objetivo se guarda', (await getGoal()) === 300)

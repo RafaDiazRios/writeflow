@@ -216,17 +216,20 @@ guardado y sin red.
   récord y mapa de actividad anual de escala secuencial
 - Búsqueda global con FTS5 sobre los cinco tipos de contenido, con navegación por
   teclado y salto directo al documento
+- «En este día»: entradas del mismo día y mes de años anteriores, en el diario y en
+  Inicio
 - Flujo de GitHub Actions que produce `.exe` y `.msi`
 
 **Pendiente, por orden de utilidad**
 
-1. Vista «este día en años anteriores» en el diario.
-2. Adjuntar imágenes desde el disco con copia a la carpeta de datos (hoy solo por URL,
+1. Adjuntar imágenes desde el disco con copia a la carpeta de datos (hoy solo por URL,
    y por eso tampoco se incrustan en el `.docx`).
-3. Reordenar escenas arrastrando en el tablero de tarjetas.
-4. Instantáneas de versión por documento, al estilo de los *snapshots* de Scrivener.
-5. Sincronizar `daily_stats` para que la racha sea la misma en todos los equipos.
-6. Descarga de plantillas de ensayo adicionales desde un repositorio en línea.
+2. Reordenar escenas arrastrando en el tablero de tarjetas.
+3. Instantáneas de versión por documento, al estilo de los *snapshots* de Scrivener.
+4. Sincronizar `daily_stats` para que la racha sea la misma en todos los equipos.
+5. Descarga de plantillas de ensayo adicionales desde un repositorio en línea.
+6. Que «en este día» contemple el 29 de febrero (hoy, un año bisiesto no encuentra
+   recuerdos del 29 en años normales).
 
 ### Sobre la búsqueda
 
