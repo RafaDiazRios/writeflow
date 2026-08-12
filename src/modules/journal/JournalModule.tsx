@@ -1,14 +1,15 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { JSONContent } from '@tiptap/react'
 import {
-  Flame, Heart, Plus, Search, Star, Trash2, X,
+  FileDown, Flame, Heart, Plus, Search, Star, Trash2, X,
 } from 'lucide-react'
 import Calendar from './Calendar'
 import PromptCard from './PromptCard'
 import Editor from '@/components/Editor'
 import { journal, tags as tagRepo } from '@/lib/repo'
 import { countWords, EMPTY_DOC, excerpt, parseDoc, textToDoc } from '@/lib/text'
-import { longDate, shortDate, toISODate } from '@/lib/dates'
+import { endOfMonth, longDate, monthLabel, shortDate, startOfMonth, toISODate } from '@/lib/dates'
+import { exportJournalDocx } from '@/lib/export'
 import { markPromptUsed } from '@/lib/prompts'
 import { useApp } from '@/store/app'
 import type { DailyPrompt, JournalEntry } from '@/lib/types'
@@ -172,6 +173,25 @@ export default function JournalModule() {
               <Stat value={stats.entries} label="entradas" />
               <Stat value={stats.words.toLocaleString('es-ES')} label="palabras" />
             </div>
+
+            <button
+              className="btn-outline w-full justify-center !py-1.5 text-xs"
+              title="Guarda todas las entradas del mes en un documento de Word"
+              onClick={async () => {
+                const d = new Date(date)
+                try {
+                  const path = await exportJournalDocx(
+                    toISODate(startOfMonth(d)),
+                    toISODate(endOfMonth(d)),
+                  )
+                  if (path) app.notify('ok', `Guardado en ${path}`)
+                } catch (e) {
+                  app.notify('error', e instanceof Error ? e.message : String(e))
+                }
+              }}
+            >
+              <FileDown size={14} /> Exportar {monthLabel(new Date(date))}
+            </button>
 
             <PromptCard date={date} onWriteAbout={(p) => newEntry(p)} />
 

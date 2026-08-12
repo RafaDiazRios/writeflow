@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { BookOpen, CalendarDays, Flame, PenLine, ScrollText, Wind } from 'lucide-react'
+import { BookOpen, CalendarDays, PenLine, ScrollText, Wind } from 'lucide-react'
+import GoalCard from '@/components/GoalCard'
+import ActivityHeatmap from '@/components/ActivityHeatmap'
 import { globalStats, journal } from '@/lib/repo'
+import { getGoal } from '@/lib/stats'
 import { promptForDay, STREAM_LABEL } from '@/lib/prompts'
 import { longDate, shortDate, toISODate } from '@/lib/dates'
 import { excerpt } from '@/lib/text'
@@ -15,16 +18,16 @@ export default function Home() {
     journalEntries: 0, journalWords: 0, docWords: 0, therapyEntries: 0,
     therapyWords: 0, novels: 0, essays: 0, totalWords: 0,
   })
-  const [streak, setStreak] = useState(0)
   const [recent, setRecent] = useState<JournalEntry[]>([])
+  const [goal, setGoal] = useState(500)
 
   const today = toISODate()
   const prompt = promptForDay(today, streams)
 
   useEffect(() => {
     globalStats().then(setStats)
-    journal.stats().then((s) => setStreak(s.streak))
     journal.recent(5).then(setRecent)
+    getGoal().then(setGoal)
   }, [])
 
   const hour = new Date().getHours()
@@ -45,8 +48,14 @@ export default function Home() {
           </button>
         </div>
 
-        <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <Metric value={streak} label="días seguidos" icon={<Flame size={15} className="text-amber-500" />} />
+        <div className="mb-6 grid grid-cols-1 gap-3 lg:grid-cols-2">
+          <GoalCard onGoalChange={setGoal} />
+          <div className="card p-4">
+            <ActivityHeatmap goal={goal} />
+          </div>
+        </div>
+
+        <div className="mb-6 grid grid-cols-3 gap-3">
           <Metric value={stats.totalWords.toLocaleString('es-ES')} label="palabras escritas" />
           <Metric value={stats.journalEntries} label="entradas de diario" />
           <Metric value={stats.therapyEntries} label="sesiones de terapia" />

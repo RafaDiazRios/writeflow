@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import type { JSONContent } from '@tiptap/react'
-import { ArrowLeft, Download, LayoutGrid, PanelRightClose, PanelRightOpen, PenLine, Users } from 'lucide-react'
+import { ArrowLeft, LayoutGrid, PanelRightClose, PanelRightOpen, PenLine, Users } from 'lucide-react'
 import ProjectList from '@/components/ProjectList'
+import ExportMenu from '@/components/ExportMenu'
 import Editor from '@/components/Editor'
 import Binder from './Binder'
 import Inspector from './Inspector'
@@ -9,7 +10,6 @@ import CharacterSheets from './CharacterSheets'
 import Corkboard from './Corkboard'
 import { characters as charRepo, docs as docRepo, projects } from '@/lib/repo'
 import { countWords, EMPTY_DOC, parseDoc } from '@/lib/text'
-import { compileProject, markdownToStyledHtml, saveTextFile } from '@/lib/export'
 import { useApp } from '@/store/app'
 import type { Character, Doc, DocKind, Project } from '@/lib/types'
 
@@ -104,23 +104,6 @@ export default function NovelModule() {
     setItems((s) => s.map((d) => (d.id === activeId ? { ...d, ...patch } : d)))
   }
 
-  async function compile() {
-    if (!projectId || !project) return
-    const md = await compileProject(projectId)
-    const path = await saveTextFile(`${project.title}.md`, md, 'md')
-    if (path) app.notify('ok', `Manuscrito guardado en ${path}`)
-  }
-
-  async function compileHtml() {
-    if (!projectId || !project) return
-    const md = await compileProject(projectId)
-    const path = await saveTextFile(
-      `${project.title}.html`,
-      markdownToStyledHtml(project.title, md),
-      'html',
-    )
-    if (path) app.notify('ok', 'Guardado. Ábrelo con Word y usa «Guardar como .docx».')
-  }
 
   if (!projectId) {
     return (
@@ -172,12 +155,7 @@ export default function NovelModule() {
               </>
             ) : null}
           </div>
-          <button className="btn-ghost !px-1.5" title="Compilar en Markdown" onClick={compile}>
-            <Download size={16} />
-          </button>
-          <button className="btn-ghost !px-1.5 text-xs" title="Compilar para Word" onClick={compileHtml}>
-            .doc
-          </button>
+          <ExportMenu projectId={projectId} projectTitle={project?.title ?? 'Novela'} variant="novel" />
           {tab === 'write' && (
             <button
               className="btn-ghost !px-1.5"

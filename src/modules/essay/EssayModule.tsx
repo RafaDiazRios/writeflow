@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 import type { JSONContent } from '@tiptap/react'
-import { ArrowLeft, Download, Info, Plus } from 'lucide-react'
+import { ArrowLeft, Info, Plus } from 'lucide-react'
 import ProjectList from '@/components/ProjectList'
+import ExportMenu from '@/components/ExportMenu'
 import Editor from '@/components/Editor'
 import TemplatePicker from './TemplatePicker'
 import { docs as docRepo, projects } from '@/lib/repo'
 import { countWords, EMPTY_DOC, parseDoc } from '@/lib/text'
-import { compileProject, markdownToStyledHtml, saveTextFile } from '@/lib/export'
 import { templateById } from '@/lib/prompts'
 import { useApp } from '@/store/app'
 import type { Doc, EssayTemplate, Project } from '@/lib/types'
@@ -75,15 +75,6 @@ export default function EssayModule() {
     [activeId],
   )
 
-  async function exportEssay(kind: 'md' | 'html') {
-    if (!projectId || !project) return
-    const md = await compileProject(projectId)
-    const path =
-      kind === 'md'
-        ? await saveTextFile(`${project.title}.md`, md, 'md')
-        : await saveTextFile(`${project.title}.html`, markdownToStyledHtml(project.title, md), 'html')
-    if (path) app.notify('ok', `Guardado en ${path}`)
-  }
 
   if (!projectId) {
     return (
@@ -133,12 +124,7 @@ export default function EssayModule() {
           >
             <Info size={16} />
           </button>
-          <button className="btn-ghost !px-1.5" title="Exportar Markdown" onClick={() => exportEssay('md')}>
-            <Download size={16} />
-          </button>
-          <button className="btn-ghost !px-1.5 text-xs" title="Exportar para Word" onClick={() => exportEssay('html')}>
-            .doc
-          </button>
+          <ExportMenu projectId={projectId} projectTitle={project?.title ?? 'Ensayo'} variant="essay" />
         </div>
       </header>
 

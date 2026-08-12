@@ -11,7 +11,9 @@
     "tauri": "tauri",
     "app:dev": "tauri dev",
     "app:build": "tauri build",
-    "test": "esbuild scripts/test-repo.ts --bundle --platform=node --format=esm --outfile=node_modules/.tmp/test-repo.mjs --loader:.json=json --alias:@tauri-apps/plugin-sql=./scripts/stub-sql.mjs --alias:@=./src --external:node:sqlite && node node_modules/.tmp/test-repo.mjs"
+    "test": "npm run test:db && npm run test:export",
+    "test:db": "esbuild scripts/test-repo.ts --bundle --platform=node --format=esm --outfile=node_modules/.tmp/test-repo.mjs --loader:.json=json --alias:@tauri-apps/plugin-sql=./scripts/stub-sql.mjs --alias:@=./src --external:node:sqlite && node node_modules/.tmp/test-repo.mjs",
+    "test:export": "esbuild scripts/test-export.ts --bundle --platform=node --format=esm --outfile=node_modules/.tmp/test-export.mjs --alias:@=./src --external:node:fs && node node_modules/.tmp/test-export.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
@@ -46,6 +48,8 @@
     "@tiptap/react": "^2.10.3",
     "@tiptap/starter-kit": "^2.10.3",
     "date-fns": "^4.1.0",
+    "docx": "^9.7.1",
+    "jszip": "^3.10.1",
     "lucide-react": "^0.469.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

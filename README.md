@@ -13,6 +13,10 @@ espacios en una sola ventana:
   soluciones, breve estratégica, ACT, escritura expresiva y terapia de la compasión,
   repartidos en tres niveles de profundidad.
 
+Con **objetivo diario de palabras**, racha y mapa de actividad del año, y exportación
+nativa a **.docx** (incluido el formato de manuscrito que piden agentes y editoriales),
+**.epub**, Markdown y HTML.
+
 Todo se guarda primero en tu ordenador (SQLite). La nube es opcional: cuando hay
 conexión, sincroniza con Supabase y puede volcar un archivo en Markdown a GitHub.
 
@@ -29,6 +33,7 @@ conexión, sincroniza con Supabase y puede volcar un archivo en Markdown a GitHu
 | Sincronización | **Supabase** (Postgres + Auth Google) | Multi-dispositivo con RLS por usuario |
 | Cifrado | **AES-256-GCM + Argon2id** en Rust | El diario y la terapia salen del equipo ya cifrados |
 | Archivo | **GitHub** vía API REST | Copia en Markdown versionada, legible sin la app |
+| Exportación | **docx** + **JSZip** (carga diferida) | `.docx` y `.epub` generados en el propio equipo, sin red |
 
 Documento de arquitectura completo: [`docs/ARQUITECTURA.md`](docs/ARQUITECTURA.md).
 
@@ -103,6 +108,42 @@ volcado va en texto plano, a diferencia de la sincronización con Supabase.
 
 ---
 
+## Exportar
+
+Desde el botón **Exportar** de cualquier novela o ensayo:
+
+| Formato | Para qué |
+|---|---|
+| **.docx** | Word con estilos, títulos navegables, tablas y numeración de páginas |
+| **.docx — manuscrito** | Times 12, doble espacio, sangría de primera línea, un capítulo por página y encabezado «Apellido / TÍTULO / página». El formato estándar de envío a agentes y editoriales |
+| **.epub** | EPUB 3 con índice, portada y hoja de estilo; se abre en Kindle, Apple Books o Calibre |
+| **.md** | Texto plano para archivar |
+| **.html** | Para imprimir o publicar |
+
+El diario tiene su propio botón: **Exportar \<mes\>** guarda todas las entradas del mes
+en un solo documento, una por día con su fecha como encabezado.
+
+Todo se genera dentro de la aplicación, sin enviar tu texto a ningún servicio. Las
+librerías pesadas (`docx`, `jszip`) se cargan solo al pulsar exportar, así que no
+ralentizan el arranque.
+
+---
+
+## Objetivo diario y racha
+
+En **Inicio** hay un objetivo de palabras al día (500 por defecto, editable con el lápiz)
+y un mapa de actividad del último año.
+
+Se cuenta el **incremento neto** de cada guardado, no el total del documento: reescribir
+un párrafo no infla la cifra y borrar no la deja en negativo. Suma lo que escribas en
+cualquiera de los cuatro módulos.
+
+El mapa usa una escala de un solo tono —claro a oscuro según las palabras del día,
+anclada a tu objetivo— y marca con un anillo los días cumplidos, para que la
+información no dependa solo del color.
+
+---
+
 ## El cifrado, en corto
 
 1. Eliges una frase de paso. **No se guarda en ningún sitio.**
@@ -157,10 +198,24 @@ src/
   components/   editor, barra de herramientas, armazón de la ventana
   modules/      diario, novela, ensayos, terapia, ajustes
   data/         107 prompts, 47 ejercicios y 13 plantillas de ensayo (JSON)
+scripts/        pruebas de integración (esquema, repositorios y exportación)
 src-tauri/      backend en Rust: migraciones SQLite y cifrado
 supabase/       migración de Postgres con RLS
 docs/           arquitectura y decisiones de diseño
 ```
+
+## Pruebas
+
+```bash
+npm test          # esquema SQLite, repositorios y exportación
+npm run build     # comprobación de tipos + compilación del frontend
+cargo test --manifest-path src-tauri/Cargo.toml   # cifrado
+```
+
+`npm run test:db` ejecuta los repositorios contra un SQLite real (vía `node:sqlite`), así
+que valida el SQL de verdad. `npm run test:export` genera un `.docx` y un `.epub` a partir
+de un documento con negritas, listas, tablas, enlaces y caracteres que rompen XML, y
+comprueba que salen bien formados.
 
 ## Licencia
 

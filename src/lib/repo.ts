@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid'
 import { nowISO, one, query, run, softDelete, upsert } from './db'
+import { recordDelta, type WritingModule } from './stats'
 import type {
   Character,
   Doc,
@@ -15,6 +16,33 @@ import type {
 } from './types'
 
 const ALIVE = 'deleted_at IS NULL'
+
+/**
+ * Anota en las estadísticas del día el incremento neto de palabras de este guardado.
+ * Se hace aquí, en la capa de datos, para que valga igual escriba en el diario, en
+ * una escena o en un ejercicio de terapia: un solo sitio que mantener.
+ */
+async function trackWords(
+  table: 'journal_entries' | 'documents' | 'therapy_entries',
+  id: string,
+  nextWords: number | undefined,
+) {
+  if (nextWords === undefined) return
+  const row = await one<{ word_count: number }>(`SELECT word_count FROM ${table} WHERE id = ?`, [id])
+  const delta = nextWords - (row?.word_count ?? 0)
+  if (delta <= 0) return
+
+  let module: WritingModule = 'journal'
+  if (table === 'therapy_entries') module = 'therapy'
+  else if (table === 'documents') {
+    const p = await one<{ kind: string }>(
+      'SELECT p.kind AS kind FROM documents d JOIN projects p ON p.id = d.project_id WHERE d.id = ?',
+      [id],
+    )
+    module = p?.kind === 'essay' ? 'essay' : 'novel'
+  }
+  await recordDelta(module, delta)
+}
 
 // ══════════════════════════════ DIARIO ══════════════════════════════
 
@@ -85,6 +113,7 @@ export const journal = {
   async update(id: string, patch: Partial<JournalEntry>) {
     const cols = Object.keys(patch)
     if (!cols.length) return
+    await trackWords('journal_entries', id, patch.word_count)
     const sets = cols.map((c) => `${c} = ?`).join(', ')
     await run(
       `UPDATE journal_entries SET ${sets}, updated_at = ?, dirty = 1, rev = rev + 1 WHERE id = ?`,
@@ -254,6 +283,7 @@ export const docs = {
   async update(id: string, patch: Partial<Doc>) {
     const cols = Object.keys(patch)
     if (!cols.length) return
+    await trackWords('documents', id, patch.word_count)
     const sets = cols.map((c) => `${c} = ?`).join(', ')
     await run(`UPDATE documents SET ${sets}, updated_at = ?, dirty = 1, rev = rev + 1 WHERE id = ?`, [
       ...Object.values(patch),
@@ -357,6 +387,7 @@ export const therapy = {
   async update(id: string, patch: Partial<TherapyEntry>) {
     const cols = Object.keys(patch)
     if (!cols.length) return
+    await trackWords('therapy_entries', id, patch.word_count)
     const sets = cols.map((c) => `${c} = ?`).join(', ')
     await run(
       `UPDATE therapy_entries SET ${sets}, updated_at = ?, dirty = 1, rev = rev + 1 WHERE id = ?`,

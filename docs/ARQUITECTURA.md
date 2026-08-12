@@ -209,16 +209,32 @@ guardado y sin red.
 - Cifrado E2E funcionando, con pruebas en Rust
 - Motor de sincronización con detección y resolución de conflictos
 - Respaldo a GitHub en un commit
-- Exportación a Markdown y a HTML abrible en Word
+- Exportación nativa a `.docx` (dos presentaciones: libro y manuscrito estándar) y a
+  `.epub` 3, más Markdown y HTML. Generadas en el cliente con carga diferida
+- Exportación del diario por meses a un único documento
+- Objetivo diario de palabras contando el incremento neto por guardado, con racha,
+  récord y mapa de actividad anual de escala secuencial
 - Flujo de GitHub Actions que produce `.exe` y `.msi`
 
 **Pendiente, por orden de utilidad**
 
-1. Exportación nativa a `.docx` (hoy se pasa por HTML) y a EPUB para la novela.
-2. Búsqueda global de una sola caja sobre los cuatro módulos, con FTS5.
-3. Vista «este día en años anteriores» en el diario.
-4. Adjuntar imágenes desde el disco con copia a la carpeta de datos (hoy solo por URL).
-5. Objetivos de escritura diarios con historial y gráfico de racha.
-6. Reordenar escenas arrastrando en el tablero de tarjetas.
-7. Instantáneas de versión por documento, al estilo de los *snapshots* de Scrivener.
-8. Descarga de plantillas de ensayo adicionales desde un repositorio en línea.
+1. Búsqueda global de una sola caja sobre los cuatro módulos, con FTS5.
+2. Vista «este día en años anteriores» en el diario.
+3. Adjuntar imágenes desde el disco con copia a la carpeta de datos (hoy solo por URL,
+   y por eso tampoco se incrustan en el `.docx`).
+4. Reordenar escenas arrastrando en el tablero de tarjetas.
+5. Instantáneas de versión por documento, al estilo de los *snapshots* de Scrivener.
+6. Sincronizar `daily_stats` para que la racha sea la misma en todos los equipos.
+7. Descarga de plantillas de ensayo adicionales desde un repositorio en línea.
+
+### Sobre la exportación
+
+`docx.ts` y `epub.ts` no comparten código a propósito: uno emite OOXML mediante la
+librería `docx` y el otro construye el zip del EPUB a mano con JSZip. Intentar un árbol
+intermedio común habría hecho ambos peores, porque las dos especificaciones difieren
+justo en lo que importa (sangrías y saltos de página frente a semántica de documento).
+Lo que sí comparten es la entrada: el JSON de TipTap, que ya es un árbol estructurado.
+
+El formato de manuscrito no es decoración. Un lector profesional calcula la extensión
+por páginas a 250 palabras: cuerpo 12, doble espacio y márgenes de una pulgada no son
+gusto tipográfico sino una unidad de medida compartida.

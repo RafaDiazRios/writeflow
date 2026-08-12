@@ -1,8 +1,11 @@
 import { save } from '@tauri-apps/plugin-dialog'
-import { writeTextFile } from '@tauri-apps/plugin-fs'
+import { writeFile, writeTextFile } from '@tauri-apps/plugin-fs'
 import type { JSONContent } from '@tiptap/react'
-import { docs, projects } from './repo'
-import { parseDoc } from './text'
+import { docs, journal, projects } from './repo'
+import { parseDoc, textToDoc } from './text'
+import type { DocxChapter, DocxStyle } from './docx'
+import type { EpubChapter } from './epub'
+import { longDate } from './dates'
 
 /** Convierte un documento TipTap a Markdown legible. */
 export function docToMarkdown(doc: JSONContent | null): string {
@@ -121,6 +124,150 @@ export async function saveTextFile(defaultName: string, contents: string, ext = 
   if (!path) return null
   await writeTextFile(path, contents)
   return path
+}
+
+const FILTER_NAME: Record<string, string> = {
+  docx: 'Documento de Word',
+  epub: 'Libro electrónico EPUB',
+}
+
+/** Guarda un archivo binario (.docx, .epub) con el diálogo nativo. */
+export async function saveBinaryFile(defaultName: string, bytes: Uint8Array, ext: string) {
+  const path = await save({
+    defaultPath: defaultName,
+    filters: [{ name: FILTER_NAME[ext] ?? ext.toUpperCase(), extensions: [ext] }],
+  })
+  if (!path) return null
+  await writeFile(path, bytes)
+  return path
+}
+
+// ─────────────────── capítulos a partir del binder ───────────────────
+
+export interface ChapterSource {
+  title: string
+  doc: JSONContent | null
+  level: 1 | 2 | 3
+  hasText: boolean
+}
+
+/**
+ * Recorre el árbol del proyecto en el orden en que se lee y devuelve la lista
+ * plana de capítulos que hay que verter en el .docx o el .epub.
+ *
+ * Respeta «Incluir al compilar» y salta notas e investigación: eso es material de
+ * trabajo, no forma parte del libro.
+ */
+export async function projectChapters(projectId: string): Promise<ChapterSource[]> {
+  const all = await docs.forProject(projectId)
+  const byParent = new Map<string, typeof all>()
+  for (const d of all) {
+    const k = d.parent_id ?? '__root__'
+    if (!byParent.has(k)) byParent.set(k, [])
+    byParent.get(k)!.push(d)
+  }
+  for (const list of byParent.values()) list.sort((a, b) => a.position - b.position)
+
+  const out: ChapterSource[] = []
+  const walk = (key: string, depth: number) => {
+    for (const d of byParent.get(key) ?? []) {
+      if (d.in_compile !== 1 || d.kind === 'note' || d.kind === 'research') continue
+      const doc = parseDoc(d.content_json)
+      const hasText = Boolean(d.content_text?.trim())
+      const isFolder = d.kind === 'folder' || d.kind === 'chapter'
+      // Una carpeta sin texto propio aporta solo su título como encabezado.
+      if (isFolder || hasText) {
+        out.push({
+          title: d.title,
+          doc: hasText ? doc : null,
+          level: (Math.min(3, depth + 1) as 1 | 2 | 3),
+          hasText,
+        })
+      }
+      walk(d.id, depth + 1)
+    }
+  }
+  walk('__root__', 0)
+  return out
+}
+
+// ─────────────────── .docx ───────────────────
+//
+// `docx` y `jszip` pesan bastante y solo hacen falta al exportar, así que se
+// cargan bajo demanda: la app arranca sin ellos.
+
+const loadDocx = () => import('./docx')
+const loadEpub = () => import('./epub')
+
+export async function exportProjectDocx(projectId: string, style: DocxStyle = 'libro') {
+  const p = await projects.byId(projectId)
+  if (!p) throw new Error('No se encontró el proyecto')
+  const chapters = await projectChapters(projectId)
+  if (!chapters.length) throw new Error('Este proyecto todavía no tiene nada escrito')
+
+  const words = await projects.wordCount(projectId)
+  const { buildDocx } = await loadDocx()
+  const bytes = await buildDocx({
+    title: p.title,
+    subtitle: p.subtitle,
+    author: p.author,
+    style,
+    titlePage: true,
+    wordCount: words,
+    chapters: chapters.map<DocxChapter>((c) => ({
+      title: c.title,
+      doc: c.doc,
+      level: c.level,
+      // En «libro» solo los capítulos de primer nivel abren página nueva.
+      pageBreak: style === 'manuscrito' ? true : c.level === 1,
+    })),
+  })
+  return saveBinaryFile(`${p.title}.docx`, bytes, 'docx')
+}
+
+/** Exporta un rango del diario como un único documento por días. */
+export async function exportJournalDocx(from: string, to: string, style: DocxStyle = 'libro') {
+  const entries = (await journal.recent(2000)).filter(
+    (e) => e.entry_date >= from && e.entry_date <= to,
+  )
+  if (!entries.length) throw new Error('No hay entradas en ese periodo')
+  entries.sort((a, b) => a.entry_date.localeCompare(b.entry_date))
+
+  const chapters: DocxChapter[] = entries.map((e) => ({
+    title: `${longDate(e.entry_date)}${e.title ? ` — ${e.title}` : ''}`,
+    doc: parseDoc(e.content_json) ?? textToDoc(e.content_text),
+    level: 2,
+    pageBreak: false,
+  }))
+
+  const { buildDocx } = await loadDocx()
+  const bytes = await buildDocx({
+    title: 'Diario',
+    subtitle: `${from} — ${to}`,
+    style,
+    titlePage: true,
+    chapters,
+  })
+  return saveBinaryFile(`Diario ${from} a ${to}.docx`, bytes, 'docx')
+}
+
+// ─────────────────── .epub ───────────────────
+
+export async function exportProjectEpub(projectId: string) {
+  const p = await projects.byId(projectId)
+  if (!p) throw new Error('No se encontró el proyecto')
+  const chapters = await projectChapters(projectId)
+  if (!chapters.length) throw new Error('Este proyecto todavía no tiene nada escrito')
+
+  const { buildEpub } = await loadEpub()
+  const bytes = await buildEpub({
+    title: p.title,
+    subtitle: p.subtitle,
+    author: p.author,
+    language: 'es',
+    chapters: chapters.map<EpubChapter>((c) => ({ title: c.title, doc: c.doc })),
+  })
+  return saveBinaryFile(`${p.title}.epub`, bytes, 'epub')
 }
 
 /** Exporta a HTML (se puede abrir en Word y guardar como .docx). */

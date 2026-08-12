@@ -48,4 +48,15 @@ export function monthGrid(month: Date): Date[] {
 
 export const WEEKDAYS = ['L', 'M', 'X', 'J', 'V', 'S', 'D']
 
+/** «ago», «sept»… para las etiquetas del mapa de actividad. */
+export function monthShort(d: Date): string {
+  return format(d, 'LLL', { locale: es }).replace('.', '')
+}
+
+/** «12 de agosto» */
+export function dayAndMonth(d: Date | string): string {
+  const date = typeof d === 'string' ? parseISO(d) : d
+  return format(date, "d 'de' LLLL", { locale: es })
+}
+
 export { addMonths, subMonths, isSameDay, isSameMonth, isToday, format, startOfMonth, endOfMonth }
