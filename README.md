@@ -64,9 +64,15 @@ git tag v0.1.0 && git push origin v0.1.0
 
 ### 1. Supabase
 
-1. Crea un proyecto en [supabase.com](https://supabase.com).
-2. En **SQL Editor**, pega y ejecuta `supabase/migrations/0001_init.sql`. Crea las tablas,
-   los índices, los disparadores de `updated_at` y las políticas RLS.
+**Ya está hecho:** el proyecto `writeflow` existe en tu organización
+(`https://rlnetaknsjzmsplbjmow.supabase.co`, región eu-west-3), la migración está
+aplicada, RLS activo en las diez tablas y el linter de seguridad sin avisos. Las
+credenciales están en el archivo `.env`.
+
+Solo te queda activar Google, que requiere pasar por la consola:
+
+1. ~~Crear el proyecto~~ *(hecho)*
+2. ~~Ejecutar `supabase/migrations/0001_init.sql`~~ *(hecho)*
 3. En **Authentication → Providers → Google**, activa Google y pega el *Client ID* y el
    *Client Secret* de tu proyecto de Google Cloud.
 4. En **Authentication → URL Configuration → Redirect URLs**, añade:
@@ -75,8 +81,8 @@ git tag v0.1.0 && git push origin v0.1.0
    writeflow://auth-callback
    ```
 
-5. En la aplicación, ve a **Ajustes → Sincronización**, pega la URL del proyecto y la
-   clave pública, y pulsa **Iniciar sesión con Google**. Se abrirá tu navegador y, al
+5. En la aplicación, ve a **Ajustes → Sincronización** (las credenciales ya vienen
+   cargadas desde `.env`) y pulsa **Iniciar sesión con Google**. Se abrirá tu navegador y, al
    terminar, Windows devolverá el control a WriteFlow.
 
 En Google Cloud Console, el *Authorized redirect URI* del cliente OAuth debe ser el de

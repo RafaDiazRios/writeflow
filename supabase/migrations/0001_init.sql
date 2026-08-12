@@ -287,3 +287,18 @@ drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_user();
+
+-- ─────────────────── endurecimiento (linter de Supabase) ───────────────────
+-- search_path fijo: evita que un esquema del usuario secuestre la función.
+create or replace function public.touch_updated_at()
+returns trigger language plpgsql
+set search_path = ''
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end $$;
+
+-- `handle_new_user` es un disparador, no parte de la API: nadie debe poder
+-- invocarla desde /rest/v1/rpc.
+revoke execute on function public.handle_new_user() from anon, authenticated, public;
