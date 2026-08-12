@@ -1,0 +1,183 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  .dark {
+    color-scheme: dark;
+  }
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-ink-50 text-ink-900 antialiased dark:bg-ink-950 dark:text-ink-100;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    overflow: hidden;
+  }
+  ::selection {
+    @apply bg-accent-200 text-ink-900;
+  }
+  /* Barra de desplazamiento discreta */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-ink-300/70 dark:bg-ink-700/70;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  button,
+  a {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  input,
+  textarea,
+  [contenteditable] {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition
+           disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .btn-primary {
+    @apply btn bg-accent-600 text-white hover:bg-accent-700 active:bg-accent-800;
+  }
+  .btn-ghost {
+    @apply btn text-ink-700 hover:bg-ink-200/70 dark:text-ink-200 dark:hover:bg-ink-800;
+  }
+  .btn-outline {
+    @apply btn border border-ink-300 text-ink-700 hover:bg-ink-100
+           dark:border-ink-700 dark:text-ink-200 dark:hover:bg-ink-800;
+  }
+  .btn-danger {
+    @apply btn text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/40;
+  }
+  .card {
+    @apply rounded-lg border border-ink-200 bg-white shadow-sm dark:border-ink-800 dark:bg-ink-900;
+  }
+  .input {
+    @apply w-full rounded-md border border-ink-300 bg-white px-3 py-2 text-sm outline-none
+           transition focus:border-accent-500 focus:ring-2 focus:ring-accent-200
+           dark:border-ink-700 dark:bg-ink-900 dark:focus:ring-accent-900;
+  }
+  .label {
+    @apply mb-1 block text-xs font-semibold uppercase tracking-wide text-ink-500 dark:text-ink-400;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full border border-ink-200 bg-ink-100 px-2.5 py-0.5
+           text-xs font-medium text-ink-700 dark:border-ink-700 dark:bg-ink-800 dark:text-ink-200;
+  }
+  .panel-title {
+    @apply text-xs font-semibold uppercase tracking-widest text-ink-400 dark:text-ink-500;
+  }
+}
+
+/* ─────────────── Editor tipo procesador de textos ─────────────── */
+
+.wf-page {
+  @apply mx-auto bg-white shadow-sm dark:bg-ink-900;
+  max-width: 21cm;
+  min-height: 24cm;
+  padding: 2.4cm 2.6cm;
+}
+
+.wf-prose {
+  @apply font-serif text-[17px] leading-[1.75] text-ink-900 dark:text-ink-100;
+}
+.wf-prose:focus {
+  outline: none;
+}
+.wf-prose p {
+  margin: 0 0 0.85em;
+}
+.wf-prose h1 {
+  @apply mb-4 mt-8 font-sans text-3xl font-bold tracking-tight;
+}
+.wf-prose h2 {
+  @apply mb-3 mt-7 font-sans text-2xl font-semibold tracking-tight;
+}
+.wf-prose h3 {
+  @apply mb-2 mt-6 font-sans text-xl font-semibold;
+}
+.wf-prose blockquote {
+  @apply my-4 border-l-4 border-accent-300 pl-4 italic text-ink-600 dark:border-accent-700 dark:text-ink-300;
+}
+.wf-prose ul {
+  @apply my-3 list-disc pl-6;
+}
+.wf-prose ol {
+  @apply my-3 list-decimal pl-6;
+}
+.wf-prose li p {
+  margin: 0.2em 0;
+}
+.wf-prose code {
+  @apply rounded bg-ink-100 px-1.5 py-0.5 font-mono text-[0.85em] dark:bg-ink-800;
+}
+.wf-prose pre {
+  @apply my-4 overflow-x-auto rounded-md bg-ink-900 p-4 font-mono text-sm text-ink-100;
+}
+.wf-prose pre code {
+  @apply bg-transparent p-0 text-inherit;
+}
+.wf-prose hr {
+  @apply my-8 border-ink-200 dark:border-ink-700;
+}
+.wf-prose a {
+  @apply text-accent-600 underline underline-offset-2 dark:text-accent-400;
+}
+.wf-prose mark {
+  @apply rounded bg-yellow-200 px-0.5 dark:bg-yellow-600/40 dark:text-inherit;
+}
+.wf-prose img {
+  @apply my-4 max-w-full rounded-md;
+}
+.wf-prose table {
+  @apply my-4 w-full table-fixed border-collapse;
+}
+.wf-prose th,
+.wf-prose td {
+  @apply border border-ink-300 px-3 py-1.5 align-top dark:border-ink-700;
+}
+.wf-prose th {
+  @apply bg-ink-100 font-sans text-sm font-semibold dark:bg-ink-800;
+}
+.wf-prose ul[data-type='taskList'] {
+  @apply list-none pl-1;
+}
+.wf-prose ul[data-type='taskList'] li {
+  @apply flex items-start gap-2;
+}
+
+/* Marcador de posición */
+.wf-prose p.is-editor-empty:first-child::before {
+  @apply pointer-events-none float-left h-0 text-ink-400 dark:text-ink-600;
+  content: attr(data-placeholder);
+}
+
+/* Modo concentración: atenúa todo menos el párrafo activo */
+.wf-focus .wf-prose > *:not(.has-focus) {
+  @apply opacity-30 transition-opacity;
+}
+
+/* Máquina de escribir: mantiene el cursor centrado */
+.wf-typewriter {
+  padding-top: 38vh;
+  padding-bottom: 38vh;
+}
+
+.tiptap .ProseMirror-selectednode {
+  @apply outline outline-2 outline-accent-400;
+}

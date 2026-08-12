@@ -1,0 +1,630 @@
+[
+ {
+  "id": "externalizacion-nombrar-problema",
+  "name": "Ponle nombre al problema",
+  "school": "Terapia Narrativa",
+  "level": 1,
+  "prompt": "Elige algo que te esté pesando estos días. No escribas «soy ansioso» ni «soy desordenado»: escribe el problema como si fuera una criatura o una presencia que te visita, y dale un nombre propio (La Niebla, El Capataz, el Vigilante de las Doce). Descríbelo durante diez minutos como describirías a un personaje: qué aspecto tiene, qué tono de voz usa, a qué hora del día suele aparecer, qué le gusta que hagas. Escribe en tercera persona: «El Capataz llega cuando...».",
+  "followups": [
+   "¿Cuándo entró por primera vez en tu vida y quién o qué le abrió la puerta?",
+   "¿Qué gana este personaje cuando tú le obedeces?",
+   "Si tuviera que confesar una debilidad suya, ¿cuál sería?"
+  ],
+  "source": "Michael White, mapa de la declaración de posición 1 (conversaciones de externalización), Maps of Narrative Practice"
+ },
+ {
+  "id": "sfbt-mejores-esperanzas",
+  "name": "Tus mejores esperanzas",
+  "school": "Terapia Centrada en Soluciones",
+  "level": 1,
+  "prompt": "Imagina que dentro de tres meses miras hacia atrás y dices: «valió la pena». Escribe qué tendría que haber pasado para poder decir eso. No escribas metas abstractas («estar mejor»): describe escenas concretas y observables, cosas que alguien podría grabar con una cámara. Empieza cada frase con «Estaría...» o «Habría...», nunca con «Dejaría de...».",
+  "followups": [
+   "¿Qué señal muy pequeña te avisaría de que has empezado a moverte en esa dirección?",
+   "¿Quién sería el primero en notarlo, y en qué exactamente lo notaría?",
+   "De todo lo que has descrito, ¿qué parte ya ocurre aunque sea un 5% del tiempo?"
+  ],
+  "source": "Steve de Shazer e Insoo Kim Berg; formulación de «best hopes» de BRIEF (Londres)"
+ },
+ {
+  "id": "sfbt-escala-de-avance",
+  "name": "La escala del 0 al 10",
+  "school": "Terapia Centrada en Soluciones",
+  "level": 1,
+  "prompt": "En una escala del 0 al 10, donde 10 es el día después de que todo esté resuelto y 0 es lo peor que has estado, ¿dónde estás hoy? Escribe el número. Ahora la parte importante: explica por qué ese número y no uno menos. Si has puesto un 4, escribe durante diez minutos sobre todo lo que ya sostiene ese 4 y evita que sea un 3.",
+  "followups": [
+   "¿Qué hiciste esta semana, por mínimo que sea, que ayudó a que no bajara?",
+   "¿Cómo sería medio punto más arriba? Describe un martes cualquiera en ese medio punto.",
+   "¿Ha habido algún día reciente en que estuvieras un punto más alto? ¿Qué era distinto ese día?"
+  ],
+  "source": "Insoo Kim Berg, preguntas de escala en TCS"
+ },
+ {
+  "id": "arbol-vida-raices",
+  "name": "Las raíces del árbol",
+  "school": "Terapia Narrativa",
+  "level": 1,
+  "prompt": "Dibuja o simplemente escribe las raíces de tu árbol. Las raíces son de dónde vienes: el lugar, las personas, las canciones, las comidas, los oficios, las lenguas o dialectos de tu familia. Nombra tres cosas de tu herencia que quieras reconocer, aunque tu relación con ellas sea complicada. Incluye al menos un saber práctico que aprendiste de alguien mayor y que todavía usas.",
+  "followups": [
+   "¿Qué recuerdo de la infancia elegirías como el más tuyo, y por qué ese?",
+   "¿Hay algún saber de tu gente que hayas dejado de usar y quisieras recuperar?",
+   "Si una de esas raíces pudiera hablarte hoy, ¿qué te diría?"
+  ],
+  "source": "Ncazelo Ncube y David Denborough, El Árbol de la Vida, Dulwich Centre"
+ },
+ {
+  "id": "escritura-expresiva-quince",
+  "name": "Quince minutos sin frenos",
+  "school": "Escritura Expresiva (Pennebaker)",
+  "level": 1,
+  "prompt": "Pon un temporizador de quince minutos y escribe sin parar sobre algo que te haya estado dando vueltas. No corrijas, no releas, no te preocupes por la ortografía, la gramática ni por si tiene sentido. Si te quedas en blanco, repite la última frase hasta que aparezca la siguiente. Nadie va a leer esto, ni siquiera tú, salvo que quieras. La única regla es no levantar la mano del teclado o del papel.",
+  "followups": [
+   "En una frase: ¿cómo te sientes ahora mismo, comparado con antes de escribir?",
+   "¿Hay algo que apareció en el papel y que no sabías que estaba ahí?",
+   "¿Qué evitaste escribir? No hace falta que lo escribas ahora; solo nómbralo."
+  ],
+  "source": "James W. Pennebaker, paradigma de escritura expresiva (versión breve introductoria)"
+ },
+ {
+  "id": "tcc-registro-simple",
+  "name": "Situación, pensamiento, emoción",
+  "school": "Terapia Cognitivo-Conductual",
+  "level": 1,
+  "prompt": "Recuerda un momento de las últimas 48 horas en que tu estado de ánimo cambió de golpe. Escribe tres cosas en tres líneas separadas: (1) la situación, en términos de cámara de vídeo, sin interpretaciones; (2) el pensamiento exacto que te pasó por la cabeza, con las mismas palabras con que apareció; (3) la emoción y su intensidad del 0 al 100. No discutas todavía con el pensamiento: solo captúralo tal cual, como quien atrapa un insecto sin aplastarlo.",
+  "followups": [
+   "¿Ese pensamiento tiene una voz? ¿A quién se parece?",
+   "¿Qué hiciste inmediatamente después de tenerlo?",
+   "¿Es un pensamiento que aparece con frecuencia o es nuevo?"
+  ],
+  "source": "Registro de pensamientos, tradición Beck / Greenberger y Padesky"
+ },
+ {
+  "id": "pausa-autocompasiva",
+  "name": "La pausa de tres frases",
+  "school": "Autocompasión (Neff)",
+  "level": 1,
+  "prompt": "Piensa en algo que te está costando ahora mismo, de intensidad media (no lo más duro de tu vida). Escribe tres párrafos cortos, uno por cada frase: (1) «Esto duele, y así es como duele...»; (2) «No soy el único: otras personas ahora mismo están sintiendo algo parecido, por ejemplo...»; (3) «Que pueda ser amable conmigo en esto; concretamente, ser amable hoy significaría...». Escribe el tercero con instrucciones prácticas, no con buenos deseos.",
+  "followups": [
+   "¿Qué te resultó más difícil de escribir de los tres, y por qué crees que fue ese?",
+   "¿Qué le dirías a un amigo íntimo en tu misma situación? Escríbelo con sus palabras.",
+   "¿En qué se diferencia el tono que usas contigo del que usarías con él?"
+  ],
+  "source": "Kristin Neff, Self-Compassion Break (los tres componentes de la autocompasión)"
+ },
+ {
+  "id": "act-brujula-valores",
+  "name": "La brújula, no el mapa",
+  "school": "Terapia de Aceptación y Compromiso",
+  "level": 1,
+  "prompt": "Elige un solo dominio de tu vida: pareja, familia, amistades, trabajo, salud, comunidad, crecimiento u ocio. Escribe qué tipo de persona quieres ser dentro de ese dominio, usando adverbios y no logros: no «tener una relación estable», sino «tratar a quien quiero con paciencia y curiosidad». Después escribe una acción de cinco minutos, hacer hoy o mañana, que apunte en esa dirección.",
+  "followups": [
+   "Si nadie fuera a enterarse nunca de que actuaste según ese valor, ¿seguiría importándote?",
+   "¿Qué te ha alejado de ese valor esta semana, y qué estabas evitando sentir al alejarte?",
+   "¿Ese valor es tuyo o lo heredaste de alguien que esperaba algo de ti?"
+  ],
+  "source": "Steven Hayes, Kirk Strosahl y Kelly Wilson; clarificación de valores en ACT"
+ },
+ {
+  "id": "sfbt-conversacion-sin-problema",
+  "name": "Habla de lo que no está roto",
+  "school": "Terapia Centrada en Soluciones",
+  "level": 1,
+  "prompt": "Durante quince minutos escribe sobre tu vida sin mencionar ni una sola vez el problema que te trajo aquí. Cuenta qué haces bien, qué te divierte, en qué te reconocen los demás, qué sabes hacer con las manos, qué te hizo reír esta semana. Si el problema intenta colarse en la frase, cambia de tema deliberadamente.",
+  "followups": [
+   "¿Qué habilidades de esta lista podrían servirte también en la zona difícil de tu vida?",
+   "¿Cuánto hace que no le dedicabas atención a esta parte de ti?",
+   "¿Qué diría de ti alguien que solo te conociera por lo que acabas de escribir?"
+  ],
+  "source": "Problem-free talk, práctica clásica de la Terapia Breve Centrada en Soluciones"
+ },
+ {
+  "id": "narrativa-resultado-unico-pequeno",
+  "name": "El día que no ganó",
+  "school": "Terapia Narrativa",
+  "level": 1,
+  "prompt": "Piensa en un momento reciente en que el problema esperaba salirse con la suya y no lo consiguió: aguantaste una conversación difícil, saliste a caminar en vez de quedarte en la cama, dijiste que no. Escribe ese momento con lujo de detalle: la hora, la luz, lo que llevabas puesto, lo que pensaste justo antes de actuar. No lo minimices con un «pero fue una tontería».",
+  "followups": [
+   "¿Qué hizo posible que ese día ocurriera eso y no lo de siempre?",
+   "¿Qué dice de ti el hecho de que fueras capaz? Ponle un nombre a esa cualidad.",
+   "¿Quién de tu vida no se sorprendería nada al oír esta historia?"
+  ],
+  "source": "Michael White, resultados únicos (unique outcomes) y mapa de la declaración de posición 2"
+ },
+ {
+  "id": "cft-carta-breve-amable",
+  "name": "Carta corta desde el yo amable",
+  "school": "Terapia Centrada en la Compasión",
+  "level": 1,
+  "prompt": "Imagina una versión de ti que tiene diez años más, ha pasado por lo mismo y ha salido bien parada: sabia, cálida, sin prisa, incapaz de juzgarte. Escribe una carta breve, de unas diez líneas, en la que esa versión se dirige a ti hoy. Que empiece por reconocer lo que estás cargando antes de proponer nada. Prohibido usar la palabra «deberías».",
+  "followups": [
+   "¿Qué tono de voz tenía esa versión mientras escribías? ¿Qué ritmo?",
+   "¿Qué parte de la carta te costó creerte?",
+   "¿A quién de tu vida se parece esa voz compasiva?"
+  ],
+  "source": "Paul Gilbert, Compassion Focused Therapy: entrenamiento del yo compasivo"
+ },
+ {
+  "id": "sfbt-preguntas-afrontamiento",
+  "name": "¿Cómo has aguantado?",
+  "school": "Terapia Centrada en Soluciones",
+  "level": 1,
+  "prompt": "En vez de preguntarte por qué estás mal, escribe durante quince minutos respondiendo a esto: dado todo lo que ha pasado, ¿cómo has conseguido llegar hasta hoy? ¿Qué has hecho, exactamente, para no hundirte del todo? Haz un inventario de tus maniobras de supervivencia, incluidas las poco elegantes.",
+  "followups": [
+   "¿Cuál de esas maniobras te ha servido bien y cuál te está pasando factura?",
+   "¿De quién aprendiste a aguantar así?",
+   "Si un desconocido leyera esta lista, ¿qué diría que hace falta para vivir tu vida?"
+  ],
+  "source": "Coping questions, Insoo Kim Berg"
+ },
+ {
+  "id": "estrategica-diario-de-a-bordo",
+  "name": "Diario de a bordo",
+  "school": "Terapia Breve Estratégica (Palo Alto / Nardone)",
+  "level": 1,
+  "prompt": "Durante los próximos días, cada vez que aparezca el síntoma o la conducta que quieres cambiar, anótalo en el momento, no después, con cinco datos secos: fecha y hora, lugar, personas presentes, qué pasó justo antes, qué hiciste tú. Sin interpretaciones, sin adjetivos, sin culpas. Eres el capitán que registra el tiempo, no el que opina sobre él. Hoy escribe la primera entrada con el episodio más reciente que recuerdes.",
+  "followups": [
+   "¿Qué patrón asoma cuando lees tres entradas seguidas?",
+   "¿Qué tienen en común los momentos previos a que aparezca?",
+   "¿Qué cambia por el simple hecho de tener que anotarlo?"
+  ],
+  "source": "Giorgio Nardone, prescripción del diario de a bordo; escuela de Palo Alto"
+ },
+ {
+  "id": "narrativa-carta-de-reconocimiento",
+  "name": "Carta a quien te sostuvo",
+  "school": "Terapia Narrativa",
+  "level": 1,
+  "prompt": "Escribe una carta (no hace falta enviarla) a alguien que en algún momento te vio de una manera que tú no te veías. Cuéntale qué hizo o dijo exactamente, qué efecto tuvo en tu vida, y qué crees que él o ella vio en ti aquel día. Termina contándole en qué se nota hoy, en tu vida cotidiana, que aquello ocurrió.",
+  "followups": [
+   "¿Qué crees que esa persona ganó al conocerte a ti? Sé concreto.",
+   "Si volviera a verte hoy, ¿qué te diría que ha cambiado y qué sigue igual?",
+   "¿Qué costumbre pequeña podría recordarte a diario esa mirada suya?"
+  ],
+  "source": "Michael White, cartas terapéuticas y conversaciones de re-membranza"
+ },
+ {
+  "id": "mapa-posicion-efectos",
+  "name": "El mapa de los efectos",
+  "school": "Terapia Narrativa",
+  "level": 2,
+  "prompt": "Toma el problema al que ya le pusiste nombre y traza sus efectos en cuatro territorios: (1) tu trabajo o estudio; (2) tus relaciones; (3) tu cuerpo y tus rutinas; (4) la imagen que tienes de ti mismo y de tu futuro. Escribe un párrafo por territorio, con hechos, no con juicios. Después responde por escrito y sin apurarte: ¿estás de acuerdo con estos efectos? ¿Te parecen bien o mal? Y la pregunta clave: ¿por qué? ¿Por qué esto no te vale?",
+  "followups": [
+   "Lo que acabas de defender al decir «esto no me vale», ¿cómo se llama? Ponle nombre a ese valor.",
+   "¿Desde cuándo sostienes esa postura, aunque sea en silencio?",
+   "¿Qué territorio ha resistido mejor la influencia del problema, y por qué precisamente ese?"
+  ],
+  "source": "Michael White, mapa de la declaración de posición 1: definición, efectos, evaluación y justificación"
+ },
+ {
+  "id": "doble-escucha-ausente-implicito",
+  "name": "Lo ausente pero implícito",
+  "school": "Terapia Narrativa",
+  "level": 2,
+  "prompt": "Elige un dolor que no se te pase: una decepción, una injusticia, una pérdida. Escríbelo primero tal cual duele, sin adornos, durante diez minutos. Después haz esto: todo dolor es el testimonio de algo que valoras y que fue violado. Si esto te dolió tanto, es porque tú sostenías algo. Dedica otros diez minutos a nombrar qué sostenías. ¿Qué esperabas del mundo o de esa persona? ¿Qué acuerdo tácito se rompió?",
+  "followups": [
+   "¿Cuándo aprendiste que las cosas deberían ser de esa otra manera?",
+   "¿Dónde más en tu vida has defendido eso mismo, aunque en pequeño?",
+   "¿A quién le habría gustado saber que tú sostienes eso?"
+  ],
+  "source": "Michael White, «absent but implicit» y doble escucha (a partir de Derrida)"
+ },
+ {
+  "id": "sfbt-pregunta-milagro",
+  "name": "La pregunta del milagro",
+  "school": "Terapia Centrada en Soluciones",
+  "level": 2,
+  "prompt": "Supón que esta noche, mientras duermes y la casa está en silencio, ocurre un milagro: el problema que te trae aquí queda resuelto. Pero como estabas dormido, no sabes que ha pasado. Mañana te despiertas. Escribe el día entero, hora por hora, desde que abres los ojos: qué es lo primero distinto que notas, qué desayunas, cómo entras al trabajo, cómo saludas, cómo es la tarde, qué haces a las once de la noche. Escribe en presente y con detalle de guion de cine.",
+  "followups": [
+   "¿Qué fragmento de ese día ya ocurre a veces, aunque sea a ratos?",
+   "¿Quién notaría primero el milagro sin que tú se lo dijeras, y en qué gesto tuyo?",
+   "¿Qué trocito de ese día podrías representar mañana como si el milagro ya hubiera ocurrido?",
+   "Si tuvieras que elegir el momento del día que más te emocionó escribir, ¿cuál sería y qué te dice eso?"
+  ],
+  "source": "Steve de Shazer e Insoo Kim Berg, la pregunta del milagro (formulación original)"
+ },
+ {
+  "id": "sfbt-excepciones-detalladas",
+  "name": "Arqueología de las excepciones",
+  "school": "Terapia Centrada en Soluciones",
+  "level": 2,
+  "prompt": "Rastrea las últimas dos semanas buscando momentos en que el problema debería haber aparecido y no apareció, o apareció con menos fuerza. Encuentra al menos tres. Para cada uno escribe: qué estabas haciendo, con quién, qué hiciste tú de manera diferente, y qué hicieron los demás de manera diferente. Trátalo como un detective que busca huellas, no como alguien que se autoevalúa.",
+  "followups": [
+   "De todo esto, ¿qué es repetible a propósito y qué dependió del azar?",
+   "¿Qué tendría que pasar para que lo repetible ocurriera dos veces más esta semana?",
+   "¿Qué te impide creer que estas excepciones cuentan?"
+  ],
+  "source": "Exception seeking, Terapia Breve Centrada en Soluciones"
+ },
+ {
+  "id": "pennebaker-cuatro-dias",
+  "name": "El protocolo de los cuatro días",
+  "school": "Escritura Expresiva (Pennebaker)",
+  "level": 2,
+  "prompt": "Durante cuatro días seguidos escribe veinte minutos sin parar sobre la experiencia emocionalmente más perturbadora de tu vida, o sobre algo que te preocupa profundamente ahora. Explora tus emociones más hondas y tus pensamientos, y conecta el tema con tu infancia, con tus relaciones, con quién eras, quién eres y quién quieres ser. Puedes escribir del mismo tema los cuatro días o cambiar. No corrijas ortografía ni estructura. Esta es la entrada del día uno.",
+  "followups": [
+   "Del 0 al 100: ¿cuánto te removió escribir hoy? ¿Y cuánto sientes ahora, media hora después?",
+   "¿Qué palabras causa (porque, por eso, debido a) aparecieron hoy en tu texto?",
+   "¿Qué te gustaría escribir mañana que hoy dejaste fuera?"
+  ],
+  "source": "James W. Pennebaker y Joshua Smyth, protocolo estándar de escritura expresiva (4 días, 15-20 min)"
+ },
+ {
+  "id": "tcc-registro-siete-columnas",
+  "name": "Registro de pensamientos completo",
+  "school": "Terapia Cognitivo-Conductual",
+  "level": 2,
+  "prompt": "Toma un episodio con carga emocional alta y trabájalo en siete pasos escritos: (1) situación objetiva; (2) emociones e intensidad 0-100; (3) pensamiento automático más caliente, el que más duele; (4) pruebas a favor de ese pensamiento, solo hechos; (5) pruebas en contra, solo hechos, incluidos los que ignoraste; (6) un pensamiento alternativo que dé cuenta de todas las pruebas, no un eslogan positivo; (7) reevalúa la emoción 0-100.",
+  "followups": [
+   "¿Qué prueba en contra te costó más admitir y por qué?",
+   "Si un jurado tuviera que decidir con las pruebas de las columnas 4 y 5, ¿qué sentenciaría?",
+   "¿Qué distorsión reconoces aquí: catastrofismo, lectura de mente, filtro mental, todo o nada?"
+  ],
+  "source": "Christine Padesky y Dennis Greenberger, Mind Over Mood; tradición de Aaron Beck"
+ },
+ {
+  "id": "act-defusion-escrita",
+  "name": "Estoy teniendo el pensamiento de que",
+  "school": "Terapia de Aceptación y Compromiso",
+  "level": 2,
+  "prompt": "Escribe la frase más cruel que tu mente te repite sobre ti, tal cual, con sus palabras exactas. Ahora reescríbela cinco veces con estas capas: (1) «Estoy teniendo el pensamiento de que...»; (2) «Noto que estoy teniendo el pensamiento de que...»; (3) como si la dijera un locutor de radio muy serio; (4) como si la cantara alguien con voz de dibujo animado; (5) titulada, como si fuera una vieja canción de tu mente: «Ya está sonando otra vez la de...». Después escribe qué notas.",
+  "followups": [
+   "¿Qué edad tenías la primera vez que sonó esa canción?",
+   "¿Qué te ha impedido hacer ese pensamiento en la última semana?",
+   "Si el pensamiento se quedara para siempre pero perdiera su poder de mando, ¿qué harías hoy?"
+  ],
+  "source": "ACT, técnicas de defusión cognitiva (Hayes; Harris, ACT Made Simple)"
+ },
+ {
+  "id": "act-ochenta-cumpleanos",
+  "name": "Tu 80 cumpleaños",
+  "school": "Terapia de Aceptación y Compromiso",
+  "level": 2,
+  "prompt": "Es tu 80 cumpleaños. Hay una sala con la gente que ha importado en tu vida. Tres personas van a hablar de ti: alguien de tu familia, alguien de tu vida amorosa o tus amistades, y alguien de tu trabajo o tu comunidad. Escribe los tres discursos completos, con sus voces. Escribe lo que te gustaría de verdad que dijeran, no lo que temes que dirían.",
+  "followups": [
+   "¿Qué distancia hay entre esos discursos y los que se dirían si el cumpleaños fuera mañana?",
+   "¿Cuál de las tres personas te costó más escribir, y qué dice eso?",
+   "¿Qué acción de esta semana acorta esa distancia aunque sea un milímetro?"
+  ],
+  "source": "80th Birthday Exercise, ejercicio clásico de clarificación de valores en ACT (ACBS)"
+ },
+ {
+  "id": "cft-carta-autocompasiva",
+  "name": "Carta autocompasiva larga",
+  "school": "Terapia Centrada en la Compasión",
+  "level": 2,
+  "prompt": "Escribe sobre algo de ti que te haga sentir inadecuado, avergonzado o insuficiente. Descríbelo con honestidad y anota qué emociones te trae. Ahora escríbete una carta desde la perspectiva de un amigo imaginario que te quiere incondicionalmente, conoce todos tus defectos y todo lo que has vivido. Que ese amigo mencione: qué entiende de por qué eres así, qué circunstancias no elegiste, qué le duele verte sufrir por esto, y qué cambios te propondría desde el cariño y no desde la exigencia.",
+  "followups": [
+   "¿Qué frase de la carta querrías poder creer del todo?",
+   "¿Qué parte de ti se resistió mientras escribías, y qué teme perder si dejas de castigarte?",
+   "¿Qué de lo que no elegiste explica, sin justificar, lo que hoy te reprochas?",
+   "Guarda la carta y léela dentro de una semana. ¿Qué suena distinto entonces?"
+  ],
+  "source": "Kristin Neff, ejercicio de la carta autocompasiva (Greater Good in Action); Paul Gilbert, CFT"
+ },
+ {
+  "id": "narrativa-re-membranza",
+  "name": "Conversación de re-membranza",
+  "school": "Terapia Narrativa",
+  "level": 2,
+  "prompt": "Elige a una figura importante de tu vida, viva o muerta, presente o ausente; puede ser una persona, un profesor, incluso un animal o un personaje de un libro. Escribe en cuatro bloques: (1) qué aportó esa figura a tu vida, con un episodio concreto; (2) cómo te veía a ti, con sus ojos y sus palabras; (3) qué le aportaste tú a su vida; (4) qué significó para su identidad haberte conocido, qué le permitió ser o hacer.",
+  "followups": [
+   "¿Qué lugar quieres darle a esa figura en tu vida hoy: más cerca, más lejos, distinto?",
+   "¿Qué le preguntarías si pudieras hacerle una sola pregunta ahora?",
+   "¿Qué haría o diría esa figura si te viera en tu situación actual?"
+  ],
+  "source": "Michael White, re-membering conversations y el «club de la vida» (a partir de Barbara Myerhoff)"
+ },
+ {
+  "id": "arbol-vida-completo",
+  "name": "El Árbol de la Vida completo",
+  "school": "Terapia Narrativa",
+  "level": 2,
+  "prompt": "Dibuja un árbol y llénalo por partes, escribiendo un párrafo en cada una. Raíces: de dónde vienes, tu gente, tu cultura. Suelo: lo que haces a diario que te sostiene ahora. Tronco: tus habilidades y valores, los que te han sacado de sitios difíciles. Ramas: tus esperanzas y sueños, y de dónde vienen. Hojas: las personas importantes, vivas o no. Flores: los regalos que has recibido de ellas. Frutos: lo que has dado o quieres dejar.",
+  "followups": [
+   "¿Qué parte del árbol está más frondosa y cuál más escasa? ¿Qué te dice ese desequilibrio?",
+   "Ahora las tormentas: ¿qué dificultades sacuden tu árbol, y qué has hecho para protegerlo?",
+   "Ningún árbol crece solo: ¿quiénes forman tu bosque, y a qué otros árboles das sombra tú?"
+  ],
+  "source": "Ncazelo Ncube, Dulwich Centre, El Árbol de la Vida (versión ampliada con tormentas y bosque)"
+ },
+ {
+  "id": "estrategica-como-empeorar",
+  "name": "Cómo empeorarlo todo",
+  "school": "Terapia Breve Estratégica (Palo Alto / Nardone)",
+  "level": 2,
+  "prompt": "Redacta el manual perfecto para arruinar tu situación. Si quisieras que este problema fuera mucho peor en un mes, ¿qué tendrías que hacer, pensar, decir y evitar exactamente? Sé exhaustivo y técnico, como un ingeniero del desastre: al menos diez instrucciones. Después subraya las que ya estás haciendo.",
+  "followups": [
+   "¿Cuál de tus instrucciones de sabotaje practicas con más constancia?",
+   "¿Qué intento de solución tuyo, bienintencionado, está en realidad alimentando el problema?",
+   "Si solo pudieras dejar de hacer una de las cosas subrayadas, ¿cuál elegirías?"
+  ],
+  "source": "Giorgio Nardone y Paul Watzlawick, técnica del «cómo empeorar»; escuela de Palo Alto"
+ },
+ {
+  "id": "narrativa-carta-terapeutica-futuro",
+  "name": "Carta desde el otro lado",
+  "school": "Terapia Narrativa",
+  "level": 2,
+  "prompt": "Escribe una carta desde tu yo de dentro de dos años, que ya ha atravesado esto. Que no te consuele en abstracto: que te cuente exactamente cómo fue el proceso, qué fue lo primero que cambió, cuál fue el mes más duro y qué lo hizo llevadero, quién estuvo ahí, qué idea tuya tuviste que abandonar y qué habilidad tuviste que aprender. Que termine diciéndote qué agradece hoy de lo que tú estás haciendo ahora.",
+  "followups": [
+   "¿Qué detalle de esa carta te sorprendió al escribirlo?",
+   "¿Qué idea tuya, según esa carta, tiene que caer? ¿Estás dispuesto?",
+   "¿Cuál es el primer paso que esa carta da por hecho que ya diste?"
+  ],
+  "source": "Michael White y David Epston, Medios narrativos para fines terapéuticos: cartas terapéuticas"
+ },
+ {
+  "id": "sfbt-un-punto-mas",
+  "name": "Un punto más arriba",
+  "school": "Terapia Centrada en Soluciones",
+  "level": 2,
+  "prompt": "Vuelve a tu número en la escala del 0 al 10. Ahora describe con detalle microscópico cómo sería estar un punto más arriba, no dos ni cinco: un punto. ¿Qué harías por la mañana que hoy no haces? ¿Qué dirías en una conversación que hoy te callas? ¿Qué dejarías de comprobar? Escribe al menos quince diferencias observables, todas pequeñas.",
+  "followups": [
+   "¿Cuáles tres de esas quince están al alcance de tu mano esta semana?",
+   "¿Qué haría falta para que el resto dejara de parecer imposible?",
+   "Si empezaras por la más pequeña, ¿qué efecto dominó tendría en las demás?"
+  ],
+  "source": "Preguntas de escala y «small steps», Terapia Breve Centrada en Soluciones"
+ },
+ {
+  "id": "cft-tres-flujos",
+  "name": "Los tres flujos de la compasión",
+  "school": "Terapia Centrada en la Compasión",
+  "level": 2,
+  "prompt": "La compasión fluye en tres direcciones. Escribe un texto por cada una. (1) De ti hacia los demás: cuenta una vez reciente en que tuviste compasión con alguien; describe qué sentiste en el cuerpo. (2) De los demás hacia ti: cuenta una vez en que alguien fue compasivo contigo; qué hiciste con eso, ¿lo dejaste entrar o lo desviaste? (3) De ti hacia ti: cuenta la última vez que te trataste con compasión, y si no la encuentras, escribe qué se interpone.",
+  "followups": [
+   "¿Cuál de los tres flujos es el más bloqueado en ti, y qué lo bloquea?",
+   "¿Qué temes que pasaría si te trataras con la misma calidez con que tratas a otros?",
+   "¿A quién le resultaría fácil ser compasivo contigo si tú se lo permitieras?"
+  ],
+  "source": "Paul Gilbert, los tres flujos de la compasión y los miedos a la compasión (CFT)"
+ },
+ {
+  "id": "gratitud-carta-entregada",
+  "name": "La carta de gratitud",
+  "school": "Psicología Positiva",
+  "level": 2,
+  "prompt": "Piensa en alguien vivo que hizo algo por ti que cambió tu vida y a quien nunca se lo agradeciste como se merecía. Escribe una carta de unas 300 palabras. No seas genérico: describe el hecho concreto, qué estabas viviendo entonces, qué hizo exactamente esa persona, y en qué es distinta tu vida hoy por ello. Termina diciendo con qué frecuencia piensas en ello.",
+  "followups": [
+   "¿Qué te frenó todos estos años de decírselo?",
+   "¿Estás dispuesto a leérsela en persona o por teléfono? ¿Qué temes de esa escena?",
+   "¿Qué te dice sobre ti lo que elegiste agradecer?"
+  ],
+  "source": "Martin Seligman y Robert Emmons, visita/carta de gratitud"
+ },
+ {
+  "id": "re-autoria-dos-paisajes",
+  "name": "Re-autoría: los dos paisajes",
+  "school": "Terapia Narrativa",
+  "level": 3,
+  "prompt": "Elige una excepción significativa: un momento en que actuaste de un modo que contradice la historia dominante que tienes sobre ti. Ahora construye una historia alternativa en dos paisajes entrelazados. Paisaje de la acción: pon ese hecho en el centro y busca hacia atrás en el tiempo tres acontecimientos anteriores (de hace meses, años, de la infancia) que pertenezcan a la misma trama, y hacia delante uno posible. Paisaje de la identidad: después de cada acontecimiento, escribe qué revela sobre tus intenciones, tus propósitos y aquello a lo que le das valor. Termina dándole un título a esta historia alternativa.",
+  "followups": [
+   "¿Qué nombre le pondrías a la trama que une esos cinco episodios?",
+   "¿Quién de tu vida ha sido testigo de algún capítulo de esta historia y podría confirmarla?",
+   "¿Qué tendrías que hacer el mes que viene para que esta historia siguiera creciendo?",
+   "¿Qué pierde la historia vieja de ti cuando esta otra se hace más gruesa?"
+  ],
+  "source": "Michael White, mapa de re-autoría: landscape of action y landscape of identity (Bruner)"
+ },
+ {
+  "id": "ceremonia-definitoria-testigo",
+  "name": "Ceremonia definitoria: el testigo externo",
+  "school": "Terapia Narrativa",
+  "level": 3,
+  "prompt": "Escribe primero, en una página, la historia de tu vida que más te importa contar ahora mismo. Después cierra los ojos, elige a alguien real que te respeta profundamente y escribe su respuesta a lo que acabas de contar, en cuatro movimientos y en su voz: (1) qué expresión o frase tuya le llamó la atención; (2) qué imagen de tu vida y de lo que valoras le evocó esa expresión; (3) qué hay en su propia historia que explica por qué esas palabras le tocaron; (4) hacia dónde se ha movido esa persona por haber escuchado tu relato, qué se lleva. Prohibido que aplauda o te dé consejos.",
+  "followups": [
+   "¿Qué se siente al ser mirado así y no evaluado?",
+   "¿Qué parte de la respuesta del testigo no habrías podido imaginar sobre ti solo?",
+   "¿A quién elegirías como segundo testigo, y en qué cambiaría la respuesta?"
+  ],
+  "source": "Michael White, ceremonias definitorias y las cuatro categorías de respuesta del testigo externo (Barbara Myerhoff)"
+ },
+ {
+  "id": "narrativa-fracaso-personal",
+  "name": "Una investigación sobre el fracaso",
+  "school": "Terapia Narrativa",
+  "level": 3,
+  "prompt": "Toma un sentimiento de fracaso personal que arrastres. Investígalo en cinco preguntas escritas, con un párrafo cada una: (1) ¿fracaso respecto a qué norma exactamente? Escribe la norma con la voz con que la oyes. (2) ¿Qué has hecho a lo largo de tu vida para intentar cumplirla, incluidos los sacrificios? (3) ¿En qué momentos te has negado a cumplirla, la has esquivado o la has cumplido a medias a propósito? (4) ¿Qué te permitió esa negativa, aunque fuera minúscula? (5) ¿Qué otra manera de vivir estabas defendiendo con ella?",
+  "followups": [
+   "¿Quién se beneficia de que tú midas tu vida con esa norma?",
+   "¿De dónde salió esa norma, y quién la puso a circular?",
+   "Si tuvieras que redactar tu propio criterio para juzgar una vida bien vivida, ¿cuál sería?"
+  ],
+  "source": "Michael White, conversaciones sobre el fracaso personal y las normas modernas de poder (a partir de Foucault)"
+ },
+ {
+  "id": "carta-al-problema-y-respuesta",
+  "name": "Carta al problema y su respuesta",
+  "school": "Terapia Narrativa",
+  "level": 3,
+  "prompt": "Dos cartas. Primera: escribe una carta directa al problema al que le pusiste nombre. Dile cuánto tiempo lleva ocupando tu casa, qué te ha quitado, qué tácticas usa, y qué territorio no piensas cederle. Sé específico y firme, no melodramático. Segunda: dale la vuelta al papel y deja que el problema te conteste. Que se defienda: que te diga qué cree que hace por ti, de qué te protege, qué pasaría si se fuera del todo.",
+  "followups": [
+   "¿Qué te dijo el problema en su carta que era, incómodamente, cierto?",
+   "¿De qué te ha protegido realmente, y qué precio te ha cobrado por esa protección?",
+   "¿Qué tipo de acuerdo, tregua o despedida podrías proponerle en una tercera carta?",
+   "¿Qué habilidad tendrías que desarrollar para hacer tú el trabajo que él hacía?"
+  ],
+  "source": "David Epston y Michael White, cartas al problema y correspondencia externalizante"
+ },
+ {
+  "id": "pennebaker-tres-perspectivas",
+  "name": "El mismo suceso, tres veces",
+  "school": "Escritura Expresiva (Pennebaker)",
+  "level": 3,
+  "prompt": "Elige un episodio duro que sigas contándote igual desde hace años. Escríbelo tres veces, veinte minutos cada vez, en tres días distintos. Día uno: en primera persona y en presente, tal como lo viviste, con el cuerpo dentro. Día dos: en tercera persona, como un narrador externo que observa a ese personaje con distancia y ve también el contexto, la época y a los demás. Día tres: desde el punto de vista de otra persona que estaba allí, incluida aquella con la que sigues en conflicto.",
+  "followups": [
+   "¿Qué apareció en la versión de otro que no cabía en la tuya?",
+   "¿Qué cambió en tu cuerpo entre el día uno y el día tres?",
+   "¿Qué frase de la historia que te contabas ya no puedes sostener igual?",
+   "¿Qué versión quieres que sea la que le cuentes a alguien la próxima vez?"
+  ],
+  "source": "Pennebaker (escritura expresiva) combinado con el cambio de perspectiva y distanciamiento autorreferencial (Ethan Kross)"
+ },
+ {
+  "id": "tcc-flecha-descendente",
+  "name": "La flecha descendente",
+  "school": "Terapia Cognitivo-Conductual",
+  "level": 3,
+  "prompt": "Parte de un pensamiento automático concreto que te haya dolido esta semana. Escríbelo. Ahora pregúntate por escrito, en cadena: «Y si eso fuera verdad, ¿qué significaría eso para mí?». Responde. Vuelve a preguntar lo mismo a la respuesta. Repite entre cinco y ocho veces, sin escapar a razonamientos consoladores, hasta llegar a la frase desnuda del fondo, esa de tres o cuatro palabras. Escríbela sola en una línea y quédate ahí un momento.",
+  "followups": [
+   "¿Qué edad tenías cuando esa frase del fondo tuvo sentido por primera vez?",
+   "¿Quién te la enseñó, con palabras o sin ellas?",
+   "¿Qué evidencia de tu vida adulta contradice esa creencia y llevas años sin contabilizar?",
+   "¿Qué haría distinto mañana alguien que creyera lo contrario?"
+  ],
+  "source": "Técnica de la flecha descendente para creencias nucleares, TCC (Burns, Beck)"
+ },
+ {
+  "id": "esquemas-carta-al-nino",
+  "name": "Carta al niño que fuiste",
+  "school": "Terapia de Esquemas",
+  "level": 3,
+  "prompt": "Elige una escena concreta de tu infancia o adolescencia en la que necesitaste algo que no recibiste. Descríbela primero desde dentro, con los ojos de esa edad: qué veías, qué temías, qué conclusión sacaste sobre ti y sobre el mundo. Después escríbele una carta a ese niño desde tu yo adulto: dile qué necesitaba y no era culpa suya no tenerlo, nombra explícitamente lo que los adultos hicieron mal, dile qué sí es verdad sobre él, y prométele algo concreto y cumplible que vas a hacer por él esta semana.",
+  "followups": [
+   "¿Qué esquema se formó ese día: abandono, defectuosidad, autosacrificio, estándares implacables, desconfianza?",
+   "¿Dónde se activa hoy ese mismo esquema en tu vida adulta, y quién lo dispara?",
+   "¿Qué voz de la carta te sonó a tu crítico interno colándose? Reescribe esa parte.",
+   "¿Qué necesitaría ese niño de ti si volviera a aparecer el jueves por la tarde?"
+  ],
+  "source": "Jeffrey Young, terapia de esquemas: reparentalización limitada y trabajo con el modo Niño Vulnerable"
+ },
+ {
+  "id": "ifs-dialogo-con-la-parte",
+  "name": "Diálogo con una parte protectora",
+  "school": "Sistemas de Familia Interna (IFS)",
+  "level": 3,
+  "prompt": "Identifica una parte de ti que se activa mucho: la que critica, la que posterga, la que come de noche, la que se va. Escribe un diálogo por turnos siguiendo seis pasos: encuéntrala (¿dónde la notas en el cuerpo?), enfócala, dale volumen (¿qué aspecto tiene, qué edad?), y luego pregúntale por escrito: ¿cómo te sientes hacia ella? Si no es curiosidad y calma, pide a la parte irritada que se haga a un lado. Después pregúntale directamente: ¿de qué tienes miedo si dejas de hacer tu trabajo? ¿A quién estás protegiendo dentro de mí? ¿Cuántos años crees que tengo? Deja que conteste con sus palabras.",
+  "followups": [
+   "¿Qué edad se creía que tenías esa parte, y desde cuándo hace este trabajo?",
+   "¿Qué le agradecerías sinceramente, sin ironía?",
+   "¿Qué necesitaría de ti para relajarse un poco, aunque no se marche?",
+   "¿A qué parte más joven y herida está protegiendo, y cómo se llama esa?"
+  ],
+  "source": "Richard Schwartz, Internal Family Systems: las 6 F (find, focus, flesh out, feel toward, befriend, fear)"
+ },
+ {
+  "id": "ifs-carta-al-exiliado",
+  "name": "Carta a la parte exiliada",
+  "school": "Sistemas de Familia Interna (IFS)",
+  "level": 3,
+  "prompt": "Detrás de cada protector hay algo joven que carga un dolor que nadie quiso ver. Escribe primero una descripción de esa parte: qué edad tiene, dónde está, qué lleva puesto, qué está sintiendo. Después escríbele desde tu Yo adulto, con calma, curiosidad y sin prisa: dile que la ves, que sabes que estuvo sola, que ya no necesitas que cargue esto ella sola. Pregúntale qué quiere que sepas y escribe su respuesta. Termina preguntándole qué carga (una creencia, una emoción, una vergüenza) estaría dispuesta a soltar y qué querría en su lugar.",
+  "followups": [
+   "¿Qué protector se puso nervioso mientras hacías esto, y qué te dijo?",
+   "¿Qué carga concreta nombró esa parte, y de quién la recibió originalmente?",
+   "¿Cómo vas a mantener el contacto con ella esta semana, en tres minutos al día?",
+   "¿Qué cambia en tu vida cotidiana si esa parte deja de estar en el sótano?"
+  ],
+  "source": "Richard Schwartz, IFS: exiliados, cargas y descarga (unburdening)"
+ },
+ {
+  "id": "act-yo-observador-dolor-valores",
+  "name": "El dolor como espejo de los valores",
+  "school": "Terapia de Aceptación y Compromiso",
+  "level": 3,
+  "prompt": "Haz una lista de tus tres dolores más persistentes: no los sucesos, sino lo que duele de ellos. Para cada uno escribe la ecuación completa: en el dolor está escrito el valor. Si te duele la soledad es porque valoras el vínculo; si te duele el fracaso es porque valoras la maestría o el aporte. Escribe qué valor está inscrito en cada dolor y, después, escribe con brutal honestidad qué has hecho durante años para no sentir ese dolor y cuánto te ha costado esa evitación en términos de vida no vivida.",
+  "followups": [
+   "¿Qué precio exacto has pagado por evitar? Cuantifícalo en años, relaciones, oportunidades.",
+   "¿Estarías dispuesto a sentir ese dolor a cambio de vivir según ese valor? ¿Qué te lo impide?",
+   "¿Qué acción concreta y pequeña harías esta semana llevándote el dolor puesto, sin esperar a que se vaya?",
+   "¿Quién eres tú, ese que ha estado observando todos estos dolores durante décadas y sigue ahí?"
+  ],
+  "source": "ACT: creative hopelessness, valores como dirección y el yo-como-contexto (Hayes, Wilson)"
+ },
+ {
+  "id": "cft-yo-compasivo-vs-critico",
+  "name": "El crítico y el compasivo se sientan a la mesa",
+  "school": "Terapia Centrada en la Compasión",
+  "level": 3,
+  "prompt": "Escribe en tres actos. Acto uno: deja hablar a tu crítico interno sin censura, una página entera, con sus palabras exactas y su tono. Acto dos: descríbelo como personaje, cara, postura, edad, qué siente él realmente debajo de la rabia, y pregúntale qué teme que te pase si deja de gritarte. Acto tres: tu yo compasivo se sienta enfrente y le responde, no para vencerlo, sino para relevarlo del puesto: que reconozca lo que intentaba proteger, que le muestre por qué el método no funciona, y que le ofrezca otro trabajo dentro de tu vida.",
+  "followups": [
+   "¿A la voz de quién se parece tu crítico?",
+   "¿Qué cosa buena ha conseguido en tu vida ese crítico, y a qué precio?",
+   "¿Qué se necesita para que tu yo compasivo tenga autoridad y no sea solo un consuelo blando?",
+   "¿Qué frase concreta usarás la próxima vez que el crítico tome el micrófono?"
+  ],
+  "source": "Paul Gilbert, CFT: trabajo con el autocriticismo, silla vacía compasiva y entrenamiento del yo compasivo"
+ },
+ {
+  "id": "estrategica-peor-fantasia-escrita",
+  "name": "La peor fantasía, por escrito",
+  "school": "Terapia Breve Estratégica (Palo Alto / Nardone)",
+  "level": 3,
+  "prompt": "Aíslate media hora, sin interrupciones, a la misma hora cada día. Escribe deliberadamente el peor escenario posible de aquello que temes, en primera persona y en presente, sin suavizarlo, buscando activamente provocarte la mayor incomodidad posible. No busques consuelo, no añadas finales tranquilizadores, no razones: escribe la película entera hasta el final. Cuando pase la media hora, cierra el cuaderno y vuelve a tu día normal. Este ejercicio invierte la lógica: en vez de huir del miedo, lo convocas voluntariamente a una cita.",
+  "followups": [
+   "¿Qué pasó con la intensidad del miedo entre el minuto cinco y el minuto veinticinco?",
+   "¿Encontraste el fondo de la fantasía o el guion se agotó antes?",
+   "¿Qué notas en las horas siguientes del día, fuera de la media hora?",
+   "Al leerla al día siguiente en frío, ¿qué parte sigue asustándote y cuál se ha vuelto casi ridícula?"
+  ],
+  "source": "Giorgio Nardone, técnica de la Peor Fantasía (paradoja del «sé espontáneo»), Centro di Terapia Strategica"
+ },
+ {
+  "id": "narrativa-club-de-vida",
+  "name": "El club de tu vida",
+  "school": "Terapia Narrativa",
+  "level": 3,
+  "prompt": "Imagina que tu identidad es un club con socios: las personas, vivas o muertas, presentes o ausentes, que tienen voz sobre quién eres. Haz la lista completa, incluidas las que no querrías. Ahora, como director del club, redacta por escrito tres decisiones: a quién le subes el rango y por qué se lo ha ganado; a quién le revocas la membresía o le bajas a socio honorario silencioso, y en qué te basas; a quién invitas por primera vez, aunque sea alguien a quien nunca conociste o un personaje de un libro. Justifica cada decisión con episodios reales.",
+  "followups": [
+   "¿Qué voz del club es la que más habla dentro de tu cabeza, y qué rango tiene realmente merecido?",
+   "¿Qué se necesita para revocar una membresía de alguien que ya murió?",
+   "¿Cómo suena tu vida cuando hablan los socios que acabas de ascender?",
+   "¿Qué carta le escribirías al socio recién invitado explicándole por qué lo llamaste?"
+  ],
+  "source": "Michael White, «club de la vida» y conversaciones de re-membranza (Barbara Myerhoff)"
+ },
+ {
+  "id": "duelo-decir-hola-de-nuevo",
+  "name": "Decir hola de nuevo",
+  "school": "Terapia Narrativa",
+  "level": 3,
+  "prompt": "El duelo no siempre consiste en despedirse. Escribe sobre alguien que perdiste desde otro ángulo: ¿qué vio esa persona en ti que nadie más vio? Escribe la escena en que más presente estuvo su mirada sobre ti. Después escribe qué de ella sigue vivo en tus gestos, tus manías, tu manera de cocinar, de trabajar, de tratar a la gente. Termina redactando qué te diría hoy sobre lo que estás atravesando, con su vocabulario y su acento, no con frases de consuelo genéricas.",
+  "followups": [
+   "¿Qué habilidad o valor suyo llevas puesto sin darte cuenta?",
+   "¿Qué le contarías de tu vida actual que le enorgullecería, y qué le preocuparía?",
+   "¿Cómo podrías darle un lugar habitado en tu vida en vez de un lugar cerrado?",
+   "¿Qué ritual pequeño, mensual, podría mantener viva esa conversación?"
+  ],
+  "source": "Michael White, «Saying hullo again: la incorporación de la persona perdida en el duelo»"
+ },
+ {
+  "id": "escritura-crecimiento-postraumatico",
+  "name": "Lo que se rompió y lo que aprendí",
+  "school": "Escritura Expresiva / Crecimiento Postraumático",
+  "level": 3,
+  "prompt": "Escribe sobre una experiencia que te partió en dos. Primero, veinte minutos, sin buscar ningún sentido: solo el daño, la injusticia, lo que perdiste, sin moralejas. Después, en una segunda sesión, escribe con la misma honestidad qué es distinto en ti desde entonces: en tus prioridades, en tus relaciones, en tu fuerza personal, en tu manera de entender la vida, en tus posibilidades. No escribas que fue bueno que pasara; escribe qué construiste tú con los escombros. La diferencia entre ambas cosas es todo.",
+  "followups": [
+   "¿Qué frase te sonó falsa al escribir la segunda parte? Táchala y escribe la verdad.",
+   "¿Qué has perdido que no ha sido compensado por nada y no lo será?",
+   "¿A quién puedes serle útil hoy precisamente por lo que sabes ahora?",
+   "¿Qué versión de ti murió allí, y le has hecho su duelo?"
+  ],
+  "source": "Richard Tedeschi y Lawrence Calhoun, crecimiento postraumático; protocolo de escritura de Pennebaker"
+ },
+ {
+  "id": "apego-narrativa-coherente",
+  "name": "La narrativa coherente del apego",
+  "school": "Teoría del Apego",
+  "level": 3,
+  "prompt": "Elige cinco adjetivos que describan tu relación con tu figura de cuidado principal en la infancia. Ahora, para cada adjetivo, escribe un recuerdo específico y concreto que lo justifique: no una generalización, un episodio con fecha, lugar y detalle. Si no encuentras el recuerdo, escribe eso también, que no lo encuentras. Después describe qué hacías tú cuando estabas asustado, enfermo o triste, y qué pasaba entonces.",
+  "followups": [
+   "¿Qué distancia hay entre los adjetivos que elegiste y los recuerdos que pudiste aportar?",
+   "¿Qué estrategia aprendiste de niño para conseguir cercanía o para protegerte, y dónde la usas hoy?",
+   "¿Quién ha sido en tu vida adulta una base segura, aunque fuera durante poco tiempo?",
+   "¿Qué le pedirías hoy a alguien que te quiere si supieras que no va a irse por pedirlo?"
+  ],
+  "source": "Mary Main, Entrevista de Apego Adulto (AAI): coherencia narrativa; John Bowlby, base segura"
+ },
+ {
+  "id": "sfbt-narrativa-hibrida-testigo-escala",
+  "name": "El testigo de tu progreso",
+  "school": "Terapia Centrada en Soluciones / Narrativa",
+  "level": 3,
+  "prompt": "Elige a alguien que te ha visto cambiar a lo largo de los años y que no está idealizado en tu cabeza. Escribe un informe desde su punto de vista, en su voz, sobre tu evolución en los últimos cinco años: qué eras capaz de hacer entonces y qué eres capaz de hacer ahora, qué te ha visto atravesar, en qué momento pensó que no lo lograrías y qué le hizo cambiar de opinión. Que sea un texto observacional y no un elogio.",
+  "followups": [
+   "¿Qué prueba de cambio menciona ese testigo que tú no habrías puesto en la lista?",
+   "¿Qué te cuesta más creer de su informe?",
+   "¿Qué crees que le preocupa a esa persona de tu momento actual?",
+   "Si esa persona escribiera el informe de dentro de cinco años, ¿qué querrías que dijera?"
+  ],
+  "source": "Combinación de testigos externos (White) y preguntas de diferencia y progreso (De Shazer)"
+ }
+]

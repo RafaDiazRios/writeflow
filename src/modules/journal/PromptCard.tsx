@@ -1,0 +1,69 @@
+import { useEffect, useState } from 'react'
+import { Quote, RefreshCw, Sparkles } from 'lucide-react'
+import { markPromptShown, promptForDay, rerollPrompt, STREAM_LABEL } from '@/lib/prompts'
+import { useApp } from '@/store/app'
+import type { DailyPrompt } from '@/lib/types'
+
+interface Props {
+  date: string
+  onWriteAbout: (prompt: DailyPrompt) => void
+}
+
+/**
+ * Sugerencia de escritura del día. Es determinista por fecha, así que el mismo
+ * día siempre propone lo mismo aunque cierres la app o estés sin conexión.
+ */
+export default function PromptCard({ date, onWriteAbout }: Props) {
+  const streams = useApp((s) => s.streams)
+  const [prompt, setPrompt] = useState<DailyPrompt>(() => promptForDay(date, streams))
+  const [seen, setSeen] = useState<string[]>([])
+
+  useEffect(() => {
+    const p = promptForDay(date, streams)
+    setPrompt(p)
+    setSeen([p.id])
+    markPromptShown(p.id)
+  }, [date, streams])
+
+  const tone: Record<string, string> = {
+    estoico: 'border-l-amber-500',
+    filosofico: 'border-l-violet-500',
+    psicologico: 'border-l-emerald-500',
+  }
+
+  return (
+    <div className={`card border-l-4 p-4 ${tone[prompt.stream] ?? 'border-l-accent-500'}`}>
+      <div className="mb-2 flex items-center gap-2">
+        <Sparkles size={14} className="text-accent-600 dark:text-accent-400" />
+        <span className="panel-title">Prompt del día · {STREAM_LABEL[prompt.stream]}</span>
+        <button
+          className="ml-auto rounded p-1 text-ink-400 transition hover:bg-ink-100 hover:text-ink-700 dark:hover:bg-ink-800"
+          title="Proponme otro"
+          onClick={() => {
+            const p = rerollPrompt(date, streams, seen)
+            setPrompt(p)
+            setSeen((s) => [...s, p.id])
+            markPromptShown(p.id)
+          }}
+        >
+          <RefreshCw size={14} />
+        </button>
+      </div>
+
+      <p className="font-serif text-[15px] leading-relaxed text-ink-800 dark:text-ink-100">
+        {prompt.text}
+      </p>
+
+      {prompt.source && (
+        <p className="mt-2 flex items-start gap-1.5 text-xs italic text-ink-500 dark:text-ink-400">
+          <Quote size={12} className="mt-0.5 shrink-0" />
+          {prompt.source}
+        </p>
+      )}
+
+      <button className="btn-outline mt-3 w-full justify-center" onClick={() => onWriteAbout(prompt)}>
+        Escribir sobre esto
+      </button>
+    </div>
+  )
+}

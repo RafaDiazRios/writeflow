@@ -1,0 +1,297 @@
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import type { JSONContent } from '@tiptap/react'
+import { ArrowLeft, Dices, History, Shield, Trash2 } from 'lucide-react'
+import Editor from '@/components/Editor'
+import { therapy } from '@/lib/repo'
+import {
+  EXERCISES, exerciseById, exercisesByLevel, LEVEL_HELP, LEVEL_LABEL, schools, suggestExercise,
+} from '@/lib/prompts'
+import { countWords, EMPTY_DOC, excerpt, parseDoc } from '@/lib/text'
+import { shortDate, toISODate } from '@/lib/dates'
+import { useApp } from '@/store/app'
+import type { FollowupAnswer, TherapyEntry, TherapyExercise } from '@/lib/types'
+
+type View = 'browse' | 'write' | 'history'
+
+export default function TherapyModule() {
+  const app = useApp()
+  const [view, setView] = useState<View>('browse')
+  const [level, setLevel] = useState(1)
+  const [school, setSchool] = useState<string>('all')
+  const [entry, setEntry] = useState<TherapyEntry | null>(null)
+  const [history, setHistory] = useState<TherapyEntry[]>([])
+  const [usage, setUsage] = useState<Record<string, number>>({})
+  const [followups, setFollowups] = useState<FollowupAnswer[]>([])
+
+  const allSchools = useMemo(() => schools(), [])
+
+  const reload = useCallback(async () => {
+    setHistory(await therapy.recent())
+    setUsage(await therapy.usage())
+  }, [])
+
+  useEffect(() => {
+    reload()
+  }, [reload])
+
+  const list = exercisesByLevel(level).filter((e) => school === 'all' || e.school === school)
+
+  async function start(ex: TherapyExercise) {
+    const id = await therapy.create({
+      session_date: toISODate(),
+      exercise_id: ex.id,
+      exercise_name: ex.name,
+      school: ex.school,
+      level: ex.level,
+      prompt_text: ex.prompt,
+      content_json: JSON.stringify(EMPTY_DOC),
+      followups: JSON.stringify(ex.followups.map((q) => ({ q, a: '' }))),
+    })
+    const e = await therapy.byId(id)
+    setEntry(e)
+    setFollowups(ex.followups.map((q) => ({ q, a: '' })))
+    setView('write')
+  }
+
+  async function openEntry(e: TherapyEntry) {
+    setEntry(e)
+    try {
+      setFollowups(JSON.parse(e.followups) as FollowupAnswer[])
+    } catch {
+      setFollowups([])
+    }
+    setView('write')
+  }
+
+  const saveContent = useCallback(
+    async (doc: JSONContent, text: string) => {
+      if (!entry) return
+      await therapy.update(entry.id, {
+        content_json: JSON.stringify(doc),
+        content_text: text,
+        word_count: countWords(text),
+      })
+    },
+    [entry],
+  )
+
+  async function saveFollowups(next: FollowupAnswer[]) {
+    setFollowups(next)
+    if (entry) await therapy.update(entry.id, { followups: JSON.stringify(next) })
+  }
+
+  // ── escribir ──
+  if (view === 'write' && entry) {
+    const ex = exerciseById(entry.exercise_id)
+    return (
+      <div className="flex h-full min-h-0 flex-col">
+        <header className="flex items-center gap-3 border-b border-ink-200 px-3 py-2 dark:border-ink-800">
+          <button
+            className="btn-ghost !px-1.5"
+            onClick={async () => {
+              await reload()
+              setView('browse')
+            }}
+          >
+            <ArrowLeft size={16} />
+          </button>
+          <div className="min-w-0">
+            <div className="truncate text-sm font-semibold">{entry.exercise_name}</div>
+            <div className="text-[11px] text-ink-500">
+              {entry.school} · {LEVEL_LABEL[entry.level]} · {shortDate(entry.session_date)}
+            </div>
+          </div>
+          <button
+            className="btn-danger ml-auto !px-1.5"
+            title="Eliminar esta sesión"
+            onClick={async () => {
+              if (!window.confirm('¿Eliminar esta sesión de escritura?')) return
+              await therapy.remove(entry.id)
+              await reload()
+              setView('browse')
+            }}
+          >
+            <Trash2 size={16} />
+          </button>
+        </header>
+
+        <div className="min-h-0 flex-1 overflow-y-auto">
+          <div className="mx-auto max-w-3xl px-6 py-5">
+            <div className="card mb-5 border-l-4 border-l-emerald-500 p-4">
+              <p className="panel-title mb-1.5">La consigna</p>
+              <p className="font-serif text-[15px] leading-relaxed">{entry.prompt_text}</p>
+              {ex?.source && (
+                <p className="mt-2 text-[11px] italic text-ink-500">Fuente: {ex.source}</p>
+              )}
+            </div>
+
+            <div className="card overflow-hidden">
+              <Editor
+                key={entry.id}
+                value={parseDoc(entry.content_json) ?? EMPTY_DOC}
+                placeholder="Escribe sin corregir. Nadie más va a leer esto."
+                onChange={saveContent}
+                page={false}
+                autofocus
+              />
+            </div>
+
+            {followups.length > 0 && (
+              <div className="mt-6">
+                <p className="panel-title mb-2">Preguntas de seguimiento</p>
+                <div className="space-y-3">
+                  {followups.map((f, i) => (
+                    <div key={i} className="card p-3">
+                      <p className="mb-1.5 text-sm font-medium">{f.q}</p>
+                      <textarea
+                        className="input min-h-[70px] resize-y font-serif text-[14px] leading-relaxed"
+                        value={f.a}
+                        placeholder="Responde en dos o tres frases…"
+                        onChange={(e) => {
+                          const next = [...followups]
+                          next[i] = { ...f, a: e.target.value }
+                          saveFollowups(next)
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // ── historial ──
+  if (view === 'history') {
+    return (
+      <div className="mx-auto w-full max-w-3xl p-6">
+        <div className="mb-5 flex items-center gap-3">
+          <button className="btn-ghost !px-1.5" onClick={() => setView('browse')}>
+            <ArrowLeft size={16} />
+          </button>
+          <h1 className="text-xl font-semibold">Tus sesiones</h1>
+        </div>
+        {history.length === 0 ? (
+          <p className="rounded-lg border border-dashed border-ink-300 p-10 text-center text-sm text-ink-400 dark:border-ink-700">
+            Todavía no has hecho ningún ejercicio.
+          </p>
+        ) : (
+          <div className="space-y-2">
+            {history.map((h) => (
+              <button
+                key={h.id}
+                onClick={() => openEntry(h)}
+                className="card w-full p-3 text-left transition hover:shadow-md"
+              >
+                <div className="flex items-baseline gap-2">
+                  <span className="text-sm font-medium">{h.exercise_name}</span>
+                  <span className="chip !py-0 text-[10px]">{h.school}</span>
+                  <span className="ml-auto text-xs text-ink-400">{shortDate(h.session_date)}</span>
+                </div>
+                <p className="mt-1 text-xs text-ink-500 dark:text-ink-400">
+                  {excerpt(h.content_text, 140) || 'Sin escribir todavía.'}
+                </p>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  // ── catálogo ──
+  return (
+    <div className="h-full overflow-y-auto">
+      <div className="mx-auto w-full max-w-4xl p-6">
+        <div className="mb-1 flex items-center gap-3">
+          <h1 className="text-2xl font-semibold tracking-tight">Terapia narrativa</h1>
+          <button className="btn-ghost ml-auto" onClick={() => setView('history')}>
+            <History size={15} /> Historial ({history.length})
+          </button>
+          <button
+            className="btn-outline"
+            onClick={() => start(suggestExercise(level, usage))}
+            title="Elige por mí uno que no haya hecho"
+          >
+            <Dices size={15} /> Sorpréndeme
+          </button>
+        </div>
+        <p className="mb-5 max-w-2xl text-sm leading-relaxed text-ink-500 dark:text-ink-400">
+          Ejercicios de escritura tomados de la terapia narrativa de White y Epston, la terapia
+          centrada en soluciones, la breve estratégica, ACT, la escritura expresiva de Pennebaker y
+          la terapia centrada en la compasión. {EXERCISES.length} ejercicios en tres niveles de
+          profundidad.
+        </p>
+
+        <div className="mb-4 flex flex-wrap items-center gap-2">
+          {[1, 2, 3].map((l) => (
+            <button
+              key={l}
+              onClick={() => setLevel(l)}
+              className={`rounded-md px-3 py-1.5 text-xs font-medium transition ${
+                level === l
+                  ? 'bg-accent-600 text-white'
+                  : 'bg-ink-100 text-ink-600 hover:bg-ink-200 dark:bg-ink-800 dark:text-ink-300'
+              }`}
+            >
+              {LEVEL_LABEL[l]}
+            </button>
+          ))}
+          <select
+            className="ml-auto rounded-md border border-ink-200 bg-transparent px-2 py-1.5 text-xs dark:border-ink-700"
+            value={school}
+            onChange={(e) => setSchool(e.target.value)}
+          >
+            <option value="all">Todas las escuelas</option>
+            {allSchools.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <p className="mb-4 flex items-start gap-2 rounded-md bg-ink-100 p-3 text-xs leading-relaxed text-ink-600 dark:bg-ink-800/60 dark:text-ink-300">
+          <Shield size={14} className="mt-0.5 shrink-0" />
+          <span>
+            {LEVEL_HELP[level]}
+            {level === 3 && (
+              <>
+                {' '}
+                Escribir sobre material difícil puede remover cosas: esto es una herramienta de
+                escritura, no un sustituto de un profesional. Si algo se te hace demasiado grande,
+                para y busca apoyo.
+              </>
+            )}
+          </span>
+        </p>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          {list.map((ex) => (
+            <button
+              key={ex.id}
+              onClick={() => start(ex)}
+              className="card p-4 text-left transition hover:shadow-md"
+            >
+              <div className="mb-1 flex items-start gap-2">
+                <h3 className="text-sm font-semibold">{ex.name}</h3>
+                {usage[ex.id] ? (
+                  <span className="chip ml-auto shrink-0 !py-0 text-[10px]">×{usage[ex.id]}</span>
+                ) : null}
+              </div>
+              <p className="mb-2 text-[11px] font-medium uppercase tracking-wide text-accent-600 dark:text-accent-400">
+                {ex.school}
+              </p>
+              <p className="line-clamp-4 text-xs leading-relaxed text-ink-600 dark:text-ink-300">
+                {ex.prompt}
+              </p>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}

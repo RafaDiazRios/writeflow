@@ -1,0 +1,27 @@
+node_modules/
+dist/
+dist-ssr/
+*.local
+.env
+.env.local
+.env.*.local
+
+# Rust / Tauri
+src-tauri/target/
+src-tauri/gen/schemas/
+
+# Editores
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Bases de datos locales de prueba
+*.db
+*.db-journal
+*.sqlite

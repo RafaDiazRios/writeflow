@@ -1,0 +1,222 @@
+[
+  {
+    "id": "argumentative",
+    "name": "Ensayo argumentativo clásico",
+    "name_en": "Argumentative Essay",
+    "description": "Ensayo académico guiado por una tesis discutible que se defiende con razones y evidencia ordenadas, y que incorpora y refuta objeciones. Es la versión mejorada del clásico modelo de cinco párrafos, con espacio para contraargumento y matices.",
+    "tradition": "academic",
+    "sections": [
+      { "title": "Gancho y contexto", "guide": "¿Con qué dato, escena o pregunta abres para que el lector entienda por qué este debate importa ahora? Sitúa el tema en dos o tres frases sin adelantar tu tesis.", "suggested_words": 150 },
+      { "title": "Planteamiento del problema", "guide": "¿Cuál es exactamente la pregunta en disputa y qué posturas existen? Define los términos clave que podrían malinterpretarse.", "suggested_words": 200 },
+      { "title": "Tesis", "guide": "Escribe en una o dos frases tu postura discutible: alguien razonable debería poder estar en desacuerdo. Incluye el 'porque' que anticipa tus razones principales.", "suggested_words": 80 },
+      { "title": "Primer argumento y evidencia", "guide": "¿Cuál es tu razón más sólida? Enúnciala como oración temática, apóyala con evidencia concreta (datos, cita, caso) y explica cómo esa evidencia sostiene la tesis.", "suggested_words": 350 },
+      { "title": "Segundo argumento y evidencia", "guide": "¿Qué razón distinta, no una variante de la anterior, refuerza tu postura? Aporta evidencia de otro tipo o fuente para ampliar la base.", "suggested_words": 350 },
+      { "title": "Tercer argumento y evidencia", "guide": "¿Qué razón añade la dimensión que aún falta (ética, práctica, económica, histórica)? Conéctala explícitamente con las anteriores.", "suggested_words": 350 },
+      { "title": "Contraargumento", "guide": "¿Cuál es la objeción más fuerte de quien piensa distinto? Formúlala con honestidad, en su mejor versión, sin caricaturizarla.", "suggested_words": 250 },
+      { "title": "Refutación y matices", "guide": "¿Por qué esa objeción no derriba tu tesis? Concede lo que sea justo conceder y explica qué límites tiene tu postura.", "suggested_words": 250 },
+      { "title": "Conclusión y consecuencias", "guide": "Sin repetir el resumen, ¿qué cambia si tienes razón? Cierra con la implicación práctica o intelectual de tu argumento.", "suggested_words": 200 }
+    ]
+  },
+  {
+    "id": "expository",
+    "name": "Ensayo expositivo",
+    "name_en": "Expository Essay",
+    "description": "Ensayo que explica un tema, proceso o concepto con claridad y neutralidad, sin defender una opinión personal. Su meta es que el lector entienda algo que antes no comprendía.",
+    "tradition": "academic",
+    "sections": [
+      { "title": "Introducción y delimitación", "guide": "¿Qué vas a explicar y por qué merece explicarse? Delimita el alcance: qué entra y qué queda fuera del ensayo.", "suggested_words": 180 },
+      { "title": "Enunciado orientador", "guide": "Formula en una frase la idea central que el lector debe llevarse, y anuncia en qué orden la desarrollarás.", "suggested_words": 80 },
+      { "title": "Definiciones y conceptos base", "guide": "¿Qué términos o antecedentes necesita conocer alguien que llega sin saber nada del tema? Defínelos con ejemplos sencillos.", "suggested_words": 250 },
+      { "title": "Desarrollo: primer aspecto", "guide": "Explica el primer componente, etapa o categoría. Usa un ejemplo concreto que lo haga visible.", "suggested_words": 300 },
+      { "title": "Desarrollo: segundo aspecto", "guide": "Explica el siguiente componente y muestra cómo se relaciona con el anterior: ¿lo continúa, lo contrasta, lo causa?", "suggested_words": 300 },
+      { "title": "Desarrollo: tercer aspecto", "guide": "Explica el aspecto restante o el caso menos evidente. Aquí suele ir lo que el lector no habría adivinado por su cuenta.", "suggested_words": 300 },
+      { "title": "Malentendidos frecuentes", "guide": "¿Qué suele confundirse o simplificarse mal sobre este tema? Corrige la confusión sin polemizar.", "suggested_words": 200 },
+      { "title": "Síntesis", "guide": "Reúne las piezas: ¿cómo encajan en una imagen única? Cierra sin opinar y sin introducir información nueva.", "suggested_words": 180 }
+    ]
+  },
+  {
+    "id": "persuasive-toulmin",
+    "name": "Ensayo persuasivo (modelo Toulmin)",
+    "name_en": "Persuasive Essay (Toulmin Model)",
+    "description": "Ensayo persuasivo construido con el modelo de argumentación de Stephen Toulmin, que hace explícito el vínculo lógico entre la evidencia y la afirmación. Es especialmente útil cuando el lector es escéptico y exige rigor.",
+    "tradition": "academic",
+    "sections": [
+      { "title": "Introducción y contexto del problema", "guide": "¿Qué situación concreta hace urgente tomar postura? Presenta el problema antes que tu opinión.", "suggested_words": 200 },
+      { "title": "Afirmación (claim)", "guide": "Enuncia la conclusión que quieres que el lector acepte: una creencia o una acción. Debe ser específica y verificable, no un lugar común.", "suggested_words": 100 },
+      { "title": "Fundamentos (grounds)", "guide": "¿Qué datos, hechos, testimonios o razones sostienen tu afirmación? Presenta la evidencia más fuerte primero y cita su procedencia.", "suggested_words": 400 },
+      { "title": "Garantía (warrant)", "guide": "¿Por qué esa evidencia prueba tu afirmación? Explicita el principio o supuesto que conecta los datos con la conclusión; suele ser lo que el lector no comparte.", "suggested_words": 250 },
+      { "title": "Respaldo (backing)", "guide": "¿En qué se apoya esa garantía? Aporta autoridad, marco legal, teoría, precedente o consenso que la haga creíble por sí misma.", "suggested_words": 250 },
+      { "title": "Calificador (qualifier)", "guide": "¿En qué grado y bajo qué condiciones vale tu afirmación? Usa expresiones como 'en la mayoría de los casos' o 'salvo cuando' para hacerla defendible.", "suggested_words": 150 },
+      { "title": "Refutación (rebuttal)", "guide": "¿Qué excepciones u objeciones podrían invalidar tu afirmación, y cómo respondes a ellas? Reconoce los casos en que tu postura no aplicaría.", "suggested_words": 300 },
+      { "title": "Cierre y llamado a la acción", "guide": "¿Qué debería hacer, pensar o decidir el lector a partir de aquí? Termina con una petición concreta, no con una generalidad.", "suggested_words": 200 }
+    ]
+  },
+  {
+    "id": "rogerian",
+    "name": "Ensayo Rogeriano",
+    "name_en": "Rogerian Essay",
+    "description": "Ensayo de argumentación no confrontativa, inspirado en Carl Rogers, que busca acuerdo antes que victoria: primero comprende de verdad a la otra parte y solo al final propone una síntesis. Ideal para temas polarizados donde el lector hostil abandonaría cualquier otro formato.",
+    "tradition": "academic",
+    "sections": [
+      { "title": "Introducción imparcial del conflicto", "guide": "Presenta el desacuerdo como lo describiría alguien neutral. No reveles todavía tu postura: aquí solo estableces que hay un problema compartido.", "suggested_words": 250 },
+      { "title": "Postura contraria expuesta con justicia", "guide": "Reconstruye la posición opuesta y sus razones tan bien que quien la sostiene diría 'sí, eso es exactamente lo que pienso'. ¿Qué valores legítimos la mueven?", "suggested_words": 400 },
+      { "title": "Contextos en que esa postura tiene razón", "guide": "¿En qué circunstancias concretas la posición contraria es válida o incluso preferible? Concede sin ironía.", "suggested_words": 250 },
+      { "title": "Tu postura y sus razones", "guide": "Expón tu propia posición con la misma estructura y el mismo tono respetuoso que usaste con la contraria. ¿Qué valores la sostienen?", "suggested_words": 400 },
+      { "title": "Contextos en que tu postura tiene razón", "guide": "¿En qué situaciones específicas tu posición resuelve mejor el problema? Sé igual de concreto que en la sección anterior.", "suggested_words": 250 },
+      { "title": "El puente: terreno común", "guide": "¿Qué valores, temores o metas comparten ambas partes aunque discrepen en los medios? Aquí demuestras que el conflicto no es total.", "suggested_words": 300 },
+      { "title": "La propuesta de compromiso", "guide": "Formula por fin tu tesis como una solución que honra los valores de ambos lados. ¿Qué gana la otra parte al aceptarla?", "suggested_words": 300 }
+    ]
+  },
+  {
+    "id": "comparative-block",
+    "name": "Ensayo comparativo (método por bloques)",
+    "name_en": "Comparative Essay (Block Method)",
+    "description": "Ensayo que compara dos objetos, obras o ideas tratando cada uno por separado y completo antes de pasar al siguiente. Funciona mejor cuando los elementos son complejos o el lector no conoce alguno de los dos.",
+    "tradition": "academic",
+    "sections": [
+      { "title": "Introducción y base de comparación", "guide": "¿Qué dos elementos comparas y qué los hace comparables? Justifica por qué ponerlos juntos ilumina algo que por separado no se ve.", "suggested_words": 200 },
+      { "title": "Tesis comparativa", "guide": "En una frase: ¿qué conclusión surge de la comparación? No basta con 'se parecen y se diferencian'; di qué revela el contraste.", "suggested_words": 80 },
+      { "title": "Criterios de comparación", "guide": "Enuncia los tres o cuatro criterios que aplicarás a ambos elementos, en el mismo orden en los dos bloques.", "suggested_words": 150 },
+      { "title": "Bloque A: elemento uno", "guide": "Desarrolla el primer elemento recorriendo todos los criterios anunciados, con evidencia propia de cada punto.", "suggested_words": 500 },
+      { "title": "Bloque B: elemento dos", "guide": "Desarrolla el segundo elemento con los mismos criterios y en el mismo orden, remitiendo al bloque A donde el contraste sea evidente.", "suggested_words": 500 },
+      { "title": "Síntesis del contraste", "guide": "Reúne los dos bloques: ¿dónde coinciden, dónde divergen y qué patrón explica esas divergencias?", "suggested_words": 300 },
+      { "title": "Conclusión: qué revela la comparación", "guide": "¿Qué entiendes ahora sobre el tema mayor que ninguno de los dos elementos mostraba por sí solo?", "suggested_words": 200 }
+    ]
+  },
+  {
+    "id": "comparative-point",
+    "name": "Ensayo comparativo (punto por punto)",
+    "name_en": "Comparative Essay (Point-by-Point Method)",
+    "description": "Ensayo comparativo que alterna entre los dos elementos dentro de cada criterio de análisis, en lugar de tratarlos por separado. Produce un contraste más nítido y es preferible en ensayos largos o con muchos criterios.",
+    "tradition": "academic",
+    "sections": [
+      { "title": "Introducción y base de comparación", "guide": "Presenta los dos elementos y explica qué tienen en común que justifique compararlos.", "suggested_words": 200 },
+      { "title": "Tesis comparativa", "guide": "Enuncia en una frase qué descubre la comparación: ¿cuál prevalece, en qué sentido, o qué tensión revela el par?", "suggested_words": 80 },
+      { "title": "Criterio 1: A frente a B", "guide": "Aplica el primer criterio a ambos elementos en el mismo párrafo o sección, cerrando con lo que ese contraste demuestra.", "suggested_words": 350 },
+      { "title": "Criterio 2: A frente a B", "guide": "Aplica el segundo criterio a ambos y conecta el hallazgo con el criterio anterior: ¿confirma o complica lo visto?", "suggested_words": 350 },
+      { "title": "Criterio 3: A frente a B", "guide": "Aplica el tercer criterio, idealmente el más revelador, y muestra dónde la comparación se vuelve más interesante.", "suggested_words": 350 },
+      { "title": "Diferencia decisiva", "guide": "De todas las diferencias, ¿cuál es la que realmente importa? Argumenta por qué las demás son secundarias.", "suggested_words": 250 },
+      { "title": "Conclusión evaluativa", "guide": "Cierra con el juicio que se desprende de la comparación y su alcance más allá de estos dos casos.", "suggested_words": 200 }
+    ]
+  },
+  {
+    "id": "cause-effect",
+    "name": "Ensayo de causa y efecto",
+    "name_en": "Cause and Effect Essay",
+    "description": "Ensayo que explica por qué ocurre un fenómeno o qué consecuencias produce, distinguiendo causas inmediatas de causas de fondo. Puede organizarse en cadena o por bloques de causas y efectos.",
+    "tradition": "academic",
+    "sections": [
+      { "title": "Presentación del fenómeno", "guide": "Describe con datos o una escena concreta el hecho que vas a explicar. ¿Cómo sabemos que ocurre y a qué escala?", "suggested_words": 250 },
+      { "title": "Tesis causal", "guide": "Enuncia tu explicación: ¿qué causa qué? Aclara si analizarás causas, efectos o ambos.", "suggested_words": 100 },
+      { "title": "Causa inmediata", "guide": "¿Qué desencadenante directo y visible produce el fenómeno? Aporta la evidencia que respalda ese vínculo.", "suggested_words": 300 },
+      { "title": "Causas de fondo o estructurales", "guide": "¿Qué condiciones previas hicieron posible el desencadenante? Distingue entre lo que ocasionó y lo que permitió.", "suggested_words": 350 },
+      { "title": "Efectos a corto plazo", "guide": "¿Qué consecuencias inmediatas y observables se produjeron, y sobre quién?", "suggested_words": 300 },
+      { "title": "Efectos a largo plazo o en cadena", "guide": "¿Qué efectos posteriores se derivan de los anteriores? Muestra la cadena paso a paso, sin saltos.", "suggested_words": 300 },
+      { "title": "Explicaciones alternativas", "guide": "¿Qué otra causa podría explicar lo mismo, y por qué tu explicación es mejor? Cuidado con confundir correlación y causalidad.", "suggested_words": 250 },
+      { "title": "Conclusión e implicaciones", "guide": "Si esta es la causa real, ¿qué se podría hacer distinto? Cierra con la consecuencia práctica del análisis.", "suggested_words": 200 }
+    ]
+  },
+  {
+    "id": "narrative-personal",
+    "name": "Ensayo narrativo o personal",
+    "name_en": "Narrative / Personal Essay",
+    "description": "Ensayo literario que parte de la experiencia propia y avanza mediante escenas y digresiones hasta un descubrimiento, en la tradición ensayística de Montaigne. La forma sigue el movimiento del pensamiento, no un esquema argumentativo rígido.",
+    "tradition": "literary",
+    "sections": [
+      { "title": "Escena de apertura", "guide": "Empieza en un momento concreto, con lugar, cuerpo y detalle sensorial. Entra en la acción sin explicar todavía qué significa.", "suggested_words": 300 },
+      { "title": "La pregunta que te persigue", "guide": "¿Qué inquietud, duda u obsesión te llevó a escribir esto? Formúlala como pregunta genuina, no como conclusión disfrazada.", "suggested_words": 200 },
+      { "title": "Contexto y antecedentes", "guide": "¿Qué necesita saber el lector sobre tu vida, tu época o los otros personajes para que la escena pese? Dosifícalo, no lo cuentes todo.", "suggested_words": 300 },
+      { "title": "Desarrollo por escenas", "guide": "Encadena dos o tres escenas más que profundicen o compliquen la pregunta. Muestra en lugar de resumir: acción, diálogo, objetos.", "suggested_words": 600 },
+      { "title": "Digresión o materia externa", "guide": "Introduce algo de fuera de ti (una lectura, un dato histórico, un mito, una imagen) que ilumine la experiencia desde otro ángulo.", "suggested_words": 300 },
+      { "title": "El giro", "guide": "¿En qué momento tu comprensión cambia? Nombra lo que creías antes y lo que ves ahora, sin moralizar.", "suggested_words": 300 },
+      { "title": "Reflexión del yo que escribe", "guide": "Habla desde el presente: ¿qué distancia hay entre quien vivió aquello y quien lo escribe hoy? Aquí vive la voz ensayística.", "suggested_words": 300 },
+      { "title": "Cierre abierto", "guide": "Termina con una imagen o gesto que resuene, no con una lección. ¿Qué queda sin resolver y por qué está bien que así sea?", "suggested_words": 200 }
+    ]
+  },
+  {
+    "id": "analytical-literary",
+    "name": "Ensayo analítico o de análisis literario",
+    "name_en": "Analytical / Literary Analysis Essay",
+    "description": "Ensayo que descompone una obra en sus elementos (lenguaje, estructura, voz, imágenes) para argumentar cómo produce significado. No resume la trama: demuestra una interpretación con evidencia textual.",
+    "tradition": "academic",
+    "sections": [
+      { "title": "Entrada por el texto", "guide": "Abre con una cita, un detalle o una anomalía de la obra que despierte curiosidad. Menciona autor, título y contexto mínimo.", "suggested_words": 200 },
+      { "title": "Tesis interpretativa", "guide": "En una o dos frases: ¿qué afirma tu lectura y mediante qué recursos lo consigue la obra? Debe ser discutible, no una obviedad del argumento.", "suggested_words": 100 },
+      { "title": "Marco de lectura y método", "guide": "¿Desde qué enfoque lees (formal, histórico, de género, psicoanalítico) y qué pasajes concretos analizarás?", "suggested_words": 200 },
+      { "title": "Análisis 1: recurso o pasaje clave", "guide": "Cita el pasaje, analiza cómo funciona palabra por palabra y explica qué aporta a tu tesis. Evita parafrasear.", "suggested_words": 400 },
+      { "title": "Análisis 2: patrón o motivo recurrente", "guide": "¿Qué imagen, estructura o gesto se repite en la obra? Reúne al menos dos apariciones y muestra su evolución.", "suggested_words": 400 },
+      { "title": "Análisis 3: el caso difícil", "guide": "Analiza el pasaje que peor encaja con tu lectura. ¿Cómo la complica y por qué tu tesis sigue en pie, quizá con matices?", "suggested_words": 350 },
+      { "title": "Diálogo con otras lecturas", "guide": "¿Qué han dicho otros críticos o qué interpretación común desmiente tu análisis? Sitúa tu voz en la conversación.", "suggested_words": 250 },
+      { "title": "Conclusión: qué gana el lector", "guide": "¿Qué se ve distinto en toda la obra a la luz de tu lectura? Amplía sin introducir evidencia nueva.", "suggested_words": 200 }
+    ]
+  },
+  {
+    "id": "research-imrad",
+    "name": "Ensayo de investigación (formato IMRyD)",
+    "name_en": "Research Paper (IMRAD)",
+    "description": "Artículo de investigación con la estructura estándar de las ciencias: Introducción, Métodos, Resultados y Discusión. Reporta un estudio propio de forma que otro investigador pueda evaluarlo y replicarlo.",
+    "tradition": "academic",
+    "sections": [
+      { "title": "Título y resumen (abstract)", "guide": "En 150-250 palabras: objetivo, método, resultado principal con su cifra y conclusión. Debe entenderse sin leer el resto.", "suggested_words": 220 },
+      { "title": "Introducción: estado de la cuestión", "guide": "¿Qué se sabe ya sobre el tema y quién lo ha establecido? Ve de lo general a lo específico citando la literatura relevante.", "suggested_words": 400 },
+      { "title": "Introducción: vacío y pregunta de investigación", "guide": "¿Qué no se sabe todavía y por qué importa? Enuncia la pregunta o hipótesis exacta que abordas.", "suggested_words": 250 },
+      { "title": "Métodos: diseño y participantes o materiales", "guide": "Describe qué hiciste con detalle suficiente para replicarlo: muestra, materiales, procedimiento, periodo. Usa pasado.", "suggested_words": 450 },
+      { "title": "Métodos: análisis", "guide": "¿Cómo procesaste los datos? Especifica pruebas estadísticas, software, criterios de inclusión y umbrales de significación.", "suggested_words": 250 },
+      { "title": "Resultados", "guide": "Presenta los hallazgos en el orden de las preguntas, con cifras, tablas y figuras. Reporta sin interpretar ni opinar.", "suggested_words": 500 },
+      { "title": "Discusión: interpretación", "guide": "¿Qué significan los resultados y cómo responden a tu pregunta? Empieza por el hallazgo principal.", "suggested_words": 400 },
+      { "title": "Discusión: comparación con la literatura", "guide": "¿Tus resultados confirman, matizan o contradicen estudios previos? Explica las discrepancias.", "suggested_words": 300 },
+      { "title": "Limitaciones", "guide": "¿Qué debilidades de diseño, muestra o medición condicionan tus conclusiones? Sé explícito y honesto.", "suggested_words": 200 },
+      { "title": "Conclusión y trabajo futuro", "guide": "Enuncia la aportación en una o dos frases y señala la siguiente pregunta que abre este estudio.", "suggested_words": 200 },
+      { "title": "Referencias", "guide": "Lista todas las fuentes citadas en el formato exigido (APA, IEEE, Vancouver). Verifica que cada cita del texto aparezca aquí y viceversa.", "suggested_words": 150 }
+    ]
+  },
+  {
+    "id": "book-review",
+    "name": "Reseña crítica",
+    "name_en": "Critical Review / Book Review",
+    "description": "Texto que resume una obra y la evalúa con criterios explícitos, situándola en su campo o género. Combina descripción justa y juicio argumentado, no simple opinión de gusto.",
+    "tradition": "journalistic",
+    "sections": [
+      { "title": "Ficha y entrada", "guide": "Da los datos de la obra (autor, título, editorial, año, extensión) y abre con una frase que capture su apuesta central.", "suggested_words": 150 },
+      { "title": "Contexto de la obra y del autor", "guide": "¿Quién escribe, desde dónde y en qué conversación se inserta el libro? ¿Qué otras obras lo rodean?", "suggested_words": 250 },
+      { "title": "Resumen del contenido y de la tesis", "guide": "Expón con fidelidad el argumento o la trama y su organización, sin destripar lo esencial ni exceder un tercio de la reseña.", "suggested_words": 350 },
+      { "title": "Criterios de evaluación", "guide": "¿Con qué vara mides la obra: rigor de la evidencia, originalidad, estilo, coherencia, utilidad para su público? Hazlo explícito.", "suggested_words": 150 },
+      { "title": "Fortalezas", "guide": "¿Qué logra la obra mejor que sus alternativas? Sostén cada elogio con un pasaje o ejemplo concreto.", "suggested_words": 300 },
+      { "title": "Debilidades y objeciones", "guide": "¿Dónde falla el argumento, la documentación o la ejecución? Critica la obra que el autor quiso escribir, no la que tú habrías escrito.", "suggested_words": 300 },
+      { "title": "Fragmento comentado", "guide": "Cita un pasaje representativo y analízalo brevemente para que el lector escuche la voz del libro por sí mismo.", "suggested_words": 200 },
+      { "title": "Veredicto y destinatario", "guide": "¿Vale la pena y para quién exactamente? Cierra con una recomendación clara y proporcionada a lo argumentado.", "suggested_words": 200 }
+    ]
+  },
+  {
+    "id": "op-ed",
+    "name": "Columna de opinión (op-ed)",
+    "name_en": "Op-Ed / Opinion Column",
+    "description": "Artículo breve de opinión para prensa, anclado en la actualidad, con una sola idea defendible y un cierre memorable. Prioriza voz, concreción y economía sobre el aparato académico.",
+    "tradition": "journalistic",
+    "sections": [
+      { "title": "Gancho noticioso (lede)", "guide": "Arranca con la noticia, dato o escena de estos días que te da derecho a hablar ahora. Máximo dos o tres frases.", "suggested_words": 120 },
+      { "title": "Tesis en una frase", "guide": "Di sin rodeos qué defiendes y qué pides. Si no cabe en una frase, aún no está lista.", "suggested_words": 60 },
+      { "title": "Por qué importa y a quién", "guide": "¿Quién sale ganando o perdiendo con esto? Traduce el asunto a personas concretas, no a abstracciones.", "suggested_words": 150 },
+      { "title": "Argumento 1 con evidencia", "guide": "Tu razón más fuerte, con un dato verificable o un ejemplo real. Una idea por párrafo, frases cortas.", "suggested_words": 200 },
+      { "title": "Argumento 2 con evidencia", "guide": "Segunda razón, de naturaleza distinta a la primera. Nombra la fuente dentro de la frase, sin notas al pie.", "suggested_words": 200 },
+      { "title": "Párrafo «es cierto que»", "guide": "Concede lo que tenga de razón la otra parte y explica por qué aun así tu posición se sostiene. Sin esto pareces parcial.", "suggested_words": 150 },
+      { "title": "Autoridad o experiencia propia", "guide": "¿Qué te da voz en este tema? Una línea de credencial o una experiencia personal breve que sustente tu mirada.", "suggested_words": 100 },
+      { "title": "Cierre y llamado (kicker)", "guide": "Vuelve a la imagen del inicio o remata con una frase que el lector pueda repetir. Di qué debe pasar ahora y quién debe hacerlo.", "suggested_words": 120 }
+    ]
+  },
+  {
+    "id": "reflective-gibbs",
+    "name": "Ensayo reflexivo (ciclo de Gibbs)",
+    "name_en": "Reflective Essay (Gibbs' Cycle)",
+    "description": "Ensayo que examina una experiencia propia siguiendo las seis etapas del ciclo reflexivo de Graham Gibbs, desde la descripción hasta el plan de acción. Muy usado en formación docente, sanitaria y profesional.",
+    "tradition": "academic",
+    "sections": [
+      { "title": "Descripción", "guide": "¿Qué pasó? Cuenta cuándo, dónde, quién estaba y qué hiciste tú y los demás, sin juzgar ni interpretar todavía.", "suggested_words": 300 },
+      { "title": "Sentimientos", "guide": "¿Qué pensabas y sentías antes, durante y después de la situación? Incluye lo incómodo: la reflexión honesta empieza aquí.", "suggested_words": 250 },
+      { "title": "Evaluación", "guide": "¿Qué salió bien y qué salió mal? Valora ambos lados y di qué aportaste tú y qué aportaron los demás.", "suggested_words": 250 },
+      { "title": "Análisis", "guide": "¿Por qué ocurrió así? Explica las causas apoyándote en teoría, lecturas o conocimiento del contexto, no solo en tu impresión.", "suggested_words": 400 },
+      { "title": "Conclusión", "guide": "¿Qué aprendiste y qué podrías haber hecho de otro modo? Nombra la habilidad o comprensión concreta que te faltaba.", "suggested_words": 250 },
+      { "title": "Plan de acción", "guide": "Si volviera a ocurrir, ¿qué harías exactamente distinto y cómo vas a prepararte? Compromisos concretos, medibles y con plazo.", "suggested_words": 250 }
+    ]
+  }
+]
