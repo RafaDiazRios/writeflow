@@ -219,19 +219,48 @@ guardado y sin red.
 - «En este día»: entradas del mismo día y mes de años anteriores, en el diario y en
   Inicio
 - Flujo de GitHub Actions que produce `.exe` y `.msi`
+- Salida de archivos en Android por el menú de compartir del sistema
+- Imágenes desde el disco, incrustadas y reescaladas, con soporte real en `.docx` y
+  `.epub`
 
 **Pendiente, por orden de utilidad**
 
-1. Adjuntar imágenes desde el disco con copia a la carpeta de datos (hoy solo por URL,
-   y por eso tampoco se incrustan en el `.docx`).
-2. Reordenar escenas arrastrando en el tablero de tarjetas.
-3. Instantáneas de versión por documento, al estilo de los *snapshots* de Scrivener.
-4. Sincronizar `daily_stats` para que la racha sea la misma en todos los equipos.
-5. Descarga de plantillas de ensayo adicionales desde un repositorio en línea.
-6. Que «en este día» contemple el 29 de febrero (hoy, un año bisiesto no encuentra
+1. Reordenar escenas arrastrando en el tablero de tarjetas.
+2. Instantáneas de versión por documento, al estilo de los *snapshots* de Scrivener.
+3. Sincronizar `daily_stats` para que la racha sea la misma en todos los equipos.
+4. Descarga de plantillas de ensayo adicionales desde un repositorio en línea.
+5. Que «en este día» contemple el 29 de febrero (hoy, un año bisiesto no encuentra
    recuerdos del 29 en años normales).
-7. Exportar desde Android por el menú de compartir del sistema.
-8. Versión para iOS: el mismo camino que Android, pero exige un Mac para compilar.
+6. Versión para iOS: el mismo camino que Android, pero exige un Mac para compilar.
+
+### Sobre las imágenes
+
+Se guardan **dentro del documento**, como data URL, y no como archivos en una carpeta
+con una ruta en el JSON. La razón no es la comodidad: WriteFlow sincroniza documentos,
+no carpetas. Una ruta local no significa nada en el móvil, así que el capítulo con la
+foto se vería roto justo en el dispositivo donde se prometió poder leerlo. Incrustada,
+la imagen se cifra, se sincroniza y se exporta con el resto del documento, sin un
+segundo canal que mantener.
+
+El precio es el tamaño, y se paga en la puerta: toda imagen se reescala al entrar a
+1600 px de lado mayor y se recodifica en JPEG de calidad 0,82 (`src/lib/imagenes.ts`).
+Los PNG con transparencia se quedan en PNG —convertirlos les pondría fondo negro— y los
+GIF no se tocan, porque pasarlos por un lienzo perdería la animación. Una foto de móvil
+de cuatro megas termina en unos 250 KB.
+
+1600 px sale de lo que cabe en el ancho útil de un A4 a 300 ppp; por encima de eso solo
+se engorda el archivo. La comprobación de transparencia muestrea el canal alfa en vez de
+recorrerlo entero: basta un píxel para decidir el formato.
+
+En el `.docx` la imagen conserva su proporción real y se limita al ancho de la caja de
+texto. Antes iba fija a 460×300, que deformaba cualquier cosa que no fuera casi
+cuadrada. Las dimensiones se leen de las cabeceras de los bytes (`medirImagen`), no con
+un lienzo, porque el exportador también corre en Node durante las pruebas.
+
+En el `.epub` hay que **sacarlas a archivos**: un `data:` en un EPUB es inválido, tiene
+que figurar en el manifiesto, y los lectores o descartan la imagen o rechazan el libro.
+`extraerImagenes` las vuelca en `OEBPS/imagenes/`, reescribe el `src` y las declara,
+guardando una sola copia de las repetidas.
 
 ### Sobre Android
 

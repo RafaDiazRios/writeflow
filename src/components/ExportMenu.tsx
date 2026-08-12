@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { BookOpen, ChevronDown, Download, FileCode2, FileText, FileType2 } from 'lucide-react'
 import {
+  SALIDA_COMPARTIDA,
   compileProject, exportProjectDocx, exportProjectEpub, markdownToStyledHtml, saveTextFile,
 } from '@/lib/export'
 import { useApp } from '@/store/app'
+import { useIsMobile } from '@/lib/platform'
 
 interface Props {
   projectId: string
@@ -15,6 +17,7 @@ interface Props {
 /** Menú de exportación compartido por Novela y Ensayos. */
 export default function ExportMenu({ projectId, projectTitle, variant }: Props) {
   const app = useApp()
+  const movil = useIsMobile()
   const [open, setOpen] = useState(false)
   const [busy, setBusy] = useState<string | null>(null)
   const box = useRef<HTMLDivElement>(null)
@@ -37,7 +40,10 @@ export default function ExportMenu({ projectId, projectTitle, variant }: Props) 
     setBusy(label)
     try {
       const path = await fn()
-      if (path) app.notify('ok', `Guardado en ${path}`)
+      // En Android no hay ruta que enseñar: el destino lo elige el usuario en el
+      // selector del sistema, y Android no nos cuenta cuál fue.
+      if (path === SALIDA_COMPARTIDA) app.notify('ok', 'Enviado al menú de compartir')
+      else if (path) app.notify('ok', `Guardado en ${path}`)
     } catch (e) {
       app.notify('error', e instanceof Error ? e.message : String(e))
     } finally {
@@ -104,19 +110,19 @@ export default function ExportMenu({ projectId, projectTitle, variant }: Props) 
       <button
         className="btn-ghost"
         onClick={() => setOpen((v) => !v)}
-        title="Exportar"
+        title={movil ? 'Compartir' : 'Exportar'}
         aria-haspopup="menu"
         aria-expanded={open}
       >
         <Download size={16} />
-        <span className="hidden text-xs sm:inline">Exportar</span>
+        <span className="hidden text-xs sm:inline">{movil ? 'Compartir' : 'Exportar'}</span>
         <ChevronDown size={13} className={`transition ${open ? 'rotate-180' : ''}`} />
       </button>
 
       {open && (
         <div
           role="menu"
-          className="absolute right-0 z-30 mt-1 w-80 animate-fade-in overflow-hidden rounded-lg border border-ink-200 bg-white shadow-xl dark:border-ink-700 dark:bg-ink-900"
+          className="absolute right-0 z-30 mt-1 w-[min(20rem,calc(100vw-1.5rem))] animate-fade-in overflow-hidden rounded-lg border border-ink-200 bg-white shadow-xl dark:border-ink-700 dark:bg-ink-900"
         >
           {items.map((it) => (
             <button

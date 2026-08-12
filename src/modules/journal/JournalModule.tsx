@@ -11,7 +11,7 @@ import Editor from '@/components/Editor'
 import { journal, tags as tagRepo } from '@/lib/repo'
 import { countWords, EMPTY_DOC, excerpt, parseDoc, textToDoc } from '@/lib/text'
 import { endOfMonth, longDate, monthLabel, shortDate, startOfMonth, toISODate } from '@/lib/dates'
-import { exportJournalDocx } from '@/lib/export'
+import { SALIDA_COMPARTIDA, exportJournalDocx } from '@/lib/export'
 import { markPromptUsed } from '@/lib/prompts'
 import { useApp } from '@/store/app'
 import type { DailyPrompt, JournalEntry } from '@/lib/types'
@@ -204,7 +204,8 @@ export default function JournalModule() {
                     toISODate(startOfMonth(d)),
                     toISODate(endOfMonth(d)),
                   )
-                  if (path) app.notify('ok', `Guardado en ${path}`)
+                  if (path === SALIDA_COMPARTIDA) app.notify('ok', 'Enviado al menú de compartir')
+                  else if (path) app.notify('ok', `Guardado en ${path}`)
                 } catch (e) {
                   app.notify('error', e instanceof Error ? e.message : String(e))
                 }

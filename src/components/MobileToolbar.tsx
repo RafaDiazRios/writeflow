@@ -1,16 +1,21 @@
 import type { Editor } from '@tiptap/react'
 import {
-  Bold, Heading2, Italic, List, ListOrdered, Quote, Redo2, Strikethrough, Underline as UnderlineIcon,
-  Undo2,
+  Bold, Heading2, Image as ImageIcon, Italic, List, ListOrdered, Quote, Redo2, Strikethrough,
+  Underline as UnderlineIcon, Undo2,
 } from 'lucide-react'
 import { useState } from 'react'
+import { elegirImagenDelDisco } from '@/lib/imagenes'
 
 /**
  * Barra de formato para pantallas táctiles.
  *
- * Nueve botones en lugar de treinta, y pegada al borde inferior del editor, que es
+ * Diez botones en lugar de treinta, y pegada al borde inferior del editor, que es
  * donde queda justo encima del teclado en pantalla. Los treinta de escritorio no
  * caben, y la mitad no se usan escribiendo con el pulgar en el metro.
+ *
+ * El de la imagen abre el selector del sistema, que en Android es la galería:
+ * meter la foto del día en la entrada del diario es de lo poco que se hace mejor
+ * en el móvil que en el ordenador.
  */
 export default function MobileToolbar({ editor }: { editor: Editor }) {
   const [, force] = useState(0)
@@ -56,6 +61,16 @@ export default function MobileToolbar({ editor }: { editor: Editor }) {
       </B>
       <B active={editor.isActive('blockquote')} onClick={() => editor.chain().focus().toggleBlockquote().run()} label="Cita">
         <Quote size={19} />
+      </B>
+      <B
+        onClick={() => {
+          void elegirImagenDelDisco().then((img) => {
+            if (img) editor.chain().focus().setImage({ src: img.src }).run()
+          })
+        }}
+        label="Imagen"
+      >
+        <ImageIcon size={19} />
       </B>
       <span className="ml-auto shrink-0 pr-1.5 text-[11px] tabular-nums text-ink-400">{words}</span>
     </div>

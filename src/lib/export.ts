@@ -6,6 +6,7 @@ import { parseDoc, textToDoc } from './text'
 import type { DocxChapter, DocxStyle } from './docx'
 import type { EpubChapter } from './epub'
 import { longDate } from './dates'
+import { compartirArchivo, compartirTexto, salidaPorCompartir } from './share'
 
 /** Convierte un documento TipTap a Markdown legible. */
 export function docToMarkdown(doc: JSONContent | null): string {
@@ -112,8 +113,21 @@ export async function compileProject(projectId: string): Promise<string> {
   return parts.join('')
 }
 
-/** Guarda texto en el disco del usuario con el diálogo nativo de Windows. */
+/**
+ * Guarda texto: diálogo nativo en escritorio, menú de compartir en Android.
+ *
+ * Las dos ramas devuelven algo distinto a propósito. En escritorio hay una ruta
+ * que enseñar; en Android no la hay, porque quien decide el destino final es la
+ * aplicación que el usuario elija en el selector. Por eso el valor de vuelta es
+ * `SALIDA_COMPARTIDA` y no una ruta inventada.
+ */
+export const SALIDA_COMPARTIDA = '__compartido__'
+
 export async function saveTextFile(defaultName: string, contents: string, ext = 'md') {
+  if (await salidaPorCompartir()) {
+    await compartirTexto(defaultName, contents, ext)
+    return SALIDA_COMPARTIDA
+  }
   const path = await save({
     defaultPath: defaultName,
     filters: [
@@ -131,8 +145,12 @@ const FILTER_NAME: Record<string, string> = {
   epub: 'Libro electrónico EPUB',
 }
 
-/** Guarda un archivo binario (.docx, .epub) con el diálogo nativo. */
+/** Guarda un archivo binario (.docx, .epub): diálogo nativo o menú de compartir. */
 export async function saveBinaryFile(defaultName: string, bytes: Uint8Array, ext: string) {
+  if (await salidaPorCompartir()) {
+    await compartirArchivo(defaultName, bytes, ext)
+    return SALIDA_COMPARTIDA
+  }
   const path = await save({
     defaultPath: defaultName,
     filters: [{ name: FILTER_NAME[ext] ?? ext.toUpperCase(), extensions: [ext] }],

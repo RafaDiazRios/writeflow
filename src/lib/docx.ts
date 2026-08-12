@@ -105,22 +105,102 @@ function runsFromInline(nodes: JSONContent[] | undefined, base: IRunOptions): Pa
   return out
 }
 
-function imageRun(src: string): ImageRun | null {
+/**
+ * Ancho útil de una página A4 con los márgenes que usa el documento, en puntos.
+ * 595 pt de página menos dos márgenes de una pulgada.
+ */
+const ANCHO_UTIL_PT = 451
+
+/**
+ * Lee el tamaño real de la imagen a partir de sus bytes.
+ *
+ * Hay que hacerlo a mano porque esto también corre en Node, en las pruebas,
+ * donde no existe ni `Image` ni un lienzo. Son cuatro formatos y las cabeceras
+ * están en sitios fijos, así que sale más barato leerlas que arrastrar una
+ * dependencia.
+ */
+export function medirImagen(bytes: Uint8Array): { ancho: number; alto: number } | null {
+  const v = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
+
+  // PNG: la cabecera IHDR empieza siempre en el byte 16.
+  if (bytes.length > 24 && bytes[0] === 0x89 && bytes[1] === 0x50) {
+    return { ancho: v.getUint32(16), alto: v.getUint32(20) }
+  }
+
+  // GIF: little-endian en los bytes 6 a 9.
+  if (bytes.length > 10 && bytes[0] === 0x47 && bytes[1] === 0x49) {
+    return { ancho: v.getUint16(6, true), alto: v.getUint16(8, true) }
+  }
+
+  // BMP: el encabezado DIB, también little-endian.
+  if (bytes.length > 26 && bytes[0] === 0x42 && bytes[1] === 0x4d) {
+    return { ancho: v.getInt32(18, true), alto: Math.abs(v.getInt32(22, true)) }
+  }
+
+  // JPEG: hay que recorrer los segmentos hasta dar con un SOFn, que es el que
+  // lleva las dimensiones. Se saltan los marcadores sin carga útil.
+  if (bytes.length > 4 && bytes[0] === 0xff && bytes[1] === 0xd8) {
+    let i = 2
+    while (i + 9 < bytes.length) {
+      if (bytes[i] !== 0xff) {
+        i++
+        continue
+      }
+      const marca = bytes[i + 1]
+      if (marca === 0xd8 || marca === 0x01 || (marca >= 0xd0 && marca <= 0xd7)) {
+        i += 2
+        continue
+      }
+      const largo = v.getUint16(i + 2)
+      // SOF0-SOF3, SOF5-SOF7, SOF9-SOF11, SOF13-SOF15: todos menos DHT/JPG/DAC.
+      const esSof =
+        marca >= 0xc0 && marca <= 0xcf && marca !== 0xc4 && marca !== 0xc8 && marca !== 0xcc
+      if (esSof) return { alto: v.getUint16(i + 5), ancho: v.getUint16(i + 7) }
+      if (largo < 2) return null
+      i += 2 + largo
+    }
+  }
+  return null
+}
+
+/** Separa un data URL de imagen en su tipo y sus bytes. */
+export function bytesDeDataUrl(
+  src: string,
+): { tipo: 'png' | 'jpg' | 'gif' | 'bmp'; bytes: Uint8Array } | null {
   const m = /^data:image\/(png|jpe?g|gif|bmp);base64,(.+)$/i.exec(src)
   if (!m) return null // las imágenes por URL no se pueden incrustar sin red
   try {
     const bin = atob(m[2])
     const bytes = new Uint8Array(bin.length)
     for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i)
-    const type = m[1].toLowerCase().startsWith('jp') ? 'jpg' : (m[1].toLowerCase() as 'png' | 'gif' | 'bmp')
-    return new ImageRun({
-      data: bytes,
-      type: type as 'png' | 'jpg' | 'gif' | 'bmp',
-      transformation: { width: 460, height: 300 },
-    })
+    const crudo = m[1].toLowerCase()
+    const tipo = crudo.startsWith('jp') ? 'jpg' : (crudo as 'png' | 'gif' | 'bmp')
+    return { tipo, bytes }
   } catch {
     return null
   }
+}
+
+function imageRun(src: string): ImageRun | null {
+  const img = bytesDeDataUrl(src)
+  if (!img) return null
+
+  // Se respeta la proporción real y se limita al ancho de la caja de texto: una
+  // imagen apaisada estirada a 460×300 quedaba deformada, y una vertical se
+  // salía de la página.
+  const medida = medirImagen(img.bytes)
+  let ancho = 460
+  let alto = 300
+  if (medida && medida.ancho > 0 && medida.alto > 0) {
+    ancho = Math.min(medida.ancho, ANCHO_UTIL_PT)
+    alto = Math.round((ancho * medida.alto) / medida.ancho)
+  }
+
+  return new ImageRun({
+    data: img.bytes,
+    type: img.tipo,
+    transformation: { width: ancho, height: alto },
+  })
 }
 
 function alignOf(node: JSONContent): (typeof AlignmentType)[keyof typeof AlignmentType] | undefined {

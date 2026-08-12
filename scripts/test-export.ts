@@ -2,7 +2,8 @@
    Genera los dos archivos a partir de un documento TipTap rico y los deja en
    node_modules/.tmp para que el verificador externo compruebe que son válidos. */
 import { writeFileSync } from 'node:fs'
-import { buildDocx } from '../src/lib/docx'
+import JSZip from 'jszip'
+import { bytesDeDataUrl, buildDocx, medirImagen } from '../src/lib/docx'
 import { buildEpub } from '../src/lib/epub'
 import { tiptapToXhtml } from '../src/lib/epub'
 import { tiptapToDocxBlocks } from '../src/lib/docx'
@@ -12,6 +13,19 @@ const check = (name: string, cond: boolean, extra = '') => {
   if (cond) console.log(`  ✔ ${name}`)
   else { fails++; console.log(`  ✖ ${name} ${extra}`) }
 }
+
+/* PNG real de 4×2 píxeles, generado a mano: cabecera + IHDR + IDAT + IEND.
+   Sirve para comprobar tanto la lectura de dimensiones como el empaquetado. */
+const PNG_APAISADO =
+  'data:image/png;base64,' +
+  'iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAIAAAD91JpzAAAAFklEQVQIHWP8//8/AxJgYkACw4' +
+  'IJADnJAgF9ZFEUAAAAAElFTkSuQmCC'
+
+/* JPEG mínimo de 8×4, para el otro camino del lector de dimensiones. */
+const JPEG_MINIMO =
+  '/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a' +
+  'HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/wAALCAAEAAgBAREA/8QAFAABAAAAAAAA' +
+  'AAAAAAAAAAAACf/EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEAAD8AKp//2Q=='
 
 const RICO = {
   type: 'doc',
@@ -49,6 +63,11 @@ const RICO = {
       ],
     },
     { type: 'horizontalRule' },
+    // Una imagen incrustada: apaisada a propósito, para comprobar que ni el
+    // .docx la deforma ni el .epub la deja como data URL.
+    { type: 'image', attrs: { src: PNG_APAISADO, alt: 'la llave' } },
+    { type: 'paragraph', content: [{ type: 'text', text: 'La misma llave, otra vez:' }] },
+    { type: 'image', attrs: { src: PNG_APAISADO, alt: 'la llave otra vez' } },
     {
       type: 'table',
       content: [
@@ -124,6 +143,41 @@ async function main() {
   check('genera bytes', epub.length > 2000, `→ ${epub.length} bytes`)
   check('es un zip (PK)', epub[0] === 0x50 && epub[1] === 0x4b)
   writeFileSync('node_modules/.tmp/prueba.epub', epub)
+
+  // Las imágenes tienen que haber salido a archivos: un data URL dentro de un
+  // EPUB es inválido y los lectores lo descartan.
+  const zip = await new JSZip().loadAsync(epub)
+  const rutas = Object.keys(zip.files)
+  const opf = await zip.file('OEBPS/content.opf')!.async('string')
+  const cap1 = await zip.file('OEBPS/ch001.xhtml')!.async('string')
+  check('extrae la imagen a un archivo', rutas.includes('OEBPS/imagenes/img001.png'), `→ ${rutas.join(', ')}`)
+  check('no deja data URLs en el capítulo', !cap1.includes('data:image'))
+  check('apunta a la ruta relativa', cap1.includes('src="imagenes/img001.png"'))
+  check('la declara en el manifiesto', opf.includes('href="imagenes/img001.png" media-type="image/png"'))
+  check(
+    'no duplica la imagen repetida',
+    rutas.filter((r) => !zip.files[r].dir && r.startsWith('OEBPS/imagenes/')).length === 1,
+    `→ ${rutas.filter((r) => !zip.files[r].dir && r.startsWith('OEBPS/imagenes/')).join(', ')}`,
+  )
+
+  console.log('\n— imágenes —')
+  const png = bytesDeDataUrl(PNG_APAISADO)
+  check('lee el data URL del PNG', png !== null && png.tipo === 'png')
+  const medidaPng = png ? medirImagen(png.bytes) : null
+  check('mide el PNG', medidaPng?.ancho === 4 && medidaPng?.alto === 2, `→ ${JSON.stringify(medidaPng)}`)
+
+  const jpeg = bytesDeDataUrl(`data:image/jpeg;base64,${JPEG_MINIMO}`)
+  const medidaJpeg = jpeg ? medirImagen(jpeg.bytes) : null
+  check('mide el JPEG', medidaJpeg?.ancho === 8 && medidaJpeg?.alto === 4, `→ ${JSON.stringify(medidaJpeg)}`)
+
+  check('no mide lo que no es imagen', medirImagen(new Uint8Array([1, 2, 3, 4, 5])) === null)
+  check('rechaza un src que no es data URL', bytesDeDataUrl('https://ejemplo.es/a.png') === null)
+
+  const conImagen = tiptapToXhtml({
+    type: 'doc',
+    content: [{ type: 'image', attrs: { src: PNG_APAISADO } }],
+  })
+  check('el XHTML de pantalla conserva el data URL', conImagen.includes('data:image/png'))
 
   console.log(fails === 0 ? '\n✔ Conversión correcta\n' : `\n✖ ${fails} fallo(s)\n`)
   process.exit(fails === 0 ? 0 : 1)

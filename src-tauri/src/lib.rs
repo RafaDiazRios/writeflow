@@ -1,3 +1,4 @@
+mod compartir;
 mod crypto;
 mod migrations;
 
@@ -20,6 +21,7 @@ fn app_info(app: tauri::AppHandle) -> serde_json::Value {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    #[allow(unused_mut)] // en móvil no hay bloque de instancia única que lo mute
     let mut builder = tauri::Builder::default();
 
     // Una sola instancia: si Windows abre `writeflow://…` con la app ya en
@@ -45,6 +47,7 @@ pub fn run() {
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_opener::init())
+        .plugin(compartir::init())
         .setup(|_app| {
             // En Linux y Windows en modo desarrollo hay que registrar el
             // esquema a mano; el instalador lo hace por su cuenta.
@@ -62,6 +65,7 @@ pub fn run() {
             crypto::crypto_key_fingerprint,
             crypto::crypto_encrypt,
             crypto::crypto_decrypt,
+            compartir::compartir_archivo,
         ])
         .run(tauri::generate_context!())
         .expect("error al arrancar WriteFlow");

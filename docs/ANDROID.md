@@ -17,7 +17,8 @@ qué se puede editar.
 | Búsqueda global | ✅ | ✅ |
 | Sincronización y cifrado | ✅ | ✅ |
 | Novela y ensayos | editar | **leer** |
-| Exportar `.docx` / `.epub` | ✅ | — |
+| Exportar `.docx` / `.epub` | guardar como | **compartir** |
+| Insertar imágenes | disco | galería |
 
 La novela se lee y no se edita **por decisión, no por límite técnico**. El binder con
 arrastrar y soltar, el inspector y el tablero de tramas necesitan sitio; encogerlos a
@@ -25,9 +26,49 @@ cinco pulgadas produce una versión peor de las dos cosas. En el móvil se repas
 capítulo en el metro y se consulta una ficha de personaje, que es lo que de verdad se
 hace con un teléfono en la mano.
 
-La exportación se queda fuera porque en Android no existe el diálogo «guardar como»:
-los archivos salen por el menú de compartir del sistema, que es un mecanismo distinto.
-Se puede añadir; hoy no está.
+---
+
+## Sacar archivos del móvil
+
+En Android no existe el diálogo «guardar como», y una aplicación tampoco puede dejar
+un archivo en una carpeta pública sin pedir permisos. El camino de salida es el **menú
+de compartir**: WriteFlow genera el archivo, se lo entrega al sistema y eres tú quien
+elige destino —Drive, correo, WhatsApp, «Guardar en Archivos»— o a qué aplicación se
+lo mandas.
+
+Es el mismo código de exportación del escritorio. Lo único que cambia es el último
+paso: `saveTextFile` y `saveBinaryFile` miran en qué sistema están y, en el móvil,
+llaman a `compartirArchivo` en lugar de abrir el diálogo.
+
+Está en tres sitios:
+
+- **Diario → Compartir \<mes\>**: todas las entradas del mes en un `.docx`.
+- **Leer → un proyecto → Compartir**: el mismo menú del escritorio, con `.docx`,
+  manuscrito, `.epub`, Markdown y HTML.
+- Cualquier otra exportación que se añada en el futuro: no hay que tocar nada más.
+
+Por dentro: `compartir.rs` escribe el archivo en la caché privada de la aplicación y
+`CompartirPlugin.kt` lo publica a través del `FileProvider` que ya venía declarado en
+el manifiesto, con un permiso de lectura temporal sobre ese archivo concreto
+(`FLAG_GRANT_READ_URI_PERMISSION`). Desde Android 7 no se puede pasar una ruta a otra
+aplicación —lanza `FileUriExposedException`—, y esa es la razón de todo el rodeo.
+
+La carpeta de caché se vacía antes de cada envío: si no, cada exportación dejaría una
+copia en un sitio que el usuario nunca ve.
+
+Después de compartir, la aplicación **no dice dónde quedó el archivo**, porque Android
+no lo cuenta. Dice «Enviado al menú de compartir», que es lo único cierto.
+
+### El plugin Kotlin vive en el módulo de la aplicación
+
+`CompartirPlugin.kt` está en `src-tauri/gen/android/app/src/main/java/…/`, no en un
+proyecto Gradle aparte. Un plugin de Tauri para móvil suele ser un crate propio con su
+módulo de Android, pero para cincuenta líneas eso sería tres archivos de configuración
+por cada uno de código. `register_android_plugin` acepta cualquier paquete, así que se
+le apunta al de la propia aplicación.
+
+Consecuencia práctica: **ese archivo hay que conservarlo**, igual que el `intent-filter`
+del manifiesto. `tauri android init` no lo borra, pero tampoco lo regenera.
 
 ---
 

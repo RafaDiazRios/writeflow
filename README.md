@@ -19,7 +19,8 @@ y mapa de actividad del año, y exportación nativa a **.docx** (incluido el for
 **.epub**, Markdown y HTML.
 
 Hay además una **versión para Android** que comparte el mismo código: diario, terapia,
-búsqueda y lectura de la novela, con el diario cifrado sincronizado entre los dos.
+búsqueda y lectura de la novela, con el diario cifrado sincronizado entre los dos. Desde
+el móvil los documentos salen por el **menú de compartir** del sistema.
 Ver [`docs/ANDROID.md`](docs/ANDROID.md).
 
 Todo se guarda primero en tu ordenador (SQLite). La nube es opcional: cuando hay
@@ -133,9 +134,26 @@ Desde el botón **Exportar** de cualquier novela o ensayo:
 El diario tiene su propio botón: **Exportar \<mes\>** guarda todas las entradas del mes
 en un solo documento, una por día con su fecha como encabezado.
 
+En Android no hay diálogo «guardar como»: los mismos botones entregan el archivo al
+**menú de compartir** del sistema y eliges tú el destino.
+
 Todo se genera dentro de la aplicación, sin enviar tu texto a ningún servicio. Las
 librerías pesadas (`docx`, `jszip`) se cargan solo al pulsar exportar, así que no
 ralentizan el arranque.
+
+---
+
+## Imágenes
+
+El botón de la imagen —y también pegar o arrastrar— coge un archivo del disco, y en
+Android abre la galería. La imagen queda **dentro del documento**, no en una carpeta
+aparte: así viaja con la sincronización y se ve igual en el móvil, se cifra con el resto
+y se incrusta de verdad en el `.docx` y el `.epub`.
+
+Para que eso no salga caro, al entrar se reescala a 1600 px de lado mayor y se guarda
+como JPEG de calidad 0,82 —los PNG con transparencia se quedan en PNG—. Una foto de
+móvil de cuatro megas se queda en unos 250 KB, sin diferencia apreciable en pantalla ni
+al imprimir. Los GIF se dejan intactos para no perder la animación.
 
 ---
 

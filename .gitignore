@@ -36,3 +36,13 @@ src-tauri/gen/android/app/src/main/jniLibs/
 src-tauri/gen/apple/
 *.keystore
 *.jks
+
+# Artefactos compilados y descargas sueltas que acaban en la carpeta del
+# proyecto. Nada de esto pertenece al repositorio: las releases las publica
+# GitHub Actions.
+*.apk
+*.exe
+*.msi
+*.crdownload
+*.keystore.txt
+_to_delete/

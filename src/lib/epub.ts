@@ -193,6 +193,72 @@ const page = (title: string, body: string, lang: string) =>
 ${body}</body>
 </html>`
 
+// ─────────────────── imágenes ───────────────────
+
+const MIME_IMAGEN: Record<string, string> = {
+  png: 'image/png',
+  jpg: 'image/jpeg',
+  gif: 'image/gif',
+  bmp: 'image/bmp',
+}
+
+interface ImagenEmpaquetada {
+  id: string
+  href: string
+  mime: string
+  bytes: Uint8Array
+}
+
+/**
+ * Saca las imágenes incrustadas a archivos dentro del EPUB.
+ *
+ * Un `<img src="data:image/…">` es HTML perfectamente válido y se ve bien en la
+ * aplicación, pero un EPUB no lo admite: la especificación exige que cada
+ * recurso figure en el manifiesto, y los lectores —Kindle y Apple Books los
+ * primeros— o descartan la imagen o rechazan el libro entero. Así que al
+ * empaquetar se extraen a `imagenes/` y se sustituye el `src` por la ruta.
+ *
+ * Las imágenes repetidas se guardan una sola vez: en una novela la misma
+ * ilustración puede abrir varios capítulos y no tiene sentido triplicar el peso.
+ */
+function extraerImagenes(
+  xhtml: string,
+  recogidas: ImagenEmpaquetada[],
+  yaVistas: Map<string, string>,
+): string {
+  return xhtml.replace(
+    /src="data:image\/(png|jpe?g|gif|bmp);base64,([^"]+)"/gi,
+    (completo, ext: string, b64: string) => {
+      const clave = `${ext}:${b64.length}:${b64.slice(0, 64)}:${b64.slice(-64)}`
+      const conocida = yaVistas.get(clave)
+      if (conocida) return `src="${conocida}"`
+
+      const bytes = deBase64(b64)
+      if (!bytes) return completo // se deja tal cual antes que romper el archivo
+
+      const tipo = ext.toLowerCase().startsWith('jp') ? 'jpg' : ext.toLowerCase()
+      const n = recogidas.length + 1
+      const href = `imagenes/img${String(n).padStart(3, '0')}.${tipo}`
+      recogidas.push({ id: `img${n}`, href, mime: MIME_IMAGEN[tipo] ?? 'image/png', bytes })
+      yaVistas.set(clave, href)
+      return `src="${href}"`
+    },
+  )
+}
+
+function deBase64(b64: string): Uint8Array | null {
+  try {
+    // El XHTML ya pasó por `esc`, así que las entidades hay que deshacerlas.
+    const limpio = b64.replace(/&amp;/g, '&').replace(/\s+/g, '')
+    const bin = atob(limpio)
+    const out = new Uint8Array(bin.length)
+    for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i)
+    return out
+  } catch {
+    return null
+  }
+}
+
 // ─────────────────── construcción ───────────────────
 
 export async function buildEpub(options: EpubOptions): Promise<Uint8Array> {
@@ -227,15 +293,19 @@ export async function buildEpub(options: EpubOptions): Promise<Uint8Array> {
   oebps.file('titlepage.xhtml', page(options.title, titleBody, lang))
 
   const files: { id: string; href: string; title: string }[] = []
+  const imagenes: ImagenEmpaquetada[] = []
+  const yaVistas = new Map<string, string>()
 
   options.chapters.forEach((ch, i) => {
     const href = `ch${String(i + 1).padStart(3, '0')}.xhtml`
     const inner = ch.doc ? tiptapToXhtml(ch.doc) : textToXhtml(ch.text ?? '')
     const body =
       `<section epub:type="chapter">\n<h1>${esc(ch.title)}</h1>\n${inner || '<p class="blank"> </p>'}</section>\n`
-    oebps.file(href, page(ch.title, body, lang))
+    oebps.file(href, extraerImagenes(page(ch.title, body, lang), imagenes, yaVistas))
     files.push({ id: `ch${i + 1}`, href, title: ch.title })
   })
+
+  for (const img of imagenes) oebps.file(img.href, img.bytes)
 
   // navegación EPUB 3
   const navItems = files
@@ -300,6 +370,7 @@ ${files
     <item id="css" href="style.css" media-type="text/css"/>
     <item id="titlepage" href="titlepage.xhtml" media-type="application/xhtml+xml"/>
 ${files.map((f) => `    <item id="${f.id}" href="${f.href}" media-type="application/xhtml+xml"/>`).join('\n')}
+${imagenes.map((m) => `    <item id="${m.id}" href="${m.href}" media-type="${m.mime}"/>`).join('\n')}
   </manifest>
   <spine toc="ncx">
     <itemref idref="titlepage"/>

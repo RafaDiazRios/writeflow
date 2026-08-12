@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { EditorContent, useEditor, type Editor as TiptapEditor, type JSONContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
@@ -24,6 +24,7 @@ import Focus from '@tiptap/extension-focus'
 import { useApp } from '@/store/app'
 import { docToText } from '@/lib/text'
 import { useIsMobile } from '@/lib/platform'
+import { imagenesDe, prepararImagen } from '@/lib/imagenes'
 import EditorToolbar from './EditorToolbar'
 import MobileToolbar from './MobileToolbar'
 
@@ -80,12 +81,39 @@ export default function Editor({
   className = '',
   autofocus = false,
 }: EditorProps) {
-  const { focusMode, typewriter, fontScale } = useApp()
+  const { focusMode, typewriter, fontScale, notify } = useApp()
   const isMobile = useIsMobile()
   const timer = useRef<number | null>(null)
   const lastPushed = useRef<string>('')
+  const editorRef = useRef<TiptapEditor | null>(null)
 
   const extensions = useMemo(() => buildExtensions(placeholder), [placeholder])
+
+  /**
+   * Mete en el documento las imágenes que llegan pegadas o arrastradas.
+   *
+   * Va por referencia y no por la variable `editor` porque los manejadores de
+   * ProseMirror se crean una sola vez, cuando aún no hay editor que capturar.
+   */
+  const insertarImagenes = useCallback(
+    (files: File[]) => {
+      void (async () => {
+        for (const f of files) {
+          try {
+            const img = await prepararImagen(f)
+            editorRef.current
+              ?.chain()
+              .focus()
+              .setImage({ src: img.src, alt: f.name.replace(/\.[^.]+$/, '') })
+              .run()
+          } catch (e) {
+            notify('error', e instanceof Error ? e.message : String(e))
+          }
+        }
+      })()
+    },
+    [notify],
+  )
 
   const editor = useEditor(
     {
@@ -98,6 +126,23 @@ export default function Editor({
           class: 'wf-prose tiptap',
           spellcheck: 'true',
           lang: 'es',
+        },
+        // Pegar o arrastrar una imagen la incrusta ya reescalada. Se devuelve
+        // `true` para quedarse el evento: si no, ProseMirror inserta por su
+        // cuenta la URL temporal del archivo, que deja de existir al cerrar.
+        handlePaste(_view, event) {
+          const files = imagenesDe(event.clipboardData)
+          if (files.length === 0) return false
+          event.preventDefault()
+          insertarImagenes(files)
+          return true
+        },
+        handleDrop(_view, event) {
+          const files = imagenesDe((event as DragEvent).dataTransfer)
+          if (files.length === 0) return false
+          event.preventDefault()
+          insertarImagenes(files)
+          return true
         },
       },
       onUpdate({ editor }) {
@@ -128,6 +173,7 @@ export default function Editor({
   }, [editor, editable])
 
   useEffect(() => {
+    editorRef.current = editor ?? null
     if (editor && onEditorReady) onEditorReady(editor)
   }, [editor, onEditorReady])
 

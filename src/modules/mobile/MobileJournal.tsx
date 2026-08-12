@@ -1,14 +1,15 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import type { JSONContent } from '@tiptap/react'
-import { ArrowLeft, CalendarDays, ChevronLeft, ChevronRight, Plus, Star, Trash2 } from 'lucide-react'
+import { ArrowLeft, CalendarDays, ChevronLeft, ChevronRight, Plus, Share2, Star, Trash2 } from 'lucide-react'
 import Editor from '@/components/Editor'
 import Calendar from '@/modules/journal/Calendar'
 import OnThisDay from '@/modules/journal/OnThisDay'
 import PromptCard from '@/modules/journal/PromptCard'
 import { journal } from '@/lib/repo'
 import { countWords, EMPTY_DOC, excerpt, parseDoc, textToDoc } from '@/lib/text'
-import { longDate, toISODate } from '@/lib/dates'
+import { endOfMonth, longDate, monthLabel, startOfMonth, toISODate } from '@/lib/dates'
+import { SALIDA_COMPARTIDA, exportJournalDocx } from '@/lib/export'
 import { markPromptUsed } from '@/lib/prompts'
 import { useApp } from '@/store/app'
 import type { DailyPrompt, JournalEntry } from '@/lib/types'
@@ -32,6 +33,7 @@ export default function MobileJournal() {
   const [activeId, setActiveId] = useState<string | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)
   const [showCalendar, setShowCalendar] = useState(false)
+  const [compartiendo, setCompartiendo] = useState(false)
   const [params, setParams] = useSearchParams()
 
   const active = entries.find((e) => e.id === activeId) ?? null
@@ -244,6 +246,35 @@ export default function MobileJournal() {
         </div>
 
         <PromptCard date={date} onWriteAbout={(p) => newEntry(p)} />
+
+        {/*
+          La salida del diario en el móvil: el mes entero en un .docx que se
+          entrega al menú de compartir. Es el equivalente del botón «Exportar
+          <mes>» del escritorio, y el mismo código.
+        */}
+        <button
+          className="btn-outline w-full justify-center !py-2 text-xs"
+          disabled={compartiendo}
+          onClick={async () => {
+            setCompartiendo(true)
+            try {
+              const d = new Date(date)
+              const r = await exportJournalDocx(
+                toISODate(startOfMonth(d)),
+                toISODate(endOfMonth(d)),
+              )
+              if (r === SALIDA_COMPARTIDA) app.notify('ok', 'Enviado al menú de compartir')
+              else if (r) app.notify('ok', `Guardado en ${r}`)
+            } catch (e) {
+              app.notify('error', e instanceof Error ? e.message : String(e))
+            } finally {
+              setCompartiendo(false)
+            }
+          }}
+        >
+          <Share2 size={14} />
+          {compartiendo ? 'Generando…' : `Compartir ${monthLabel(new Date(date))}`}
+        </button>
       </div>
 
       <button

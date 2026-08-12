@@ -7,10 +7,11 @@ import {
   Underline as UnderlineIcon, Undo2,
 } from 'lucide-react'
 import { useApp } from '@/store/app'
+import { elegirImagenDelDisco } from '@/lib/imagenes'
 
 /** Barra de herramientas al estilo de un procesador de textos. */
 export default function EditorToolbar({ editor }: { editor: Editor }) {
-  const { fontScale, setFontScale } = useApp()
+  const { fontScale, setFontScale, notify } = useApp()
   const [, force] = useState(0)
 
   // Redibuja al cambiar la selección para reflejar los botones activos.
@@ -28,10 +29,22 @@ export default function EditorToolbar({ editor }: { editor: Editor }) {
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
   }, [editor])
 
-  const addImage = useCallback(() => {
-    const url = window.prompt('Dirección de la imagen')
-    if (url) editor.chain().focus().setImage({ src: url }).run()
-  }, [editor])
+  /**
+   * Inserta una imagen del disco.
+   *
+   * Antes esto pedía una dirección web, que era lo peor de los dos mundos: sin
+   * conexión no se veía nada, y al exportar el .docx la imagen desaparecía
+   * porque no había bytes que incrustar. Ahora se coge el archivo, se reescala
+   * y se guarda dentro del documento. También vale pegar o arrastrar.
+   */
+  const addImage = useCallback(async () => {
+    try {
+      const img = await elegirImagenDelDisco()
+      if (img) editor.chain().focus().setImage({ src: img.src }).run()
+    } catch (e) {
+      notify('error', e instanceof Error ? e.message : String(e))
+    }
+  }, [editor, notify])
 
   const chars = editor.storage.characterCount?.characters?.() ?? 0
   const words = editor.storage.characterCount?.words?.() ?? 0
@@ -153,7 +166,7 @@ export default function EditorToolbar({ editor }: { editor: Editor }) {
 
       <Group>
         <Btn active={editor.isActive('link')} onClick={setLink} title="Insertar enlace"><Link2 size={16} /></Btn>
-        <Btn onClick={addImage} title="Insertar imagen"><ImageIcon size={16} /></Btn>
+        <Btn onClick={() => void addImage()} title="Insertar imagen desde el disco (o pégala / arrástrala)"><ImageIcon size={16} /></Btn>
         <Btn
           onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}
           title="Insertar tabla"

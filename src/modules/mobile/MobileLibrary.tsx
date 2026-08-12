@@ -4,6 +4,7 @@ import { ArrowLeft, BookOpen, ChevronRight, Eye, ScrollText, UserRound } from 'l
 import { characters as charRepo, docs as docRepo, projects } from '@/lib/repo'
 import { parseDoc } from '@/lib/text'
 import { tiptapToXhtml } from '@/lib/epub'
+import ExportMenu from '@/components/ExportMenu'
 import type { Character, Doc, Project } from '@/lib/types'
 
 /**
@@ -106,7 +107,22 @@ export default function MobileLibrary() {
   if (project) {
     return (
       <div className="flex h-full min-h-0 flex-col">
-        <Bar title={project.title} onBack={() => setProject(null)} />
+        {/*
+          Leer no se puede editar, pero sí sacar: el mismo menú del escritorio,
+          que en Android termina en el selector de compartir en lugar de en un
+          diálogo «guardar como».
+        */}
+        <Bar
+          title={project.title}
+          onBack={() => setProject(null)}
+          acciones={
+            <ExportMenu
+              projectId={project.id}
+              projectTitle={project.title}
+              variant={project.kind === 'novel' ? 'novel' : 'essay'}
+            />
+          }
+        />
         <div className="min-h-0 flex-1 overflow-y-auto p-3">
           {chars.length > 0 && (
             <>
@@ -172,7 +188,14 @@ export default function MobileLibrary() {
   )
 }
 
-function Bar({ title, onBack }: { title: string; onBack: () => void }) {
+function Bar({
+  title, onBack, acciones,
+}: {
+  title: string
+  onBack: () => void
+  /** Botones a la derecha; hoy solo el menú de compartir. */
+  acciones?: React.ReactNode
+}) {
   return (
     <div className="flex shrink-0 items-center gap-1 border-b border-ink-200 px-1 py-1 dark:border-ink-800">
       <button
@@ -182,7 +205,8 @@ function Bar({ title, onBack }: { title: string; onBack: () => void }) {
       >
         <ArrowLeft size={20} />
       </button>
-      <span className="truncate text-sm font-semibold">{title}</span>
+      <span className="min-w-0 flex-1 truncate text-sm font-semibold">{title}</span>
+      {acciones && <span className="shrink-0 pr-1">{acciones}</span>}
     </div>
   )
 }
