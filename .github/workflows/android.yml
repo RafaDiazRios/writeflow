@@ -17,6 +17,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write # para adjuntar el APK a la release
+    env:
+      # `secrets` no se puede consultar en el `if` de un paso, pero `env` sí.
+      KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
     steps:
       - uses: actions/checkout@v4
 
@@ -49,13 +52,12 @@ jobs:
       # El keystore no está en el repositorio. Si los secretos existen, la release
       # sale firmada; si no, sale sin firmar y sirve igual para probar.
       - name: Preparar la firma
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+        if: env.KEYSTORE_B64 != ''
         env:
-          KEYSTORE: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
         run: |
-          echo "$KEYSTORE" | base64 --decode > "$RUNNER_TEMP/writeflow.keystore"
+          echo "$KEYSTORE_B64" | base64 --decode > "$RUNNER_TEMP/writeflow.keystore"
           cat > src-tauri/gen/android/keystore.properties <<EOF
           password=$KEYSTORE_PASSWORD
           keyAlias=$KEY_ALIAS
@@ -64,15 +66,21 @@ jobs:
 
       - name: Compilar el APK
         env:
-          NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/${{ env.NDK_VERSION }}
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
-        run: npm run android:build
+        run: |
+          export NDK_HOME="$ANDROID_HOME/ndk/$NDK_VERSION"
+          echo "NDK en $NDK_HOME"
+          npm run android:build
 
       - name: Renombrar con la versión
         id: apk
         run: |
           SRC=$(find src-tauri/gen/android/app/build/outputs/apk -name "*-release*.apk" | head -1)
+          if [ -z "$SRC" ]; then echo "::error::No se generó ningún APK"; exit 1; fi
+          case "$SRC" in
+            *unsigned*) echo "::warning::El APK ha salido SIN FIRMAR: faltan los secretos del keystore, así que no se podrá instalar." ;;
+          esac
           NAME="WriteFlow-${GITHUB_REF_NAME:-dev}.apk"
           cp "$SRC" "$NAME"
           echo "path=$NAME" >> "$GITHUB_OUTPUT"
