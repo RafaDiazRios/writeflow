@@ -70,6 +70,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
       lastSync: r.finishedAt,
       pendingCount: Object.values(pending).reduce((a, b) => a + b, 0),
     })
+    // El primer error es el que importa: si la clave no coincide, lo demás es ruido.
     if (r.errors.length) app.notify('error', r.errors[0])
     else app.notify('ok', `Sincronizado: ${r.pushed} subidas, ${r.pulled} bajadas`)
   }

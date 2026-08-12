@@ -1,6 +1,8 @@
 import { getMeta, one, query, run, setMeta } from './db'
 import { isUnlocked, keyMaterial, maybeDecrypt, maybeEncrypt } from './crypto'
 import { getSession, supabase } from './supabase'
+import { reindex } from './repo'
+import type { SearchKind } from './search'
 
 /**
  * Motor de sincronización offline-first.
@@ -98,6 +100,8 @@ export interface SyncReport {
   pushed: number
   pulled: number
   conflicts: number
+  /** Filas que llegaron pero no se pudieron descifrar (clave distinta). */
+  undecryptable: number
   startedAt: string
   finishedAt: string
   errors: string[]
@@ -139,12 +143,39 @@ export async function isOnline(): Promise<boolean> {
   }
 }
 
-/** Asegura que existe la fila de perfil con el material de clave público. */
+/** Se lanza cuando este equipo cifra con una clave distinta a la de la nube. */
+export class ClaveDistintaError extends Error {
+  constructor(
+    readonly saltRemota: string,
+    readonly huellaRemota: string,
+  ) {
+    super(
+      'Este equipo está cifrando con una clave distinta a la del resto. ' +
+        'Ve a Ajustes → Sincronización y pulsa «Usar la clave de la nube».',
+    )
+    this.name = 'ClaveDistintaError'
+  }
+}
+
+/**
+ * Asegura la fila de perfil y, sobre todo, **comprueba que las claves coinciden**.
+ *
+ * La sal del cifrado se guarda en el perfil para que un ordenador nuevo pueda
+ * reconstruir la misma clave a partir de la misma frase de paso. Antes esto solo
+ * subía la sal y nunca la bajaba: el segundo equipo se inventaba la suya, y a
+ * partir de ahí cada uno escribía en la nube con una clave que el otro no podía
+ * leer. Como el descifrado fallaba en silencio, las entradas llegaban vacías.
+ *
+ * Ahora, si las huellas no coinciden, **se corta antes de subir nada**. Subir
+ * con la clave equivocada es lo que convierte un despiste de configuración en
+ * datos ilegibles.
+ */
 async function ensureProfile(userId: string, email: string | undefined) {
   const sb = await supabase()
   if (!sb) return
   const { salt, fingerprint } = await keyMaterial()
   const { data } = await sb.from('profiles').select('*').eq('id', userId).maybeSingle()
+
   if (!data) {
     await sb.from('profiles').insert({
       id: userId,
@@ -152,9 +183,32 @@ async function ensureProfile(userId: string, email: string | undefined) {
       e2e_salt: salt,
       e2e_fingerprint: fingerprint,
     })
-  } else if (!data.e2e_salt && salt) {
-    await sb.from('profiles').update({ e2e_salt: salt, e2e_fingerprint: fingerprint }).eq('id', userId)
+    return
   }
+
+  if (!data.e2e_salt && salt) {
+    await sb.from('profiles').update({ e2e_salt: salt, e2e_fingerprint: fingerprint }).eq('id', userId)
+    return
+  }
+
+  if (data.e2e_fingerprint && fingerprint && data.e2e_fingerprint !== fingerprint) {
+    throw new ClaveDistintaError(String(data.e2e_salt), String(data.e2e_fingerprint))
+  }
+}
+
+/** Material de clave del servidor, para poder adoptarlo desde Ajustes. */
+export async function claveRemota(): Promise<{ salt: string; fingerprint: string } | null> {
+  const sb = await supabase()
+  if (!sb) return null
+  const session = await getSession()
+  if (!session) return null
+  const { data } = await sb
+    .from('profiles')
+    .select('e2e_salt, e2e_fingerprint')
+    .eq('id', session.user.id)
+    .maybeSingle()
+  if (!data?.e2e_salt || !data?.e2e_fingerprint) return null
+  return { salt: String(data.e2e_salt), fingerprint: String(data.e2e_fingerprint) }
 }
 
 async function encodeRow(spec: TableSpec, row: Record<string, unknown>, userId: string) {
@@ -170,7 +224,33 @@ async function encodeRow(spec: TableSpec, row: Record<string, unknown>, userId: 
   return out
 }
 
-async function decodeRow(spec: TableSpec, row: Record<string, unknown>) {
+/**
+ * Postgres devuelve `2026-08-12T15:21:47.036+00:00` y la aplicación escribe
+ * `2026-08-12T15:21:47.036Z`. Son el mismo instante, pero el motor compara
+ * fechas **como texto**, así que mezclar los dos formatos hacía que un
+ * desempate por fecha saliera al revés. Se normaliza todo a ISO con `Z`.
+ */
+export function aIso(v: unknown): unknown {
+  if (typeof v !== 'string' || !v) return v
+  const d = new Date(v)
+  return Number.isNaN(d.getTime()) ? v : d.toISOString()
+}
+
+const FECHAS = new Set(['created_at', 'updated_at', 'deleted_at'])
+
+/**
+ * Descifra una fila que llega del servidor.
+ *
+ * Si algo no se puede descifrar **se avisa**. Antes se dejaba el campo vacío y
+ * se seguía: la entrada aparecía en blanco, la sincronización decía «2 bajadas»
+ * y no había forma de saber que el problema era la clave. Un fallo silencioso
+ * que produce datos vacíos es peor que un error.
+ */
+async function decodeRow(
+  spec: TableSpec,
+  row: Record<string, unknown>,
+  fallos?: { n: number },
+) {
   const out: Record<string, unknown> = {}
   for (const col of spec.columns) {
     const v = row[col]
@@ -178,13 +258,42 @@ async function decodeRow(spec: TableSpec, row: Record<string, unknown>) {
       try {
         out[col] = await maybeDecrypt(v, true)
       } catch {
-        out[col] = '' // no se pudo descifrar: se deja vacío en lugar de romper
+        out[col] = ''
+        if (fallos) fallos.n++
       }
     } else {
-      out[col] = v ?? null
+      out[col] = FECHAS.has(col) ? aIso(v ?? null) : (v ?? null)
     }
   }
   return out
+}
+
+/**
+ * Mete en el índice de búsqueda una fila que acaba de llegar del servidor.
+ *
+ * El índice se mantenía solo al guardar desde la interfaz, así que lo que
+ * entraba por sincronización quedaba fuera: aparecía en el calendario pero no
+ * en `Ctrl` + `K`. No es crítico —el índice se puede reconstruir desde
+ * Ajustes—, pero es justo el tipo de fallo que nadie relaciona con la
+ * sincronización.
+ */
+export const INDEXABLES: Record<string, SearchKind> = {
+  journal_entries: 'journal',
+  documents: 'doc',
+  characters: 'character',
+  therapy_entries: 'therapy',
+  projects: 'project',
+}
+
+async function indexarFila(table: string, id: string) {
+  const kind = INDEXABLES[table]
+  if (!kind) return
+  try {
+    await reindex(kind, id)
+  } catch {
+    // Que falle el índice no puede tumbar la sincronización: el contenido ya
+    // está guardado y el índice se reconstruye entero desde Ajustes.
+  }
 }
 
 async function pushTable(spec: TableSpec, userId: string): Promise<number> {
@@ -218,14 +327,15 @@ async function pullTable(spec: TableSpec, userId: string, report: SyncReport) {
   if (error) throw new Error(`${spec.table}: ${error.message}`)
   if (!data?.length) return
 
+  const fallos = { n: 0 }
   let maxTs = since
   for (const remote of data as Record<string, unknown>[]) {
     const id = String(remote.id)
-    const ts = String(remote.updated_at)
+    const ts = String(aIso(remote.updated_at))
     if (ts > maxTs) maxTs = ts
 
     const local = await one<Record<string, unknown>>(`SELECT * FROM ${spec.table} WHERE id = ?`, [id])
-    const decoded = await decodeRow(spec, remote)
+    const decoded = await decodeRow(spec, remote, fallos)
 
     if (!local) {
       const cols = Object.keys(decoded)
@@ -233,6 +343,7 @@ async function pullTable(spec: TableSpec, userId: string, report: SyncReport) {
         `INSERT INTO ${spec.table} (${cols.join(',')}, dirty) VALUES (${cols.map(() => '?').join(',')}, 0)`,
         Object.values(decoded),
       )
+      await indexarFila(spec.table, id)
       report.pulled++
       continue
     }
@@ -252,15 +363,17 @@ async function pullTable(spec: TableSpec, userId: string, report: SyncReport) {
       continue
     }
 
-    if (remoteRev > localRev || (remoteRev === localRev && ts > String(local.updated_at))) {
+    if (remoteRev > localRev || (remoteRev === localRev && ts > String(aIso(local.updated_at)))) {
       const cols = Object.keys(decoded).filter((c) => c !== 'id')
       await run(
         `UPDATE ${spec.table} SET ${cols.map((c) => `${c} = ?`).join(',')}, dirty = 0 WHERE id = ?`,
         [...cols.map((c) => decoded[c]), id],
       )
+      await indexarFila(spec.table, id)
       report.pulled++
     }
   }
+  if (fallos.n) report.undecryptable += fallos.n
   await setCursor(spec.table, maxTs)
 }
 
@@ -270,6 +383,7 @@ export async function syncNow(): Promise<SyncReport> {
     pushed: 0,
     pulled: 0,
     conflicts: 0,
+    undecryptable: 0,
     startedAt: new Date().toISOString(),
     finishedAt: '',
     errors: [],
@@ -305,7 +419,50 @@ export async function syncNow(): Promise<SyncReport> {
     running = false
     report.finishedAt = new Date().toISOString()
   }
+
+  if (report.undecryptable) {
+    report.errors.push(
+      `${report.undecryptable} campo(s) llegaron cifrados con otra clave y no se han podido leer. ` +
+        'En Ajustes → Sincronización, «Usar la clave de la nube».',
+    )
+  }
+
+  // Lo que se acaba de bajar ya está en SQLite, pero las pantallas abiertas
+  // siguen enseñando lo que leyeron al montarse. Este aviso las hace recargar.
+  if (report.pulled > 0 && typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('writeflow:sincronizado', { detail: report }))
+  }
   return report
+}
+
+/**
+ * Vuelve a marcar todo el contenido local como pendiente de subir.
+ *
+ * Es la mitad de la reparación cuando dos equipos han estado cifrando con
+ * claves distintas: se ejecuta en el equipo que **sí tiene el texto bueno**, y
+ * al sincronizar vuelve a cifrarlo todo con la clave correcta. Se sube `rev`
+ * para que gane sobre la copia ilegible que hay en el servidor.
+ */
+export async function volverASubirTodo(): Promise<number> {
+  let n = 0
+  for (const spec of TABLES) {
+    await run(`UPDATE ${spec.table} SET dirty = 1, rev = rev + 1 WHERE deleted_at IS NULL`)
+    const r = await one<{ n: number }>(
+      `SELECT COUNT(*) n FROM ${spec.table} WHERE deleted_at IS NULL`,
+    )
+    n += r?.n ?? 0
+  }
+  return n
+}
+
+/**
+ * Olvida hasta dónde se bajó cada tabla, para volver a leerlo todo del servidor.
+ *
+ * La otra mitad de la reparación: en el equipo que tiene entradas vacías, esto
+ * hace que la siguiente sincronización las vuelva a traer, ya descifrables.
+ */
+export async function volverABajarTodo(): Promise<void> {
+  await run('DELETE FROM sync_cursors')
 }
 
 export async function lastSyncAt(): Promise<string | null> {

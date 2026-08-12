@@ -8,6 +8,7 @@ import { docToMarkdown, compileProject } from '../src/lib/export'
 import { promptForDay, rerollPrompt, PROMPTS, EXERCISES, TEMPLATES, suggestExercise } from '../src/lib/prompts'
 import { hitRoute, indexSize, rebuildIndex, search, toMatchQuery } from '../src/lib/search'
 import { getGoal, recordDelta, setGoal, streaks, todayWords } from '../src/lib/stats'
+import { aIso, INDEXABLES } from '../src/lib/sync'
 
 let fails = 0
 function check(name: string, cond: boolean, extra = '') {
@@ -239,6 +240,30 @@ async function main() {
   check('ruta de un documento de novela',
     hitRoute({ kind: 'doc', refId: 'd', projectId: 'p2', parent: null, date: null, title: '', snippet: '', rank: 0 }, kinds)
       === '/novela?project=p2&doc=d')
+
+  // ── el fallo que dejó entradas vacías entre ordenadores ──
+  console.log('\n— sincronización: formato de fechas —')
+  // Postgres devuelve `+00:00`; la app escribe `Z`. Comparadas como texto, la
+  // misma fecha salía distinta y el desempate por fecha se decidía al revés.
+  const pg = '2026-08-12T15:21:47.036+00:00'
+  const app = '2026-08-12T15:21:47.036Z'
+  check('normaliza la fecha de Postgres a la de la app', aIso(pg) === app, `→ ${aIso(pg)}`)
+  check('deja en paz lo que ya es ISO', aIso(app) === app)
+  check('no rompe con null', aIso(null) === null)
+  check('no rompe con basura', aIso('no soy una fecha') === 'no soy una fecha')
+  check(
+    'sin normalizar, el desempate se equivocaba',
+    pg < app && String(aIso(pg)) === app,
+    'la comparación de texto ponía la fecha de Postgres por detrás',
+  )
+
+  console.log('\n— sincronización: tablas indexables —')
+  // Lo que baja del servidor tiene que entrar en el índice de búsqueda; si no,
+  // aparece en el calendario pero no en Ctrl+K.
+  const conTexto = ['journal_entries', 'documents', 'therapy_entries', 'characters', 'projects']
+  for (const t of conTexto) {
+    check(`${t} se reindexa al bajarla`, t in INDEXABLES)
+  }
 
   console.log(fails === 0 ? '\n✔ Todas las pruebas pasan\n' : `\n✖ ${fails} prueba(s) fallan\n`)
   process.exit(fails === 0 ? 0 : 1)

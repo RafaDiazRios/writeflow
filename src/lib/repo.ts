@@ -50,7 +50,7 @@ async function trackWords(
  * guardado; relee la fila porque los parches son parciales y el índice necesita
  * el texto completo.
  */
-async function reindex(kind: SearchKind, id: string) {
+export async function reindex(kind: SearchKind, id: string) {
   try {
     switch (kind) {
       case 'journal': {

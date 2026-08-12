@@ -12,6 +12,7 @@ import { journal, tags as tagRepo } from '@/lib/repo'
 import { countWords, EMPTY_DOC, excerpt, parseDoc, textToDoc } from '@/lib/text'
 import { endOfMonth, longDate, monthLabel, shortDate, startOfMonth, toISODate } from '@/lib/dates'
 import { SALIDA_COMPARTIDA, exportJournalDocx } from '@/lib/export'
+import { useRefrescoTrasSync } from '@/lib/refresco'
 import { markPromptUsed } from '@/lib/prompts'
 import { useApp } from '@/store/app'
 import type { DailyPrompt, JournalEntry } from '@/lib/types'
@@ -35,6 +36,8 @@ export default function JournalModule() {
   const [results, setResults] = useState<JournalEntry[] | null>(null)
   const [entryTags, setEntryTags] = useState<string>('')
   const [params, setParams] = useSearchParams()
+  // Se incrementa cuando la sincronización baja filas: obliga a releer.
+  const trasSync = useRefrescoTrasSync()
 
   const active = useMemo(() => entries.find((e) => e.id === activeId) ?? null, [entries, activeId])
 
@@ -49,7 +52,7 @@ export default function JournalModule() {
 
   useEffect(() => {
     loadDay(date)
-  }, [date, loadDay])
+  }, [date, loadDay, trasSync])
 
   // Llegada desde el buscador global: /diario?entry=…&date=…
   useEffect(() => {
@@ -70,7 +73,7 @@ export default function JournalModule() {
 
   useEffect(() => {
     journal.stats().then(setStats)
-  }, [refreshKey])
+  }, [refreshKey, trasSync])
 
   useEffect(() => {
     if (!activeId) {

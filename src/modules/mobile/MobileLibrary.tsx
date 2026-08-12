@@ -5,6 +5,7 @@ import { characters as charRepo, docs as docRepo, projects } from '@/lib/repo'
 import { parseDoc } from '@/lib/text'
 import { tiptapToXhtml } from '@/lib/epub'
 import ExportMenu from '@/components/ExportMenu'
+import { useRefrescoTrasSync } from '@/lib/refresco'
 import type { Character, Doc, Project } from '@/lib/types'
 
 /**
@@ -24,12 +25,13 @@ export default function MobileLibrary() {
   const [reading, setReading] = useState<Doc | null>(null)
   const [character, setCharacter] = useState<Character | null>(null)
   const [params, setParams] = useSearchParams()
+  const trasSync = useRefrescoTrasSync()
 
   useEffect(() => {
     Promise.all([projects.list('novel'), projects.list('essay')]).then(([n, e]) =>
       setItems([...n, ...e]),
     )
-  }, [])
+  }, [trasSync])
 
   async function open(p: Project) {
     setProject(p)

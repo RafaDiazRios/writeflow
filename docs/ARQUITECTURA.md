@@ -233,6 +233,45 @@ guardado y sin red.
    recuerdos del 29 en años normales).
 6. Versión para iOS: el mismo camino que Android, pero exige un Mac para compilar.
 
+### La clave de cifrado tiene que ser la misma en todos los equipos
+
+La clave se deriva de la frase de paso **y de una sal aleatoria** (Argon2id). Esa sal es
+pública y se guarda en `profiles.e2e_salt` justamente para que un ordenador nuevo llegue
+a la misma clave con la misma frase.
+
+Durante un tiempo el código solo la **subía**. Un segundo equipo se generaba la suya en
+`setupPassphrase`, derivaba otra clave, y a partir de ahí cada uno escribía en Supabase
+algo que el otro no podía leer. Lo que convirtió un despiste en un fallo difícil de ver
+fue que `decodeRow` se tragaba el error de descifrado y dejaba el campo vacío: la
+sincronización decía «2 bajadas» y las entradas aparecían en blanco. Un fallo silencioso
+que produce datos vacíos es peor que un error.
+
+Ahora:
+
+- `ensureProfile` **compara las huellas antes de subir nada** y aborta con
+  `ClaveDistintaError` si no coinciden. Subir con la clave equivocada es lo que
+  transforma un error de configuración en datos ilegibles.
+- `adoptRemoteKeyMaterial` pide la frase de paso, la deriva **contra la sal del
+  servidor** y solo acepta si la huella cuadra. No se toca nada si no.
+- `decodeRow` cuenta los fallos y `syncNow` los reporta.
+- `ClaveCompartida.tsx` (Ajustes → Sincronización) solo aparece cuando hay algo que
+  arreglar, y ofrece `volverASubirTodo` / `volverABajarTodo` para reparar lo ya subido:
+  el equipo con el texto bueno lo vuelve a cifrar y sube con `rev` mayor; el otro
+  reinicia los cursores y lo vuelve a bajar.
+
+Dos cosas más salieron de tirar de este hilo:
+
+- **Lo que se bajaba no entraba en el índice de búsqueda.** `reindex` solo se llamaba
+  desde los guardados de la interfaz, así que una entrada sincronizada aparecía en el
+  calendario pero no en `Ctrl` + `K`.
+- **Las fechas se comparaban como texto mezclando formatos.** Postgres devuelve
+  `…+00:00` y la aplicación escribe `…Z`; el mismo instante ordenaba distinto y el
+  desempate por fecha salía al revés. `aIso` normaliza al bajar.
+
+Y una de interfaz: lo que se bajaba entraba en SQLite pero las pantallas abiertas seguían
+enseñando lo que leyeron al montarse. `syncNow` emite `writeflow:sincronizado` y
+`useRefrescoTrasSync` hace que las vistas recarguen.
+
 ### Sobre las imágenes
 
 Se guardan **dentro del documento**, como data URL, y no como archivos en una carpeta

@@ -10,6 +10,7 @@ import { journal } from '@/lib/repo'
 import { countWords, EMPTY_DOC, excerpt, parseDoc, textToDoc } from '@/lib/text'
 import { endOfMonth, longDate, monthLabel, startOfMonth, toISODate } from '@/lib/dates'
 import { SALIDA_COMPARTIDA, exportJournalDocx } from '@/lib/export'
+import { useRefrescoTrasSync } from '@/lib/refresco'
 import { markPromptUsed } from '@/lib/prompts'
 import { useApp } from '@/store/app'
 import type { DailyPrompt, JournalEntry } from '@/lib/types'
@@ -34,6 +35,7 @@ export default function MobileJournal() {
   const [refreshKey, setRefreshKey] = useState(0)
   const [showCalendar, setShowCalendar] = useState(false)
   const [compartiendo, setCompartiendo] = useState(false)
+  const trasSync = useRefrescoTrasSync()
   const [params, setParams] = useSearchParams()
 
   const active = entries.find((e) => e.id === activeId) ?? null
@@ -47,7 +49,7 @@ export default function MobileJournal() {
 
   useEffect(() => {
     loadDay(date)
-  }, [date, loadDay])
+  }, [date, loadDay, trasSync])
 
   useEffect(() => {
     const entry = params.get('entry')

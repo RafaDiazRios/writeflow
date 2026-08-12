@@ -12,6 +12,7 @@ import {
 } from '@/lib/supabase'
 import { backupToGitHub, getGitHubConfig, lastBackupAt, saveGitHubConfig, testGitHubToken, type GitHubConfig } from '@/lib/github'
 import { openConflicts, resolveConflict, syncNow } from '@/lib/sync'
+import ClaveCompartida from './ClaveCompartida'
 import { pendingCounts } from '@/lib/repo'
 import { indexedAt, indexSize, rebuildIndex } from '@/lib/search'
 import type { PromptStream } from '@/lib/types'
@@ -233,6 +234,8 @@ export default function Settings() {
               <span>· {Object.values(pending).reduce((a, b) => a + b, 0)} filas pendientes</span>
             )}
           </div>
+
+          <ClaveCompartida />
 
           {conflicts.length > 0 && (
             <div className="mt-4 rounded-md border border-amber-300 bg-amber-50 p-3 dark:border-amber-800 dark:bg-amber-950/40">

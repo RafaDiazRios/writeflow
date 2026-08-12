@@ -215,6 +215,12 @@ información no dependa solo del color.
 4. Fechas, ánimo, número de palabras y revisiones viajan en claro: son lo que permite
    pintar el calendario y ordenar sin descifrar nada en el servidor.
 
+La sal se guarda en tu perfil de Supabase precisamente para esto: un ordenador nuevo
+la baja y, con la misma frase de paso, llega a la **misma clave**. Si un equipo se
+configura sin bajarla, cifra con una clave propia y el resto ve sus entradas en blanco.
+La aplicación lo detecta —compara las huellas antes de subir nada— y ofrece adoptar la
+clave común en **Ajustes → Sincronización**.
+
 Consecuencia inevitable: **si olvidas la frase de paso, ese contenido no se recupera.**
 La copia local sigue en claro en tu SQLite, así que no pierdes nada mientras conserves el
 ordenador; lo que se pierde es la copia de la nube.
