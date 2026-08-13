@@ -1,7 +1,7 @@
 {
   "name": "writeflow",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "description": "WriteFlow — diario calendarizado, novela, ensayos y terapia narrativa. Offline-first para Windows.",
   "scripts": {

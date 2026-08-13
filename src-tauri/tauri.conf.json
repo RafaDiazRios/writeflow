@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "WriteFlow",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "identifier": "com.rafaeldiazrios.writeflow",
   "build": {
     "beforeDevCommand": "npm run dev",
@@ -51,7 +51,13 @@
     "deep-link": {
       "desktop": {
         "schemes": ["writeflow"]
-      }
+      },
+      "mobile": [
+        {
+          "scheme": ["writeflow"],
+          "host": "auth-callback"
+        }
+      ]
     }
   }
 }

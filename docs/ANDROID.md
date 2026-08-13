@@ -185,12 +185,44 @@ Funciona igual que en el escritorio y por el mismo camino: el navegador del sist
 abre Google, Supabase redirige a `writeflow://auth-callback?code=…` y Android despierta
 la aplicación.
 
-Para que eso ocurra, el `AndroidManifest.xml` declara un `intent-filter` con el esquema
-`writeflow`. Está escrito a mano y **debe conservarse**: la configuración `mobile` del
-plugin de enlaces profundos sirve para App Links con `https`, no para esquemas propios.
+Hacen falta **dos** cosas, y durante un tiempo solo estaba la primera. Por eso el login
+no funcionaba en el móvil aunque en Windows fuera bien:
+
+1. **El `intent-filter` en `AndroidManifest.xml`**, para que Android sepa que esta
+   aplicación abre los enlaces `writeflow://`. Sin esto el sistema no despierta a nadie.
+2. **El esquema declarado en `plugins.deep-link.mobile` de `tauri.conf.json`.** Esto no
+   es opcional ni es «solo para App Links con https», que es lo que yo creía: el plugin
+   filtra en tiempo de ejecución con `isDeepLink()`, y esa función empieza con
+   `if (config.mobile.isEmpty()) return false`. Con `mobile` vacío, **descarta en
+   silencio todos los enlaces**, incluidos los del esquema propio. Android entregaba el
+   enlace, el plugin lo tiraba, y el login se quedaba a medias sin un solo error.
+
+```json
+"deep-link": {
+  "desktop": { "schemes": ["writeflow"] },
+  "mobile": [{ "scheme": ["writeflow"], "host": "auth-callback" }]
+}
+```
+
+Con `mobile` puesto, el plugin además genera su propio `intent-filter` entre los
+marcadores `AUTO-GENERATED` del manifiesto. El nuestro escrito a mano se conserva: dos
+`intent-filter` equivalentes no molestan, y si algún día falla la generación seguimos
+teniendo uno.
 
 La actividad usa `launchMode="singleTask"`, así que el enlace entra en la ventana ya
 abierta en lugar de arrancar una segunda copia.
+
+### Y el arranque en frío
+
+En el móvil hay un segundo camino que en Windows casi no se da: mientras el usuario está
+en el navegador, Android mata la aplicación en segundo plano y el enlace de vuelta la
+**arranca de cero**. Entonces `onOpenUrl` no llega a dispararse nunca, porque el aviso se
+emite antes de que exista nadie escuchando.
+
+Por eso `listenForAuthCallback` consulta primero `getCurrent()` —el enlace con el que se
+abrió la aplicación— y solo después registra el oyente. Los códigos ya procesados se
+guardan en un `Set`, porque `exchangeCodeForSession` solo funciona una vez y reintentarlo
+da un error confuso.
 
 ---
 
