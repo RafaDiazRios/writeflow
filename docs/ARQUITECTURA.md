@@ -222,11 +222,11 @@ guardado y sin red.
 - Salida de archivos en Android por el menú de compartir del sistema
 - Imágenes desde el disco, incrustadas y reescaladas, con soporte real en `.docx` y
   `.epub`
+- Reordenar arrastrando en el binder, el tablero de tarjetas y las líneas de trama
 
 **Pendiente, por orden de utilidad**
 
-1. Reordenar escenas arrastrando en el tablero de tarjetas.
-2. Instantáneas de versión por documento, al estilo de los *snapshots* de Scrivener.
+1. Instantáneas de versión por documento, al estilo de los *snapshots* de Scrivener.
 3. Sincronizar `daily_stats` para que la racha sea la misma en todos los equipos.
 4. Descarga de plantillas de ensayo adicionales desde un repositorio en línea.
 5. Que «en este día» contemple el 29 de febrero (hoy, un año bisiesto no encuentra
@@ -312,6 +312,49 @@ puede arreglar desde el código de la aplicación.
 Lo único que lo resuelve es reiniciar, así que hay un botón en **Ajustes →
 Teclado** que llama a `app.restart()`. No es un arreglo; es ahorrarle al usuario
 cerrar y abrir a mano cada vez.
+
+### Reordenar arrastrando
+
+Estructurar una novela es casi solo mover cosas de sitio, así que el arrastre del binder
+tiene tres cuidados que no son adorno:
+
+- **Se ve dónde va a caer antes de soltar**: una línea entre dos filas si va al lado, un
+  recuadro si va dentro de una carpeta. Sin eso hay que soltar para averiguar qué pasa.
+- **Las carpetas tienen tres zonas**, no dos: arriba «antes», abajo «después» y el tercio
+  central «dentro». Con solo dos mitades no habría forma de meter una escena en un
+  capítulo que ya tiene hijos.
+- **Una carpeta no puede caer dentro de sí misma.** Sería una rama colgando de su propio
+  nieto: desaparece de la pantalla y no hay manera de sacarla arrastrando.
+
+Y se reordena **sin ratón** con `Alt` + flechas. Arrastrar con precisión es incómodo para
+mucha gente, y en un árbol largo lo es para todo el mundo.
+
+La lógica vive en `src/lib/reordenar.ts`, en funciones puras sobre listas de
+identificadores: la interfaz decide *dónde* se ha soltado, y ese módulo decide *qué orden*
+queda. Es lo que se puede probar de verdad, y son 20 comprobaciones.
+
+Dos detalles con motivo:
+
+- **Se renumera la lista entera** (0, 100, 200…) en vez de buscar un hueco entre dos
+  vecinos. Buscar hueco es más rápido pero se degrada: tras unas cuantas inserciones
+  entre las mismas dos tarjetas los números se juntan hasta chocar, y el orden pasa a
+  decidirlo cómo ordene SQLite los empates.
+- **`reordenarLote` no toca las filas que no cambian.** Si reescribiera la lista entera,
+  cada arrastre marcaría diez documentos como pendientes de subir y la sincronización
+  acabaría moviendo texto que nadie ha editado.
+
+### El banco de pruebas del escritorio
+
+`scripts/preview-escritorio.mjs` (`npm run test:ui`) levanta la interfaz real en Chromium
+con un puente de Tauri que va contra un **SQLite de verdad** con las migraciones de
+verdad. Lo único simulado es el transporte. Sirve para lo que no se puede comprobar
+leyendo el código: que arrastrar una escena la deja donde se ve que va a caer.
+
+Un aviso para quien lo amplíe: **los eventos de arrastre hay que separarlos en el
+tiempo**. Los manejadores guardan qué se arrastra en el estado de React, y lanzar
+`dragstart`, `dragover` y `drop` en el mismo tic hace que los dos últimos lean el estado
+anterior —todavía vacío— y no pase nada. En un arrastre real median fotogramas; en la
+prueba hay que reproducir esa pausa o se está probando otra cosa.
 
 ### Sobre las imágenes
 

@@ -1,7 +1,7 @@
 {
   "name": "writeflow",
   "private": true,
-  "version": "0.2.1",
+  "version": "0.2.2",
   "type": "module",
   "description": "WriteFlow — diario calendarizado, novela, ensayos y terapia narrativa. Offline-first para Windows.",
   "scripts": {
@@ -14,6 +14,7 @@
     "test": "npm run test:db && npm run test:export",
     "test:db": "esbuild scripts/test-repo.ts --bundle --platform=node --format=esm --outfile=node_modules/.tmp/test-repo.mjs --loader:.json=json --alias:@tauri-apps/plugin-sql=./scripts/stub-sql.mjs --alias:@=./src --external:node:sqlite && node node_modules/.tmp/test-repo.mjs",
     "test:export": "esbuild scripts/test-export.ts --bundle --platform=node --format=esm --outfile=node_modules/.tmp/test-export.mjs --alias:@=./src --external:node:fs && node node_modules/.tmp/test-export.mjs",
+    "test:ui": "npm run build && node scripts/preview-escritorio.mjs",
     "android:init": "tauri android init",
     "android:dev": "tauri android dev",
     "android:build": "tauri android build --apk --target aarch64"

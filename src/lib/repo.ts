@@ -423,6 +423,34 @@ export const docs = {
   async reorder(id: string, parentId: string | null, position: number) {
     await docs.update(id, { parent_id: parentId, position })
   },
+
+  /**
+   * Guarda un reordenamiento entero de una vez.
+   *
+   * Se pasan todas las filas afectadas —las del padre de origen y las del de
+   * destino— ya con su posición nueva. **Las que no cambian no se tocan**: si
+   * se reescribiera la lista entera, cada arrastre marcaría diez documentos
+   * como pendientes de subir y la sincronización acabaría moviendo texto que
+   * nadie ha editado.
+   */
+  async reordenarLote(cambios: { id: string; parent_id: string | null; position: number }[]) {
+    const ids = cambios.map((c) => c.id)
+    if (!ids.length) return 0
+    const marcas = ids.map(() => '?').join(',')
+    const actuales = await query<{ id: string; parent_id: string | null; position: number }>(
+      `SELECT id, parent_id, position FROM documents WHERE id IN (${marcas})`,
+      ids,
+    )
+    const antes = new Map(actuales.map((r) => [r.id, r]))
+    let n = 0
+    for (const c of cambios) {
+      const a = antes.get(c.id)
+      if (a && a.parent_id === c.parent_id && a.position === c.position) continue
+      await docs.update(c.id, { parent_id: c.parent_id, position: c.position })
+      n++
+    }
+    return n
+  },
   async search(projectId: string, term: string): Promise<Doc[]> {
     const like = `%${term}%`
     return query<Doc>(

@@ -1,12 +1,15 @@
-import { useEffect, useState } from 'react'
-import { Plus, Trash2 } from 'lucide-react'
-import { beats as beatRepo, threads as threadRepo } from '@/lib/repo'
+import { useEffect, useRef, useState } from 'react'
+import { GripVertical, Plus, Trash2 } from 'lucide-react'
+import { beats as beatRepo, docs as docRepo, threads as threadRepo } from '@/lib/repo'
+import { moverJunto, posiciones } from '@/lib/reordenar'
 import type { Doc, PlotBeat, PlotThread } from '@/lib/types'
 
 interface Props {
   projectId: string
   docs: Doc[]
   onOpenDoc: (id: string) => void
+  /** Se llama tras reordenar tarjetas, para releer el proyecto. */
+  onDocsChanged: () => void
 }
 
 const BEAT_STATUS = ['idea', 'escrito', 'revisado']
@@ -18,9 +21,55 @@ const BEAT_STATUS = ['idea', 'escrito', 'revisado']
  * Scrivener). Abajo, las tramas: cada hilo con sus beats, para ver de un
  * vistazo si una subtrama desaparece durante doscientas páginas.
  */
-export default function Corkboard({ projectId, docs, onOpenDoc }: Props) {
+export default function Corkboard({ projectId, docs, onOpenDoc, onDocsChanged }: Props) {
   const [threads, setThreads] = useState<PlotThread[]>([])
   const [beats, setBeats] = useState<PlotBeat[]>([])
+  const [tarjetaArrastrada, setTarjetaArrastrada] = useState<string | null>(null)
+  const [tarjetaDestino, setTarjetaDestino] = useState<{ id: string; antes: boolean } | null>(null)
+  const [momentoArrastrado, setMomentoArrastrado] = useState<string | null>(null)
+  const [momentoDestino, setMomentoDestino] = useState<{ id: string; antes: boolean } | null>(null)
+  const cajas = useRef(new Map<string, HTMLElement>())
+
+  /**
+   * Reordena tarjetas de escena.
+   *
+   * Una tarjeta soltada junto a otra **adopta también su carpeta**. En el
+   * tablero no se ve la jerarquía —son tarjetas seguidas—, así que si al soltar
+   * una escena junto a otra se quedara en su capítulo original, saltaría de
+   * sitio al volver a dibujarse. Que siga a la tarjeta que tiene al lado es lo
+   * que se espera al verlo.
+   */
+  async function reordenarTarjetas(arrastrada: string, destinoId: string, antes: boolean) {
+    const dest = docs.find((d) => d.id === destinoId)
+    if (!dest || arrastrada === destinoId) return
+    const padre = dest.parent_id
+    const hermanos = docs
+      .filter((d) => d.parent_id === padre)
+      .sort((a, b) => a.position - b.position)
+      .map((d) => d.id)
+    const orden = moverJunto(hermanos, arrastrada, destinoId, antes ? 'antes' : 'despues')
+    const cambios = [...posiciones(orden)].map(([id, position]) => ({
+      id,
+      parent_id: padre,
+      position,
+    }))
+    await docRepo.reordenarLote(cambios)
+    onDocsChanged()
+  }
+
+  async function reordenarMomentos(threadId: string, arrastrado: string, destinoId: string, antes: boolean) {
+    if (arrastrado === destinoId) return
+    const mios = beats
+      .filter((b) => b.thread_id === threadId)
+      .sort((a, b) => a.position - b.position)
+      .map((b) => b.id)
+    const orden = moverJunto(mios, arrastrado, destinoId, antes ? 'antes' : 'despues')
+    for (const [id, position] of posiciones(orden)) {
+      const actual = beats.find((b) => b.id === id)
+      if (actual && actual.position !== position) await beatRepo.update(id, { position })
+    }
+    await load()
+  }
 
   async function load() {
     setThreads(await threadRepo.forProject(projectId))
@@ -47,8 +96,47 @@ export default function Corkboard({ projectId, docs, onOpenDoc }: Props) {
             {scenes.map((d) => (
               <button
                 key={d.id}
+                ref={(el) => {
+                  if (el) cajas.current.set(d.id, el)
+                  else cajas.current.delete(d.id)
+                }}
+                draggable
+                onDragStart={(e) => {
+                  setTarjetaArrastrada(d.id)
+                  e.dataTransfer.effectAllowed = 'move'
+                }}
+                onDragEnd={() => {
+                  setTarjetaArrastrada(null)
+                  setTarjetaDestino(null)
+                }}
+                onDragOver={(e) => {
+                  if (!tarjetaArrastrada || tarjetaArrastrada === d.id) return
+                  e.preventDefault()
+                  const caja = cajas.current.get(d.id)?.getBoundingClientRect()
+                  if (!caja) return
+                  // En una rejilla lo que importa es la mitad izquierda o derecha.
+                  const antes = e.clientX - caja.left < caja.width / 2
+                  setTarjetaDestino((p) => (p?.id === d.id && p.antes === antes ? p : { id: d.id, antes }))
+                }}
+                onDragLeave={() => setTarjetaDestino((p) => (p?.id === d.id ? null : p))}
+                onDrop={async (e) => {
+                  e.preventDefault()
+                  const antes = tarjetaDestino?.id === d.id ? tarjetaDestino.antes : false
+                  const arrastrada = tarjetaArrastrada
+                  setTarjetaArrastrada(null)
+                  setTarjetaDestino(null)
+                  if (arrastrada) await reordenarTarjetas(arrastrada, d.id, antes)
+                }}
                 onClick={() => onOpenDoc(d.id)}
-                className="flex h-40 flex-col rounded-md border border-amber-200 bg-amber-50 p-3 text-left shadow-sm transition hover:shadow-md dark:border-amber-900/50 dark:bg-amber-950/20"
+                className={`relative flex h-40 cursor-grab flex-col rounded-md border border-amber-200 bg-amber-50 p-3 text-left shadow-sm transition hover:shadow-md active:cursor-grabbing dark:border-amber-900/50 dark:bg-amber-950/20 ${
+                  tarjetaArrastrada === d.id ? 'opacity-40' : ''
+                } ${
+                  tarjetaDestino?.id === d.id
+                    ? tarjetaDestino.antes
+                      ? 'before:absolute before:-left-1.5 before:top-2 before:bottom-2 before:w-1 before:rounded before:bg-accent-500'
+                      : 'after:absolute after:-right-1.5 after:top-2 after:bottom-2 after:w-1 after:rounded after:bg-accent-500'
+                    : ''
+                }`}
               >
                 <div className="mb-1 truncate text-sm font-semibold">{d.title || 'Sin título'}</div>
                 <p className="flex-1 overflow-hidden text-xs leading-relaxed text-ink-600 dark:text-ink-300">
@@ -164,9 +252,58 @@ export default function Corkboard({ projectId, docs, onOpenDoc }: Props) {
                     {mine.map((b) => (
                       <div
                         key={b.id}
-                        className="w-52 shrink-0 rounded border-l-4 bg-ink-50 p-2 dark:bg-ink-800"
+                        ref={(el) => {
+                          if (el) cajas.current.set(b.id, el)
+                          else cajas.current.delete(b.id)
+                        }}
+                        onDragOver={(e) => {
+                          if (!momentoArrastrado || momentoArrastrado === b.id) return
+                          e.preventDefault()
+                          const caja = cajas.current.get(b.id)?.getBoundingClientRect()
+                          if (!caja) return
+                          const antes = e.clientX - caja.left < caja.width / 2
+                          setMomentoDestino((p) =>
+                            p?.id === b.id && p.antes === antes ? p : { id: b.id, antes },
+                          )
+                        }}
+                        onDragLeave={() => setMomentoDestino((p) => (p?.id === b.id ? null : p))}
+                        onDrop={async (e) => {
+                          e.preventDefault()
+                          const antes = momentoDestino?.id === b.id ? momentoDestino.antes : false
+                          const arrastrado = momentoArrastrado
+                          setMomentoArrastrado(null)
+                          setMomentoDestino(null)
+                          if (arrastrado) await reordenarMomentos(t.id, arrastrado, b.id, antes)
+                        }}
+                        className={`relative w-52 shrink-0 rounded border-l-4 bg-ink-50 p-2 dark:bg-ink-800 ${
+                          momentoArrastrado === b.id ? 'opacity-40' : ''
+                        } ${
+                          momentoDestino?.id === b.id
+                            ? momentoDestino.antes
+                              ? 'before:absolute before:-left-1 before:top-1 before:bottom-1 before:w-1 before:rounded before:bg-accent-500'
+                              : 'after:absolute after:-right-1 after:top-1 after:bottom-1 after:w-1 after:rounded after:bg-accent-500'
+                            : ''
+                        }`}
                         style={{ borderLeftColor: t.color }}
                       >
+                        {/* El asa: la tarjeta entera no puede ser arrastrable
+                            porque dentro hay campos de texto que hay que poder
+                            seleccionar con el ratón. */}
+                        <div
+                          draggable
+                          onDragStart={(e) => {
+                            setMomentoArrastrado(b.id)
+                            e.dataTransfer.effectAllowed = 'move'
+                          }}
+                          onDragEnd={() => {
+                            setMomentoArrastrado(null)
+                            setMomentoDestino(null)
+                          }}
+                          className="mb-1 flex cursor-grab justify-center text-ink-300 active:cursor-grabbing"
+                          title="Arrastrar para reordenar"
+                        >
+                          <GripVertical size={12} />
+                        </div>
                         <input
                           className="w-full bg-transparent text-xs font-semibold outline-none"
                           value={b.title}

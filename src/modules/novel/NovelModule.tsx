@@ -196,8 +196,8 @@ export default function NovelModule() {
                 await docRepo.remove(id)
                 if (projectId) await load(projectId)
               }}
-              onMove={async (id, parentId, position) => {
-                await docRepo.reorder(id, parentId, position)
+              onReorder={async (cambios) => {
+                await docRepo.reordenarLote(cambios)
                 if (projectId) await load(projectId, activeId ?? undefined)
               }}
             />
@@ -238,6 +238,7 @@ export default function NovelModule() {
         <Corkboard
           projectId={projectId}
           docs={items}
+          onDocsChanged={() => load(projectId, activeId ?? undefined)}
           onOpenDoc={(id) => {
             setActiveId(id)
             setTab('write')

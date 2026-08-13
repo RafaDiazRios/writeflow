@@ -9,6 +9,9 @@ import { promptForDay, rerollPrompt, PROMPTS, EXERCISES, TEMPLATES, suggestExerc
 import { hitRoute, indexSize, rebuildIndex, search, toMatchQuery } from '../src/lib/search'
 import { getGoal, recordDelta, setGoal, streaks, todayWords } from '../src/lib/stats'
 import { aIso, INDEXABLES, volverASubirTodo } from '../src/lib/sync'
+import {
+  esDescendiente, moverJunto, posiciones, sePuedeSoltar, zonaDeSoltar,
+} from '../src/lib/reordenar'
 
 let fails = 0
 function check(name: string, cond: boolean, extra = '') {
@@ -290,6 +293,50 @@ async function main() {
 
   const revs = await one<{ r: number }>('SELECT rev r FROM journal_entries WHERE id = ?', [enBlanco])
   check('a la vacía tampoco se le sube la revisión', (revs?.r ?? 0) === 1, `→ rev ${revs?.r}`)
+
+  // ── reordenar arrastrando ──
+  console.log('\n— reordenar: zonas de la fila —')
+  check('tercio de arriba de una carpeta = antes', zonaDeSoltar(5, 40, true) === 'antes')
+  check('centro de una carpeta = dentro', zonaDeSoltar(20, 40, true) === 'dentro')
+  check('tercio de abajo de una carpeta = después', zonaDeSoltar(35, 40, true) === 'despues')
+  check('un archivo solo tiene dos mitades', zonaDeSoltar(20, 40, false) === 'despues')
+  check('la mitad de arriba de un archivo = antes', zonaDeSoltar(10, 40, false) === 'antes')
+  check('altura cero no revienta', zonaDeSoltar(0, 0, true) === 'despues')
+
+  console.log('\n— reordenar: orden resultante —')
+  const lista = ['a', 'b', 'c', 'd']
+  check('mover al principio', moverJunto(lista, 'c', 'a', 'antes').join() === 'c,a,b,d')
+  check('mover al final', moverJunto(lista, 'a', 'd', 'despues').join() === 'b,c,d,a')
+  // El clásico: arrastrar hacia abajo se queda corto si no se saca el elemento
+  // de la lista antes de calcular el índice de destino.
+  check('arrastrar hacia abajo cae donde se ve', moverJunto(lista, 'a', 'c', 'despues').join() === 'b,c,a,d')
+  check('arrastrar hacia arriba cae donde se ve', moverJunto(lista, 'd', 'b', 'antes').join() === 'a,d,b,c')
+  check('destino desconocido lo manda al final', moverJunto(lista, 'a', 'zz', 'antes').join() === 'b,c,d,a')
+
+  const pos = posiciones(['x', 'y', 'z'])
+  check('posiciones separadas de 100 en 100', pos.get('x') === 0 && pos.get('y') === 100 && pos.get('z') === 200)
+
+  console.log('\n— reordenar: no romper el árbol —')
+  const arbol = [
+    { id: 'acto1', parent_id: null },
+    { id: 'cap1', parent_id: 'acto1' },
+    { id: 'esc1', parent_id: 'cap1' },
+    { id: 'acto2', parent_id: null },
+  ]
+  check('un nieto es descendiente', esDescendiente(arbol, 'acto1', 'esc1'))
+  check('un hermano no lo es', !esDescendiente(arbol, 'acto1', 'acto2'))
+  check('uno mismo cuenta como descendiente', esDescendiente(arbol, 'cap1', 'cap1'))
+  check('una carpeta no entra en su propio nieto', !sePuedeSoltar(arbol, 'acto1', 'esc1', 'dentro'))
+  check('ni al lado de su propio nieto', !sePuedeSoltar(arbol, 'acto1', 'esc1', 'antes'))
+  check('pero sí junto a un hermano', sePuedeSoltar(arbol, 'acto1', 'acto2', 'despues'))
+  check('y una escena sí entra en un capítulo', sePuedeSoltar(arbol, 'esc1', 'acto2', 'dentro'))
+  check('soltarse sobre sí mismo no vale', !sePuedeSoltar(arbol, 'cap1', 'cap1', 'antes'))
+
+  const conCiclo = [
+    { id: 'a', parent_id: 'b' },
+    { id: 'b', parent_id: 'a' },
+  ]
+  check('un ciclo heredado no cuelga la comprobación', esDescendiente(conCiclo, 'zzz', 'a') === false)
 
   console.log(fails === 0 ? '\n✔ Todas las pruebas pasan\n' : `\n✖ ${fails} prueba(s) fallan\n`)
   process.exit(fails === 0 ? 0 : 1)
