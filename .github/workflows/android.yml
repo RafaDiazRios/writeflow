@@ -109,11 +109,33 @@ jobs:
           name: writeflow-android
           path: ${{ steps.apk.outputs.path }}
 
-      # La release la crea el flujo de Windows; aquí solo se le añade el APK.
-      # Si aún no existe, no se considera un fallo: el artefacto ya está subido.
+      # La release la crea el flujo de Windows, que tarda bastante más que este.
+      # Antes se intentaba subir el APK una sola vez y, si la release todavía no
+      # existía, el paso fallaba en silencio (`continue-on-error`) y el flujo
+      # terminaba en verde sin APK adjunto. Ahora se espera a que aparezca.
       - name: Adjuntar a la release
         if: startsWith(github.ref, 'refs/tags/v')
-        continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload "$GITHUB_REF_NAME" "${{ steps.apk.outputs.path }}" --clobber
+        run: |
+          APK="${{ steps.apk.outputs.path }}"
+          # Hasta 25 minutos: lo que puede tardar la compilación de Windows.
+          for i in $(seq 1 50); do
+            if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+              gh release upload "$GITHUB_REF_NAME" "$APK" --clobber
+              echo "APK adjuntado a la release $GITHUB_REF_NAME"
+              echo "✅ APK adjuntado a la release **$GITHUB_REF_NAME**" >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            echo "La release $GITHUB_REF_NAME aún no existe (intento $i). Esperando…"
+            sleep 30
+          done
+          # Que no exista tras 25 minutos no invalida el APK: está en Artifacts.
+          # Pero tiene que verse, no quedarse en un paso verde que engaña.
+          echo "::warning::La release $GITHUB_REF_NAME no apareció en 25 minutos. El APK está en los artefactos de esta ejecución; adjúntalo a mano."
+          {
+            echo "### ⚠️ APK sin adjuntar"
+            echo ""
+            echo "La release \`$GITHUB_REF_NAME\` no existía al terminar la compilación."
+            echo "El APK está en **Artifacts → writeflow-android**, en esta misma página."
+          } >> "$GITHUB_STEP_SUMMARY"
