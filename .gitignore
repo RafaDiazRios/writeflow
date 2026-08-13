@@ -46,3 +46,6 @@ src-tauri/gen/apple/
 *.crdownload
 *.keystore.txt
 _to_delete/
+
+# Iconos de iOS: los genera «tauri icon» y aquí no hay objetivo iOS todavía.
+src-tauri/icons/ios/
