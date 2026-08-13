@@ -19,6 +19,18 @@ fn app_info(app: tauri::AppHandle) -> serde_json::Value {
     })
 }
 
+/// Reinicia la aplicación.
+///
+/// Existe por un fallo de WebView2, no nuestro: si se cambia la distribución de
+/// teclado de Windows con la aplicación ya abierta, el motor web se queda con la
+/// anterior. Se escribe con el teclado inglés aunque Windows diga español, y no
+/// funcionan ni las tildes ni la ñ. Microsoft lo tiene reconocido y sin arreglar;
+/// el único remedio es reiniciar la aplicación, así que al menos que sea un clic.
+#[tauri::command]
+fn reiniciar(app: tauri::AppHandle) {
+    app.restart()
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     #[allow(unused_mut)] // en móvil no hay bloque de instancia única que lo mute
@@ -66,6 +78,7 @@ pub fn run() {
             crypto::crypto_encrypt,
             crypto::crypto_decrypt,
             compartir::compartir_archivo,
+            reiniciar,
         ])
         .run(tauri::generate_context!())
         .expect("error al arrancar WriteFlow");

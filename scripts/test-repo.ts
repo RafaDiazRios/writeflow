@@ -1,14 +1,14 @@
 /* Prueba de integración del esquema local y de los repositorios.
    Se ejecuta contra un SQLite real (node:sqlite) mediante un sustituto del
    plugin de Tauri, así que valida el SQL de verdad, no una imitación. */
-import { db, getMeta, setMeta } from '../src/lib/db'
+import { db, getMeta, one, run, setMeta } from '../src/lib/db'
 import { beats, characters, docs, globalStats, journal, pendingCounts, projects, tags, therapy, threads } from '../src/lib/repo'
 import { countWords, docToText, EMPTY_DOC, textToDoc } from '../src/lib/text'
 import { docToMarkdown, compileProject } from '../src/lib/export'
 import { promptForDay, rerollPrompt, PROMPTS, EXERCISES, TEMPLATES, suggestExercise } from '../src/lib/prompts'
 import { hitRoute, indexSize, rebuildIndex, search, toMatchQuery } from '../src/lib/search'
 import { getGoal, recordDelta, setGoal, streaks, todayWords } from '../src/lib/stats'
-import { aIso, INDEXABLES } from '../src/lib/sync'
+import { aIso, INDEXABLES, volverASubirTodo } from '../src/lib/sync'
 
 let fails = 0
 function check(name: string, cond: boolean, extra = '') {
@@ -264,6 +264,32 @@ async function main() {
   for (const t of conTexto) {
     check(`${t} se reindexa al bajarla`, t in INDEXABLES)
   }
+
+  // ── el fallo que borró entradas de verdad ──
+  console.log('\n— sincronización: una fila vacía no se reenvía —')
+  // Cadena real: llega una entrada que no se puede descifrar, se guarda en
+  // blanco, el usuario pulsa «volver a subir todo», la fila vacía sube con rev
+  // mayor y pisa la copia buena del servidor. El otro equipo se la baja y pisa
+  // la suya. El texto desaparece de los dos ordenadores.
+  const idConTexto = await journal.create({
+    entry_date: '2026-08-20', title: 'Con texto',
+    content_text: 'Esto sí tiene contenido', word_count: 4,
+  })
+  const enBlanco = await journal.create({
+    entry_date: '2026-08-20', title: '', content_text: '', word_count: 0,
+  })
+  await run('UPDATE journal_entries SET dirty = 0')
+
+  const marcadas = await volverASubirTodo()
+  const sucia = async (id: string) =>
+    (await one<{ dirty: number }>('SELECT dirty FROM journal_entries WHERE id = ?', [id]))?.dirty
+
+  check('la entrada con texto se reenvía', (await sucia(idConTexto)) === 1)
+  check('la entrada vacía NO se reenvía', (await sucia(enBlanco)) === 0)
+  check('el recuento no cuenta las vacías', marcadas >= 1, `→ ${marcadas}`)
+
+  const revs = await one<{ r: number }>('SELECT rev r FROM journal_entries WHERE id = ?', [enBlanco])
+  check('a la vacía tampoco se le sube la revisión', (revs?.r ?? 0) === 1, `→ rev ${revs?.r}`)
 
   console.log(fails === 0 ? '\n✔ Todas las pruebas pasan\n' : `\n✖ ${fails} prueba(s) fallan\n`)
   process.exit(fails === 0 ? 0 : 1)

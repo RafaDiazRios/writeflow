@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { invoke } from '@tauri-apps/api/core'
 import { openUrl } from '@tauri-apps/plugin-opener'
 import {
-  AlertTriangle, Check, Cloud, Github, KeyRound, LogOut, Palette, RefreshCw, Search, Sparkles,
-  UploadCloud,
+  AlertTriangle, Check, Cloud, Github, Keyboard, KeyRound, LogOut, Palette, RefreshCw, RotateCcw,
+  Search, Sparkles, UploadCloud,
 } from 'lucide-react'
 import { useApp } from '@/store/app'
 import { STREAM_DESC, STREAM_LABEL } from '@/lib/prompts'
@@ -154,6 +154,23 @@ export default function Settings() {
               {app.e2eConfigured ? 'Desbloquear' : 'Configurar frase de paso'}
             </button>
           </div>
+        </Section>
+
+        {/* ── Teclado ── */}
+        <Section icon={<Keyboard size={16} />} title="Teclado">
+          <p className="mb-3 text-xs leading-relaxed text-ink-500 dark:text-ink-400">
+            Si cambias la distribución del teclado de Windows con WriteFlow ya abierto, el motor web
+            que usa la aplicación puede quedarse con la anterior: escribes en español y salen las
+            teclas inglesas, sin tildes ni ñ. Es un fallo conocido de WebView2, el componente de
+            Microsoft, y no hay forma de arreglarlo desde aquí. Reiniciar la aplicación lo resuelve
+            siempre. No se pierde nada: lo escrito se guarda solo.
+          </p>
+          <button
+            className="btn-outline"
+            onClick={() => void invoke('reiniciar')}
+          >
+            <RotateCcw size={14} /> Reiniciar WriteFlow
+          </button>
         </Section>
 
         {/* ── Supabase ── */}

@@ -241,16 +241,24 @@ const FECHAS = new Set(['created_at', 'updated_at', 'deleted_at'])
 /**
  * Descifra una fila que llega del servidor.
  *
- * Si algo no se puede descifrar **se avisa**. Antes se dejaba el campo vacío y
- * se seguía: la entrada aparecía en blanco, la sincronización decía «2 bajadas»
- * y no había forma de saber que el problema era la clave. Un fallo silencioso
- * que produce datos vacíos es peor que un error.
+ * Devuelve `null` si **algo** no se pudo descifrar, y quien llama debe saltarse
+ * la fila entera.
+ *
+ * Antes se dejaba el campo vacío y se seguía adelante, y eso destruyó datos de
+ * verdad. La cadena era: llega una fila que no se puede descifrar → se guarda en
+ * local con el contenido en blanco → el usuario pulsa «volver a subir todo» →
+ * esa fila vacía sube con `rev` mayor → pisa la copia buena del servidor → el
+ * otro equipo se la baja y pisa **su** copia buena. Un texto que existía en dos
+ * ordenadores desaparece de los dos.
+ *
+ * La regla, entonces: una fila que no se entiende **no se escribe**. Se cuenta,
+ * se avisa, y se queda en el servidor esperando a que haya clave para leerla.
  */
 async function decodeRow(
   spec: TableSpec,
   row: Record<string, unknown>,
   fallos?: { n: number },
-) {
+): Promise<Record<string, unknown> | null> {
   const out: Record<string, unknown> = {}
   for (const col of spec.columns) {
     const v = row[col]
@@ -258,8 +266,8 @@ async function decodeRow(
       try {
         out[col] = await maybeDecrypt(v, true)
       } catch {
-        out[col] = ''
         if (fallos) fallos.n++
+        return null
       }
     } else {
       out[col] = FECHAS.has(col) ? aIso(v ?? null) : (v ?? null)
@@ -336,6 +344,12 @@ async function pullTable(spec: TableSpec, userId: string, report: SyncReport) {
 
     const local = await one<Record<string, unknown>>(`SELECT * FROM ${spec.table} WHERE id = ?`, [id])
     const decoded = await decodeRow(spec, remote, fallos)
+
+    // Ilegible: no se toca nada en local. El cursor sí avanza, a propósito:
+    // pararlo aquí dejaría el resto de la tabla sin sincronizar para siempre si
+    // la clave no aparece nunca. Para recuperar estas filas cuando ya haya clave
+    // está «Volver a bajarlo todo», que reinicia los cursores.
+    if (!decoded) continue
 
     if (!local) {
       const cols = Object.keys(decoded)
@@ -422,8 +436,9 @@ export async function syncNow(): Promise<SyncReport> {
 
   if (report.undecryptable) {
     report.errors.push(
-      `${report.undecryptable} campo(s) llegaron cifrados con otra clave y no se han podido leer. ` +
-        'En Ajustes → Sincronización, «Usar la clave de la nube».',
+      `${report.undecryptable} entrada(s) llegaron cifradas con otra clave y se han dejado ` +
+        'intactas en vez de guardarlas en blanco. En Ajustes → Sincronización, adopta la clave ' +
+        'de la nube y luego pulsa «Volver a bajarlo todo» para recuperarlas.',
     )
   }
 
@@ -446,13 +461,31 @@ export async function syncNow(): Promise<SyncReport> {
 export async function volverASubirTodo(): Promise<number> {
   let n = 0
   for (const spec of TABLES) {
-    await run(`UPDATE ${spec.table} SET dirty = 1, rev = rev + 1 WHERE deleted_at IS NULL`)
-    const r = await one<{ n: number }>(
-      `SELECT COUNT(*) n FROM ${spec.table} WHERE deleted_at IS NULL`,
-    )
+    // Segundo cinturón: **una fila vacía nunca se reenvía**. Subirla con `rev`
+    // mayor pisaría una copia buena del servidor, y de ahí pasaría al resto de
+    // equipos. Si el contenido está vacío no hay nada que reparar en él, así
+    // que quedarse quieto no pierde nada y evita destruir lo ajeno.
+    const vacia = COLUMNA_CONTENIDO[spec.table]
+    const filtro = vacia
+      ? `deleted_at IS NULL AND ${vacia} IS NOT NULL AND TRIM(${vacia}) <> ''`
+      : 'deleted_at IS NULL'
+    await run(`UPDATE ${spec.table} SET dirty = 1, rev = rev + 1 WHERE ${filtro}`)
+    const r = await one<{ n: number }>(`SELECT COUNT(*) n FROM ${spec.table} WHERE ${filtro}`)
     n += r?.n ?? 0
   }
   return n
+}
+
+/**
+ * Columna que decide si una fila «tiene contenido».
+ *
+ * Solo las tablas cuyo texto viaja cifrado pueden llegar vacías por no poder
+ * descifrarse; el resto (proyectos, personajes, tramas) van en claro y su
+ * ausencia de texto es legítima.
+ */
+const COLUMNA_CONTENIDO: Record<string, string> = {
+  journal_entries: 'content_text',
+  therapy_entries: 'content_text',
 }
 
 /**

@@ -272,6 +272,47 @@ Y una de interfaz: lo que se bajaba entraba en SQLite pero las pantallas abierta
 enseñando lo que leyeron al montarse. `syncNow` emite `writeflow:sincronizado` y
 `useRefrescoTrasSync` hace que las vistas recarguen.
 
+### Una fila que no se entiende no se escribe
+
+Esta regla costó datos reales, así que conviene no tocarla.
+
+El motor descifraba lo que bajaba y, si fallaba, dejaba el campo **vacío** y
+seguía adelante. Con dos equipos cifrando con claves distintas, la cadena era:
+
+1. Llega una entrada que este equipo no puede descifrar.
+2. Se guarda en local con el contenido en blanco.
+3. El usuario pulsa «volver a subir todo» para reparar.
+4. Esa fila vacía sube con `rev` mayor y **pisa la copia buena del servidor**.
+5. El otro equipo se la baja y pisa **su** copia buena.
+
+Un texto que existía en dos ordenadores desaparece de los dos, y sin un solo
+error por el camino. Ahora hay dos cinturones:
+
+- `decodeRow` devuelve `null` si algo no se descifra, y `pullTable` **se salta
+  la fila entera**: ni inserta ni actualiza. El cursor **sí** avanza, a propósito:
+  pararlo en la fila ilegible dejaría el resto de la tabla sin sincronizar para
+  siempre si la clave no aparece nunca. Para recuperarlas cuando ya haya clave
+  está «Volver a bajarlo todo», que reinicia los cursores.
+- `volverASubirTodo` **no reenvía filas vacías** en las tablas cuyo texto viaja
+  cifrado. Si no hay contenido no hay nada que reparar, y quedarse quieto no
+  pierde nada mientras que subir sí puede destruir lo ajeno.
+
+La lección general: ante un dato ilegible, **no escribir** es siempre más seguro
+que escribir un valor por defecto. Un vacío se propaga; una fila que falta, no.
+
+### El teclado y WebView2
+
+Si se cambia la distribución de teclado de Windows con la aplicación abierta,
+WebView2 se queda con la anterior: se escribe con el mapa inglés aunque Windows
+diga español, sin tildes ni ñ. Es un fallo del componente de Microsoft
+([WebView2Feedback#4333](https://github.com/MicrosoftEdge/WebView2Feedback/issues/4333)),
+está abierto desde hace más de un año y afecta también a Teams y Outlook. No se
+puede arreglar desde el código de la aplicación.
+
+Lo único que lo resuelve es reiniciar, así que hay un botón en **Ajustes →
+Teclado** que llama a `app.restart()`. No es un arreglo; es ahorrarle al usuario
+cerrar y abrir a mano cada vez.
+
 ### Sobre las imágenes
 
 Se guardan **dentro del documento**, como data URL, y no como archivos en una carpeta
