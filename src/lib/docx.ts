@@ -8,6 +8,7 @@ import type { IParagraphOptions, IRunOptions, ParagraphChild } from 'docx'
 /** `IRunOptions` es de solo lectura; aquí se va construyendo campo a campo. */
 type MutableRun = { -readonly [K in keyof IRunOptions]: IRunOptions[K] }
 import type { JSONContent } from '@tiptap/react'
+import { num } from '@/i18n'
 
 /**
  * Exportación a .docx nativo.
@@ -476,7 +477,7 @@ export async function buildDocx(options: DocxOptions): Promise<Uint8Array> {
         new Paragraph({
           children: [
             new TextRun({
-              text: `unas ${rounded.toLocaleString('es-ES')} palabras`,
+              text: `unas ${num(rounded)} palabras`,
               font: 'Times New Roman',
               size: 24,
             }),

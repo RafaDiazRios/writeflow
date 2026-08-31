@@ -1,6 +1,7 @@
 import { getMeta, query, setMeta } from './db'
 import type { Doc, JournalEntry, Project, TherapyEntry } from './types'
 import { toISODate } from './dates'
+import { fechaHora } from '@/i18n'
 
 /**
  * Copia de seguridad versionada en GitHub.
@@ -189,7 +190,7 @@ export async function buildBackupFiles(includePrivate: boolean): Promise<Record<
   }
 
   files['README.md'] =
-    `# Archivo de escritura\n\nRespaldo generado por **WriteFlow** el ${new Date().toLocaleString('es-ES')}.\n\n` +
+    `# Archivo de escritura\n\nRespaldo generado por **WriteFlow** el ${fechaHora(new Date())}.\n\n` +
     `- \`diario/\` — entradas del diario por año\n- \`terapia/\` — sesiones de escritura terapéutica\n` +
     `- \`novelas/\` — proyectos de novela con capítulos, escenas y fichas de personaje\n- \`ensayos/\` — ensayos por plantilla\n\n` +
     `Cada archivo lleva metadatos en el encabezado YAML. Este respaldo es texto plano: se puede leer sin la aplicación.\n`

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { activityRange, type DayActivity } from '@/lib/stats'
 import { dayAndMonth, monthShort, toISODate } from '@/lib/dates'
+import { num } from '@/i18n'
 
 interface Props {
   /** Objetivo diario: marca los días cumplidos con un anillo. */
@@ -88,7 +89,7 @@ export default function ActivityHeatmap({ goal, weeks = 53, refreshKey = 0 }: Pr
       <figcaption className="mb-2 flex items-baseline gap-2">
         <span className="panel-title">Actividad del último año</span>
         <span className="text-[11px] text-ink-500 dark:text-ink-400">
-          {total.toLocaleString('es-ES')} palabras en {activeDays} días
+          {num(total)} palabras en {activeDays} días
         </span>
       </figcaption>
 
@@ -166,7 +167,7 @@ export default function ActivityHeatmap({ goal, weeks = 53, refreshKey = 0 }: Pr
           style={{ left: hover.x, top: hover.y - 6 }}
         >
           {hover.words > 0
-            ? `${hover.words.toLocaleString('es-ES')} palabras`
+            ? `${num(hover.words)} palabras`
             : 'Sin escribir'}
           {' · '}
           {dayAndMonth(hover.day)}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Check, Flame, Pencil, Target } from 'lucide-react'
 import { getGoal, setGoal, streaks, todayWords, type StreakInfo } from '@/lib/stats'
+import { num } from '@/i18n'
 
 interface Props {
   refreshKey?: number
@@ -86,9 +87,9 @@ export default function GoalCard({ refreshKey = 0, onGoalChange }: Props) {
         <>
           <div className="flex items-end gap-2">
             <span className="text-3xl font-semibold tabular-nums leading-none">
-              {words.toLocaleString('es-ES')}
+              {num(words)}
             </span>
-            <span className="pb-0.5 text-sm text-ink-400">/ {goal.toLocaleString('es-ES')}</span>
+            <span className="pb-0.5 text-sm text-ink-400">/ {num(goal)}</span>
             {done && (
               <span className="ml-auto flex items-center gap-1 pb-0.5 text-xs font-medium text-emerald-600 dark:text-emerald-400">
                 <Check size={14} /> cumplido
@@ -108,7 +109,7 @@ export default function GoalCard({ refreshKey = 0, onGoalChange }: Props) {
               ? 'Sin objetivo fijado.'
               : done
                 ? 'Lo de hoy ya está. Lo que escribas ahora es de propina.'
-                : `Te faltan ${left.toLocaleString('es-ES')} palabras.`}
+                : `Te faltan ${num(left)} palabras.`}
           </p>
 
           <div className="mt-3 flex items-center gap-4 border-t border-ink-100 pt-3 text-xs dark:border-ink-800">

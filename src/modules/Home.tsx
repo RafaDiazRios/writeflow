@@ -10,6 +10,7 @@ import { longDate, shortDate, toISODate } from '@/lib/dates'
 import { excerpt } from '@/lib/text'
 import { useApp } from '@/store/app'
 import type { JournalEntry } from '@/lib/types'
+import { num } from '@/i18n'
 
 export default function Home() {
   const nav = useNavigate()
@@ -89,7 +90,7 @@ export default function Home() {
         )}
 
         <div className="mb-6 grid grid-cols-3 gap-2 sm:gap-3">
-          <Metric value={stats.totalWords.toLocaleString('es-ES')} label="palabras escritas" />
+          <Metric value={num(stats.totalWords)} label="palabras escritas" />
           <Metric value={stats.journalEntries} label="entradas de diario" />
           <Metric value={stats.therapyEntries} label="sesiones de terapia" />
         </div>

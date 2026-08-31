@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import {
   addMonths, endOfMonth, format, isSameDay, isSameMonth, isToday, monthGrid, monthLabel,
-  startOfMonth, subMonths, toISODate, WEEKDAYS,
+  startOfMonth, subMonths, toISODate, weekdayInitials,
 } from '@/lib/dates'
 import { journal } from '@/lib/repo'
 
@@ -61,7 +61,7 @@ export default function Calendar({ selected, onSelect, refreshKey = 0 }: Props) 
       </div>
 
       <div className="mb-1 grid grid-cols-7 text-center text-[10px] font-semibold uppercase text-ink-400">
-        {WEEKDAYS.map((d, i) => (
+        {weekdayInitials().map((d: string, i: number) => (
           <div key={i}>{d}</div>
         ))}
       </div>

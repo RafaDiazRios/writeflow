@@ -16,6 +16,7 @@ import { useRefrescoTrasSync } from '@/lib/refresco'
 import { markPromptUsed } from '@/lib/prompts'
 import { useApp } from '@/store/app'
 import type { DailyPrompt, JournalEntry } from '@/lib/types'
+import { num } from '@/i18n'
 
 const MOODS = [
   { v: 1, emoji: '😔', label: 'Bajo' },
@@ -194,7 +195,7 @@ export default function JournalModule() {
             <div className="grid grid-cols-3 gap-2 text-center">
               <Stat icon={<Flame size={13} />} value={stats.streak} label="racha" />
               <Stat value={stats.entries} label="entradas" />
-              <Stat value={stats.words.toLocaleString('es-ES')} label="palabras" />
+              <Stat value={num(stats.words)} label="palabras" />
             </div>
 
             <button
@@ -289,7 +290,7 @@ export default function JournalModule() {
                   {longDate(active.entry_date)}
                 </span>
                 <span className="text-xs text-ink-400">
-                  {active.word_count.toLocaleString('es-ES')} palabras
+                  {num(active.word_count)} palabras
                 </span>
                 <div className="ml-auto flex items-center gap-1">
                   <button

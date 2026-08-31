@@ -1,5 +1,6 @@
 import { LABEL_COLOR } from './Binder'
 import type { Character, Doc } from '@/lib/types'
+import { num } from '@/i18n'
 
 interface Props {
   doc: Doc
@@ -114,7 +115,7 @@ export default function Inspector({ doc, characters, onPatch }: Props) {
         <div>
           <label className="label">Escritas</label>
           <div className="input !py-1.5 tabular-nums text-ink-500">
-            {doc.word_count.toLocaleString('es-ES')}
+            {num(doc.word_count)}
           </div>
         </div>
       </section>

@@ -1,0 +1,15 @@
+{
+  "ajustes.idioma.titulo": "Language",
+  "ajustes.idioma.interfaz": "Interface language",
+  "ajustes.idioma.interfazAyuda": "Menus, buttons and messages.",
+  "ajustes.idioma.contenido": "Content language",
+  "ajustes.idioma.contenidoAyuda": "Journal prompts, therapy exercises and essay templates. Entries you have already written keep the prompt exactly as you read it.",
+  "ajustes.semana.titulo": "Week starts on",
+  "ajustes.semana.ayuda": "Affects the calendar and the activity map. It does not change any figure or your streak.",
+  "ajustes.semana.lunes": "Monday",
+  "ajustes.semana.domingo": "Sunday",
+  "unidad.palabras": "words",
+  "unidad.caracteres": "characters",
+  "unidad.dias": "days",
+  "unidad.elementos": "items indexed"
+}

@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import { useApp } from '@/store/app'
 import { elegirImagenDelDisco } from '@/lib/imagenes'
+import { num } from '@/i18n'
 
 /** Barra de herramientas al estilo de un procesador de textos. */
 export default function EditorToolbar({ editor }: { editor: Editor }) {
@@ -177,8 +178,8 @@ export default function EditorToolbar({ editor }: { editor: Editor }) {
       </Group>
 
       <div className="ml-auto flex items-center gap-3 pr-1 text-xs tabular-nums text-ink-500 dark:text-ink-400">
-        <span>{words.toLocaleString('es-ES')} palabras</span>
-        <span className="hidden sm:inline">{chars.toLocaleString('es-ES')} caracteres</span>
+        <span>{num(words)} palabras</span>
+        <span className="hidden sm:inline">{num(chars)} caracteres</span>
       </div>
     </div>
   )

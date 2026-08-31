@@ -11,6 +11,7 @@ import { countWords, EMPTY_DOC, parseDoc } from '@/lib/text'
 import { templateById } from '@/lib/prompts'
 import { useApp } from '@/store/app'
 import type { Doc, EssayTemplate, Project } from '@/lib/types'
+import { num } from '@/i18n'
 
 export default function EssayModule() {
   const app = useApp()
@@ -126,8 +127,8 @@ export default function EssayModule() {
         {template && <span className="chip">{template.name}</span>}
         <div className="ml-auto flex items-center gap-3">
           <span className="text-xs tabular-nums text-ink-500">
-            {total.toLocaleString('es-ES')}
-            {target ? ` / ${target.toLocaleString('es-ES')}` : ''} palabras
+            {num(total)}
+            {target ? ` / ${num(target)}` : ''} palabras
           </span>
           <button
             className={`btn-ghost !px-1.5 ${showGuide ? 'text-accent-600' : ''}`}

@@ -1,0 +1,15 @@
+{
+  "ajustes.idioma.titulo": "Idioma",
+  "ajustes.idioma.interfaz": "Idioma de la interfaz",
+  "ajustes.idioma.interfazAyuda": "Menús, botones y avisos.",
+  "ajustes.idioma.contenido": "Idioma del contenido",
+  "ajustes.idioma.contenidoAyuda": "Prompts del diario, ejercicios de terapia y plantillas de ensayo. Las entradas que ya escribiste conservan su prompt tal y como lo leíste.",
+  "ajustes.semana.titulo": "La semana empieza en",
+  "ajustes.semana.ayuda": "Afecta al calendario y al mapa de actividad. No cambia ninguna cifra ni la racha.",
+  "ajustes.semana.lunes": "Lunes",
+  "ajustes.semana.domingo": "Domingo",
+  "unidad.palabras": "palabras",
+  "unidad.caracteres": "caracteres",
+  "unidad.dias": "días",
+  "unidad.elementos": "elementos indexados"
+}

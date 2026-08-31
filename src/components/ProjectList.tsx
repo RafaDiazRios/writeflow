@@ -3,6 +3,7 @@ import { BookOpen, Plus, ScrollText, Trash2 } from 'lucide-react'
 import { projects } from '@/lib/repo'
 import { shortDate } from '@/lib/dates'
 import type { Project, ProjectKind } from '@/lib/types'
+import { num } from '@/i18n'
 
 interface Props {
   kind: ProjectKind
@@ -59,7 +60,7 @@ export default function ProjectList({ kind, onOpen, onCreate, title, emptyHint, 
                     {p.logline || p.synopsis || 'Sin sinopsis todavía.'}
                   </p>
                   <div className="mt-3 flex items-center justify-between text-[11px] text-ink-400">
-                    <span>{w.toLocaleString('es-ES')} palabras</span>
+                    <span>{num(w)} palabras</span>
                     <span>{shortDate(p.updated_at.slice(0, 10))}</span>
                   </div>
                   {p.target_words > 0 && (

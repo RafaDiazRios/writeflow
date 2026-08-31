@@ -13,6 +13,7 @@ import { characters as charRepo, docs as docRepo, projects } from '@/lib/repo'
 import { countWords, EMPTY_DOC, parseDoc } from '@/lib/text'
 import { useApp } from '@/store/app'
 import type { Character, Doc, DocKind, Project } from '@/lib/types'
+import { num } from '@/i18n'
 
 type Tab = 'write' | 'board' | 'characters'
 
@@ -160,10 +161,10 @@ export default function NovelModule() {
 
         <div className="ml-auto flex items-center gap-3">
           <div className="hidden items-center gap-2 text-xs text-ink-500 sm:flex">
-            <span className="tabular-nums">{total.toLocaleString('es-ES')}</span>
+            <span className="tabular-nums">{num(total)}</span>
             {project?.target_words ? (
               <>
-                <span>/ {project.target_words.toLocaleString('es-ES')}</span>
+                <span>/ {num(project.target_words)}</span>
                 <div className="h-1.5 w-20 overflow-hidden rounded-full bg-ink-200 dark:bg-ink-700">
                   <div className="h-full bg-accent-500" style={{ width: `${pct}%` }} />
                 </div>

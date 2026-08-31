@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react'
 import { invoke } from '@tauri-apps/api/core'
 import { openUrl } from '@tauri-apps/plugin-opener'
-import {
-  AlertTriangle, Check, Cloud, Github, Keyboard, KeyRound, LogOut, Palette, RefreshCw, RotateCcw,
-  Search, Sparkles, UploadCloud,
-} from 'lucide-react'
+import { AlertTriangle, Check, Cloud, Github, KeyRound, Keyboard, Languages, LogOut, Palette, RefreshCw, RotateCcw, Search, Sparkles, UploadCloud } from 'lucide-react'
 import { useApp } from '@/store/app'
 import { STREAM_DESC, STREAM_LABEL } from '@/lib/prompts'
 import {
@@ -16,8 +13,12 @@ import ClaveCompartida from './ClaveCompartida'
 import { pendingCounts } from '@/lib/repo'
 import { indexedAt, indexSize, rebuildIndex } from '@/lib/search'
 import type { PromptStream } from '@/lib/types'
+import { num, fechaHora } from '@/i18n'
+import { IDIOMAS, NOMBRE_IDIOMA, type Idioma } from '@/i18n'
+import { useT } from '@/i18n/useT'
 
 export default function Settings() {
+  const t = useT()
   const app = useApp()
   const [info, setInfo] = useState<{ version: string; dataDir: string; dbPath: string } | null>(null)
   const [sbUrl, setSbUrl] = useState('')
@@ -54,6 +55,31 @@ export default function Settings() {
     <div className="h-full overflow-y-auto">
       <div className="mx-auto w-full max-w-3xl space-y-5 p-4 sm:space-y-6 sm:p-8">
         <h1 className="text-2xl font-semibold tracking-tight">Ajustes</h1>
+
+        {/* ── Idioma ── */}
+        <Section icon={<Languages size={16} />} title={t('ajustes.idioma.titulo')}>
+          <Row label={t('ajustes.idioma.interfaz')} hint={t('ajustes.idioma.interfazAyuda')}>
+            <Elector valor={app.uiLang} onElegir={(l) => app.setUiLang(l)} />
+          </Row>
+          <Row label={t('ajustes.idioma.contenido')} hint={t('ajustes.idioma.contenidoAyuda')}>
+            <Elector valor={app.contentLang} onElegir={(l) => app.setContentLang(l)} />
+          </Row>
+          <Row label={t('ajustes.semana.titulo')} hint={t('ajustes.semana.ayuda')}>
+            <div className="flex gap-1">
+              {([1, 0] as const).map((v) => (
+                <button
+                  key={v}
+                  onClick={() => app.setWeekStart(v)}
+                  className={`rounded px-3 py-1 text-xs transition ${
+                    app.weekStart === v ? 'bg-accent-600 text-white' : 'bg-ink-100 dark:bg-ink-800'
+                  }`}
+                >
+                  {v === 1 ? t('ajustes.semana.lunes') : t('ajustes.semana.domingo')}
+                </button>
+              ))}
+            </div>
+          </Row>
+        </Section>
 
         {/* ── Apariencia ── */}
         <Section icon={<Palette size={16} />} title="Apariencia y escritura">
@@ -134,8 +160,8 @@ export default function Settings() {
               Reconstruir el índice
             </button>
             <span className="text-xs text-ink-500">
-              {idx.n.toLocaleString('es-ES')} elementos indexados
-              {idx.at ? ` · ${new Date(idx.at).toLocaleString('es-ES')}` : ''}
+              {num(idx.n)} elementos indexados
+              {idx.at ? ` · ${fechaHora(idx.at)}` : ''}
             </span>
           </div>
         </Section>
@@ -245,7 +271,7 @@ export default function Settings() {
               Sincronizar ahora
             </button>
             <span>
-              {app.lastSync ? `Última vez: ${new Date(app.lastSync).toLocaleString('es-ES')}` : 'Sin sincronizar todavía'}
+              {app.lastSync ? `Última vez: ${fechaHora(app.lastSync)}` : 'Sin sincronizar todavía'}
             </span>
             {Object.keys(pending).length > 0 && (
               <span>· {Object.values(pending).reduce((a, b) => a + b, 0)} filas pendientes</span>
@@ -374,7 +400,7 @@ export default function Settings() {
             </button>
             {ghLast && (
               <span className="text-xs text-ink-500">
-                Último: {new Date(ghLast).toLocaleString('es-ES')}
+                Último: {fechaHora(ghLast)}
               </span>
             )}
           </div>
@@ -431,6 +457,25 @@ function Row({
         {hint && <div className="text-xs text-ink-500 dark:text-ink-400">{hint}</div>}
       </div>
       <div className="ml-auto shrink-0">{children}</div>
+    </div>
+  )
+}
+
+/** Los dos ajustes de idioma comparten pinta: se elige de la misma manera. */
+function Elector({ valor, onElegir }: { valor: Idioma; onElegir: (l: Idioma) => void }) {
+  return (
+    <div className="flex gap-1">
+      {IDIOMAS.map((l) => (
+        <button
+          key={l}
+          onClick={() => onElegir(l)}
+          className={`rounded px-3 py-1 text-xs transition ${
+            valor === l ? 'bg-accent-600 text-white' : 'bg-ink-100 dark:bg-ink-800'
+          }`}
+        >
+          {NOMBRE_IDIOMA[l]}
+        </button>
+      ))}
     </div>
   )
 }
