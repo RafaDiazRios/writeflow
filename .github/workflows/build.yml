@@ -18,9 +18,28 @@ jobs:
     name: Comprobaciones (TypeScript + Rust)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # El GITHUB_TOKEN solo puede crear releases sobre commits alcanzables
+      # desde una rama. Si la etiqueta se puso sobre un commit que nunca se
+      # subió a main, la release falla con «Resource not accessible by
+      # integration» —un mensaje que no explica nada— y encima lo hace después
+      # de diez minutos compilando Windows. Se comprueba aquí, en un segundo.
+      - name: Comprobar que la etiqueta está en main
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ESTADO=$(gh api "repos/$GITHUB_REPOSITORY/compare/main...$GITHUB_SHA" --jq .status)
+          case "$ESTADO" in
+            identical|behind)
+              echo "La etiqueta $GITHUB_REF_NAME apunta a un commit que está en main." ;;
+            *)
+              echo "::error::La etiqueta $GITHUB_REF_NAME apunta a $GITHUB_SHA, que NO está en main (compare dice «$ESTADO»). Sube main, borra la etiqueta y vuelve a crearla sobre el commit ya publicado."
+              exit 1 ;;
+          esac
 
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -59,9 +78,9 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -84,7 +103,10 @@ jobs:
           tagName: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
           releaseName: ${{ github.ref_type == 'tag' && format('WriteFlow {0}', github.ref_name) || '' }}
           releaseBody: 'Descarga el instalador `.exe` (recomendado) o el `.msi`.'
-          releaseDraft: true
+          # Publicada, no en borrador. El flujo de Android espera a que la
+          # release exista para adjuntarle el APK, y `gh release view` no ve los
+          # borradores: en borrador el APK se quedaba siempre sin adjuntar.
+          releaseDraft: false
           prerelease: false
 
       - name: Publicar los instaladores como artefacto
