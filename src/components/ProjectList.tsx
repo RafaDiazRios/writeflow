@@ -4,6 +4,7 @@ import { projects } from '@/lib/repo'
 import { shortDate } from '@/lib/dates'
 import type { Project, ProjectKind } from '@/lib/types'
 import { num } from '@/i18n'
+import { useT } from '@/i18n/useT'
 
 interface Props {
   kind: ProjectKind
@@ -16,6 +17,7 @@ interface Props {
 
 /** Rejilla de proyectos, compartida por Novela y Ensayos. */
 export default function ProjectList({ kind, onOpen, onCreate, title, emptyHint, refreshKey = 0 }: Props) {
+  const t = useT()
   const [items, setItems] = useState<Project[]>([])
   const [words, setWords] = useState<Record<string, number>>({})
 
@@ -36,7 +38,7 @@ export default function ProjectList({ kind, onOpen, onCreate, title, emptyHint, 
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
         <button className="btn-primary" onClick={onCreate}>
-          <Plus size={16} /> Nuevo
+          <Plus size={16} /> {t('comun.nuevo')}
         </button>
       </div>
 
@@ -57,10 +59,10 @@ export default function ProjectList({ kind, onOpen, onCreate, title, emptyHint, 
                   <h3 className="truncate pr-6 text-base font-semibold">{p.title}</h3>
                   {p.subtitle && <p className="truncate text-xs text-ink-500">{p.subtitle}</p>}
                   <p className="mt-2 line-clamp-2 h-8 text-xs text-ink-500 dark:text-ink-400">
-                    {p.logline || p.synopsis || 'Sin sinopsis todavía.'}
+                    {p.logline || p.synopsis || t('proyectos.sinSinopsis')}
                   </p>
                   <div className="mt-3 flex items-center justify-between text-[11px] text-ink-400">
-                    <span>{num(w)} palabras</span>
+                    <span>{num(w)} {t('unidad.palabras')}</span>
                     <span>{shortDate(p.updated_at.slice(0, 10))}</span>
                   </div>
                   {p.target_words > 0 && (
@@ -71,9 +73,9 @@ export default function ProjectList({ kind, onOpen, onCreate, title, emptyHint, 
                 </button>
                 <button
                   className="absolute right-2 top-3 rounded p-1 text-ink-300 opacity-0 transition hover:bg-red-50 hover:text-red-600 group-hover:opacity-100 dark:hover:bg-red-950/40"
-                  title="Eliminar proyecto"
+                  title={t('proyectos.eliminar')}
                   onClick={async () => {
-                    if (window.confirm(`¿Eliminar «${p.title}»?`)) {
+                    if (window.confirm(t('proyectos.confirmarEliminar', { titulo: p.title }))) {
                       await projects.remove(p.id)
                       setItems((s) => s.filter((x) => x.id !== p.id))
                     }

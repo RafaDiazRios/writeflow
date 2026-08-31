@@ -3,6 +3,8 @@ import { ChevronDown, ChevronRight, History } from 'lucide-react'
 import { journal } from '@/lib/repo'
 import { excerpt } from '@/lib/text'
 import { dayAndMonth } from '@/lib/dates'
+import { useT } from '@/i18n/useT'
+import { t as traducir } from '@/i18n'
 import type { JournalEntry } from '@/lib/types'
 
 interface Props {
@@ -16,8 +18,8 @@ const MOOD_EMOJI: Record<number, string> = { 1: '😔', 2: '🙁', 3: '😐', 4:
 
 function yearsAgoLabel(entryDate: string, today: string): string {
   const diff = Number(today.slice(0, 4)) - Number(entryDate.slice(0, 4))
-  if (diff === 1) return 'hace un año'
-  return `hace ${diff} años`
+  if (diff === 1) return traducir('enEsteDia.haceUnAno')
+  return traducir('enEsteDia.haceAnos', { n: diff })
 }
 
 /**
@@ -28,6 +30,7 @@ function yearsAgoLabel(entryDate: string, today: string): string {
  * aporta nada y ocupa la mitad de la columna.
  */
 export default function OnThisDay({ date, onOpen, refreshKey = 0 }: Props) {
+  const t = useT()
   const [items, setItems] = useState<JournalEntry[]>([])
   const [open, setOpen] = useState(true)
 
@@ -46,9 +49,9 @@ export default function OnThisDay({ date, onOpen, refreshKey = 0 }: Props) {
         onClick={() => setOpen((v) => !v)}
       >
         <History size={14} className="shrink-0 text-amber-700 dark:text-amber-500" />
-        <span className="panel-title !text-amber-800 dark:!text-amber-400">En este día</span>
+        <span className="panel-title !text-amber-800 dark:!text-amber-400">{t('enEsteDia.titulo')}</span>
         <span className="text-[11px] text-amber-700/70 dark:text-amber-500/70">
-          {years === 1 ? 'un año' : `${years} años`}
+          {years === 1 ? t('enEsteDia.unAno') : t('enEsteDia.anos', { n: years })}
         </span>
         {open ? (
           <ChevronDown size={14} className="ml-auto shrink-0 text-amber-700/60" />
@@ -64,7 +67,10 @@ export default function OnThisDay({ date, onOpen, refreshKey = 0 }: Props) {
               key={e.id}
               onClick={() => onOpen(e)}
               className="w-full rounded px-2 py-1.5 text-left transition hover:bg-amber-100/70 dark:hover:bg-amber-900/30"
-              title={`Abrir la entrada del ${dayAndMonth(e.entry_date)} de ${e.entry_date.slice(0, 4)}`}
+              title={t('enEsteDia.abrir', {
+                fecha: dayAndMonth(e.entry_date),
+                ano: e.entry_date.slice(0, 4),
+              })}
             >
               <div className="flex items-baseline gap-1.5">
                 <span className="text-[11px] font-semibold text-amber-800 dark:text-amber-400">
@@ -75,7 +81,7 @@ export default function OnThisDay({ date, onOpen, refreshKey = 0 }: Props) {
                 </span>
                 {e.mood ? <span className="ml-auto text-xs">{MOOD_EMOJI[e.mood]}</span> : null}
               </div>
-              <div className="truncate text-[13px] font-medium">{e.title || 'Sin título'}</div>
+              <div className="truncate text-[13px] font-medium">{e.title || t('comun.sinTitulo')}</div>
               <div className="line-clamp-2 text-[11px] leading-snug text-ink-500 dark:text-ink-400">
                 {excerpt(e.content_text, 110)}
               </div>

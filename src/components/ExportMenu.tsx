@@ -6,6 +6,7 @@ import {
 } from '@/lib/export'
 import { useApp } from '@/store/app'
 import { useIsMobile } from '@/lib/platform'
+import { useT } from '@/i18n/useT'
 
 interface Props {
   projectId: string
@@ -16,6 +17,7 @@ interface Props {
 
 /** Menú de exportación compartido por Novela y Ensayos. */
 export default function ExportMenu({ projectId, projectTitle, variant }: Props) {
+  const t = useT()
   const app = useApp()
   const movil = useIsMobile()
   const [open, setOpen] = useState(false)
@@ -42,8 +44,8 @@ export default function ExportMenu({ projectId, projectTitle, variant }: Props) 
       const path = await fn()
       // En Android no hay ruta que enseñar: el destino lo elige el usuario en el
       // selector del sistema, y Android no nos cuenta cuál fue.
-      if (path === SALIDA_COMPARTIDA) app.notify('ok', 'Enviado al menú de compartir')
-      else if (path) app.notify('ok', `Guardado en ${path}`)
+      if (path === SALIDA_COMPARTIDA) app.notify('ok', t('comun.enviadoCompartir'))
+      else if (path) app.notify('ok', t('comun.guardadoEn', { ruta: path }))
     } catch (e) {
       app.notify('error', e instanceof Error ? e.message : String(e))
     } finally {
@@ -62,8 +64,8 @@ export default function ExportMenu({ projectId, projectTitle, variant }: Props) 
     {
       key: 'docx',
       icon: <FileType2 size={15} />,
-      label: 'Word (.docx)',
-      hint: 'Con estilos, índice de títulos y numeración de páginas',
+      label: t('exportar.docx'),
+      hint: t('exportar.docxAyuda'),
       action: () => exportProjectDocx(projectId, 'libro'),
     },
     ...(variant === 'novel'
@@ -71,15 +73,15 @@ export default function ExportMenu({ projectId, projectTitle, variant }: Props) 
           {
             key: 'manuscript',
             icon: <FileType2 size={15} />,
-            label: 'Word — formato manuscrito',
-            hint: 'Times 12, doble espacio, un capítulo por página. Lo que piden agentes y editoriales',
+            label: t('exportar.manuscrito'),
+            hint: t('exportar.manuscritoAyuda'),
             action: () => exportProjectDocx(projectId, 'manuscrito'),
           },
           {
             key: 'epub',
             icon: <BookOpen size={15} />,
-            label: 'Libro electrónico (.epub)',
-            hint: 'Para leerlo en el Kindle, el móvil o cualquier lector',
+            label: t('exportar.epub'),
+            hint: t('exportar.epubAyuda'),
             action: () => exportProjectEpub(projectId),
           },
         ]
@@ -87,15 +89,15 @@ export default function ExportMenu({ projectId, projectTitle, variant }: Props) 
     {
       key: 'md',
       icon: <FileText size={15} />,
-      label: 'Markdown (.md)',
-      hint: 'Texto plano, para archivar o llevar a otra herramienta',
+      label: t('exportar.md'),
+      hint: t('exportar.mdAyuda'),
       action: async () => saveTextFile(`${projectTitle}.md`, await compileProject(projectId), 'md'),
     },
     {
       key: 'html',
       icon: <FileCode2 size={15} />,
-      label: 'Página web (.html)',
-      hint: 'Para publicar o imprimir desde el navegador',
+      label: t('exportar.html'),
+      hint: t('exportar.htmlAyuda'),
       action: async () =>
         saveTextFile(
           `${projectTitle}.html`,
@@ -110,12 +112,14 @@ export default function ExportMenu({ projectId, projectTitle, variant }: Props) 
       <button
         className="btn-ghost"
         onClick={() => setOpen((v) => !v)}
-        title={movil ? 'Compartir' : 'Exportar'}
+        title={movil ? t('exportar.compartir') : t('exportar.exportar')}
         aria-haspopup="menu"
         aria-expanded={open}
       >
         <Download size={16} />
-        <span className="hidden text-xs sm:inline">{movil ? 'Compartir' : 'Exportar'}</span>
+        <span className="hidden text-xs sm:inline">
+          {movil ? t('exportar.compartir') : t('exportar.exportar')}
+        </span>
         <ChevronDown size={13} className={`transition ${open ? 'rotate-180' : ''}`} />
       </button>
 
@@ -135,7 +139,7 @@ export default function ExportMenu({ projectId, projectTitle, variant }: Props) 
               <span className="mt-0.5 shrink-0 text-accent-600 dark:text-accent-400">{it.icon}</span>
               <span className="min-w-0">
                 <span className="block text-[13px] font-medium">
-                  {busy === it.key ? 'Generando…' : it.label}
+                  {busy === it.key ? t('comun.generando') : it.label}
                 </span>
                 <span className="block text-[11px] leading-snug text-ink-500 dark:text-ink-400">
                   {it.hint}

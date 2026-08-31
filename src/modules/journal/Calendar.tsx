@@ -4,7 +4,9 @@ import {
   addMonths, endOfMonth, format, isSameDay, isSameMonth, isToday, monthGrid, monthLabel,
   startOfMonth, subMonths, toISODate, weekdayInitials,
 } from '@/lib/dates'
+import { num } from '@/i18n'
 import { journal } from '@/lib/repo'
+import { useT } from '@/i18n/useT'
 
 interface Props {
   selected: string
@@ -18,6 +20,7 @@ interface Props {
  * punto cuya intensidad depende de cuánto escribiste ese día.
  */
 export default function Calendar({ selected, onSelect, refreshKey = 0 }: Props) {
+  const t = useT()
   const [month, setMonth] = useState(() => startOfMonth(new Date(selected)))
   const [counts, setCounts] = useState<Record<string, { n: number; words: number }>>({})
 
@@ -42,7 +45,7 @@ export default function Calendar({ selected, onSelect, refreshKey = 0 }: Props) 
   return (
     <div className="select-none">
       <div className="mb-2 flex items-center justify-between">
-        <button className="btn-ghost !px-1.5" onClick={() => setMonth(subMonths(month, 1))} title="Mes anterior">
+        <button className="btn-ghost !px-1.5" onClick={() => setMonth(subMonths(month, 1))} title={t('calendario.mesAnterior')}>
           <ChevronLeft size={16} />
         </button>
         <button
@@ -51,11 +54,11 @@ export default function Calendar({ selected, onSelect, refreshKey = 0 }: Props) 
             setMonth(startOfMonth(new Date()))
             onSelect(toISODate())
           }}
-          title="Ir a hoy"
+          title={t('calendario.irAHoy')}
         >
           {monthLabel(month)}
         </button>
-        <button className="btn-ghost !px-1.5" onClick={() => setMonth(addMonths(month, 1))} title="Mes siguiente">
+        <button className="btn-ghost !px-1.5" onClick={() => setMonth(addMonths(month, 1))} title={t('calendario.mesSiguiente')}>
           <ChevronRight size={16} />
         </button>
       </div>
@@ -77,7 +80,14 @@ export default function Calendar({ selected, onSelect, refreshKey = 0 }: Props) 
             <button
               key={iso}
               onClick={() => onSelect(iso)}
-              title={info ? `${info.n} entrada(s), ${info.words} palabras` : 'Sin entradas'}
+              title={
+                info
+                  ? t(info.n === 1 ? 'calendario.resumenDiaUna' : 'calendario.resumenDia', {
+                      n: info.n,
+                      palabras: num(info.words),
+                    })
+                  : t('calendario.sinEntradas')
+              }
               className={[
                 'relative flex h-9 flex-col items-center justify-center rounded-md text-[13px] transition',
                 isSel

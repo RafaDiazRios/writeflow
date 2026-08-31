@@ -1,5 +1,6 @@
 import { getMeta, one, query, run, setMeta } from './db'
 import { excerpt } from './text'
+import { t } from '@/i18n'
 
 /**
  * Búsqueda global sobre los cuatro módulos.
@@ -15,13 +16,8 @@ import { excerpt } from './text'
 
 export type SearchKind = 'journal' | 'doc' | 'therapy' | 'character' | 'project'
 
-export const KIND_LABEL: Record<SearchKind, string> = {
-  journal: 'Diario',
-  doc: 'Documento',
-  therapy: 'Terapia',
-  character: 'Personaje',
-  project: 'Proyecto',
-}
+/** Rótulo del tipo de resultado, en el idioma activo. */
+export const kindLabel = (k: SearchKind): string => t(`tipo.${k}`)
 
 export interface IndexInput {
   kind: SearchKind
@@ -248,7 +244,7 @@ export async function search(input: string, opts: SearchOptions = {}): Promise<S
       projectId: r.project_id,
       parent: r.parent,
       date: r.date,
-      title: r.title || '(sin título)',
+      title: r.title || t('archivo.sinTitulo'),
       snippet: r.snip?.trim() ? r.snip : excerpt('', 0),
       rank: r.rank,
     }))

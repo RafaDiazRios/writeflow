@@ -1,7 +1,7 @@
 import { getMeta, query, setMeta } from './db'
 import type { Doc, JournalEntry, Project, TherapyEntry } from './types'
 import { toISODate } from './dates'
-import { fechaHora } from '@/i18n'
+import { fechaHora, t } from '@/i18n'
 
 /**
  * Copia de seguridad versionada en GitHub.
@@ -219,19 +219,19 @@ export async function backupToGitHub(
     throw new Error('Falta configurar el token, el propietario o el repositorio de GitHub')
   }
 
-  onProgress?.('Generando archivos Markdown…')
+  onProgress?.(t('respaldo.generando'))
   const files = await buildBackupFiles(cfg.includePrivate)
   const paths = Object.keys(files)
-  if (!paths.length) throw new Error('No hay nada que respaldar todavía')
+  if (!paths.length) throw new Error(t('error.nadaQueRespaldar'))
 
-  onProgress?.('Leyendo el estado de la rama…')
+  onProgress?.(t('respaldo.leyendoRama'))
   const baseSha = await getRef(cfg)
   const commitRes = await fetch(`${API}/repos/${cfg.owner}/${cfg.repo}/git/commits/${baseSha}`, {
     headers: headers(cfg.token),
   })
   const baseCommit = await commitRes.json()
 
-  onProgress?.(`Subiendo ${paths.length} archivos…`)
+  onProgress?.(t('respaldo.subiendo', { n: paths.length }))
   const tree: { path: string; mode: '100644'; type: 'blob'; sha: string }[] = []
   for (const path of paths) {
     const blobRes = await fetch(`${API}/repos/${cfg.owner}/${cfg.repo}/git/blobs`, {
@@ -244,7 +244,7 @@ export async function backupToGitHub(
     tree.push({ path: `archivo/${path}`, mode: '100644', type: 'blob', sha: blob.sha })
   }
 
-  onProgress?.('Creando el commit…')
+  onProgress?.(t('respaldo.creandoCommit'))
   const treeRes = await fetch(`${API}/repos/${cfg.owner}/${cfg.repo}/git/trees`, {
     method: 'POST',
     headers: headers(cfg.token),
@@ -270,7 +270,7 @@ export async function backupToGitHub(
   if (!updRes.ok) throw new Error(`Error moviendo la rama: ${await updRes.text()}`)
 
   await setMeta('gh_last_backup', new Date().toISOString())
-  onProgress?.('Respaldo completado')
+  onProgress?.(t('respaldo.completado'))
   return { commitUrl: newCommit.html_url as string, files: paths.length }
 }
 

@@ -31,6 +31,8 @@
  * completa.
  */
 
+import { t } from '@/i18n'
+
 /** Lado mayor tras el reescalado. */
 export const MAX_LADO = 1600
 
@@ -77,7 +79,7 @@ function cargar(blob: Blob): Promise<HTMLImageElement> {
     }
     img.onerror = () => {
       URL.revokeObjectURL(url)
-      reject(new Error('No se pudo leer la imagen. ¿Seguro que el archivo es una imagen?'))
+      reject(new Error(t('error.imagenIlegible')))
     }
     img.src = url
   })
@@ -118,7 +120,7 @@ export async function prepararImagen(blob: Blob): Promise<ImagenPreparada> {
   lienzo.width = ancho
   lienzo.height = alto
   const ctx = lienzo.getContext('2d')
-  if (!ctx) throw new Error('El navegador no permite procesar imágenes aquí')
+  if (!ctx) throw new Error(t('error.sinCanvas'))
   ctx.drawImage(img, 0, 0, ancho, alto)
 
   const conservarPng = blob.type === 'image/png' && tieneTransparencia(ctx, ancho, alto)

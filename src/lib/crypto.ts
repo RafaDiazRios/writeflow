@@ -1,5 +1,6 @@
 import { invoke } from '@tauri-apps/api/core'
 import { getMeta, setMeta } from './db'
+import { t } from '@/i18n'
 
 /**
  * Cifrado extremo a extremo.
@@ -48,7 +49,7 @@ export async function setupPassphrase(passphrase: string): Promise<void> {
 /** Desbloqueo en arranques posteriores (o en un ordenador nuevo). */
 export async function unlock(passphrase: string): Promise<void> {
   const salt = await getMeta(SALT_KEY)
-  if (!salt) throw new Error('Este dispositivo aún no tiene cifrado configurado')
+  if (!salt) throw new Error(t('error.sinCifrado'))
   const key = await invoke<string>('crypto_derive_key', { passphrase, saltB64: salt })
   const fp = await invoke<string>('crypto_key_fingerprint', { keyB64: key })
   const stored = await getMeta(FP_KEY)
@@ -101,13 +102,13 @@ export async function keyMaterial(): Promise<{ salt: string | null; fingerprint:
 }
 
 export async function encrypt(plaintext: string): Promise<string> {
-  if (!sessionKey) throw new Error('El almacén cifrado está bloqueado')
+  if (!sessionKey) throw new Error(t('error.almacenBloqueado'))
   if (!plaintext) return ''
   return invoke<string>('crypto_encrypt', { keyB64: sessionKey, plaintext })
 }
 
 export async function decrypt(payload: string): Promise<string> {
-  if (!sessionKey) throw new Error('El almacén cifrado está bloqueado')
+  if (!sessionKey) throw new Error(t('error.almacenBloqueado'))
   if (!payload) return ''
   return invoke<string>('crypto_decrypt', { keyB64: sessionKey, payload })
 }

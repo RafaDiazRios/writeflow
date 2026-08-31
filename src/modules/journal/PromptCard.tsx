@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Quote, RefreshCw, Sparkles } from 'lucide-react'
-import { markPromptShown, promptForDay, rerollPrompt, STREAM_LABEL } from '@/lib/prompts'
+import { markPromptShown, promptForDay, rerollPrompt, streamLabel } from '@/lib/prompts'
+import { useT } from '@/i18n/useT'
 import { useApp } from '@/store/app'
 import type { DailyPrompt } from '@/lib/types'
 
@@ -14,6 +15,7 @@ interface Props {
  * día siempre propone lo mismo aunque cierres la app o estés sin conexión.
  */
 export default function PromptCard({ date, onWriteAbout }: Props) {
+  const t = useT()
   const streams = useApp((s) => s.streams)
   const [prompt, setPrompt] = useState<DailyPrompt>(() => promptForDay(date, streams))
   const [seen, setSeen] = useState<string[]>([])
@@ -35,10 +37,12 @@ export default function PromptCard({ date, onWriteAbout }: Props) {
     <div className={`card border-l-4 p-4 ${tone[prompt.stream] ?? 'border-l-accent-500'}`}>
       <div className="mb-2 flex items-center gap-2">
         <Sparkles size={14} className="text-accent-600 dark:text-accent-400" />
-        <span className="panel-title">Prompt del día · {STREAM_LABEL[prompt.stream]}</span>
+        <span className="panel-title">
+          {t('prompt.delDia')} · {streamLabel(prompt.stream)}
+        </span>
         <button
           className="ml-auto rounded p-1 text-ink-400 transition hover:bg-ink-100 hover:text-ink-700 dark:hover:bg-ink-800"
-          title="Proponme otro"
+          title={t('prompt.otro')}
           onClick={() => {
             const p = rerollPrompt(date, streams, seen)
             setPrompt(p)
@@ -62,7 +66,7 @@ export default function PromptCard({ date, onWriteAbout }: Props) {
       )}
 
       <button className="btn-outline mt-3 w-full justify-center" onClick={() => onWriteAbout(prompt)}>
-        Escribir sobre esto
+        {t('prompt.escribirSobreEsto')}
       </button>
     </div>
   )

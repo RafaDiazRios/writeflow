@@ -20,8 +20,10 @@ import { isCloudConfigured, getSession } from '@/lib/supabase'
 import { lastSyncAt } from '@/lib/sync'
 import { pendingCounts } from '@/lib/repo'
 import { listenForAuthCallback } from '@/lib/deeplink'
+import { useT } from '@/i18n/useT'
 
 export default function App() {
+  const t = useT()
   const app = useApp()
   const isMobile = useIsMobile()
   const [error, setError] = useState<string | null>(null)
@@ -59,7 +61,7 @@ export default function App() {
     return (
       <div className="grid h-full place-items-center p-8">
         <div className="card max-w-lg p-6">
-          <h1 className="mb-2 text-lg font-semibold">No se pudo abrir la base de datos</h1>
+          <h1 className="mb-2 text-lg font-semibold">{t('armazon.errorBase')}</h1>
           <p className="text-sm text-ink-600 dark:text-ink-300">{error}</p>
         </div>
       </div>
@@ -69,7 +71,7 @@ export default function App() {
   if (!app.ready) {
     return (
       <div className="grid h-full place-items-center">
-        <div className="animate-pulse text-sm text-ink-400">Abriendo WriteFlow…</div>
+        <div className="animate-pulse text-sm text-ink-400">{t('armazon.abriendo')}</div>
       </div>
     )
   }

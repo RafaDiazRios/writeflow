@@ -3,6 +3,7 @@ import { GripVertical, Plus, Trash2 } from 'lucide-react'
 import { beats as beatRepo, docs as docRepo, threads as threadRepo } from '@/lib/repo'
 import { moverJunto, posiciones } from '@/lib/reordenar'
 import type { Doc, PlotBeat, PlotThread } from '@/lib/types'
+import { useT } from '@/i18n/useT'
 
 interface Props {
   projectId: string
@@ -12,6 +13,8 @@ interface Props {
   onDocsChanged: () => void
 }
 
+/* Valores canónicos: se guardan tal cual en la base de datos y se traducen
+ * solo al pintarlos, con la clave `momento.<valor>`. */
 const BEAT_STATUS = ['idea', 'escrito', 'revisado']
 
 /**
@@ -22,6 +25,7 @@ const BEAT_STATUS = ['idea', 'escrito', 'revisado']
  * vistazo si una subtrama desaparece durante doscientas páginas.
  */
 export default function Corkboard({ projectId, docs, onOpenDoc, onDocsChanged }: Props) {
+  const t = useT()
   const [threads, setThreads] = useState<PlotThread[]>([])
   const [beats, setBeats] = useState<PlotBeat[]>([])
   const [tarjetaArrastrada, setTarjetaArrastrada] = useState<string | null>(null)
@@ -86,10 +90,10 @@ export default function Corkboard({ projectId, docs, onOpenDoc, onDocsChanged }:
   return (
     <div className="h-full overflow-y-auto p-5">
       <section className="mb-8">
-        <h2 className="panel-title mb-2">Tarjetas de escena</h2>
+        <h2 className="panel-title mb-2">{t('tablero.tarjetas')}</h2>
         {scenes.length === 0 ? (
           <p className="rounded-md border border-dashed border-ink-300 p-6 text-center text-xs text-ink-400 dark:border-ink-700">
-            Cuando crees escenas en la estructura aparecerán aquí como tarjetas.
+            {t('tablero.sinTarjetas')}
           </p>
         ) : (
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
@@ -138,13 +142,15 @@ export default function Corkboard({ projectId, docs, onOpenDoc, onDocsChanged }:
                     : ''
                 }`}
               >
-                <div className="mb-1 truncate text-sm font-semibold">{d.title || 'Sin título'}</div>
+                <div className="mb-1 truncate text-sm font-semibold">{d.title || t('comun.sinTitulo')}</div>
                 <p className="flex-1 overflow-hidden text-xs leading-relaxed text-ink-600 dark:text-ink-300">
-                  {d.synopsis || <span className="italic text-ink-400">Sin sinopsis.</span>}
+                  {d.synopsis || <span className="italic text-ink-400">{t('tablero.sinSinopsis')}</span>}
                 </p>
                 <div className="mt-2 flex items-center justify-between text-[10px] text-ink-500">
-                  <span>{d.status ?? ''}</span>
-                  <span>{d.word_count} pal.</span>
+                  <span>{d.status ? t(`estado.${d.status.toLowerCase()}`) : ''}</span>
+                  <span>
+                    {d.word_count} {t('tablero.palabrasAbrev')}
+                  </span>
                 </div>
               </button>
             ))}
@@ -154,13 +160,13 @@ export default function Corkboard({ projectId, docs, onOpenDoc, onDocsChanged }:
 
       <section>
         <div className="mb-2 flex items-center gap-2">
-          <h2 className="panel-title mr-auto">Líneas de trama</h2>
+          <h2 className="panel-title mr-auto">{t('tablero.tramas')}</h2>
           <button
             className="btn-outline !py-1 text-xs"
             onClick={async () => {
               await threadRepo.create({
                 project_id: projectId,
-                name: 'Nueva trama',
+                name: t('tablero.tramaNueva'),
                 kind: 'subplot',
                 color: '#9db8de',
                 position: threads.length * 100,
@@ -168,61 +174,61 @@ export default function Corkboard({ projectId, docs, onOpenDoc, onDocsChanged }:
               await load()
             }}
           >
-            <Plus size={13} /> Trama
+            <Plus size={13} /> {t('tablero.nuevaTrama')}
           </button>
         </div>
 
         {threads.length === 0 ? (
           <p className="rounded-md border border-dashed border-ink-300 p-6 text-center text-xs text-ink-400 dark:border-ink-700">
-            Crea una trama principal y una o dos subtramas, y ve colocando sus momentos clave.
+            {t('tablero.sinTramas')}
           </p>
         ) : (
           <div className="space-y-3">
-            {threads.map((t) => {
-              const mine = beats.filter((b) => b.thread_id === t.id)
+            {threads.map((trama) => {
+              const mine = beats.filter((b) => b.thread_id === trama.id)
               return (
-                <div key={t.id} className="card p-3">
+                <div key={trama.id} className="card p-3">
                   <div className="mb-2 flex items-center gap-2">
                     <input
                       type="color"
                       className="h-5 w-5 cursor-pointer rounded border-none bg-transparent"
-                      value={t.color}
+                      value={trama.color}
                       onChange={async (e) => {
-                        await threadRepo.update(t.id, { color: e.target.value })
-                        setThreads((s) => s.map((x) => (x.id === t.id ? { ...x, color: e.target.value } : x)))
+                        await threadRepo.update(trama.id, { color: e.target.value })
+                        setThreads((s) => s.map((x) => (x.id === trama.id ? { ...x, color: e.target.value } : x)))
                       }}
                     />
                     <input
                       className="flex-1 bg-transparent text-sm font-semibold outline-none"
-                      value={t.name}
+                      value={trama.name}
                       onChange={async (e) => {
                         const name = e.target.value
-                        setThreads((s) => s.map((x) => (x.id === t.id ? { ...x, name } : x)))
-                        await threadRepo.update(t.id, { name })
+                        setThreads((s) => s.map((x) => (x.id === trama.id ? { ...x, name } : x)))
+                        await threadRepo.update(trama.id, { name })
                       }}
                     />
                     <select
                       className="rounded border border-ink-200 bg-transparent px-1.5 py-0.5 text-xs dark:border-ink-700"
-                      value={t.kind}
+                      value={trama.kind}
                       onChange={async (e) => {
-                        await threadRepo.update(t.id, { kind: e.target.value })
+                        await threadRepo.update(trama.id, { kind: e.target.value })
                         setThreads((s) =>
-                          s.map((x) => (x.id === t.id ? { ...x, kind: e.target.value as PlotThread['kind'] } : x)),
+                          s.map((x) => (x.id === trama.id ? { ...x, kind: e.target.value as PlotThread['kind'] } : x)),
                         )
                       }}
                     >
-                      <option value="main">Principal</option>
-                      <option value="subplot">Subtrama</option>
-                      <option value="arc">Arco de personaje</option>
+                      <option value="main">{t('tablero.tramaPrincipal')}</option>
+                      <option value="subplot">{t('tablero.tramaSubtrama')}</option>
+                      <option value="arc">{t('tablero.tramaArco')}</option>
                     </select>
                     <button
                       className="btn-ghost !px-1.5 !py-1"
-                      title="Añadir momento"
+                      title={t('tablero.anadirMomento')}
                       onClick={async () => {
                         await beatRepo.create({
                           project_id: projectId,
-                          thread_id: t.id,
-                          title: 'Momento',
+                          thread_id: trama.id,
+                          title: t('tablero.momentoNuevo'),
                           status: 'idea',
                           position: mine.length * 100,
                         })
@@ -233,10 +239,10 @@ export default function Corkboard({ projectId, docs, onOpenDoc, onDocsChanged }:
                     </button>
                     <button
                       className="btn-danger !px-1.5 !py-1"
-                      title="Eliminar trama"
+                      title={t('tablero.eliminarTrama')}
                       onClick={async () => {
-                        if (window.confirm(`¿Eliminar la trama «${t.name}»?`)) {
-                          await threadRepo.remove(t.id)
+                        if (window.confirm(t('tablero.confirmarEliminarTrama', { nombre: trama.name }))) {
+                          await threadRepo.remove(trama.id)
                           await load()
                         }
                       }}
@@ -247,7 +253,7 @@ export default function Corkboard({ projectId, docs, onOpenDoc, onDocsChanged }:
 
                   <div className="flex gap-2 overflow-x-auto pb-1">
                     {mine.length === 0 && (
-                      <span className="py-3 text-xs text-ink-400">Sin momentos todavía.</span>
+                      <span className="py-3 text-xs text-ink-400">{t('tablero.sinMomentos')}</span>
                     )}
                     {mine.map((b) => (
                       <div
@@ -273,7 +279,7 @@ export default function Corkboard({ projectId, docs, onOpenDoc, onDocsChanged }:
                           const arrastrado = momentoArrastrado
                           setMomentoArrastrado(null)
                           setMomentoDestino(null)
-                          if (arrastrado) await reordenarMomentos(t.id, arrastrado, b.id, antes)
+                          if (arrastrado) await reordenarMomentos(trama.id, arrastrado, b.id, antes)
                         }}
                         className={`relative w-52 shrink-0 rounded border-l-4 bg-ink-50 p-2 dark:bg-ink-800 ${
                           momentoArrastrado === b.id ? 'opacity-40' : ''
@@ -284,7 +290,7 @@ export default function Corkboard({ projectId, docs, onOpenDoc, onDocsChanged }:
                               : 'after:absolute after:-right-1 after:top-1 after:bottom-1 after:w-1 after:rounded after:bg-accent-500'
                             : ''
                         }`}
-                        style={{ borderLeftColor: t.color }}
+                        style={{ borderLeftColor: trama.color }}
                       >
                         {/* El asa: la tarjeta entera no puede ser arrastrable
                             porque dentro hay campos de texto que hay que poder
@@ -300,7 +306,7 @@ export default function Corkboard({ projectId, docs, onOpenDoc, onDocsChanged }:
                             setMomentoDestino(null)
                           }}
                           className="mb-1 flex cursor-grab justify-center text-ink-300 active:cursor-grabbing"
-                          title="Arrastrar para reordenar"
+                          title={t('tablero.arrastrarMomento')}
                         >
                           <GripVertical size={12} />
                         </div>
@@ -316,7 +322,7 @@ export default function Corkboard({ projectId, docs, onOpenDoc, onDocsChanged }:
                         <textarea
                           className="mt-1 w-full resize-none bg-transparent text-[11px] leading-snug outline-none"
                           rows={3}
-                          placeholder="Qué ocurre y qué cambia"
+                          placeholder={t('tablero.momentoPista')}
                           value={b.description ?? ''}
                           onChange={async (e) => {
                             const description = e.target.value
@@ -336,12 +342,13 @@ export default function Corkboard({ projectId, docs, onOpenDoc, onDocsChanged }:
                           >
                             {BEAT_STATUS.map((s) => (
                               <option key={s} value={s}>
-                                {s}
+                                {t(`momento.${s}`)}
                               </option>
                             ))}
                           </select>
                           <button
                             className="text-ink-300 hover:text-red-600"
+                            title={t('tablero.eliminarMomento')}
                             onClick={async () => {
                               await beatRepo.remove(b.id)
                               await load()

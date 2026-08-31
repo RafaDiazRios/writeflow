@@ -2,9 +2,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BookOpen, CalendarDays, CornerDownLeft, Search, ScrollText, UserRound, Wind, X } from 'lucide-react'
 import {
-  hitRoute, KIND_LABEL, projectKinds, search, type SearchHit, type SearchKind,
+  hitRoute, kindLabel, projectKinds, search, type SearchHit, type SearchKind,
 } from '@/lib/search'
 import { shortDate } from '@/lib/dates'
+import { useT } from '@/i18n/useT'
 
 const ICON: Record<SearchKind, typeof Search> = {
   journal: CalendarDays,
@@ -29,6 +30,7 @@ interface Props {
  * como se usa de verdad un buscador mientras se escribe.
  */
 export default function GlobalSearch({ open, onClose }: Props) {
+  const t = useT()
   const nav = useNavigate()
   const [term, setTerm] = useState('')
   const [hits, setHits] = useState<SearchHit[]>([])
@@ -125,10 +127,14 @@ export default function GlobalSearch({ open, onClose }: Props) {
             value={term}
             onChange={(e) => setTerm(e.target.value)}
             onKeyDown={onKeyDown}
-            placeholder="Buscar en el diario, la novela, los ensayos y la terapia…"
+            placeholder={t('buscador.placeholder')}
             className="w-full bg-transparent py-3.5 text-[15px] outline-none placeholder:text-ink-400"
           />
-          <button className="shrink-0 rounded p-1 text-ink-400 hover:text-ink-700" onClick={onClose}>
+          <button
+            className="shrink-0 rounded p-1 text-ink-400 hover:text-ink-700"
+            onClick={onClose}
+            title={t('ensayo.cerrar')}
+          >
             <X size={16} />
           </button>
         </div>
@@ -136,11 +142,11 @@ export default function GlobalSearch({ open, onClose }: Props) {
         {counts.length > 0 && (
           <div className="flex flex-wrap gap-1 border-b border-ink-100 px-3 py-1.5 dark:border-ink-800">
             <Chip active={filter === 'all'} onClick={() => setFilter('all')}>
-              Todo {hits.length}
+              {t('buscador.todo')} {hits.length}
             </Chip>
             {counts.map(([k, n]) => (
               <Chip key={k} active={filter === k} onClick={() => setFilter(k)}>
-                {KIND_LABEL[k]} {n}
+                {kindLabel(k)} {n}
               </Chip>
             ))}
           </div>
@@ -148,17 +154,11 @@ export default function GlobalSearch({ open, onClose }: Props) {
 
         <div ref={listRef} className="min-h-0 flex-1 overflow-y-auto">
           {term.trim().length < 2 ? (
-            <Hint>
-              Escribe al menos dos letras. Busca por palabras completas, sin distinguir
-              mayúsculas ni tildes: <em>cafe</em> encuentra <em>café</em>.
-            </Hint>
+            <Hint>{t('buscador.pista')}</Hint>
           ) : busy && shown.length === 0 ? (
-            <Hint>Buscando…</Hint>
+            <Hint>{t('buscador.buscando')}</Hint>
           ) : shown.length === 0 ? (
-            <Hint>
-              Nada para «{term}». Prueba con una palabra más corta o con otra distinta del mismo
-              texto.
-            </Hint>
+            <Hint>{t('buscador.nada', { termino: term })}</Hint>
           ) : (
             shown.map((h, i) => {
               const Icon = ICON[h.kind]
@@ -177,7 +177,7 @@ export default function GlobalSearch({ open, onClose }: Props) {
                     <span className="flex items-baseline gap-2">
                       <span className="truncate text-sm font-medium">{h.title}</span>
                       <span className="shrink-0 text-[10px] uppercase tracking-wide text-ink-400">
-                        {KIND_LABEL[h.kind]}
+                        {kindLabel(h.kind)}
                         {h.parent ? ` · ${h.parent}` : ''}
                       </span>
                       {h.date && (
@@ -200,9 +200,9 @@ export default function GlobalSearch({ open, onClose }: Props) {
         </div>
 
         <div className="flex items-center gap-3 border-t border-ink-200 px-4 py-1.5 text-[10px] text-ink-400 dark:border-ink-800">
-          <span>↑↓ moverse</span>
-          <span>↵ abrir</span>
-          <span>Esc cerrar</span>
+          <span>{t('buscador.moverse')}</span>
+          <span>{t('buscador.abrir')}</span>
+          <span>{t('buscador.cerrar')}</span>
           <span className="ml-auto">Ctrl + K</span>
         </div>
       </div>

@@ -2,26 +2,30 @@ import { useEffect, useState } from 'react'
 import { Plus, Trash2, UserRound } from 'lucide-react'
 import { characters as repo } from '@/lib/repo'
 import type { Character } from '@/lib/types'
+import { useT } from '@/i18n/useT'
 
-const FIELDS: { key: keyof Character; label: string; hint: string; long?: boolean }[] = [
-  { key: 'role', label: 'Papel en la historia', hint: 'Protagonista, antagonista, aliado, mentor…' },
-  { key: 'age', label: 'Edad', hint: '34' },
-  { key: 'occupation', label: 'Oficio', hint: 'A qué dedica sus días' },
-  { key: 'appearance', label: 'Aspecto', hint: 'Lo que se ve al entrar en una habitación', long: true },
-  { key: 'personality', label: 'Carácter', hint: 'Tres rasgos y la contradicción que los une', long: true },
-  { key: 'goal', label: 'Qué quiere', hint: 'El deseo concreto que mueve sus decisiones', long: true },
-  { key: 'motivation', label: 'Por qué lo quiere', hint: 'La herida o la creencia que hay debajo', long: true },
-  { key: 'conflict', label: 'Qué se lo impide', hint: 'El obstáculo externo y el interno', long: true },
-  { key: 'arc', label: 'Arco', hint: 'Quién es al empezar, quién al terminar y qué lo cambia', long: true },
-  { key: 'backstory', label: 'Pasado', hint: 'Solo lo que sigue actuando en el presente', long: true },
-  { key: 'voice', label: 'Voz', hint: 'Muletillas, ritmo, lo que nunca diría', long: true },
-  { key: 'secrets', label: 'Secretos', hint: 'Lo que oculta y a quién', long: true },
-  { key: 'relationships', label: 'Relaciones', hint: 'Con quién y qué debe cada uno al otro', long: true },
-  { key: 'notes', label: 'Notas', hint: 'Cabos sueltos, ideas, referencias', long: true },
+/* Solo las claves y la forma del campo. El rótulo y la pista se traducen al
+ * pintar, con `ficha.<clave>` y `ficha.<clave>.pista`. */
+const FIELDS: { key: keyof Character; long?: boolean }[] = [
+  { key: 'role' },
+  { key: 'age' },
+  { key: 'occupation' },
+  { key: 'appearance', long: true },
+  { key: 'personality', long: true },
+  { key: 'goal', long: true },
+  { key: 'motivation', long: true },
+  { key: 'conflict', long: true },
+  { key: 'arc', long: true },
+  { key: 'backstory', long: true },
+  { key: 'voice', long: true },
+  { key: 'secrets', long: true },
+  { key: 'relationships', long: true },
+  { key: 'notes', long: true },
 ]
 
 /** Fichas de personaje: el equivalente a las Character Sheets de Scrivener. */
 export default function CharacterSheets({ projectId }: { projectId: string }) {
+  const t = useT()
   const [items, setItems] = useState<Character[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
 
@@ -39,7 +43,7 @@ export default function CharacterSheets({ projectId }: { projectId: string }) {
   }, [projectId])
 
   async function create() {
-    const id = await repo.create({ project_id: projectId, name: 'Personaje nuevo', color: '#6892ca' })
+    const id = await repo.create({ project_id: projectId, name: t('ficha.personajeNuevo'), color: '#6892ca' })
     await load(id)
   }
 
@@ -53,14 +57,14 @@ export default function CharacterSheets({ projectId }: { projectId: string }) {
     <div className="flex h-full min-h-0">
       <div className="flex w-56 shrink-0 flex-col border-r border-ink-200 dark:border-ink-800">
         <div className="flex items-center border-b border-ink-200 px-2 py-1.5 dark:border-ink-800">
-          <span className="panel-title mr-auto">Personajes</span>
-          <button className="btn-ghost !px-1.5 !py-1" onClick={create} title="Nuevo personaje">
+          <span className="panel-title mr-auto">{t('ficha.titulo')}</span>
+          <button className="btn-ghost !px-1.5 !py-1" onClick={create} title={t('ficha.nuevo')}>
             <Plus size={15} />
           </button>
         </div>
         <div className="flex-1 overflow-y-auto p-1">
           {items.length === 0 && (
-            <p className="p-3 text-center text-xs text-ink-400">Sin fichas todavía.</p>
+            <p className="p-3 text-center text-xs text-ink-400">{t('ficha.sinFichas')}</p>
           )}
           {items.map((c) => (
             <button
@@ -73,7 +77,7 @@ export default function CharacterSheets({ projectId }: { projectId: string }) {
               }`}
             >
               <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: c.color }} />
-              <span className="truncate">{c.name || 'Sin nombre'}</span>
+              <span className="truncate">{c.name || t('comun.sinNombre')}</span>
             </button>
           ))}
         </div>
@@ -85,10 +89,10 @@ export default function CharacterSheets({ projectId }: { projectId: string }) {
             <div>
               <UserRound size={30} className="mx-auto mb-2 text-ink-300" />
               <p className="mb-4 text-sm text-ink-500">
-                Una ficha por personaje: quién es, qué quiere y qué se lo impide.
+                {t('ficha.vacio')}
               </p>
               <button className="btn-primary" onClick={create}>
-                <Plus size={16} /> Crear la primera ficha
+                <Plus size={16} /> {t('ficha.crearPrimera')}
               </button>
             </div>
           </div>
@@ -100,19 +104,19 @@ export default function CharacterSheets({ projectId }: { projectId: string }) {
                 className="h-8 w-8 cursor-pointer rounded border border-ink-200 bg-transparent dark:border-ink-700"
                 value={active.color}
                 onChange={(e) => patch({ color: e.target.value })}
-                title="Color en el tablero"
+                title={t('ficha.color')}
               />
               <input
                 className="flex-1 bg-transparent font-serif text-2xl font-semibold outline-none"
                 value={active.name}
-                placeholder="Nombre"
+                placeholder={t('ficha.nombre')}
                 onChange={(e) => patch({ name: e.target.value })}
               />
               <button
                 className="btn-danger !px-2"
-                title="Eliminar ficha"
+                title={t('ficha.eliminar')}
                 onClick={async () => {
-                  if (window.confirm(`¿Eliminar la ficha de «${active.name}»?`)) {
+                  if (window.confirm(t('ficha.confirmarEliminar', { nombre: active.name }))) {
                     await repo.remove(active.id)
                     await load()
                   }
@@ -124,7 +128,7 @@ export default function CharacterSheets({ projectId }: { projectId: string }) {
 
             <input
               className="input mb-5"
-              placeholder="Alias o cómo lo llaman los demás"
+              placeholder={t('ficha.alias')}
               value={active.alias ?? ''}
               onChange={(e) => patch({ alias: e.target.value })}
             />
@@ -132,18 +136,18 @@ export default function CharacterSheets({ projectId }: { projectId: string }) {
             <div className="space-y-4">
               {FIELDS.map((f) => (
                 <div key={String(f.key)}>
-                  <label className="label">{f.label}</label>
+                  <label className="label">{t(`ficha.${String(f.key)}`)}</label>
                   {f.long ? (
                     <textarea
                       className="input min-h-[70px] resize-y text-[13px] leading-relaxed"
-                      placeholder={f.hint}
+                      placeholder={t(`ficha.${String(f.key)}.pista`)}
                       value={(active[f.key] as string) ?? ''}
                       onChange={(e) => patch({ [f.key]: e.target.value } as Partial<Character>)}
                     />
                   ) : (
                     <input
                       className="input"
-                      placeholder={f.hint}
+                      placeholder={t(`ficha.${String(f.key)}.pista`)}
                       value={(active[f.key] as string) ?? ''}
                       onChange={(e) => patch({ [f.key]: e.target.value } as Partial<Character>)}
                     />

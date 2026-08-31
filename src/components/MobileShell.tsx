@@ -9,12 +9,13 @@ import { ensureIndex } from '@/lib/search'
 import { useApp } from '@/store/app'
 import { startAutoSync, stopAutoSync, syncNow } from '@/lib/sync'
 import { pendingCounts } from '@/lib/repo'
+import { useT } from '@/i18n/useT'
 
 const TABS = [
-  { to: '/', label: 'Hoy', icon: HomeIcon, end: true },
-  { to: '/diario', label: 'Diario', icon: CalendarDays },
-  { to: '/terapia', label: 'Terapia', icon: Wind },
-  { to: '/biblioteca', label: 'Leer', icon: Library },
+  { to: '/', clave: 'nav.hoy', icon: HomeIcon, end: true },
+  { to: '/diario', clave: 'nav.diario', icon: CalendarDays },
+  { to: '/terapia', clave: 'nav.terapiaCorto', icon: Wind },
+  { to: '/biblioteca', clave: 'nav.leer', icon: Library },
 ]
 
 /**
@@ -25,6 +26,7 @@ const TABS = [
  * navega entrando y saliendo, no mirando de reojo.
  */
 export default function MobileShell({ children }: { children: React.ReactNode }) {
+  const t = useT()
   const app = useApp()
   const nav = useNavigate()
   const loc = useLocation()
@@ -53,7 +55,7 @@ export default function MobileShell({ children }: { children: React.ReactNode })
       pendingCount: Object.values(pending).reduce((a, b) => a + b, 0),
     })
     if (r.errors.length) app.notify('error', r.errors[0])
-    else app.notify('ok', `Subidas ${r.pushed}, bajadas ${r.pulled}`)
+    else app.notify('ok', t('armazon.sincronizadoCorto', { subidas: r.pushed, bajadas: r.pulled }))
   }
 
   return (
@@ -64,7 +66,7 @@ export default function MobileShell({ children }: { children: React.ReactNode })
         <button
           className="ml-auto rounded-full p-2 text-ink-500 transition active:bg-ink-200 dark:active:bg-ink-800"
           onClick={() => setSearchOpen(true)}
-          aria-label="Buscar"
+          aria-label={t('nav.buscar')}
         >
           <Search size={19} />
         </button>
@@ -73,7 +75,7 @@ export default function MobileShell({ children }: { children: React.ReactNode })
             className="rounded-full p-2 text-ink-500 transition active:bg-ink-200 disabled:opacity-40 dark:active:bg-ink-800"
             onClick={doSync}
             disabled={app.syncing || !app.signedIn}
-            aria-label="Sincronizar"
+            aria-label={t('armazon.sincronizar')}
           >
             {app.syncing ? (
               <RefreshCw size={18} className="animate-spin" />
@@ -87,7 +89,7 @@ export default function MobileShell({ children }: { children: React.ReactNode })
         <button
           className="rounded-full p-2 text-ink-500 transition active:bg-ink-200 dark:active:bg-ink-800"
           onClick={() => nav('/ajustes')}
-          aria-label="Ajustes"
+          aria-label={t('nav.ajustes')}
         >
           <SettingsIcon size={18} />
         </button>
@@ -97,7 +99,7 @@ export default function MobileShell({ children }: { children: React.ReactNode })
 
       {!immersive && (
         <nav className="flex shrink-0 items-stretch border-t border-ink-200 bg-white pb-[env(safe-area-inset-bottom)] dark:border-ink-800 dark:bg-ink-900">
-          {TABS.map(({ to, label, icon: Icon, end }) => (
+          {TABS.map(({ to, clave, icon: Icon, end }) => (
             <NavLink
               key={to}
               to={to}
@@ -111,7 +113,7 @@ export default function MobileShell({ children }: { children: React.ReactNode })
               }
             >
               <Icon size={21} />
-              {label}
+              {t(clave)}
             </NavLink>
           ))}
         </nav>

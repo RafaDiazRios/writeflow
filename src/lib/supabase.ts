@@ -1,5 +1,6 @@
 import { createClient, type SupabaseClient, type Session } from '@supabase/supabase-js'
 import { getMeta, setMeta } from './db'
+import { t } from '@/i18n'
 
 /**
  * Cliente de Supabase. Es OPCIONAL: si no hay credenciales configuradas la app
@@ -69,7 +70,7 @@ export async function googleAuthUrl(): Promise<string> {
     },
   })
   if (error) throw error
-  if (!data.url) throw new Error('Supabase no devolvió una URL de autenticación')
+  if (!data.url) throw new Error(t('error.sinUrlAuth'))
   return data.url
 }
 
@@ -81,7 +82,7 @@ export async function completeAuth(callbackUrl: string): Promise<Session | null>
   const code = u.searchParams.get('code')
   const errDesc = u.searchParams.get('error_description')
   if (errDesc) throw new Error(errDesc)
-  if (!code) throw new Error('El enlace de vuelta no contenía el código de autorización')
+  if (!code) throw new Error(t('error.sinCodigo'))
   const { data, error } = await sb.auth.exchangeCodeForSession(code)
   if (error) throw error
   return data.session

@@ -7,6 +7,7 @@ import type { DocxChapter, DocxStyle } from './docx'
 import type { EpubChapter } from './epub'
 import { longDate } from './dates'
 import { compartirArchivo, compartirTexto, salidaPorCompartir } from './share'
+import { idiomaUI, t } from '@/i18n'
 
 /** Convierte un documento TipTap a Markdown legible. */
 export function docToMarkdown(doc: JSONContent | null): string {
@@ -91,7 +92,7 @@ export async function compileProject(projectId: string): Promise<string> {
   }
   for (const list of byParent.values()) list.sort((a, b) => a.position - b.position)
 
-  const parts: string[] = [`# ${p?.title ?? 'Manuscrito'}\n`]
+  const parts: string[] = [`# ${p?.title ?? t('archivo.manuscrito')}\n`]
   if (p?.subtitle) parts.push(`*${p.subtitle}*\n`)
   if (p?.author) parts.push(`\n${p.author}\n`)
   parts.push('\n---\n')
@@ -140,10 +141,9 @@ export async function saveTextFile(defaultName: string, contents: string, ext = 
   return path
 }
 
-const FILTER_NAME: Record<string, string> = {
-  docx: 'Documento de Word',
-  epub: 'Libro electrónico EPUB',
-}
+/* El nombre que enseña el diálogo «guardar como» del sistema. */
+const filtro = (ext: string): string =>
+  ext === 'docx' ? t('archivo.docx') : ext === 'epub' ? t('archivo.epub') : ext.toUpperCase()
 
 /** Guarda un archivo binario (.docx, .epub): diálogo nativo o menú de compartir. */
 export async function saveBinaryFile(defaultName: string, bytes: Uint8Array, ext: string) {
@@ -153,7 +153,7 @@ export async function saveBinaryFile(defaultName: string, bytes: Uint8Array, ext
   }
   const path = await save({
     defaultPath: defaultName,
-    filters: [{ name: FILTER_NAME[ext] ?? ext.toUpperCase(), extensions: [ext] }],
+    filters: [{ name: filtro(ext), extensions: [ext] }],
   })
   if (!path) return null
   await writeFile(path, bytes)
@@ -219,9 +219,9 @@ const loadEpub = () => import('./epub')
 
 export async function exportProjectDocx(projectId: string, style: DocxStyle = 'libro') {
   const p = await projects.byId(projectId)
-  if (!p) throw new Error('No se encontró el proyecto')
+  if (!p) throw new Error(t('error.sinProyecto'))
   const chapters = await projectChapters(projectId)
-  if (!chapters.length) throw new Error('Este proyecto todavía no tiene nada escrito')
+  if (!chapters.length) throw new Error(t('error.proyectoVacio'))
 
   const words = await projects.wordCount(projectId)
   const { buildDocx } = await loadDocx()
@@ -248,7 +248,7 @@ export async function exportJournalDocx(from: string, to: string, style: DocxSty
   const entries = (await journal.recent(2000)).filter(
     (e) => e.entry_date >= from && e.entry_date <= to,
   )
-  if (!entries.length) throw new Error('No hay entradas en ese periodo')
+  if (!entries.length) throw new Error(t('error.sinEntradasPeriodo'))
   entries.sort((a, b) => a.entry_date.localeCompare(b.entry_date))
 
   const chapters: DocxChapter[] = entries.map((e) => ({
@@ -273,16 +273,16 @@ export async function exportJournalDocx(from: string, to: string, style: DocxSty
 
 export async function exportProjectEpub(projectId: string) {
   const p = await projects.byId(projectId)
-  if (!p) throw new Error('No se encontró el proyecto')
+  if (!p) throw new Error(t('error.sinProyecto'))
   const chapters = await projectChapters(projectId)
-  if (!chapters.length) throw new Error('Este proyecto todavía no tiene nada escrito')
+  if (!chapters.length) throw new Error(t('error.proyectoVacio'))
 
   const { buildEpub } = await loadEpub()
   const bytes = await buildEpub({
     title: p.title,
     subtitle: p.subtitle,
     author: p.author,
-    language: 'es',
+    language: idiomaUI(),
     chapters: chapters.map<EpubChapter>((c) => ({ title: c.title, doc: c.doc })),
   })
   return saveBinaryFile(`${p.title}.epub`, bytes, 'epub')

@@ -57,9 +57,13 @@ const srv = createServer(async (req, res) => {
       res.end(JSON.stringify({ ok: false, error: String(e) }))
     }
     return
-  }
-  let p = join('dist', req.url.split('?')[0])
-  if (p.endsWith('/')) p += 'index.html'
+    }
+    // La decisión se toma sobre la URL, que siempre lleva «/», y no sobre la ruta
+    // ya unida: en Windows `join('dist', '/')` da «dist\», la comprobación de la
+    // barra final falla y index.html no se sirve nunca — página en blanco y 404.
+    const ruta = req.url.split('?')[0]
+    const p = join('dist', ruta.endsWith('/') ? `${ruta}index.html` : ruta)
+
   try {
     const buf = await readFile(p)
     res.writeHead(200, { 'Content-Type': MIME[extname(p)] ?? 'application/octet-stream' })
@@ -143,14 +147,22 @@ async function arrastrar(page, origen, destino, fraccionY) {
 }
 
 await mkdir('node_modules/.tmp/capturas', { recursive: true })
-const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' })
+// El navegador solo hay que señalarlo donde Playwright no lo instala él mismo
+// (el contenedor de Cowork, con PLAYWRIGHT_CHROMIUM apuntando al binario). En
+// un equipo normal, `npx playwright install chromium` lo deja justo donde
+// Playwright lo busca solo, y una ruta fija —de Linux, además— lo rompe.
+const ejecutable = process.env.PLAYWRIGHT_CHROMIUM
+const browser = await chromium.launch(ejecutable ? { executablePath: ejecutable } : {})
 const page = await browser.newPage({ viewport: { width: 1360, height: 900 }, deviceScaleFactor: 2 })
 const errores = []
 page.on('pageerror', (e) => errores.push(String(e)))
-await page.addInitScript(STUB)
+page.on('console', (m) => console.log('  consola:', m.type(), m.text()))
+page.on('requestfailed', (r) => console.log('  petición fallida:', r.url(), r.failure()?.errorText))
 
+await page.addInitScript(STUB)
 await page.goto('http://localhost:4334/#/novela')
 await page.waitForTimeout(1200)
+console.log('  raíz:', await page.evaluate(() => document.getElementById('root')?.innerHTML.slice(0, 300) ?? 'NO HAY #root'))
 
 // Abrir el proyecto si hace falta.
 const tarjeta = page.getByText('La casa vacía').first()

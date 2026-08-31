@@ -3,6 +3,7 @@ import { isUnlocked, keyMaterial, maybeDecrypt, maybeEncrypt } from './crypto'
 import { getSession, supabase } from './supabase'
 import { reindex } from './repo'
 import type { SearchKind } from './search'
+import { t } from '@/i18n'
 
 /**
  * Motor de sincronización offline-first.
@@ -150,8 +151,7 @@ export class ClaveDistintaError extends Error {
     readonly huellaRemota: string,
   ) {
     super(
-      'Este equipo está cifrando con una clave distinta a la del resto. ' +
-        'Ve a Ajustes → Sincronización y pulsa «Usar la clave de la nube».',
+      t('error.claveDistinta'),
     )
     this.name = 'ClaveDistintaError'
   }
@@ -403,17 +403,17 @@ export async function syncNow(): Promise<SyncReport> {
     errors: [],
   }
   if (running) {
-    report.errors.push('Ya hay una sincronización en curso')
+    report.errors.push(t('error.sincronizacionEnCurso'))
     report.finishedAt = new Date().toISOString()
     return report
   }
   running = true
   try {
     const sb = await supabase()
-    if (!sb) throw new Error('La nube no está configurada')
+    if (!sb) throw new Error(t('error.nubeSinConfigurar'))
     const session = await getSession()
-    if (!session) throw new Error('Inicia sesión con Google para sincronizar')
-    if (!isUnlocked()) throw new Error('Desbloquea el almacén cifrado antes de sincronizar')
+    if (!session) throw new Error(t('error.entraGoogle'))
+    if (!isUnlocked()) throw new Error(t('error.desbloquea'))
 
     const userId = session.user.id
     await ensureProfile(userId, session.user.email)
@@ -436,9 +436,7 @@ export async function syncNow(): Promise<SyncReport> {
 
   if (report.undecryptable) {
     report.errors.push(
-      `${report.undecryptable} entrada(s) llegaron cifradas con otra clave y se han dejado ` +
-        'intactas en vez de guardarlas en blanco. En Ajustes → Sincronización, adopta la clave ' +
-        'de la nube y luego pulsa «Volver a bajarlo todo» para recuperarlas.',
+      t('error.ilegibles', { n: report.undecryptable }),
     )
   }
 

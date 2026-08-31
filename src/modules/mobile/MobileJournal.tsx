@@ -14,6 +14,7 @@ import { useRefrescoTrasSync } from '@/lib/refresco'
 import { markPromptUsed } from '@/lib/prompts'
 import { useApp } from '@/store/app'
 import type { DailyPrompt, JournalEntry } from '@/lib/types'
+import { useT } from '@/i18n/useT'
 
 const MOODS = [
   { v: 1, emoji: '😔' }, { v: 2, emoji: '🙁' }, { v: 3, emoji: '😐' },
@@ -28,6 +29,7 @@ const MOODS = [
  * porque en vertical no caben las dos a la vez sin que ambas queden estrechas.
  */
 export default function MobileJournal() {
+  const t = useT()
   const app = useApp()
   const [date, setDate] = useState(() => toISODate())
   const [entries, setEntries] = useState<JournalEntry[]>([])
@@ -111,7 +113,7 @@ export default function MobileJournal() {
           <button
             className="rounded-full p-2 text-ink-600 active:bg-ink-100 dark:active:bg-ink-800"
             onClick={() => setActiveId(null)}
-            aria-label="Volver"
+            aria-label={t('comun.volver')}
           >
             <ArrowLeft size={20} />
           </button>
@@ -119,7 +121,7 @@ export default function MobileJournal() {
           <button
             className="ml-auto rounded-full p-2 active:bg-ink-100 dark:active:bg-ink-800"
             onClick={() => patchActive({ is_favorite: active.is_favorite ? 0 : 1 })}
-            aria-label="Favorita"
+            aria-label={t('diario.favorita')}
           >
             <Star
               size={19}
@@ -129,9 +131,9 @@ export default function MobileJournal() {
           </button>
           <button
             className="rounded-full p-2 text-red-600 active:bg-red-50 dark:active:bg-red-950/40"
-            aria-label="Eliminar"
+            aria-label={t('comun.eliminar')}
             onClick={async () => {
-              if (!window.confirm('¿Eliminar esta entrada?')) return
+              if (!window.confirm(t('diario.confirmarEliminar'))) return
               await journal.remove(active.id)
               await loadDay(date, null as unknown as string)
               setActiveId(null)
@@ -144,7 +146,7 @@ export default function MobileJournal() {
 
         <input
           className="shrink-0 bg-transparent px-4 pt-3 font-serif text-xl font-semibold outline-none placeholder:text-ink-300"
-          placeholder="Título"
+          placeholder={t('diario.titulo')}
           value={active.title}
           onChange={(e) => patchActive({ title: e.target.value })}
         />
@@ -153,6 +155,7 @@ export default function MobileJournal() {
           {MOODS.map((m) => (
             <button
               key={m.v}
+              title={t(`animo.${m.v}`)}
               onClick={() => patchActive({ mood: active.mood === m.v ? null : m.v })}
               className={`rounded px-1.5 py-0.5 text-lg transition ${
                 active.mood === m.v ? 'scale-110 bg-accent-100 dark:bg-accent-900/60' : 'opacity-40'
@@ -172,7 +175,7 @@ export default function MobileJournal() {
         <Editor
           key={active.id}
           value={parseDoc(active.content_json) ?? textToDoc(active.content_text)}
-          placeholder="¿Qué ha pasado hoy?"
+          placeholder={t('diario.escribirPlaceholderCorto')}
           onChange={saveContent}
           page={false}
           autofocus
@@ -185,7 +188,7 @@ export default function MobileJournal() {
   return (
     <div className="h-full overflow-y-auto">
       <div className="flex items-center gap-1 border-b border-ink-200 px-2 py-2 dark:border-ink-800">
-        <button className="rounded-full p-2 active:bg-ink-100 dark:active:bg-ink-800" onClick={() => shiftDay(-1)} aria-label="Día anterior">
+        <button className="rounded-full p-2 active:bg-ink-100 dark:active:bg-ink-800" onClick={() => shiftDay(-1)} aria-label={t('diario.diaAnterior')}>
           <ChevronLeft size={20} />
         </button>
         <button
@@ -195,7 +198,7 @@ export default function MobileJournal() {
           <CalendarDays size={15} className="text-ink-400" />
           {longDate(date)}
         </button>
-        <button className="rounded-full p-2 active:bg-ink-100 dark:active:bg-ink-800" onClick={() => shiftDay(1)} aria-label="Día siguiente">
+        <button className="rounded-full p-2 active:bg-ink-100 dark:active:bg-ink-800" onClick={() => shiftDay(1)} aria-label={t('diario.diaSiguiente')}>
           <ChevronRight size={20} />
         </button>
       </div>
@@ -226,7 +229,7 @@ export default function MobileJournal() {
         <div className="space-y-1.5">
           {entries.length === 0 && (
             <p className="rounded-md border border-dashed border-ink-300 p-5 text-center text-xs text-ink-400 dark:border-ink-700">
-              Nada escrito este día.
+              {t('diario.nadaEscrito')}
             </p>
           )}
           {entries.map((e) => (
@@ -237,11 +240,11 @@ export default function MobileJournal() {
             >
               <div className="flex items-baseline gap-1.5">
                 {e.is_favorite === 1 && <Star size={12} className="text-amber-500" fill="currentColor" />}
-                <span className="truncate text-sm font-medium">{e.title || 'Sin título'}</span>
+                <span className="truncate text-sm font-medium">{e.title || t('comun.sinTitulo')}</span>
                 <span className="ml-auto shrink-0 text-[11px] text-ink-400">{e.entry_time ?? ''}</span>
               </div>
               <p className="mt-0.5 line-clamp-2 text-xs text-ink-500 dark:text-ink-400">
-                {excerpt(e.content_text, 100) || 'Vacía'}
+                {excerpt(e.content_text, 100) || t('comun.vacia')}
               </p>
             </button>
           ))}
@@ -265,8 +268,8 @@ export default function MobileJournal() {
                 toISODate(startOfMonth(d)),
                 toISODate(endOfMonth(d)),
               )
-              if (r === SALIDA_COMPARTIDA) app.notify('ok', 'Enviado al menú de compartir')
-              else if (r) app.notify('ok', `Guardado en ${r}`)
+              if (r === SALIDA_COMPARTIDA) app.notify('ok', t('comun.enviadoCompartir'))
+              else if (r) app.notify('ok', t('comun.guardadoEn', { ruta: r }))
             } catch (e) {
               app.notify('error', e instanceof Error ? e.message : String(e))
             } finally {
@@ -275,14 +278,16 @@ export default function MobileJournal() {
           }}
         >
           <Share2 size={14} />
-          {compartiendo ? 'Generando…' : `Compartir ${monthLabel(new Date(date))}`}
+          {compartiendo
+            ? t('comun.generando')
+            : t('diario.compartirMes', { mes: monthLabel(new Date(date)) })}
         </button>
       </div>
 
       <button
         onClick={() => newEntry()}
         className="fixed bottom-20 right-4 z-20 flex h-14 w-14 items-center justify-center rounded-full bg-accent-600 text-white shadow-lg active:bg-accent-700"
-        aria-label="Nueva entrada"
+        aria-label={t('diario.nuevaEntrada')}
       >
         <Plus size={26} />
       </button>

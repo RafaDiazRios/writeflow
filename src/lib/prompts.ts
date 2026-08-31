@@ -3,23 +3,20 @@ import exercisesRaw from '@/data/therapyExercises.json'
 import templatesRaw from '@/data/essayTemplates.json'
 import type { DailyPrompt, EssayTemplate, PromptStream, TherapyExercise } from './types'
 import { getMeta, one, run, setMeta } from './db'
+import { t } from '@/i18n'
 import { toISODate } from './dates'
 
 export const PROMPTS = raw as DailyPrompt[]
 export const EXERCISES = exercisesRaw as TherapyExercise[]
 export const TEMPLATES = templatesRaw as EssayTemplate[]
 
-export const STREAM_LABEL: Record<PromptStream, string> = {
-  estoico: 'Estoico',
-  filosofico: 'Filosófico',
-  psicologico: 'Psicológico',
-}
+/* Etiquetas de cara al usuario. Eran tablas constantes; ahora son funciones
+ * porque el texto depende del idioma activo, que cambia en marcha. Los
+ * componentes que las pintan se suscriben con `useT()` para repintarse. */
 
-export const STREAM_DESC: Record<PromptStream, string> = {
-  estoico: 'Marco Aurelio, Séneca, Epicteto: la dicotomía del control, el examen vespertino, amor fati.',
-  filosofico: 'Existencialismo, fenomenología, ética de la virtud, Montaigne, Weil, Nietzsche.',
-  psicologico: 'Autocompasión, valores ACT, partes internas, apego, escritura expresiva.',
-}
+export const streamLabel = (s: PromptStream): string => t(`corriente.${s}`)
+
+export const streamDesc = (s: PromptStream): string => t(`corriente.${s}.desc`)
 
 /** Hash determinista: el mismo día produce siempre el mismo prompt. */
 function hashString(s: string): number {
@@ -95,17 +92,9 @@ export async function usedPromptCount(): Promise<number> {
 
 // ── terapia narrativa ──
 
-export const LEVEL_LABEL: Record<number, string> = {
-  1: 'Nivel 1 · Entrada suave',
-  2: 'Nivel 2 · Trabajo medio',
-  3: 'Nivel 3 · Profundo',
-}
+export const levelLabel = (n: number): string => t(`nivel.${n}`)
 
-export const LEVEL_HELP: Record<number, string> = {
-  1: 'Ejercicios de apertura: describir, nombrar, observar. Poco riesgo emocional.',
-  2: 'Reescritura de la historia: excepciones, valores, partes en conflicto.',
-  3: 'Material sensible: pérdida, vergüenza, trauma. Escribe cuando tengas tiempo y calma.',
-}
+export const levelHelp = (n: number): string => t(`nivel.${n}.ayuda`)
 
 export function exercisesByLevel(level: number): TherapyExercise[] {
   return EXERCISES.filter((e) => e.level === level)
@@ -135,8 +124,4 @@ export function templateById(id: string | null | undefined): EssayTemplate | und
   return TEMPLATES.find((t) => t.id === id)
 }
 
-export const TRADITION_LABEL: Record<string, string> = {
-  academic: 'Académico',
-  literary: 'Literario',
-  journalistic: 'Periodístico',
-}
+export const traditionLabel = (tradicion: string): string => t(`tradicion.${tradicion}`)

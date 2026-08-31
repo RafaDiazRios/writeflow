@@ -17,16 +17,19 @@ import { markPromptUsed } from '@/lib/prompts'
 import { useApp } from '@/store/app'
 import type { DailyPrompt, JournalEntry } from '@/lib/types'
 import { num } from '@/i18n'
+import { useT } from '@/i18n/useT'
 
+// La etiqueta no se guarda aquí: se traduce al pintar, con la clave `animo.N`.
 const MOODS = [
-  { v: 1, emoji: '😔', label: 'Bajo' },
-  { v: 2, emoji: '🙁', label: 'Flojo' },
-  { v: 3, emoji: '😐', label: 'Neutro' },
-  { v: 4, emoji: '🙂', label: 'Bien' },
-  { v: 5, emoji: '😄', label: 'Muy bien' },
+  { v: 1, emoji: '😔' },
+  { v: 2, emoji: '🙁' },
+  { v: 3, emoji: '😐' },
+  { v: 4, emoji: '🙂' },
+  { v: 5, emoji: '😄' },
 ]
 
 export default function JournalModule() {
+  const t = useT()
   const app = useApp()
   const [date, setDate] = useState(() => toISODate())
   const [entries, setEntries] = useState<JournalEntry[]>([])
@@ -127,11 +130,11 @@ export default function JournalModule() {
 
   async function removeActive() {
     if (!activeId) return
-    if (!window.confirm('¿Mover esta entrada a la papelera? Se puede recuperar sincronizando.')) return
+    if (!window.confirm(t('diario.confirmarPapelera'))) return
     await journal.remove(activeId)
     await loadDay(date)
     setRefreshKey((k) => k + 1)
-    app.notify('info', 'Entrada eliminada')
+    app.notify('info', t('diario.entradaEliminada'))
   }
 
   async function runSearch(term: string) {
@@ -151,13 +154,14 @@ export default function JournalModule() {
           <Search size={15} className="absolute left-2.5 top-2.5 text-ink-400" />
           <input
             className="input !pl-8"
-            placeholder="Buscar en todo el diario…"
+            placeholder={t('diario.buscar')}
             value={searchTerm}
             onChange={(e) => runSearch(e.target.value)}
           />
           {searchTerm && (
             <button
               className="absolute right-2 top-2.5 text-ink-400 hover:text-ink-700"
+              title={t('diario.limpiarBusqueda')}
               onClick={() => runSearch('')}
             >
               <X size={15} />
@@ -167,7 +171,9 @@ export default function JournalModule() {
 
         {results ? (
           <div className="space-y-2">
-            <p className="panel-title">{results.length} resultados</p>
+            <p className="panel-title">
+              {results.length === 1 ? t('diario.resultado') : t('diario.resultados', { n: results.length })}
+            </p>
             {results.map((r) => (
               <button
                 key={r.id}
@@ -181,7 +187,7 @@ export default function JournalModule() {
                 <div className="text-xs font-medium text-accent-700 dark:text-accent-400">
                   {shortDate(r.entry_date)}
                 </div>
-                <div className="text-sm font-medium">{r.title || 'Sin título'}</div>
+                <div className="text-sm font-medium">{r.title || t('comun.sinTitulo')}</div>
                 <div className="mt-0.5 text-xs text-ink-500 dark:text-ink-400">
                   {excerpt(r.content_text, 90)}
                 </div>
@@ -193,14 +199,14 @@ export default function JournalModule() {
             <Calendar selected={date} onSelect={setDate} refreshKey={refreshKey} />
 
             <div className="grid grid-cols-3 gap-2 text-center">
-              <Stat icon={<Flame size={13} />} value={stats.streak} label="racha" />
-              <Stat value={stats.entries} label="entradas" />
-              <Stat value={num(stats.words)} label="palabras" />
+              <Stat icon={<Flame size={13} />} value={stats.streak} label={t('diario.racha')} />
+              <Stat value={stats.entries} label={t('diario.entradas')} />
+              <Stat value={num(stats.words)} label={t('unidad.palabras')} />
             </div>
 
             <button
               className="btn-outline w-full justify-center !py-1.5 text-xs"
-              title="Guarda todas las entradas del mes en un documento de Word"
+              title={t('diario.exportarAyuda')}
               onClick={async () => {
                 const d = new Date(date)
                 try {
@@ -208,14 +214,14 @@ export default function JournalModule() {
                     toISODate(startOfMonth(d)),
                     toISODate(endOfMonth(d)),
                   )
-                  if (path === SALIDA_COMPARTIDA) app.notify('ok', 'Enviado al menú de compartir')
-                  else if (path) app.notify('ok', `Guardado en ${path}`)
+                  if (path === SALIDA_COMPARTIDA) app.notify('ok', t('comun.enviadoCompartir'))
+                  else if (path) app.notify('ok', t('comun.guardadoEn', { ruta: path }))
                 } catch (e) {
                   app.notify('error', e instanceof Error ? e.message : String(e))
                 }
               }}
             >
-              <FileDown size={14} /> Exportar {monthLabel(new Date(date))}
+              <FileDown size={14} /> {t('diario.exportarMes', { mes: monthLabel(new Date(date)) })}
             </button>
 
             <OnThisDay
@@ -231,15 +237,19 @@ export default function JournalModule() {
 
             <div>
               <div className="mb-1.5 flex items-center justify-between">
-                <span className="panel-title">Entradas del día</span>
-                <button className="btn-ghost !px-1.5 !py-1" onClick={() => newEntry()} title="Nueva entrada">
+                <span className="panel-title">{t('diario.entradasDelDia')}</span>
+                <button
+                  className="btn-ghost !px-1.5 !py-1"
+                  onClick={() => newEntry()}
+                  title={t('diario.nuevaEntrada')}
+                >
                   <Plus size={15} />
                 </button>
               </div>
               <div className="space-y-1">
                 {entries.length === 0 && (
                   <p className="rounded-md border border-dashed border-ink-300 p-3 text-center text-xs text-ink-400 dark:border-ink-700">
-                    Nada escrito este día todavía.
+                    {t('diario.nadaEscritoTodavia')}
                   </p>
                 )}
                 {entries.map((e) => (
@@ -254,11 +264,11 @@ export default function JournalModule() {
                   >
                     <div className="flex items-center gap-1.5">
                       {e.is_favorite === 1 && <Star size={12} className="text-amber-500" fill="currentColor" />}
-                      <span className="truncate text-sm font-medium">{e.title || 'Sin título'}</span>
+                      <span className="truncate text-sm font-medium">{e.title || t('comun.sinTitulo')}</span>
                       <span className="ml-auto shrink-0 text-[11px] text-ink-400">{e.entry_time ?? ''}</span>
                     </div>
                     <div className="truncate text-xs text-ink-500 dark:text-ink-400">
-                      {excerpt(e.content_text, 60) || 'Vacía'}
+                      {excerpt(e.content_text, 60) || t('comun.vacia')}
                     </div>
                   </button>
                 ))}
@@ -275,10 +285,10 @@ export default function JournalModule() {
             <div>
               <p className="mb-1 text-lg font-medium">{longDate(date)}</p>
               <p className="mb-5 text-sm text-ink-500 dark:text-ink-400">
-                Aún no hay nada escrito este día.
+                {t('diario.nadaEscritoAun')}
               </p>
               <button className="btn-primary" onClick={() => newEntry()}>
-                <Plus size={16} /> Escribir una entrada
+                <Plus size={16} /> {t('diario.escribirEntrada')}
               </button>
             </div>
           </div>
@@ -290,12 +300,12 @@ export default function JournalModule() {
                   {longDate(active.entry_date)}
                 </span>
                 <span className="text-xs text-ink-400">
-                  {num(active.word_count)} palabras
+                  {num(active.word_count)} {t('unidad.palabras')}
                 </span>
                 <div className="ml-auto flex items-center gap-1">
                   <button
                     className="btn-ghost !px-1.5"
-                    title={active.is_favorite ? 'Quitar de favoritas' : 'Marcar como favorita'}
+                    title={active.is_favorite ? t('diario.quitarFavorita') : t('diario.marcarFavorita')}
                     onClick={() => patchActive({ is_favorite: active.is_favorite ? 0 : 1 })}
                   >
                     <Star
@@ -304,7 +314,7 @@ export default function JournalModule() {
                       fill={active.is_favorite ? 'currentColor' : 'none'}
                     />
                   </button>
-                  <button className="btn-danger !px-1.5" onClick={removeActive} title="Eliminar">
+                  <button className="btn-danger !px-1.5" onClick={removeActive} title={t('comun.eliminar')}>
                     <Trash2 size={16} />
                   </button>
                 </div>
@@ -312,7 +322,7 @@ export default function JournalModule() {
 
               <input
                 className="w-full bg-transparent font-serif text-2xl font-semibold outline-none placeholder:text-ink-300 dark:placeholder:text-ink-700"
-                placeholder="Título de la entrada"
+                placeholder={t('diario.tituloEntrada')}
                 value={active.title}
                 onChange={(e) => patchActive({ title: e.target.value })}
               />
@@ -323,7 +333,7 @@ export default function JournalModule() {
                   {MOODS.map((m) => (
                     <button
                       key={m.v}
-                      title={m.label}
+                      title={t(`animo.${m.v}`)}
                       onClick={() => patchActive({ mood: active.mood === m.v ? null : m.v })}
                       className={`rounded px-1 text-base transition ${
                         active.mood === m.v ? 'scale-110 bg-accent-100 dark:bg-accent-900/60' : 'opacity-45 hover:opacity-90'
@@ -336,14 +346,14 @@ export default function JournalModule() {
 
                 <input
                   className="w-40 rounded border border-ink-200 bg-transparent px-2 py-1 text-xs outline-none focus:border-accent-400 dark:border-ink-700"
-                  placeholder="Lugar"
+                  placeholder={t('diario.lugar')}
                   value={active.place ?? ''}
                   onChange={(e) => patchActive({ place: e.target.value })}
                 />
 
                 <input
                   className="w-56 rounded border border-ink-200 bg-transparent px-2 py-1 text-xs outline-none focus:border-accent-400 dark:border-ink-700"
-                  placeholder="Etiquetas separadas por comas"
+                  placeholder={t('diario.etiquetas')}
                   value={entryTags}
                   onChange={(e) => setEntryTags(e.target.value)}
                   onBlur={() => activeId && tagRepo.setForEntry(activeId, entryTags.split(','))}
@@ -360,7 +370,7 @@ export default function JournalModule() {
             <Editor
               key={active.id}
               value={parseDoc(active.content_json) ?? textToDoc(active.content_text)}
-              placeholder="¿Qué ha pasado hoy? Empieza por cualquier detalle concreto…"
+              placeholder={t('diario.escribirPlaceholder')}
               onChange={saveContent}
               autofocus
             />

@@ -10,16 +10,19 @@ import { useApp } from '@/store/app'
 import { syncNow, startAutoSync, stopAutoSync } from '@/lib/sync'
 import { pendingCounts } from '@/lib/repo'
 import { lock } from '@/lib/crypto'
+import { useT } from '@/i18n/useT'
 
+/* El rótulo es una clave, no el texto: se traduce al pintar. */
 const NAV = [
-  { to: '/', label: 'Inicio', icon: HomeIcon, end: true },
-  { to: '/diario', label: 'Diario', icon: CalendarDays },
-  { to: '/novela', label: 'Novela', icon: BookOpen },
-  { to: '/ensayos', label: 'Ensayos', icon: ScrollText },
-  { to: '/terapia', label: 'Terapia narrativa', icon: Wind },
+  { to: '/', clave: 'nav.inicio', icon: HomeIcon, end: true },
+  { to: '/diario', clave: 'nav.diario', icon: CalendarDays },
+  { to: '/novela', clave: 'nav.novela', icon: BookOpen },
+  { to: '/ensayos', clave: 'nav.ensayos', icon: ScrollText },
+  { to: '/terapia', clave: 'nav.terapia', icon: Wind },
 ]
 
 export default function Shell({ children }: { children: React.ReactNode }) {
+  const t = useT()
   const app = useApp()
   const navigate = useNavigate()
   const [searchOpen, setSearchOpen] = useState(false)
@@ -72,7 +75,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
     })
     // El primer error es el que importa: si la clave no coincide, lo demás es ruido.
     if (r.errors.length) app.notify('error', r.errors[0])
-    else app.notify('ok', `Sincronizado: ${r.pushed} subidas, ${r.pulled} bajadas`)
+    else app.notify('ok', t('armazon.sincronizado', { subidas: r.pushed, bajadas: r.pulled }))
   }
 
   return (
@@ -89,14 +92,14 @@ export default function Shell({ children }: { children: React.ReactNode }) {
           className="mx-2 mb-2 flex items-center gap-2 rounded-md border border-ink-200 px-2.5 py-1.5 text-left text-xs text-ink-400 transition hover:border-accent-400 hover:text-ink-600 dark:border-ink-700 dark:hover:text-ink-200"
         >
           <Search size={14} />
-          Buscar
+          {t('nav.buscar')}
           <kbd className="ml-auto rounded bg-ink-200 px-1 py-0.5 text-[9px] font-sans text-ink-500 dark:bg-ink-800">
             Ctrl K
           </kbd>
         </button>
 
         <nav className="flex-1 space-y-0.5 px-2">
-          {NAV.map(({ to, label, icon: Icon, end }) => (
+          {NAV.map(({ to, clave, icon: Icon, end }) => (
             <NavLink
               key={to}
               to={to}
@@ -110,7 +113,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
               }
             >
               <Icon size={16} />
-              {label}
+              {t(clave)}
             </NavLink>
           ))}
         </nav>
@@ -123,24 +126,28 @@ export default function Shell({ children }: { children: React.ReactNode }) {
               onClick={() =>
                 app.setTheme(app.theme === 'dark' ? 'light' : app.theme === 'light' ? 'system' : 'dark')
               }
-              title="Cambiar tema"
+              title={t('armazon.cambiarTema')}
             >
               {app.theme === 'dark' ? <Moon size={15} /> : <Sun size={15} />}
-              <span className="text-xs capitalize">
-                {app.theme === 'system' ? 'Sistema' : app.theme === 'dark' ? 'Oscuro' : 'Claro'}
+              <span className="text-xs">
+                {app.theme === 'system'
+                  ? t('armazon.temaSistema')
+                  : app.theme === 'dark'
+                    ? t('armazon.temaOscuro')
+                    : t('armazon.temaClaro')}
               </span>
             </button>
             <button
               className={`btn-ghost ${app.focusMode ? 'text-accent-600 dark:text-accent-400' : ''}`}
               onClick={app.toggleFocus}
-              title="Modo concentración (Ctrl+Shift+F)"
+              title={t('armazon.concentracion')}
             >
               <Focus size={15} />
             </button>
           </div>
           <NavLink to="/ajustes" className="btn-ghost w-full justify-start">
             <SettingsIcon size={15} />
-            <span className="text-xs">Ajustes</span>
+            <span className="text-xs">{t('nav.ajustes')}</span>
           </NavLink>
         </div>
       </aside>
@@ -155,11 +162,13 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         <button
           onClick={doSync}
           disabled={app.syncing || !app.signedIn}
-          title={app.signedIn ? 'Sincronizar ahora' : 'Inicia sesión en Ajustes'}
+          title={app.signedIn ? t('armazon.sincronizarAhora') : t('armazon.iniciaSesion')}
           className="fixed bottom-4 right-4 z-30 flex items-center gap-2 rounded-full border border-ink-200 bg-white/95 px-3 py-2 text-xs shadow-lg backdrop-blur transition hover:bg-white disabled:opacity-50 dark:border-ink-700 dark:bg-ink-900/95"
         >
           <RefreshCw size={14} className={app.syncing ? 'animate-spin' : ''} />
-          {app.pendingCount > 0 ? `${app.pendingCount} pendientes` : 'Al día'}
+          {app.pendingCount > 0
+            ? t('armazon.pendientes', { n: app.pendingCount })
+            : t('armazon.alDia')}
         </button>
       )}
     </div>
@@ -167,6 +176,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
 }
 
 function StatusRow() {
+  const t = useT()
   const app = useApp()
   return (
     <div className="flex items-center gap-1 px-1 pb-1 text-[11px] text-ink-500 dark:text-ink-400">
@@ -180,11 +190,15 @@ function StatusRow() {
         <CloudOff size={13} />
       )}
       <span className="truncate">
-        {app.cloudConfigured ? (app.signedIn ? 'En la nube' : 'Sin sesión') : 'Solo local'}
+        {app.cloudConfigured
+          ? app.signedIn
+            ? t('armazon.enLaNube')
+            : t('armazon.sinSesion')
+          : t('armazon.soloLocal')}
       </span>
       <button
         className="ml-auto rounded p-0.5 hover:bg-ink-200 dark:hover:bg-ink-800"
-        title={app.unlocked ? 'Bloquear el almacén cifrado' : 'El almacén está bloqueado'}
+        title={app.unlocked ? t('armazon.bloquear') : t('armazon.bloqueado')}
         onClick={() => {
           if (app.unlocked) {
             lock()

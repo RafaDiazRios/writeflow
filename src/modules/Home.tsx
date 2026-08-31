@@ -5,14 +5,16 @@ import GoalCard from '@/components/GoalCard'
 import ActivityHeatmap from '@/components/ActivityHeatmap'
 import { globalStats, journal } from '@/lib/repo'
 import { getGoal } from '@/lib/stats'
-import { promptForDay, STREAM_LABEL } from '@/lib/prompts'
+import { promptForDay, streamLabel } from '@/lib/prompts'
 import { longDate, shortDate, toISODate } from '@/lib/dates'
 import { excerpt } from '@/lib/text'
 import { useApp } from '@/store/app'
 import type { JournalEntry } from '@/lib/types'
 import { num } from '@/i18n'
+import { useT } from '@/i18n/useT'
 
 export default function Home() {
+  const t = useT()
   const nav = useNavigate()
   const streams = useApp((s) => s.streams)
   const [stats, setStats] = useState({
@@ -34,7 +36,14 @@ export default function Home() {
   }, [])
 
   const hour = new Date().getHours()
-  const greeting = hour < 6 ? 'Aún de madrugada' : hour < 13 ? 'Buenos días' : hour < 21 ? 'Buenas tardes' : 'Buenas noches'
+  const greeting =
+    hour < 6
+      ? t('inicio.madrugada')
+      : hour < 13
+        ? t('inicio.manana')
+        : hour < 21
+          ? t('inicio.tarde')
+          : t('inicio.noche')
 
   return (
     <div className="h-full overflow-y-auto">
@@ -43,11 +52,13 @@ export default function Home() {
         <h1 className="mb-5 text-2xl font-semibold tracking-tight sm:mb-6 sm:text-3xl">{greeting}, Rafa.</h1>
 
         <div className="card mb-5 border-l-4 border-l-accent-500 p-4 sm:mb-6 sm:p-5">
-          <p className="panel-title mb-2">Para pensar hoy · {STREAM_LABEL[prompt.stream]}</p>
+          <p className="panel-title mb-2">
+            {t('prompt.paraPensar')} · {streamLabel(prompt.stream)}
+          </p>
           <p className="font-serif text-[17px] leading-relaxed sm:text-lg">{prompt.text}</p>
           {prompt.source && <p className="mt-2 text-xs italic text-ink-500">{prompt.source}</p>}
           <button className="btn-primary mt-4" onClick={() => nav('/diario')}>
-            <PenLine size={16} /> Escribir en el diario
+            <PenLine size={16} /> {t('inicio.escribirDiario')}
           </button>
         </div>
 
@@ -61,7 +72,7 @@ export default function Home() {
         {memories.length > 0 && (
           <section className="mb-6">
             <h2 className="mb-2 flex items-center gap-1.5 panel-title">
-              <History size={13} /> En este día
+              <History size={13} /> {t('enEsteDia.titulo')}
             </h2>
             <div className="space-y-2">
               {memories.map((e) => {
@@ -73,9 +84,9 @@ export default function Home() {
                     className="card w-full border-l-4 border-l-amber-400 p-3 text-left transition hover:shadow-md"
                   >
                     <div className="flex items-baseline gap-2">
-                      <span className="text-sm font-medium">{e.title || 'Sin título'}</span>
+                      <span className="text-sm font-medium">{e.title || t('comun.sinTitulo')}</span>
                       <span className="text-[11px] text-amber-700 dark:text-amber-500">
-                        {years === 1 ? 'hace un año' : `hace ${years} años`}
+                        {years === 1 ? t('enEsteDia.haceUnAno') : t('enEsteDia.haceAnos', { n: years })}
                       </span>
                       <span className="ml-auto text-xs text-ink-400">{shortDate(e.entry_date)}</span>
                     </div>
@@ -90,21 +101,49 @@ export default function Home() {
         )}
 
         <div className="mb-6 grid grid-cols-3 gap-2 sm:gap-3">
-          <Metric value={num(stats.totalWords)} label="palabras escritas" />
-          <Metric value={stats.journalEntries} label="entradas de diario" />
-          <Metric value={stats.therapyEntries} label="sesiones de terapia" />
+          <Metric value={num(stats.totalWords)} label={t('inicio.palabrasEscritas')} />
+          <Metric value={stats.journalEntries} label={t('inicio.entradasDiario')} />
+          <Metric value={stats.therapyEntries} label={t('inicio.sesionesTerapia')} />
         </div>
 
         <div className="mb-6 grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4">
-          <Shortcut to="/diario" icon={<CalendarDays size={18} />} title="Diario" sub="Calendario y prompts" onGo={nav} />
-          <Shortcut to="/novela" icon={<BookOpen size={18} />} title="Novela" sub={`${stats.novels} proyecto(s)`} onGo={nav} />
-          <Shortcut to="/ensayos" icon={<ScrollText size={18} />} title="Ensayos" sub={`${stats.essays} en marcha`} onGo={nav} />
-          <Shortcut to="/terapia" icon={<Wind size={18} />} title="Terapia narrativa" sub="Ejercicios por nivel" onGo={nav} />
+          <Shortcut
+            to="/diario"
+            icon={<CalendarDays size={18} />}
+            title={t('nav.diario')}
+            sub={t('inicio.atajoDiario')}
+            onGo={nav}
+          />
+          <Shortcut
+            to="/novela"
+            icon={<BookOpen size={18} />}
+            title={t('nav.novela')}
+            sub={
+              stats.novels === 1
+                ? t('inicio.atajoNovelaUno')
+                : t('inicio.atajoNovela', { n: stats.novels })
+            }
+            onGo={nav}
+          />
+          <Shortcut
+            to="/ensayos"
+            icon={<ScrollText size={18} />}
+            title={t('nav.ensayos')}
+            sub={t('inicio.atajoEnsayos', { n: stats.essays })}
+            onGo={nav}
+          />
+          <Shortcut
+            to="/terapia"
+            icon={<Wind size={18} />}
+            title={t('nav.terapia')}
+            sub={t('inicio.atajoTerapia')}
+            onGo={nav}
+          />
         </div>
 
         {recent.length > 0 && (
           <section>
-            <h2 className="panel-title mb-2">Últimas entradas</h2>
+            <h2 className="panel-title mb-2">{t('inicio.ultimasEntradas')}</h2>
             <div className="space-y-2">
               {recent.map((e) => (
                 <button
@@ -113,11 +152,11 @@ export default function Home() {
                   className="card w-full p-3 text-left transition hover:shadow-md"
                 >
                   <div className="flex items-baseline gap-2">
-                    <span className="text-sm font-medium">{e.title || 'Sin título'}</span>
+                    <span className="text-sm font-medium">{e.title || t('comun.sinTitulo')}</span>
                     <span className="ml-auto text-xs text-ink-400">{shortDate(e.entry_date)}</span>
                   </div>
                   <p className="mt-0.5 text-xs text-ink-500 dark:text-ink-400">
-                    {excerpt(e.content_text, 130) || 'Vacía'}
+                    {excerpt(e.content_text, 130) || t('comun.vacia')}
                   </p>
                 </button>
               ))}

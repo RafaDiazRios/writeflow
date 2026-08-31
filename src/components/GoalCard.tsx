@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Check, Flame, Pencil, Target } from 'lucide-react'
 import { getGoal, setGoal, streaks, todayWords, type StreakInfo } from '@/lib/stats'
 import { num } from '@/i18n'
+import { useT } from '@/i18n/useT'
 
 interface Props {
   refreshKey?: number
@@ -16,6 +17,7 @@ interface Props {
  * cualquier gráfico que pudiera dibujar aquí.
  */
 export default function GoalCard({ refreshKey = 0, onGoalChange }: Props) {
+  const t = useT()
   const [goal, setGoalState] = useState(500)
   const [words, setWords] = useState(0)
   const [info, setInfo] = useState<StreakInfo>({
@@ -51,11 +53,11 @@ export default function GoalCard({ refreshKey = 0, onGoalChange }: Props) {
     <div className="card p-4">
       <div className="mb-3 flex items-center gap-2">
         <Target size={14} className="text-accent-600 dark:text-accent-400" />
-        <span className="panel-title">Objetivo de hoy</span>
+        <span className="panel-title">{t('objetivo.titulo')}</span>
         {!editing && (
           <button
             className="ml-auto rounded p-1 text-ink-400 transition hover:bg-ink-100 hover:text-ink-700 dark:hover:bg-ink-800"
-            title="Cambiar el objetivo diario"
+            title={t('objetivo.cambiar')}
             onClick={() => setEditing(true)}
           >
             <Pencil size={13} />
@@ -78,9 +80,9 @@ export default function GoalCard({ refreshKey = 0, onGoalChange }: Props) {
               if (e.key === 'Escape') setEditing(false)
             }}
           />
-          <span className="text-xs text-ink-500">palabras al día</span>
+          <span className="text-xs text-ink-500">{t('objetivo.palabrasAlDia')}</span>
           <button className="btn-primary ml-auto !py-1" onClick={save}>
-            Guardar
+            {t('objetivo.guardar')}
           </button>
         </div>
       ) : (
@@ -92,7 +94,7 @@ export default function GoalCard({ refreshKey = 0, onGoalChange }: Props) {
             <span className="pb-0.5 text-sm text-ink-400">/ {num(goal)}</span>
             {done && (
               <span className="ml-auto flex items-center gap-1 pb-0.5 text-xs font-medium text-emerald-600 dark:text-emerald-400">
-                <Check size={14} /> cumplido
+                <Check size={14} /> {t('objetivo.cumplido')}
               </span>
             )}
           </div>
@@ -106,24 +108,25 @@ export default function GoalCard({ refreshKey = 0, onGoalChange }: Props) {
 
           <p className="mt-2 text-xs text-ink-500 dark:text-ink-400">
             {goal === 0
-              ? 'Sin objetivo fijado.'
+              ? t('objetivo.sinObjetivo')
               : done
-                ? 'Lo de hoy ya está. Lo que escribas ahora es de propina.'
-                : `Te faltan ${num(left)} palabras.`}
+                ? t('objetivo.hecho')
+                : t('objetivo.faltan', { n: num(left) })}
           </p>
 
           <div className="mt-3 flex items-center gap-4 border-t border-ink-100 pt-3 text-xs dark:border-ink-800">
             <span className="flex items-center gap-1.5">
               <Flame size={13} className="text-amber-500" />
               <strong className="tabular-nums">{info.current}</strong>
-              <span className="text-ink-500">de racha</span>
+              <span className="text-ink-500">{t('objetivo.deRacha')}</span>
             </span>
             <span className="text-ink-500">
-              récord <strong className="tabular-nums text-ink-700 dark:text-ink-200">{info.longest}</strong>
+              {t('objetivo.record')}{' '}
+              <strong className="tabular-nums text-ink-700 dark:text-ink-200">{info.longest}</strong>
             </span>
             <span className="ml-auto text-ink-500">
-              <strong className="tabular-nums text-ink-700 dark:text-ink-200">{info.daysMetYear}</strong> días
-              cumplidos este año
+              <strong className="tabular-nums text-ink-700 dark:text-ink-200">{info.daysMetYear}</strong>{' '}
+              {t('objetivo.diasCumplidos')}
             </span>
           </div>
         </>

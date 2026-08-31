@@ -9,9 +9,11 @@ import {
 import { useApp } from '@/store/app'
 import { elegirImagenDelDisco } from '@/lib/imagenes'
 import { num } from '@/i18n'
+import { useT } from '@/i18n/useT'
 
 /** Barra de herramientas al estilo de un procesador de textos. */
 export default function EditorToolbar({ editor }: { editor: Editor }) {
+  const t = useT()
   const { fontScale, setFontScale, notify } = useApp()
   const [, force] = useState(0)
 
@@ -21,7 +23,7 @@ export default function EditorToolbar({ editor }: { editor: Editor }) {
 
   const setLink = useCallback(() => {
     const previous = editor.getAttributes('link').href as string | undefined
-    const url = window.prompt('Dirección del enlace', previous ?? 'https://')
+    const url = window.prompt(t('editor.direccionEnlace'), previous ?? 'https://')
     if (url === null) return
     if (url === '') {
       editor.chain().focus().extendMarkRange('link').unsetLink().run()
@@ -53,10 +55,10 @@ export default function EditorToolbar({ editor }: { editor: Editor }) {
   return (
     <div className="flex flex-wrap items-center gap-0.5 border-b border-ink-200 bg-white/95 px-2 py-1.5 backdrop-blur dark:border-ink-800 dark:bg-ink-900/95">
       <Group>
-        <Btn onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()} title="Deshacer (Ctrl+Z)">
+        <Btn onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()} title={t('editor.deshacerAtajo')}>
           <Undo2 size={16} />
         </Btn>
-        <Btn onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()} title="Rehacer (Ctrl+Y)">
+        <Btn onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()} title={t('editor.rehacerAtajo')}>
           <Redo2 size={16} />
         </Btn>
       </Group>
@@ -83,14 +85,14 @@ export default function EditorToolbar({ editor }: { editor: Editor }) {
           else if (v === 'quote') c.toggleBlockquote().run()
           else if (v === 'code') c.toggleCodeBlock().run()
         }}
-        title="Estilo de párrafo"
+        title={t('editor.estiloParrafo')}
       >
-        <option value="p">Texto normal</option>
-        <option value="h1">Título 1</option>
-        <option value="h2">Título 2</option>
-        <option value="h3">Título 3</option>
-        <option value="quote">Cita</option>
-        <option value="code">Código</option>
+        <option value="p">{t('editor.textoNormal')}</option>
+        <option value="h1">{t('editor.titulo1')}</option>
+        <option value="h2">{t('editor.titulo2')}</option>
+        <option value="h3">{t('editor.titulo3')}</option>
+        <option value="quote">{t('editor.cita')}</option>
+        <option value="code">{t('editor.codigo')}</option>
       </select>
 
       <select
@@ -101,9 +103,9 @@ export default function EditorToolbar({ editor }: { editor: Editor }) {
           if (!f) editor.chain().focus().unsetFontFamily().run()
           else editor.chain().focus().setFontFamily(f).run()
         }}
-        title="Tipografía"
+        title={t('editor.tipografia')}
       >
-        <option value="">Predeterminada</option>
+        <option value="">{t('editor.predeterminada')}</option>
         <option value="Georgia, serif">Georgia</option>
         <option value="'Times New Roman', serif">Times New Roman</option>
         <option value="Garamond, serif">Garamond</option>
@@ -116,7 +118,7 @@ export default function EditorToolbar({ editor }: { editor: Editor }) {
         className="mx-1 h-7 rounded border border-ink-200 bg-transparent px-1.5 text-xs dark:border-ink-700"
         value={String(fontScale)}
         onChange={(e) => setFontScale(Number(e.target.value))}
-        title="Tamaño de la página"
+        title={t('editor.tamanoPagina')}
       >
         {[0.85, 0.95, 1, 1.1, 1.25, 1.5].map((s) => (
           <option key={s} value={s}>{Math.round(s * 100)} %</option>
@@ -126,14 +128,14 @@ export default function EditorToolbar({ editor }: { editor: Editor }) {
       <Sep />
 
       <Group>
-        <Btn active={editor.isActive('bold')} onClick={() => editor.chain().focus().toggleBold().run()} title="Negrita (Ctrl+B)"><Bold size={16} /></Btn>
-        <Btn active={editor.isActive('italic')} onClick={() => editor.chain().focus().toggleItalic().run()} title="Cursiva (Ctrl+I)"><Italic size={16} /></Btn>
-        <Btn active={editor.isActive('underline')} onClick={() => editor.chain().focus().toggleUnderline().run()} title="Subrayado (Ctrl+U)"><UnderlineIcon size={16} /></Btn>
-        <Btn active={editor.isActive('strike')} onClick={() => editor.chain().focus().toggleStrike().run()} title="Tachado"><Strikethrough size={16} /></Btn>
-        <Btn active={editor.isActive('highlight')} onClick={() => editor.chain().focus().toggleHighlight().run()} title="Resaltar"><Highlighter size={16} /></Btn>
-        <Btn active={editor.isActive('code')} onClick={() => editor.chain().focus().toggleCode().run()} title="Código en línea"><Code size={16} /></Btn>
-        <Btn active={editor.isActive('subscript')} onClick={() => editor.chain().focus().toggleSubscript().run()} title="Subíndice"><Subscript size={16} /></Btn>
-        <Btn active={editor.isActive('superscript')} onClick={() => editor.chain().focus().toggleSuperscript().run()} title="Superíndice"><Superscript size={16} /></Btn>
+        <Btn active={editor.isActive('bold')} onClick={() => editor.chain().focus().toggleBold().run()} title={t('editor.negritaAtajo')}><Bold size={16} /></Btn>
+        <Btn active={editor.isActive('italic')} onClick={() => editor.chain().focus().toggleItalic().run()} title={t('editor.cursivaAtajo')}><Italic size={16} /></Btn>
+        <Btn active={editor.isActive('underline')} onClick={() => editor.chain().focus().toggleUnderline().run()} title={t('editor.subrayadoAtajo')}><UnderlineIcon size={16} /></Btn>
+        <Btn active={editor.isActive('strike')} onClick={() => editor.chain().focus().toggleStrike().run()} title={t('editor.tachado')}><Strikethrough size={16} /></Btn>
+        <Btn active={editor.isActive('highlight')} onClick={() => editor.chain().focus().toggleHighlight().run()} title={t('editor.resaltar')}><Highlighter size={16} /></Btn>
+        <Btn active={editor.isActive('code')} onClick={() => editor.chain().focus().toggleCode().run()} title={t('editor.codigoEnLinea')}><Code size={16} /></Btn>
+        <Btn active={editor.isActive('subscript')} onClick={() => editor.chain().focus().toggleSubscript().run()} title={t('editor.subindice')}><Subscript size={16} /></Btn>
+        <Btn active={editor.isActive('superscript')} onClick={() => editor.chain().focus().toggleSuperscript().run()} title={t('editor.superindice')}><Superscript size={16} /></Btn>
       </Group>
 
       <input
@@ -141,45 +143,49 @@ export default function EditorToolbar({ editor }: { editor: Editor }) {
         className="mx-1 h-6 w-6 cursor-pointer rounded border border-ink-200 bg-transparent dark:border-ink-700"
         value={(editor.getAttributes('textStyle').color as string) ?? '#25231f'}
         onChange={(e) => editor.chain().focus().setColor(e.target.value).run()}
-        title="Color del texto"
+        title={t('editor.colorTexto')}
       />
 
       <Sep />
 
       <Group>
-        <Btn active={editor.isActive({ textAlign: 'left' })} onClick={() => editor.chain().focus().setTextAlign('left').run()} title="Alinear a la izquierda"><AlignLeft size={16} /></Btn>
-        <Btn active={editor.isActive({ textAlign: 'center' })} onClick={() => editor.chain().focus().setTextAlign('center').run()} title="Centrar"><AlignCenter size={16} /></Btn>
-        <Btn active={editor.isActive({ textAlign: 'right' })} onClick={() => editor.chain().focus().setTextAlign('right').run()} title="Alinear a la derecha"><AlignRight size={16} /></Btn>
-        <Btn active={editor.isActive({ textAlign: 'justify' })} onClick={() => editor.chain().focus().setTextAlign('justify').run()} title="Justificar"><AlignJustify size={16} /></Btn>
+        <Btn active={editor.isActive({ textAlign: 'left' })} onClick={() => editor.chain().focus().setTextAlign('left').run()} title={t('editor.alinearIzquierda')}><AlignLeft size={16} /></Btn>
+        <Btn active={editor.isActive({ textAlign: 'center' })} onClick={() => editor.chain().focus().setTextAlign('center').run()} title={t('editor.centrar')}><AlignCenter size={16} /></Btn>
+        <Btn active={editor.isActive({ textAlign: 'right' })} onClick={() => editor.chain().focus().setTextAlign('right').run()} title={t('editor.alinearDerecha')}><AlignRight size={16} /></Btn>
+        <Btn active={editor.isActive({ textAlign: 'justify' })} onClick={() => editor.chain().focus().setTextAlign('justify').run()} title={t('editor.justificar')}><AlignJustify size={16} /></Btn>
       </Group>
 
       <Sep />
 
       <Group>
-        <Btn active={editor.isActive('bulletList')} onClick={() => editor.chain().focus().toggleBulletList().run()} title="Lista con viñetas"><List size={16} /></Btn>
-        <Btn active={editor.isActive('orderedList')} onClick={() => editor.chain().focus().toggleOrderedList().run()} title="Lista numerada"><ListOrdered size={16} /></Btn>
-        <Btn active={editor.isActive('taskList')} onClick={() => editor.chain().focus().toggleTaskList().run()} title="Lista de tareas"><ListTodo size={16} /></Btn>
-        <Btn active={editor.isActive('blockquote')} onClick={() => editor.chain().focus().toggleBlockquote().run()} title="Cita"><Quote size={16} /></Btn>
-        <Btn onClick={() => editor.chain().focus().setHorizontalRule().run()} title="Separador"><Minus size={16} /></Btn>
+        <Btn active={editor.isActive('bulletList')} onClick={() => editor.chain().focus().toggleBulletList().run()} title={t('editor.listaVinetas')}><List size={16} /></Btn>
+        <Btn active={editor.isActive('orderedList')} onClick={() => editor.chain().focus().toggleOrderedList().run()} title={t('editor.listaNumerada')}><ListOrdered size={16} /></Btn>
+        <Btn active={editor.isActive('taskList')} onClick={() => editor.chain().focus().toggleTaskList().run()} title={t('editor.listaTareas')}><ListTodo size={16} /></Btn>
+        <Btn active={editor.isActive('blockquote')} onClick={() => editor.chain().focus().toggleBlockquote().run()} title={t('editor.cita')}><Quote size={16} /></Btn>
+        <Btn onClick={() => editor.chain().focus().setHorizontalRule().run()} title={t('editor.separador')}><Minus size={16} /></Btn>
       </Group>
 
       <Sep />
 
       <Group>
-        <Btn active={editor.isActive('link')} onClick={setLink} title="Insertar enlace"><Link2 size={16} /></Btn>
-        <Btn onClick={() => void addImage()} title="Insertar imagen desde el disco (o pégala / arrástrala)"><ImageIcon size={16} /></Btn>
+        <Btn active={editor.isActive('link')} onClick={setLink} title={t('editor.insertarEnlace')}><Link2 size={16} /></Btn>
+        <Btn onClick={() => void addImage()} title={t('editor.insertarImagen')}><ImageIcon size={16} /></Btn>
         <Btn
           onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}
-          title="Insertar tabla"
+          title={t('editor.insertarTabla')}
         >
           <TableIcon size={16} />
         </Btn>
-        <Btn onClick={() => editor.chain().focus().unsetAllMarks().clearNodes().run()} title="Quitar formato"><Eraser size={16} /></Btn>
+        <Btn onClick={() => editor.chain().focus().unsetAllMarks().clearNodes().run()} title={t('editor.quitarFormato')}><Eraser size={16} /></Btn>
       </Group>
 
       <div className="ml-auto flex items-center gap-3 pr-1 text-xs tabular-nums text-ink-500 dark:text-ink-400">
-        <span>{num(words)} palabras</span>
-        <span className="hidden sm:inline">{num(chars)} caracteres</span>
+        <span>
+          {num(words)} {t('unidad.palabras')}
+        </span>
+        <span className="hidden sm:inline">
+          {num(chars)} {t('unidad.caracteres')}
+        </span>
       </div>
     </div>
   )

@@ -5,6 +5,7 @@ import {
 } from 'lucide-react'
 import { moverJunto, posiciones, sePuedeSoltar, zonaDeSoltar, type Zona } from '@/lib/reordenar'
 import type { Doc, DocKind } from '@/lib/types'
+import { useT } from '@/i18n/useT'
 
 export interface CambioOrden {
   id: string
@@ -63,6 +64,7 @@ const esCarpeta = (d: Doc) => d.kind === 'folder' || d.kind === 'chapter'
  * mucha gente y en un árbol largo es incómodo para todo el mundo.
  */
 export default function Binder({ docs, activeId, onSelect, onCreate, onDelete, onReorder }: Props) {
+  const t = useT()
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set())
   const [dragId, setDragId] = useState<string | null>(null)
   const [destino, setDestino] = useState<{ id: string; zona: Zona } | null>(null)
@@ -238,7 +240,7 @@ export default function Binder({ docs, activeId, onSelect, onCreate, onDelete, o
                   toggle(d.id)
                 }}
                 className="shrink-0 text-ink-400"
-                aria-label={open ? 'Contraer' : 'Desplegar'}
+                aria-label={open ? t('comun.contraer') : t('comun.desplegar')}
               >
                 {open ? <ChevronDown size={13} /> : <ChevronRight size={13} />}
               </button>
@@ -246,12 +248,12 @@ export default function Binder({ docs, activeId, onSelect, onCreate, onDelete, o
               <span className="w-[13px] shrink-0" />
             )}
             <Icon size={13} className="shrink-0 text-ink-400" />
-            <span className="truncate">{d.title || 'Sin título'}</span>
+            <span className="truncate">{d.title || t('comun.sinTitulo')}</span>
             {d.label && (
               <span
                 className="ml-1 h-2 w-2 shrink-0 rounded-full"
                 style={{ background: LABEL_COLOR[d.label] ?? '#999' }}
-                title={d.label}
+                title={t(`estado.${d.label.toLowerCase()}`)}
               />
             )}
             {d.word_count > 0 && (
@@ -261,7 +263,7 @@ export default function Binder({ docs, activeId, onSelect, onCreate, onDelete, o
             )}
             <button
               className="shrink-0 rounded p-0.5 text-ink-300 opacity-0 hover:text-red-600 group-hover:opacity-100"
-              title="Eliminar"
+              title={t('comun.eliminar')}
               onClick={(e) => {
                 e.stopPropagation()
                 onDelete(d.id)
@@ -289,7 +291,7 @@ export default function Binder({ docs, activeId, onSelect, onCreate, onDelete, o
                   className="mx-2 my-0.5 rounded border border-dashed border-accent-300 py-1 text-center text-[10px] text-accent-600 dark:border-accent-800"
                   style={{ marginLeft: 12 + depth * 13 }}
                 >
-                  soltar aquí dentro
+                  {t('binder.soltarDentro')}
                 </div>
               )}
             </>
@@ -304,22 +306,22 @@ export default function Binder({ docs, activeId, onSelect, onCreate, onDelete, o
   return (
     <div className="flex h-full flex-col">
       <div className="flex items-center gap-0.5 border-b border-ink-200 px-2 py-1.5 dark:border-ink-800">
-        <span className="panel-title mr-auto">Estructura</span>
-        <button className="btn-ghost !px-1.5 !py-1" title="Nueva carpeta" onClick={() => onCreate('folder', null)}>
+        <span className="panel-title mr-auto">{t('binder.titulo')}</span>
+        <button className="btn-ghost !px-1.5 !py-1" title={t('binder.nuevaCarpeta')} onClick={() => onCreate('folder', null)}>
           <FolderPlus size={15} />
         </button>
-        <button className="btn-ghost !px-1.5 !py-1" title="Nueva escena" onClick={() => onCreate('scene', null)}>
+        <button className="btn-ghost !px-1.5 !py-1" title={t('binder.nuevaEscena')} onClick={() => onCreate('scene', null)}>
           <FilePlus2 size={15} />
         </button>
-        <button className="btn-ghost !px-1.5 !py-1" title="Nueva nota" onClick={() => onCreate('note', null)}>
+        <button className="btn-ghost !px-1.5 !py-1" title={t('binder.nuevaNota')} onClick={() => onCreate('note', null)}>
           <StickyNote size={15} />
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto py-1" role="tree" aria-label="Estructura del proyecto">
+      <div className="flex-1 overflow-y-auto py-1" role="tree" aria-label={t('binder.arbol')}>
         {docs.length === 0 ? (
           <p className="px-3 py-4 text-center text-xs text-ink-400">
-            Vacío. Crea una carpeta para el primer acto o una escena suelta.
+            {t('binder.vacio')}
           </p>
         ) : (
           <>
@@ -347,7 +349,7 @@ export default function Binder({ docs, activeId, onSelect, onCreate, onDelete, o
                     : 'border-ink-300 text-ink-400 dark:border-ink-700'
                 }`}
               >
-                soltar aquí para sacarlo al nivel principal
+                {t('binder.soltarRaiz')}
               </div>
             )}
           </>
@@ -355,7 +357,7 @@ export default function Binder({ docs, activeId, onSelect, onCreate, onDelete, o
       </div>
 
       <p className="border-t border-ink-200 px-2 py-1 text-[10px] text-ink-400 dark:border-ink-800">
-        Arrastra para reordenar · <kbd>Alt</kbd> + ↑↓ mueve el seleccionado
+        {t('binder.ayudaArrastra')} · <kbd>Alt</kbd> {t('binder.ayudaTeclado')}
       </p>
     </div>
   )

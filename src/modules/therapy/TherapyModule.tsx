@@ -5,16 +5,18 @@ import { ArrowLeft, Dices, History, Shield, Trash2 } from 'lucide-react'
 import Editor from '@/components/Editor'
 import { therapy } from '@/lib/repo'
 import {
-  EXERCISES, exerciseById, exercisesByLevel, LEVEL_HELP, LEVEL_LABEL, schools, suggestExercise,
+  EXERCISES, exerciseById, exercisesByLevel, levelHelp, levelLabel, schools, suggestExercise,
 } from '@/lib/prompts'
 import { countWords, EMPTY_DOC, excerpt, parseDoc } from '@/lib/text'
 import { shortDate, toISODate } from '@/lib/dates'
 import { useApp } from '@/store/app'
 import type { FollowupAnswer, TherapyEntry, TherapyExercise } from '@/lib/types'
+import { useT } from '@/i18n/useT'
 
 type View = 'browse' | 'write' | 'history'
 
 export default function TherapyModule() {
+  const t = useT()
   const app = useApp()
   const [view, setView] = useState<View>('browse')
   const [level, setLevel] = useState(1)
@@ -117,14 +119,14 @@ export default function TherapyModule() {
           <div className="min-w-0">
             <div className="truncate text-sm font-semibold">{entry.exercise_name}</div>
             <div className="text-[11px] text-ink-500">
-              {entry.school} · {LEVEL_LABEL[entry.level]} · {shortDate(entry.session_date)}
+              {entry.school} · {levelLabel(entry.level)} · {shortDate(entry.session_date)}
             </div>
           </div>
           <button
             className="btn-danger ml-auto !px-1.5"
-            title="Eliminar esta sesión"
+            title={t('terapia.eliminarSesion')}
             onClick={async () => {
-              if (!window.confirm('¿Eliminar esta sesión de escritura?')) return
+              if (!window.confirm(t('terapia.confirmarEliminar'))) return
               await therapy.remove(entry.id)
               await reload()
               setView('browse')
@@ -137,10 +139,12 @@ export default function TherapyModule() {
         <div className="min-h-0 flex-1 overflow-y-auto">
           <div className="mx-auto max-w-3xl px-4 py-4 sm:px-6 sm:py-5">
             <div className="card mb-5 border-l-4 border-l-emerald-500 p-4">
-              <p className="panel-title mb-1.5">La consigna</p>
+              <p className="panel-title mb-1.5">{t('terapia.consigna')}</p>
               <p className="font-serif text-[15px] leading-relaxed">{entry.prompt_text}</p>
               {ex?.source && (
-                <p className="mt-2 text-[11px] italic text-ink-500">Fuente: {ex.source}</p>
+                <p className="mt-2 text-[11px] italic text-ink-500">
+                  {t('terapia.fuente', { fuente: ex.source })}
+                </p>
               )}
             </div>
 
@@ -148,7 +152,7 @@ export default function TherapyModule() {
               <Editor
                 key={entry.id}
                 value={parseDoc(entry.content_json) ?? EMPTY_DOC}
-                placeholder="Escribe sin corregir. Nadie más va a leer esto."
+                placeholder={t('terapia.escribirPlaceholder')}
                 onChange={saveContent}
                 page={false}
                 autofocus
@@ -157,7 +161,7 @@ export default function TherapyModule() {
 
             {followups.length > 0 && (
               <div className="mt-6">
-                <p className="panel-title mb-2">Preguntas de seguimiento</p>
+                <p className="panel-title mb-2">{t('terapia.seguimiento')}</p>
                 <div className="space-y-3">
                   {followups.map((f, i) => (
                     <div key={i} className="card p-3">
@@ -165,7 +169,7 @@ export default function TherapyModule() {
                       <textarea
                         className="input min-h-[70px] resize-y font-serif text-[14px] leading-relaxed"
                         value={f.a}
-                        placeholder="Responde en dos o tres frases…"
+                        placeholder={t('terapia.seguimientoPlaceholder')}
                         onChange={(e) => {
                           const next = [...followups]
                           next[i] = { ...f, a: e.target.value }
@@ -191,11 +195,11 @@ export default function TherapyModule() {
           <button className="btn-ghost !px-1.5" onClick={() => setView('browse')}>
             <ArrowLeft size={16} />
           </button>
-          <h1 className="text-xl font-semibold">Tus sesiones</h1>
+          <h1 className="text-xl font-semibold">{t('terapia.tusSesiones')}</h1>
         </div>
         {history.length === 0 ? (
           <p className="rounded-lg border border-dashed border-ink-300 p-10 text-center text-sm text-ink-400 dark:border-ink-700">
-            Todavía no has hecho ningún ejercicio.
+            {t('terapia.sinSesiones')}
           </p>
         ) : (
           <div className="space-y-2">
@@ -211,7 +215,7 @@ export default function TherapyModule() {
                   <span className="ml-auto text-xs text-ink-400">{shortDate(h.session_date)}</span>
                 </div>
                 <p className="mt-1 text-xs text-ink-500 dark:text-ink-400">
-                  {excerpt(h.content_text, 140) || 'Sin escribir todavía.'}
+                  {excerpt(h.content_text, 140) || t('terapia.sinEscribir')}
                 </p>
               </button>
             ))}
@@ -226,23 +230,20 @@ export default function TherapyModule() {
     <div className="h-full overflow-y-auto">
       <div className="mx-auto w-full max-w-4xl p-4 sm:p-6">
         <div className="mb-1 flex items-center gap-3">
-          <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">Terapia narrativa</h1>
+          <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">{t('terapia.titulo')}</h1>
           <button className="btn-ghost ml-auto" onClick={() => setView('history')}>
-            <History size={15} /> Historial ({history.length})
+            <History size={15} /> {t('terapia.historial', { n: history.length })}
           </button>
           <button
             className="btn-outline"
             onClick={() => start(suggestExercise(level, usage))}
-            title="Elige por mí uno que no haya hecho"
+            title={t('terapia.sorprendemeAyuda')}
           >
-            <Dices size={15} /> Sorpréndeme
+            <Dices size={15} /> {t('terapia.sorprendeme')}
           </button>
         </div>
         <p className="mb-5 max-w-2xl text-sm leading-relaxed text-ink-500 dark:text-ink-400">
-          Ejercicios de escritura tomados de la terapia narrativa de White y Epston, la terapia
-          centrada en soluciones, la breve estratégica, ACT, la escritura expresiva de Pennebaker y
-          la terapia centrada en la compasión. {EXERCISES.length} ejercicios en tres niveles de
-          profundidad.
+          {t('terapia.intro', { n: EXERCISES.length })}
         </p>
 
         <div className="mb-4 flex flex-wrap items-center gap-2">
@@ -256,7 +257,7 @@ export default function TherapyModule() {
                   : 'bg-ink-100 text-ink-600 hover:bg-ink-200 dark:bg-ink-800 dark:text-ink-300'
               }`}
             >
-              {LEVEL_LABEL[l]}
+              {levelLabel(l)}
             </button>
           ))}
           <select
@@ -264,7 +265,7 @@ export default function TherapyModule() {
             value={school}
             onChange={(e) => setSchool(e.target.value)}
           >
-            <option value="all">Todas las escuelas</option>
+            <option value="all">{t('terapia.todasEscuelas')}</option>
             {allSchools.map((s) => (
               <option key={s} value={s}>
                 {s}
@@ -276,13 +277,11 @@ export default function TherapyModule() {
         <p className="mb-4 flex items-start gap-2 rounded-md bg-ink-100 p-3 text-xs leading-relaxed text-ink-600 dark:bg-ink-800/60 dark:text-ink-300">
           <Shield size={14} className="mt-0.5 shrink-0" />
           <span>
-            {LEVEL_HELP[level]}
+            {levelHelp(level)}
             {level === 3 && (
               <>
                 {' '}
-                Escribir sobre material difícil puede remover cosas: esto es una herramienta de
-                escritura, no un sustituto de un profesional. Si algo se te hace demasiado grande,
-                para y busca apoyo.
+                {t('terapia.avisoNivel3')}
               </>
             )}
           </span>

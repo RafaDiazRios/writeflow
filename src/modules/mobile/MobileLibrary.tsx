@@ -7,6 +7,7 @@ import { tiptapToXhtml } from '@/lib/epub'
 import ExportMenu from '@/components/ExportMenu'
 import { useRefrescoTrasSync } from '@/lib/refresco'
 import type { Character, Doc, Project } from '@/lib/types'
+import { useT } from '@/i18n/useT'
 
 /**
  * Biblioteca de solo lectura.
@@ -18,6 +19,7 @@ import type { Character, Doc, Project } from '@/lib/types'
  * peor de los dos.
  */
 export default function MobileLibrary() {
+  const t = useT()
   const [items, setItems] = useState<Project[]>([])
   const [project, setProject] = useState<Project | null>(null)
   const [docs, setDocs] = useState<Doc[]>([])
@@ -69,10 +71,10 @@ export default function MobileLibrary() {
           {html ? (
             <div className="wf-prose" dangerouslySetInnerHTML={{ __html: html }} />
           ) : (
-            <p className="py-10 text-center text-sm text-ink-400">Este documento está vacío.</p>
+            <p className="py-10 text-center text-sm text-ink-400">{t('biblioteca.documentoVacio')}</p>
           )}
           <p className="mt-8 flex items-center justify-center gap-1.5 text-[11px] text-ink-400">
-            <Eye size={12} /> solo lectura · edítalo en el ordenador
+            <Eye size={12} /> {t('biblioteca.soloLectura')}
           </p>
         </div>
       </div>
@@ -81,15 +83,14 @@ export default function MobileLibrary() {
 
   // ── ficha de personaje ──
   if (character) {
-    const fields: [string, string | null][] = [
-      ['Papel', character.role], ['Edad', character.age], ['Oficio', character.occupation],
-      ['Aspecto', character.appearance], ['Carácter', character.personality],
-      ['Quiere', character.goal], ['Por qué', character.motivation],
-      ['Qué se lo impide', character.conflict], ['Arco', character.arc],
-      ['Pasado', character.backstory], ['Voz', character.voice],
-      ['Secretos', character.secrets], ['Relaciones', character.relationships],
-      ['Notas', character.notes],
-    ]
+    // Los mismos rótulos que la ficha del escritorio, del mismo diccionario:
+    // dos juegos de etiquetas para lo mismo se acaban desincronizando.
+    const fields: [string, string | null][] = (
+      [
+        'role', 'age', 'occupation', 'appearance', 'personality', 'goal', 'motivation',
+        'conflict', 'arc', 'backstory', 'voice', 'secrets', 'relationships', 'notes',
+      ] as (keyof Character)[]
+    ).map((k) => [t(`ficha.${String(k)}`), (character[k] as string | null) ?? null])
     return (
       <div className="flex h-full min-h-0 flex-col">
         <Bar title={character.name} onBack={() => setCharacter(null)} />
@@ -128,7 +129,7 @@ export default function MobileLibrary() {
         <div className="min-h-0 flex-1 overflow-y-auto p-3">
           {chars.length > 0 && (
             <>
-              <p className="panel-title mb-1.5">Personajes</p>
+              <p className="panel-title mb-1.5">{t('ficha.titulo')}</p>
               <div className="mb-4 space-y-1">
                 {chars.map((c) => (
                   <Row key={c.id} onClick={() => setCharacter(c)} icon={<UserRound size={15} />} title={c.name} />
@@ -136,9 +137,9 @@ export default function MobileLibrary() {
               </div>
             </>
           )}
-          <p className="panel-title mb-1.5">Documentos</p>
+          <p className="panel-title mb-1.5">{t('biblioteca.documentos')}</p>
           <div className="space-y-1">
-            {docs.length === 0 && <Empty>Este proyecto está vacío.</Empty>}
+            {docs.length === 0 && <Empty>{t('biblioteca.proyectoVacio')}</Empty>}
             {docs.map((d) => (
               <Row
                 key={d.id}
@@ -158,11 +159,9 @@ export default function MobileLibrary() {
   // ── lista de proyectos ──
   return (
     <div className="h-full overflow-y-auto p-3">
-      <h1 className="mb-3 px-1 text-lg font-semibold">Biblioteca</h1>
+      <h1 className="mb-3 px-1 text-lg font-semibold">{t('biblioteca.titulo')}</h1>
       {items.length === 0 ? (
-        <Empty>
-          Aquí verás tus novelas y ensayos para leerlos. Se crean y se editan en el ordenador.
-        </Empty>
+        <Empty>{t('biblioteca.vacia')}</Empty>
       ) : (
         <div className="space-y-2">
           {items.map((p) => (
@@ -177,7 +176,7 @@ export default function MobileLibrary() {
               <span className="min-w-0 flex-1">
                 <span className="block truncate text-sm font-medium">{p.title}</span>
                 <span className="block truncate text-xs text-ink-500">
-                  {p.kind === 'novel' ? 'Novela' : 'Ensayo'}
+                  {p.kind === 'novel' ? t('biblioteca.novela') : t('biblioteca.ensayo')}
                   {p.logline ? ` · ${p.logline}` : ''}
                 </span>
               </span>
@@ -198,12 +197,13 @@ function Bar({
   /** Botones a la derecha; hoy solo el menú de compartir. */
   acciones?: React.ReactNode
 }) {
+  const t = useT()
   return (
     <div className="flex shrink-0 items-center gap-1 border-b border-ink-200 px-1 py-1 dark:border-ink-800">
       <button
         className="rounded-full p-2 text-ink-600 active:bg-ink-100 dark:active:bg-ink-800"
         onClick={onBack}
-        aria-label="Volver"
+        aria-label={t('comun.volver')}
       >
         <ArrowLeft size={20} />
       </button>
@@ -222,6 +222,7 @@ function Row({
   sub?: string
   indent?: number
 }) {
+  const t = useT()
   return (
     <button
       onClick={onClick}
@@ -230,7 +231,7 @@ function Row({
     >
       <span className="w-6 shrink-0 text-ink-400">{icon}</span>
       <span className="min-w-0 flex-1">
-        <span className="block truncate text-[14px]">{title || 'Sin título'}</span>
+        <span className="block truncate text-[14px]">{title || t('comun.sinTitulo')}</span>
         {sub && <span className="block truncate text-[11px] text-ink-400">{sub}</span>}
       </span>
       <ChevronRight size={15} className="shrink-0 text-ink-300" />

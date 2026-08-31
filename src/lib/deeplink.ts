@@ -1,6 +1,7 @@
 import { getCurrent, onOpenUrl } from '@tauri-apps/plugin-deep-link'
 import { completeAuth } from './supabase'
 import { useApp } from '@/store/app'
+import { t } from '@/i18n'
 
 /**
  * Vuelta del login con Google.
@@ -37,7 +38,7 @@ async function procesar(url: string) {
       signedIn: Boolean(session),
       userEmail: session?.user.email ?? null,
     })
-    useApp.getState().notify('ok', `Sesión iniciada como ${session?.user.email ?? 'usuario'}`)
+    useApp.getState().notify('ok', t('sesion.iniciada', { quien: session?.user.email ?? t('sesion.usuario') }))
   } catch (e) {
     useApp.getState().notify('error', e instanceof Error ? e.message : String(e))
   }

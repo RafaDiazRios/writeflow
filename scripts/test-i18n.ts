@@ -138,5 +138,51 @@ check('las dos contienen el mes entero',
 
 check('hay exactamente dos idiomas', IDIOMAS.length === 2)
 
+/* Las claves que se componen en marcha (`estado.${valor}`, `ficha.${campo}`…)
+ * no las ve nadie hasta que se pinta la pantalla: si falta una, en vez de un
+ * error sale la clave escrita en la interfaz. Aquí se comprueban una a una,
+ * que es lo único que las cubre. */
+console.log('\n— claves que se componen en marcha —')
+
+const FAMILIAS: [string, string[]][] = [
+  ['animo', ['1', '2', '3', '4', '5']],
+  ['corriente', ['estoico', 'filosofico', 'psicologico']],
+  ['nivel', ['1', '2', '3']],
+  ['tradicion', ['academic', 'literary', 'journalistic']],
+  ['estado', ['idea', 'borrador', 'revisado', 'final', 'descartado']],
+  ['momento', ['idea', 'escrito', 'revisado']],
+  ['doc.nuevo', ['folder', 'chapter', 'scene', 'note', 'section', 'research']],
+  ['tipo', ['journal', 'doc', 'therapy', 'character', 'project']],
+  [
+    'ficha',
+    ['role', 'age', 'occupation', 'appearance', 'personality', 'goal', 'motivation',
+     'conflict', 'arc', 'backstory', 'voice', 'secrets', 'relationships', 'notes'],
+  ],
+]
+
+for (const [familia, valores] of FAMILIAS) {
+  const faltan = valores.filter((v) => !(`${familia}.${v}` in (es as Record<string, string>)))
+  check(`${familia}.* completa`, faltan.length === 0, `→ faltan ${faltan.join(', ')}`)
+}
+
+// Las que llevan sufijo: la descripción de la corriente, la ayuda del nivel y
+// la pista de cada campo de la ficha.
+const conSufijo: [string, string[], string][] = [
+  ['corriente', ['estoico', 'filosofico', 'psicologico'], 'desc'],
+  ['nivel', ['1', '2', '3'], 'ayuda'],
+  [
+    'ficha',
+    ['role', 'age', 'occupation', 'appearance', 'personality', 'goal', 'motivation',
+     'conflict', 'arc', 'backstory', 'voice', 'secrets', 'relationships', 'notes'],
+    'pista',
+  ],
+]
+for (const [familia, valores, sufijo] of conSufijo) {
+  const faltan = valores.filter(
+    (v) => !(`${familia}.${v}.${sufijo}` in (es as Record<string, string>)),
+  )
+  check(`${familia}.*.${sufijo} completa`, faltan.length === 0, `→ faltan ${faltan.join(', ')}`)
+}
+
 console.log(fails === 0 ? '\n✔ Idioma y fechas correctos\n' : `\n✖ ${fails} fallo(s)\n`)
 process.exit(fails === 0 ? 0 : 1)

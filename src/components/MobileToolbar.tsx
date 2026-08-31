@@ -5,6 +5,7 @@ import {
 } from 'lucide-react'
 import { useState } from 'react'
 import { elegirImagenDelDisco } from '@/lib/imagenes'
+import { useT } from '@/i18n/useT'
 
 /**
  * Barra de formato para pantallas táctiles.
@@ -18,6 +19,7 @@ import { elegirImagenDelDisco } from '@/lib/imagenes'
  * en el móvil que en el ordenador.
  */
 export default function MobileToolbar({ editor }: { editor: Editor }) {
+  const t = useT()
   const [, force] = useState(0)
   editor.on('selectionUpdate', () => force((n) => n + 1))
   editor.on('transaction', () => force((n) => n + 1))
@@ -26,40 +28,40 @@ export default function MobileToolbar({ editor }: { editor: Editor }) {
 
   return (
     <div className="flex shrink-0 items-center gap-0.5 overflow-x-auto border-t border-ink-200 bg-white px-1.5 py-1 dark:border-ink-800 dark:bg-ink-900">
-      <B onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()} label="Deshacer">
+      <B onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()} label={t('editor.deshacer')}>
         <Undo2 size={19} />
       </B>
-      <B onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()} label="Rehacer">
+      <B onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()} label={t('editor.rehacer')}>
         <Redo2 size={19} />
       </B>
       <Sep />
-      <B active={editor.isActive('bold')} onClick={() => editor.chain().focus().toggleBold().run()} label="Negrita">
+      <B active={editor.isActive('bold')} onClick={() => editor.chain().focus().toggleBold().run()} label={t('editor.negrita')}>
         <Bold size={19} />
       </B>
-      <B active={editor.isActive('italic')} onClick={() => editor.chain().focus().toggleItalic().run()} label="Cursiva">
+      <B active={editor.isActive('italic')} onClick={() => editor.chain().focus().toggleItalic().run()} label={t('editor.cursiva')}>
         <Italic size={19} />
       </B>
-      <B active={editor.isActive('underline')} onClick={() => editor.chain().focus().toggleUnderline().run()} label="Subrayado">
+      <B active={editor.isActive('underline')} onClick={() => editor.chain().focus().toggleUnderline().run()} label={t('editor.subrayado')}>
         <UnderlineIcon size={19} />
       </B>
-      <B active={editor.isActive('strike')} onClick={() => editor.chain().focus().toggleStrike().run()} label="Tachado">
+      <B active={editor.isActive('strike')} onClick={() => editor.chain().focus().toggleStrike().run()} label={t('editor.tachado')}>
         <Strikethrough size={19} />
       </B>
       <Sep />
       <B
         active={editor.isActive('heading', { level: 2 })}
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        label="Título"
+        label={t('editor.titulo')}
       >
         <Heading2 size={19} />
       </B>
-      <B active={editor.isActive('bulletList')} onClick={() => editor.chain().focus().toggleBulletList().run()} label="Lista">
+      <B active={editor.isActive('bulletList')} onClick={() => editor.chain().focus().toggleBulletList().run()} label={t('editor.lista')}>
         <List size={19} />
       </B>
-      <B active={editor.isActive('orderedList')} onClick={() => editor.chain().focus().toggleOrderedList().run()} label="Lista numerada">
+      <B active={editor.isActive('orderedList')} onClick={() => editor.chain().focus().toggleOrderedList().run()} label={t('editor.listaNumerada')}>
         <ListOrdered size={19} />
       </B>
-      <B active={editor.isActive('blockquote')} onClick={() => editor.chain().focus().toggleBlockquote().run()} label="Cita">
+      <B active={editor.isActive('blockquote')} onClick={() => editor.chain().focus().toggleBlockquote().run()} label={t('editor.cita')}>
         <Quote size={19} />
       </B>
       <B
@@ -68,7 +70,7 @@ export default function MobileToolbar({ editor }: { editor: Editor }) {
             if (img) editor.chain().focus().setImage({ src: img.src }).run()
           })
         }}
-        label="Imagen"
+        label={t('editor.imagen')}
       >
         <ImageIcon size={19} />
       </B>

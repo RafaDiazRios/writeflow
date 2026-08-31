@@ -27,6 +27,7 @@ import { useIsMobile } from '@/lib/platform'
 import { imagenesDe, prepararImagen } from '@/lib/imagenes'
 import EditorToolbar from './EditorToolbar'
 import MobileToolbar from './MobileToolbar'
+import { idiomaUI, LOCALE_INTL, t } from '@/i18n'
 
 export interface EditorProps {
   value: JSONContent | null
@@ -72,7 +73,7 @@ export function buildExtensions(placeholder: string) {
 
 export default function Editor({
   value,
-  placeholder = 'Escribe aquí…',
+  placeholder = t('editor.placeholderPorDefecto'),
   editable = true,
   onChange,
   onEditorReady,
@@ -125,7 +126,10 @@ export default function Editor({
         attributes: {
           class: 'wf-prose tiptap',
           spellcheck: 'true',
-          lang: 'es',
+          // El corrector del sistema mira este atributo. Sigue al idioma de la
+          // interfaz, que es la mejor pista que hay: la app no tiene (todavía)
+          // un ajuste propio para el idioma en el que escribes.
+          lang: LOCALE_INTL[idiomaUI()],
         },
         // Pegar o arrastrar una imagen la incrusta ya reescalada. Se devuelve
         // `true` para quedarse el evento: si no, ProseMirror inserta por su

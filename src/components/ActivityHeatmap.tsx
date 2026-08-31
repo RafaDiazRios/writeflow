@@ -1,7 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import { activityRange, type DayActivity } from '@/lib/stats'
-import { dayAndMonth, monthShort, toISODate } from '@/lib/dates'
+import {
+  dayAndMonth, getInicioSemana, monthShort, startOfWeek, toISODate, weekdayInitials,
+} from '@/lib/dates'
 import { num } from '@/i18n'
+import { useT } from '@/i18n/useT'
+import { useApp } from '@/store/app'
 
 interface Props {
   /** Objetivo diario: marca los días cumplidos con un anillo. */
@@ -22,28 +26,31 @@ interface Props {
  * así sigue distinguiéndose en escala de grises y para quien no percibe bien el color.
  */
 export default function ActivityHeatmap({ goal, weeks = 53, refreshKey = 0 }: Props) {
+  const t = useT()
+  // Suscribirse a la preferencia: al cambiarla, la rejilla se redibuja.
+  const inicioSemana = useApp((s) => s.weekStart)
   const [data, setData] = useState<Record<string, DayActivity>>({})
   const [hover, setHover] = useState<{ day: string; words: number; x: number; y: number } | null>(null)
 
-  // Semanas completas que terminan hoy, empezando en lunes.
+  // Semanas completas que terminan hoy. El primer día de la columna es el que
+  // diga la preferencia, no siempre el lunes: en inglés estadounidense la
+  // semana empieza en domingo y la rejilla tiene que cuadrar con el calendario.
   const grid = useMemo(() => {
-    const end = new Date()
-    const endMonday = new Date(end)
-    endMonday.setDate(end.getDate() - ((end.getDay() + 6) % 7)) // lunes de esta semana
+    const primeroDeEstaSemana = startOfWeek(new Date(), { weekStartsOn: getInicioSemana() })
     const cols: Date[][] = []
     for (let w = weeks - 1; w >= 0; w--) {
-      const monday = new Date(endMonday)
-      monday.setDate(endMonday.getDate() - w * 7)
+      const inicio = new Date(primeroDeEstaSemana)
+      inicio.setDate(primeroDeEstaSemana.getDate() - w * 7)
       const col: Date[] = []
       for (let d = 0; d < 7; d++) {
-        const day = new Date(monday)
-        day.setDate(monday.getDate() + d)
+        const day = new Date(inicio)
+        day.setDate(inicio.getDate() + d)
         col.push(day)
       }
       cols.push(col)
     }
     return cols
-  }, [weeks])
+  }, [weeks, inicioSemana])
 
   const from = toISODate(grid[0][0])
   const to = toISODate(grid[grid.length - 1][6])
@@ -87,9 +94,9 @@ export default function ActivityHeatmap({ goal, weeks = 53, refreshKey = 0 }: Pr
   return (
     <figure className="relative m-0">
       <figcaption className="mb-2 flex items-baseline gap-2">
-        <span className="panel-title">Actividad del último año</span>
+        <span className="panel-title">{t('mapa.titulo')}</span>
         <span className="text-[11px] text-ink-500 dark:text-ink-400">
-          {num(total)} palabras en {activeDays} días
+          {t('mapa.resumen', { palabras: num(total), dias: activeDays })}
         </span>
       </figcaption>
 
@@ -107,8 +114,11 @@ export default function ActivityHeatmap({ goal, weeks = 53, refreshKey = 0 }: Pr
           <div className="flex gap-[3px]">
             {/* días de la semana */}
             <div className="mr-1 flex w-[18px] flex-col gap-[3px] text-[9px] text-ink-400">
-              {['L', '', 'X', '', 'V', '', 'D'].map((d, i) => (
-                <div key={i} className="h-[11px] leading-[11px]">{d}</div>
+              {/* Una de cada dos: las siete no caben en 11 píxeles de alto. */}
+              {weekdayInitials().map((inicial, i) => (
+                <div key={i} className="h-[11px] leading-[11px]">
+                  {i % 2 === 0 ? inicial : ''}
+                </div>
               ))}
             </div>
 
@@ -149,15 +159,15 @@ export default function ActivityHeatmap({ goal, weeks = 53, refreshKey = 0 }: Pr
 
       {/* leyenda */}
       <div className="mt-2 flex items-center gap-1.5 text-[10px] text-ink-400">
-        <span>menos</span>
+        <span>{t('mapa.menos')}</span>
         <div className="h-[10px] w-[10px] rounded-[2px] bg-ink-200/70 dark:bg-ink-800" />
         {fills.map((f, i) => (
           <div key={i} className={`h-[10px] w-[10px] rounded-[2px] ${f}`} />
         ))}
-        <span>más</span>
+        <span>{t('mapa.mas')}</span>
         <span className="ml-3 flex items-center gap-1">
           <span className="h-[10px] w-[10px] rounded-[2px] bg-accent-400 ring-1 ring-inset ring-accent-900/40 dark:bg-accent-700 dark:ring-white/50" />
-          objetivo cumplido
+          {t('mapa.objetivoCumplido')}
         </span>
       </div>
 
@@ -167,8 +177,8 @@ export default function ActivityHeatmap({ goal, weeks = 53, refreshKey = 0 }: Pr
           style={{ left: hover.x, top: hover.y - 6 }}
         >
           {hover.words > 0
-            ? `${num(hover.words)} palabras`
-            : 'Sin escribir'}
+            ? `${num(hover.words)} ${t('unidad.palabras')}`
+            : t('mapa.sinEscribir')}
           {' · '}
           {dayAndMonth(hover.day)}
         </div>

@@ -12,8 +12,10 @@ import { templateById } from '@/lib/prompts'
 import { useApp } from '@/store/app'
 import type { Doc, EssayTemplate, Project } from '@/lib/types'
 import { num } from '@/i18n'
+import { useT } from '@/i18n/useT'
 
 export default function EssayModule() {
+  const t = useT()
   const app = useApp()
   const [projectId, setProjectId] = useState<string | null>(null)
   const [project, setProject] = useState<Project | null>(null)
@@ -47,17 +49,17 @@ export default function EssayModule() {
     setParams({}, { replace: true })
   }, [params, setParams, load])
 
-  async function createFromTemplate(t: EssayTemplate, title: string) {
+  async function createFromTemplate(plantilla: EssayTemplate, title: string) {
     const id = await projects.create({
       kind: 'essay',
       title,
-      template_id: t.id,
-      target_words: t.sections.reduce((a, s) => a + s.suggested_words, 0),
-      synopsis: t.description,
+      template_id: plantilla.id,
+      target_words: plantilla.sections.reduce((a, s) => a + s.suggested_words, 0),
+      synopsis: plantilla.description,
       color: '#345a97',
     })
     let pos = 100
-    for (const s of t.sections) {
+    for (const s of plantilla.sections) {
       await docRepo.create({
         project_id: id,
         kind: 'section',
@@ -94,8 +96,8 @@ export default function EssayModule() {
       <>
         <ProjectList
           kind="essay"
-          title="Ensayos"
-          emptyHint="Elige una estructura —argumentativa, Toulmin, rogeriana, IMRyD, reflexiva de Gibbs…— y escribe sección a sección."
+          title={t('ensayo.titulo')}
+          emptyHint={t('ensayo.pistaVacia')}
           onOpen={setProjectId}
           onCreate={() => setPicking(true)}
           refreshKey={refreshKey}
@@ -112,7 +114,7 @@ export default function EssayModule() {
   return (
     <div className="flex h-full min-h-0 flex-col">
       <header className="flex items-center gap-3 border-b border-ink-200 px-3 py-2 dark:border-ink-800">
-        <button className="btn-ghost !px-1.5" onClick={() => setProjectId(null)} title="Volver">
+        <button className="btn-ghost !px-1.5" onClick={() => setProjectId(null)} title={t('comun.volver')}>
           <ArrowLeft size={16} />
         </button>
         <input
@@ -128,32 +130,32 @@ export default function EssayModule() {
         <div className="ml-auto flex items-center gap-3">
           <span className="text-xs tabular-nums text-ink-500">
             {num(total)}
-            {target ? ` / ${num(target)}` : ''} palabras
+            {target ? ` / ${num(target)}` : ''} {t('unidad.palabras')}
           </span>
           <button
             className={`btn-ghost !px-1.5 ${showGuide ? 'text-accent-600' : ''}`}
-            title="Mostrar la guía de la sección"
+            title={t('ensayo.verGuia')}
             onClick={() => setShowGuide((v) => !v)}
           >
             <Info size={16} />
           </button>
-          <ExportMenu projectId={projectId} projectTitle={project?.title ?? 'Ensayo'} variant="essay" />
+          <ExportMenu projectId={projectId} projectTitle={project?.title ?? t('ensayo.titulo')} variant="essay" />
         </div>
       </header>
 
       <div className="flex min-h-0 flex-1">
         <aside className="w-64 shrink-0 overflow-y-auto border-r border-ink-200 p-2 dark:border-ink-800">
           <div className="mb-1 flex items-center">
-            <span className="panel-title mr-auto">Secciones</span>
+            <span className="panel-title mr-auto">{t('ensayo.secciones')}</span>
             <button
               className="btn-ghost !px-1.5 !py-1"
-              title="Añadir sección"
+              title={t('ensayo.anadirSeccion')}
               onClick={async () => {
                 if (!projectId) return
                 const id = await docRepo.create({
                   project_id: projectId,
                   kind: 'section',
-                  title: 'Sección nueva',
+                  title: t('ensayo.seccionNueva'),
                   content_json: JSON.stringify(EMPTY_DOC),
                 })
                 await load(projectId, id)
@@ -217,13 +219,13 @@ export default function EssayModule() {
               <Editor
                 key={active.id}
                 value={parseDoc(active.content_json) ?? EMPTY_DOC}
-                placeholder="Desarrolla esta sección…"
+                placeholder={t('ensayo.escribirPlaceholder')}
                 onChange={saveContent}
               />
             </>
           ) : (
             <div className="grid flex-1 place-items-center text-sm text-ink-400">
-              Selecciona una sección.
+              {t('ensayo.sinSeccion')}
             </div>
           )}
         </div>
