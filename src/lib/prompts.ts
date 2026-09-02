@@ -1,14 +1,40 @@
-import raw from '@/data/prompts.json'
-import exercisesRaw from '@/data/therapyExercises.json'
-import templatesRaw from '@/data/essayTemplates.json'
+import promptsEs from '@/data/es/prompts.json'
+import promptsEn from '@/data/en/prompts.json'
+import ejerciciosEs from '@/data/es/therapyExercises.json'
+import ejerciciosEn from '@/data/en/therapyExercises.json'
+import plantillasEs from '@/data/es/essayTemplates.json'
+import plantillasEn from '@/data/en/essayTemplates.json'
 import type { DailyPrompt, EssayTemplate, PromptStream, TherapyExercise } from './types'
 import { getMeta, one, run, setMeta } from './db'
-import { t } from '@/i18n'
+import { idiomaContenido, t } from '@/i18n'
 import { toISODate } from './dates'
 
-export const PROMPTS = raw as DailyPrompt[]
-export const EXERCISES = exercisesRaw as TherapyExercise[]
-export const TEMPLATES = templatesRaw as EssayTemplate[]
+/*
+ * El contenido —prompts, ejercicios y plantillas— sigue al **idioma del
+ * contenido**, que es un ajuste distinto del de la interfaz: alguien bilingüe
+ * puede querer la aplicación en inglés y los prompts en español.
+ *
+ * Los tres dominios no se traducen a la vez, así que cada uno cae al español
+ * mientras su fichero inglés esté vacío. Un `prompts.json` inglés a medias
+ * dejaría la aplicación sin sugerencia del día; con el respaldo, cada dominio
+ * entra en cuanto está terminado y los demás siguen funcionando.
+ *
+ * Los identificadores son los mismos en los dos idiomas a propósito: así el
+ * historial de prompts usados, el recuento de ejercicios hechos y el
+ * `prompt_id` de las entradas del diario siguen valiendo al cambiar de idioma.
+ */
+function juego<T>(es: T[], en: T[]): T[] {
+  return idiomaContenido() === 'en' && en.length > 0 ? en : es
+}
+
+export const prompts = (): DailyPrompt[] =>
+  juego(promptsEs as DailyPrompt[], promptsEn as DailyPrompt[])
+
+export const ejercicios = (): TherapyExercise[] =>
+  juego(ejerciciosEs as TherapyExercise[], ejerciciosEn as TherapyExercise[])
+
+export const plantillas = (): EssayTemplate[] =>
+  juego(plantillasEs as EssayTemplate[], plantillasEn as EssayTemplate[])
 
 /* Etiquetas de cara al usuario. Eran tablas constantes; ahora son funciones
  * porque el texto depende del idioma activo, que cambia en marcha. Los
@@ -34,22 +60,22 @@ function hashString(s: string): number {
  * exactamente igual sin conexión.
  */
 export function promptForDay(date: string, streams: PromptStream[]): DailyPrompt {
-  const pool = PROMPTS.filter((p) => streams.includes(p.stream))
-  const list = pool.length ? pool : PROMPTS
+  const pool = prompts().filter((p) => streams.includes(p.stream))
+  const list = pool.length ? pool : prompts()
   return list[hashString(date + streams.join(',')) % list.length]
 }
 
 /** Otro prompt distinto para el mismo día (botón «dame otro»). */
 export function rerollPrompt(date: string, streams: PromptStream[], exclude: string[]): DailyPrompt {
-  const pool = PROMPTS.filter((p) => streams.includes(p.stream) && !exclude.includes(p.id))
-  const list = pool.length ? pool : PROMPTS.filter((p) => !exclude.includes(p.id))
+  const pool = prompts().filter((p) => streams.includes(p.stream) && !exclude.includes(p.id))
+  const list = pool.length ? pool : prompts().filter((p) => !exclude.includes(p.id))
   if (!list.length) return promptForDay(date, streams)
   return list[Math.floor(Math.random() * list.length)]
 }
 
 export function promptById(id: string | null | undefined): DailyPrompt | undefined {
   if (!id) return undefined
-  return PROMPTS.find((p) => p.id === id)
+  return prompts().find((p) => p.id === id)
 }
 
 // ── preferencias de corrientes ──
@@ -97,16 +123,16 @@ export const levelLabel = (n: number): string => t(`nivel.${n}`)
 export const levelHelp = (n: number): string => t(`nivel.${n}.ayuda`)
 
 export function exercisesByLevel(level: number): TherapyExercise[] {
-  return EXERCISES.filter((e) => e.level === level)
+  return ejercicios().filter((e) => e.level === level)
 }
 
 export function exerciseById(id: string | null | undefined): TherapyExercise | undefined {
   if (!id) return undefined
-  return EXERCISES.find((e) => e.id === id)
+  return ejercicios().find((e) => e.id === id)
 }
 
 export function schools(): string[] {
-  return Array.from(new Set(EXERCISES.map((e) => e.school))).sort()
+  return Array.from(new Set(ejercicios().map((e) => e.school))).sort()
 }
 
 /** Sugerencia: primero los ejercicios del nivel que aún no has hecho. */
@@ -121,7 +147,7 @@ export function suggestExercise(level: number, usage: Record<string, number>): T
 
 export function templateById(id: string | null | undefined): EssayTemplate | undefined {
   if (!id) return undefined
-  return TEMPLATES.find((t) => t.id === id)
+  return plantillas().find((p) => p.id === id)
 }
 
 export const traditionLabel = (tradicion: string): string => t(`tradicion.${tradicion}`)

@@ -10,5 +10,8 @@ import { t as traducir } from './index'
  */
 export function useT() {
   useApp((s) => s.uiLang)
+  // También el del contenido: quien pinta un prompt o una plantilla tiene que
+  // repintarse al cambiarlo, y siempre es un componente que ya usa `t`.
+  useApp((s) => s.contentLang)
   return traducir
 }

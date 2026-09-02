@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { getMeta, setMeta } from '@/lib/db'
 import type { PromptStream } from '@/lib/types'
 import { getStreams, setStreams } from '@/lib/prompts'
-import { idiomaDelSistema, setIdiomaUI, type Idioma } from '@/i18n'
+import { idiomaDelSistema, setIdiomaContenido, setIdiomaUI, type Idioma } from '@/i18n'
 import { setInicioSemana, type InicioSemana } from '@/lib/dates'
 
 export type Theme = 'light' | 'dark' | 'system'
@@ -96,6 +96,7 @@ export const useApp = create<AppState>((set, get) => ({
     const weekStart = (Number((await getMeta('week_start')) ?? 1) === 0 ? 0 : 1) as InicioSemana
 
     setIdiomaUI(uiLang)
+    setIdiomaContenido(contentLang)
     setInicioSemana(weekStart)
     applyTheme(theme)
     set({ ready: true, theme, fontScale, streams, uiLang, contentLang, weekStart })
@@ -131,6 +132,7 @@ export const useApp = create<AppState>((set, get) => ({
 
   async setContentLang(l) {
     await setMeta('content_lang', l)
+    setIdiomaContenido(l)
     set({ contentLang: l })
   },
 

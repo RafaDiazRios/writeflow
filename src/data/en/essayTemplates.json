@@ -1,0 +1,793 @@
+[
+  {
+    "id": "argumentative",
+    "name": "Argumentative Essay",
+    "tradition": "academic",
+    "description": "An academic essay driven by a thesis someone could reasonably dispute, defended with ordered reasons and evidence, and tested against the strongest objection. The five-paragraph model grown up: room for counter-argument and for qualification.",
+    "sections": [
+      {
+        "title": "Hook and context",
+        "guide": "What fact, scene or question opens the piece so the reader understands why this argument matters now? Place the topic in two or three sentences without giving away your thesis.",
+        "suggested_words": 150
+      },
+      {
+        "title": "Framing the question",
+        "guide": "What exactly is in dispute, and which positions are held? Define the terms that could be read two ways before anyone gets to argue about them.",
+        "suggested_words": 200
+      },
+      {
+        "title": "Thesis",
+        "guide": "One or two sentences stating a position a reasonable person could reject. Include the 'because' that previews your main reasons.",
+        "suggested_words": 80
+      },
+      {
+        "title": "First reason and evidence",
+        "guide": "Your strongest reason. State it as a topic sentence, support it with concrete evidence — data, a quotation, a case — and explain how that evidence bears on the thesis.",
+        "suggested_words": 350
+      },
+      {
+        "title": "Second reason and evidence",
+        "guide": "A different reason, not a variation on the first. Draw on another kind of evidence or another source so the base is wider.",
+        "suggested_words": 350
+      },
+      {
+        "title": "Third reason and evidence",
+        "guide": "The reason that adds the dimension still missing: ethical, practical, economic, historical. Connect it explicitly to the two before it.",
+        "suggested_words": 350
+      },
+      {
+        "title": "Counter-argument",
+        "guide": "The strongest objection from someone who disagrees. Put it in its best form, in their words if you can, without caricature.",
+        "suggested_words": 250
+      },
+      {
+        "title": "Rebuttal and qualification",
+        "guide": "Why doesn't that objection bring the thesis down? Concede what deserves conceding, and say where your position stops holding.",
+        "suggested_words": 250
+      },
+      {
+        "title": "Conclusion and consequences",
+        "guide": "Not a summary: what changes if you are right? Close on the practical or intellectual implication of the argument.",
+        "suggested_words": 200
+      }
+    ]
+  },
+  {
+    "id": "expository",
+    "name": "Expository Essay",
+    "tradition": "academic",
+    "description": "An essay that explains a subject, process or concept clearly and neutrally, without arguing a position. Its measure of success is simple: the reader now understands something they did not understand before.",
+    "sections": [
+      {
+        "title": "Introduction and scope",
+        "guide": "What are you explaining, and why is it worth explaining? Draw the boundary: what this piece covers and what it deliberately leaves out.",
+        "suggested_words": 180
+      },
+      {
+        "title": "Controlling idea",
+        "guide": "One sentence stating the central idea the reader should leave with, and the order in which you will build it.",
+        "suggested_words": 80
+      },
+      {
+        "title": "Definitions and groundwork",
+        "guide": "What terms and background does someone arriving cold need? Define them with plain examples rather than dictionary phrasing.",
+        "suggested_words": 250
+      },
+      {
+        "title": "First aspect",
+        "guide": "Explain the first component, stage or category. Anchor it with a concrete example that makes it visible.",
+        "suggested_words": 300
+      },
+      {
+        "title": "Second aspect",
+        "guide": "Explain the next component and how it relates to the first: does it follow from it, contrast with it, cause it?",
+        "suggested_words": 300
+      },
+      {
+        "title": "Third aspect",
+        "guide": "The remaining aspect, or the least obvious case. This is usually where you tell the reader what they could not have worked out alone.",
+        "suggested_words": 300
+      },
+      {
+        "title": "Common misunderstandings",
+        "guide": "What gets confused or over-simplified about this subject? Correct it without turning the piece into an argument.",
+        "suggested_words": 200
+      },
+      {
+        "title": "Synthesis",
+        "guide": "Put the parts back together: how do they form one picture? Close without opinion and without new information.",
+        "suggested_words": 180
+      }
+    ]
+  },
+  {
+    "id": "persuasive-toulmin",
+    "name": "Persuasive Essay (Toulmin Model)",
+    "tradition": "academic",
+    "description": "A persuasive essay built on Stephen Toulmin's model, which forces the logical link between evidence and claim into the open. Worth the extra scaffolding when your reader is sceptical and expects rigour.",
+    "sections": [
+      {
+        "title": "Introduction and the problem",
+        "guide": "What concrete situation makes a position necessary? Present the problem before you present your opinion.",
+        "suggested_words": 200
+      },
+      {
+        "title": "Claim",
+        "guide": "State the conclusion you want the reader to accept — a belief or an action. Specific and checkable, not a platitude.",
+        "suggested_words": 100
+      },
+      {
+        "title": "Grounds",
+        "guide": "The data, facts, testimony or reasons your claim rests on. Strongest evidence first, and say where each piece comes from.",
+        "suggested_words": 400
+      },
+      {
+        "title": "Warrant",
+        "guide": "Why does that evidence prove that claim? Spell out the principle connecting the two. This is usually the part your reader does not share, and usually the part writers leave implicit.",
+        "suggested_words": 250
+      },
+      {
+        "title": "Backing",
+        "guide": "What holds the warrant up? Authority, legal framework, theory, precedent or consensus that makes it credible on its own.",
+        "suggested_words": 250
+      },
+      {
+        "title": "Qualifier",
+        "guide": "How strongly, and under what conditions, does the claim hold? 'In most cases', 'where X applies', 'unless'. A qualified claim is harder to knock down than an absolute one.",
+        "suggested_words": 150
+      },
+      {
+        "title": "Rebuttal",
+        "guide": "Which exceptions or objections would defeat the claim, and how do you answer them? Name the cases where your position would not apply.",
+        "suggested_words": 300
+      },
+      {
+        "title": "Close and call to action",
+        "guide": "What should the reader do, think or decide from here? End with a specific request, not a generality.",
+        "suggested_words": 200
+      }
+    ]
+  },
+  {
+    "id": "rogerian",
+    "name": "Rogerian Essay",
+    "tradition": "academic",
+    "description": "Non-confrontational argument after Carl Rogers: understand the other side properly before proposing anything, and aim at agreement rather than victory. Built for polarised subjects, where a hostile reader would abandon any other form on the first page.",
+    "sections": [
+      {
+        "title": "Neutral statement of the conflict",
+        "guide": "Describe the disagreement as a neutral observer would. Do not reveal your position yet: here you only establish that there is a shared problem.",
+        "suggested_words": 250
+      },
+      {
+        "title": "The opposing position, stated fairly",
+        "guide": "Reconstruct the other side and its reasoning well enough that someone who holds it would say 'yes, that is exactly what I think'. What legitimate values drive it?",
+        "suggested_words": 400
+      },
+      {
+        "title": "Where that position is right",
+        "guide": "In which concrete circumstances is the opposing view valid, or even preferable? Concede without irony — a grudging concession reads worse than none.",
+        "suggested_words": 250
+      },
+      {
+        "title": "Your position and its reasons",
+        "guide": "Set out your own view with the same structure and the same respectful tone you used for theirs. What values hold it up?",
+        "suggested_words": 400
+      },
+      {
+        "title": "Where your position is right",
+        "guide": "In which specific situations does your view solve the problem better? Be as concrete as you were in the previous section.",
+        "suggested_words": 250
+      },
+      {
+        "title": "The bridge: common ground",
+        "guide": "Which values, fears or goals do both sides share even while disagreeing about means? This is where you show the conflict is not total.",
+        "suggested_words": 300
+      },
+      {
+        "title": "The proposal",
+        "guide": "Now state your thesis, as a solution that honours both sets of values. What does the other side gain by accepting it?",
+        "suggested_words": 300
+      }
+    ]
+  },
+  {
+    "id": "comparative-block",
+    "name": "Comparative Essay (Block Method)",
+    "tradition": "academic",
+    "description": "A comparison that treats each subject separately and completely before moving to the next. The better choice when the subjects are complex, or when your reader knows one of them and not the other.",
+    "sections": [
+      {
+        "title": "Introduction and basis for comparison",
+        "guide": "Which two subjects, and what makes them comparable? Justify the pairing: what does putting them side by side reveal that neither shows alone?",
+        "suggested_words": 200
+      },
+      {
+        "title": "Comparative thesis",
+        "guide": "One sentence: what conclusion comes out of the comparison? 'They are similar and different' is not a thesis — say what the contrast reveals.",
+        "suggested_words": 80
+      },
+      {
+        "title": "Criteria",
+        "guide": "Name the three or four criteria you will apply to both subjects, in the same order in both blocks.",
+        "suggested_words": 150
+      },
+      {
+        "title": "Block A: the first subject",
+        "guide": "Work through every criterion for the first subject, with evidence specific to each point.",
+        "suggested_words": 500
+      },
+      {
+        "title": "Block B: the second subject",
+        "guide": "The same criteria in the same order, referring back to block A wherever the contrast is sharp. This is what stops the essay reading as two unrelated descriptions.",
+        "suggested_words": 500
+      },
+      {
+        "title": "Synthesis",
+        "guide": "Bring the blocks together: where do they converge, where do they diverge, and what pattern explains the divergence?",
+        "suggested_words": 300
+      },
+      {
+        "title": "Conclusion: what the comparison reveals",
+        "guide": "What do you now understand about the larger subject that neither case showed on its own?",
+        "suggested_words": 200
+      }
+    ]
+  },
+  {
+    "id": "comparative-point",
+    "name": "Comparative Essay (Point-by-Point Method)",
+    "tradition": "academic",
+    "description": "A comparison that alternates between the two subjects within each criterion instead of handling them separately. Sharper contrast, and the better choice for long essays or many criteria.",
+    "sections": [
+      {
+        "title": "Introduction and basis for comparison",
+        "guide": "Introduce both subjects and explain what they have in common that makes the comparison worth making.",
+        "suggested_words": 200
+      },
+      {
+        "title": "Comparative thesis",
+        "guide": "One sentence on what the comparison discovers: which prevails, in what respect, or what tension the pair reveals.",
+        "suggested_words": 80
+      },
+      {
+        "title": "Criterion 1: A against B",
+        "guide": "Apply the first criterion to both subjects in the same section, closing with what the contrast demonstrates.",
+        "suggested_words": 350
+      },
+      {
+        "title": "Criterion 2: A against B",
+        "guide": "Apply the second criterion to both, and connect the finding to the previous one: does it confirm what you saw, or complicate it?",
+        "suggested_words": 350
+      },
+      {
+        "title": "Criterion 3: A against B",
+        "guide": "The third criterion, ideally the most revealing, where the comparison gets interesting rather than merely tidy.",
+        "suggested_words": 350
+      },
+      {
+        "title": "The difference that matters",
+        "guide": "Of all the differences, which one actually counts? Argue why the others are secondary.",
+        "suggested_words": 250
+      },
+      {
+        "title": "Evaluative conclusion",
+        "guide": "Close with the judgement the comparison supports, and its reach beyond these two cases.",
+        "suggested_words": 200
+      }
+    ]
+  },
+  {
+    "id": "cause-effect",
+    "name": "Cause and Effect Essay",
+    "tradition": "academic",
+    "description": "An essay explaining why something happens or what it produces, separating immediate triggers from the conditions that made them possible. Can run as a chain or in blocks of causes and effects.",
+    "sections": [
+      {
+        "title": "The phenomenon",
+        "guide": "Describe what you are explaining, with data or a concrete scene. How do we know it happens, and at what scale?",
+        "suggested_words": 250
+      },
+      {
+        "title": "Causal thesis",
+        "guide": "State your explanation: what causes what? Make clear whether you are analysing causes, effects, or both.",
+        "suggested_words": 100
+      },
+      {
+        "title": "Immediate cause",
+        "guide": "What direct, visible trigger produces the phenomenon? Give the evidence for that link, not just the assertion.",
+        "suggested_words": 300
+      },
+      {
+        "title": "Underlying or structural causes",
+        "guide": "What prior conditions made the trigger possible? Distinguish what set it off from what allowed it.",
+        "suggested_words": 350
+      },
+      {
+        "title": "Short-term effects",
+        "guide": "What immediate, observable consequences followed, and for whom?",
+        "suggested_words": 300
+      },
+      {
+        "title": "Long-term or knock-on effects",
+        "guide": "What later effects follow from the earlier ones? Show the chain step by step, without leaps.",
+        "suggested_words": 300
+      },
+      {
+        "title": "Alternative explanations",
+        "guide": "What else could explain the same facts, and why is your explanation better? This is where correlation gets mistaken for causation.",
+        "suggested_words": 250
+      },
+      {
+        "title": "Conclusion and implications",
+        "guide": "If this is the real cause, what could be done differently? Close on the practical consequence of the analysis.",
+        "suggested_words": 200
+      }
+    ]
+  },
+  {
+    "id": "narrative-personal",
+    "name": "Narrative / Personal Essay",
+    "tradition": "literary",
+    "description": "A literary essay that starts in your own experience and moves by scene and digression towards a discovery, in the tradition Montaigne began. The form follows the movement of thought rather than an argumentative outline.",
+    "sections": [
+      {
+        "title": "Opening scene",
+        "guide": "Begin in a specific moment, with a place, a body and a sensory detail. Enter the action before you explain what it means.",
+        "suggested_words": 300
+      },
+      {
+        "title": "The question that follows you",
+        "guide": "What unease, doubt or obsession made you write this? Put it as a real question, not a conclusion in disguise.",
+        "suggested_words": 200
+      },
+      {
+        "title": "Context and background",
+        "guide": "What does the reader need to know about your life, your period or the other people for the scene to carry weight? Ration it — this is not the place to tell everything.",
+        "suggested_words": 300
+      },
+      {
+        "title": "Scenes",
+        "guide": "Two or three more scenes that deepen or complicate the question. Show rather than summarise: action, dialogue, objects.",
+        "suggested_words": 600
+      },
+      {
+        "title": "Digression",
+        "guide": "Bring in something from outside yourself — a book, a historical fact, a myth, an image — that lights the experience from another angle. The essay tradition lives in this move.",
+        "suggested_words": 300
+      },
+      {
+        "title": "The turn",
+        "guide": "Where does your understanding change? Name what you believed before and what you see now, without drawing a moral.",
+        "suggested_words": 300
+      },
+      {
+        "title": "The writing self reflects",
+        "guide": "Speak from the present: what distance is there between the person who lived it and the one writing today? This is where the essayistic voice lives.",
+        "suggested_words": 300
+      },
+      {
+        "title": "Open ending",
+        "guide": "End on an image or a gesture that carries, not on a lesson. What is left unresolved, and why is that right?",
+        "suggested_words": 200
+      }
+    ]
+  },
+  {
+    "id": "analytical-literary",
+    "name": "Analytical / Literary Analysis Essay",
+    "tradition": "academic",
+    "description": "An essay that takes a work apart — language, structure, voice, imagery — to argue how it makes meaning. It does not retell the plot: it proves a reading with textual evidence.",
+    "sections": [
+      {
+        "title": "Way in through the text",
+        "guide": "Open on a quotation, a detail or an oddity in the work that raises curiosity. Give author, title and the minimum context.",
+        "suggested_words": 200
+      },
+      {
+        "title": "Interpretive thesis",
+        "guide": "One or two sentences: what does your reading claim, and through which devices does the work achieve it? Arguable, not a summary of the plot.",
+        "suggested_words": 100
+      },
+      {
+        "title": "Frame and method",
+        "guide": "From which angle are you reading — formal, historical, generic, psychoanalytic — and which passages will you analyse?",
+        "suggested_words": 200
+      },
+      {
+        "title": "Analysis 1: a key device or passage",
+        "guide": "Quote the passage and work through how it operates, word by word, and what it contributes to your thesis. Paraphrase is not analysis.",
+        "suggested_words": 400
+      },
+      {
+        "title": "Analysis 2: a recurring pattern",
+        "guide": "Which image, structure or gesture repeats? Gather at least two appearances and show how it changes between them.",
+        "suggested_words": 400
+      },
+      {
+        "title": "Analysis 3: the difficult case",
+        "guide": "The passage that fits your reading worst. How does it complicate the thesis, and why does the thesis survive — perhaps qualified?",
+        "suggested_words": 350
+      },
+      {
+        "title": "In conversation with other readings",
+        "guide": "What have other critics argued, or what common reading does your analysis contradict? Place your voice in the conversation.",
+        "suggested_words": 250
+      },
+      {
+        "title": "Conclusion: what the reader gains",
+        "guide": "What looks different across the whole work in the light of your reading? Widen the view without introducing new evidence.",
+        "suggested_words": 200
+      }
+    ]
+  },
+  {
+    "id": "research-imrad",
+    "name": "Research Paper (IMRAD)",
+    "tradition": "academic",
+    "description": "A research article in the standard structure of the sciences: Introduction, Methods, Results and Discussion. It reports your own study in a form another researcher can evaluate and reproduce.",
+    "sections": [
+      {
+        "title": "Title and abstract",
+        "guide": "In 150-250 words: aim, method, main result with its figure, and conclusion. It has to stand on its own — most readers will read nothing else.",
+        "suggested_words": 220
+      },
+      {
+        "title": "Introduction: what is known",
+        "guide": "What has already been established, and by whom? Move from the general to the specific, citing the relevant literature.",
+        "suggested_words": 400
+      },
+      {
+        "title": "Introduction: the gap and the question",
+        "guide": "What is still unknown, and why does it matter? State the exact question or hypothesis you address.",
+        "suggested_words": 250
+      },
+      {
+        "title": "Methods: design, participants, materials",
+        "guide": "Describe what you did in enough detail to be replicated: sample, materials, procedure, period. Past tense throughout.",
+        "suggested_words": 450
+      },
+      {
+        "title": "Methods: analysis",
+        "guide": "How were the data processed? Statistical tests, software, inclusion criteria, significance thresholds.",
+        "suggested_words": 250
+      },
+      {
+        "title": "Results",
+        "guide": "Findings in the order of the questions, with figures, tables and numbers. Report; do not interpret.",
+        "suggested_words": 500
+      },
+      {
+        "title": "Discussion: interpretation",
+        "guide": "What do the results mean, and how do they answer your question? Start with the main finding rather than working up to it.",
+        "suggested_words": 400
+      },
+      {
+        "title": "Discussion: against the literature",
+        "guide": "Do your results confirm, qualify or contradict earlier studies? Explain the discrepancies rather than noting them.",
+        "suggested_words": 300
+      },
+      {
+        "title": "Limitations",
+        "guide": "Which weaknesses of design, sample or measurement bound your conclusions? Be explicit; a reviewer will find them anyway.",
+        "suggested_words": 200
+      },
+      {
+        "title": "Conclusion and future work",
+        "guide": "State the contribution in one or two sentences and name the next question this study opens.",
+        "suggested_words": 200
+      },
+      {
+        "title": "References",
+        "guide": "Every source cited, in the required style — APA, IEEE, Vancouver. Check in both directions: every citation in the text appears here, and nothing here is uncited.",
+        "suggested_words": 150
+      }
+    ]
+  },
+  {
+    "id": "book-review",
+    "name": "Critical Review / Book Review",
+    "tradition": "journalistic",
+    "description": "A piece that describes a work and judges it against stated criteria, placing it in its field or genre. Fair description plus argued judgement — not a report of whether you enjoyed it.",
+    "sections": [
+      {
+        "title": "Details and opening",
+        "guide": "Give the particulars — author, title, publisher, year, length — and open with a sentence that captures what the book is attempting.",
+        "suggested_words": 150
+      },
+      {
+        "title": "The book and its author in context",
+        "guide": "Who is writing, from where, and into which conversation? What other books stand around this one?",
+        "suggested_words": 250
+      },
+      {
+        "title": "Summary of content and argument",
+        "guide": "Set out the argument or the story faithfully, and how it is organised, without spoiling what matters and without exceeding a third of the review.",
+        "suggested_words": 350
+      },
+      {
+        "title": "Criteria",
+        "guide": "By what measure are you judging: rigour of evidence, originality, style, coherence, usefulness to its readers? Say so explicitly, so the judgement can be argued with.",
+        "suggested_words": 150
+      },
+      {
+        "title": "Strengths",
+        "guide": "What does the book do better than the alternatives? Support every compliment with a passage or an example.",
+        "suggested_words": 300
+      },
+      {
+        "title": "Weaknesses and objections",
+        "guide": "Where does the argument, the documentation or the execution fail? Review the book the author set out to write, not the one you would have written.",
+        "suggested_words": 300
+      },
+      {
+        "title": "A passage, read closely",
+        "guide": "Quote something representative and comment on it briefly, so the reader hears the book's own voice.",
+        "suggested_words": 200
+      },
+      {
+        "title": "Verdict and reader",
+        "guide": "Is it worth it, and for whom exactly? Close with a recommendation proportionate to what you have argued.",
+        "suggested_words": 200
+      }
+    ]
+  },
+  {
+    "id": "op-ed",
+    "name": "Op-Ed / Opinion Column",
+    "tradition": "journalistic",
+    "description": "A short opinion piece for the press, pegged to the news, carrying one defensible idea and a line worth repeating. Voice, concreteness and economy matter more than academic apparatus.",
+    "sections": [
+      {
+        "title": "News hook (lede)",
+        "guide": "Open on the news, figure or scene from this week that earns you the right to speak now. Two or three sentences at most.",
+        "suggested_words": 120
+      },
+      {
+        "title": "Thesis in one sentence",
+        "guide": "Say plainly what you argue and what you are asking for. If it will not fit in one sentence, it is not ready.",
+        "suggested_words": 60
+      },
+      {
+        "title": "Why it matters, and to whom",
+        "guide": "Who wins and who loses? Translate the issue into specific people rather than abstractions.",
+        "suggested_words": 150
+      },
+      {
+        "title": "First argument with evidence",
+        "guide": "Your strongest reason, with a checkable figure or a real example. One idea per paragraph, short sentences.",
+        "suggested_words": 200
+      },
+      {
+        "title": "Second argument with evidence",
+        "guide": "A second reason of a different kind from the first. Name the source inside the sentence — an op-ed has no footnotes.",
+        "suggested_words": 200
+      },
+      {
+        "title": "The 'to be sure' paragraph",
+        "guide": "Concede what the other side gets right, and explain why your position still holds. Without this you read as partisan.",
+        "suggested_words": 150
+      },
+      {
+        "title": "Standing or experience",
+        "guide": "What gives you a voice here? A line of credential, or a short personal experience that grounds the view.",
+        "suggested_words": 100
+      },
+      {
+        "title": "Close and kicker",
+        "guide": "Return to the opening image, or land a sentence the reader can repeat. Say what should happen now, and who should do it.",
+        "suggested_words": 120
+      }
+    ]
+  },
+  {
+    "id": "reflective-gibbs",
+    "name": "Reflective Essay (Gibbs' Cycle)",
+    "tradition": "academic",
+    "description": "An essay that examines an experience through the six stages of Graham Gibbs' reflective cycle, from description to action plan. Standard in teacher training, nursing, medicine and professional development.",
+    "sections": [
+      {
+        "title": "Description",
+        "guide": "What happened? When, where, who was there, what you did and what others did — without judging or interpreting yet.",
+        "suggested_words": 300
+      },
+      {
+        "title": "Feelings",
+        "guide": "What were you thinking and feeling before, during and after? Include the uncomfortable part; honest reflection starts there.",
+        "suggested_words": 250
+      },
+      {
+        "title": "Evaluation",
+        "guide": "What went well and what went badly? Weigh both, and separate your own contribution from everyone else's.",
+        "suggested_words": 250
+      },
+      {
+        "title": "Analysis",
+        "guide": "Why did it happen this way? Explain the causes using theory, reading or knowledge of the context, not impression alone. This is the section that distinguishes reflection from a diary entry.",
+        "suggested_words": 400
+      },
+      {
+        "title": "Conclusion",
+        "guide": "What did you learn, and what could you have done differently? Name the specific skill or understanding that was missing.",
+        "suggested_words": 250
+      },
+      {
+        "title": "Action plan",
+        "guide": "If it happened again, what exactly would you do, and how will you prepare? Concrete, measurable, with a date.",
+        "suggested_words": 250
+      }
+    ]
+  },
+  {
+    "id": "five-paragraph",
+    "name": "Five-Paragraph Essay",
+    "tradition": "academic",
+    "description": "The scaffold taught in North American schools and demanded by timed exams: one thesis, three supporting paragraphs, one conclusion. Rigid by design. Learn it because the exam rewards it, then outgrow it — the argumentative essay in this list is where it leads.",
+    "sections": [
+      {
+        "title": "Introduction: hook and thesis",
+        "guide": "Open with a question, a figure or an image, narrow it in two or three sentences, and end the paragraph on a thesis that names your three supports. A marker should be able to predict the whole essay from that last sentence.",
+        "suggested_words": 130
+      },
+      {
+        "title": "Body paragraph 1: the strongest reason",
+        "guide": "Topic sentence first, then the evidence, then two or three sentences explaining how the evidence proves the point. Never end a paragraph on a quotation — the explanation is the paragraph's work.",
+        "suggested_words": 180
+      },
+      {
+        "title": "Body paragraph 2: a different reason",
+        "guide": "Open with a transition that names the relation to the paragraph before ('A second, less visible cost is…'). Same shape: claim, evidence, explanation.",
+        "suggested_words": 180
+      },
+      {
+        "title": "Body paragraph 3: the last reason",
+        "guide": "Readers remember the third body paragraph least, so put here the reason that needs the least room. If this is your best argument, move it to paragraph one.",
+        "suggested_words": 180
+      },
+      {
+        "title": "Conclusion",
+        "guide": "Restate the thesis in different words, gather the three reasons into a single sentence, and end on the wider implication. No new evidence, and no 'In conclusion'.",
+        "suggested_words": 130
+      }
+    ]
+  },
+  {
+    "id": "personal-statement",
+    "name": "Personal Statement / College Admissions Essay",
+    "tradition": "literary",
+    "description": "The essay that accompanies a university application. Not a CV in prose: it asks what you made of what happened to you. The Common App enforces 650 words in the text box and 250 as a minimum; 550-650 is the working range, and the budget below adds up to about 620.",
+    "sections": [
+      {
+        "title": "Opening scene",
+        "guide": "Start inside one specific moment: a place, an hour, something you were doing with your hands. No throat-clearing, no dictionary definition, no quotation from a famous person — admissions readers see thousands of those a season.",
+        "suggested_words": 150
+      },
+      {
+        "title": "What was at stake",
+        "guide": "Make the reader understand what you stood to lose, learn or become. This is the paragraph that turns an anecdote into a story worth 650 words.",
+        "suggested_words": 120
+      },
+      {
+        "title": "The turn",
+        "guide": "The point where your understanding changed. Name what you believed before and what you saw instead. Show the thinking happening rather than reporting its result.",
+        "suggested_words": 130
+      },
+      {
+        "title": "What you did with it",
+        "guide": "What changed afterwards in how you act, choose or work? Concrete and recent. Growth that produced no evidence reads as a sentence written for the occasion.",
+        "suggested_words": 120
+      },
+      {
+        "title": "Landing",
+        "guide": "End a beat earlier than feels comfortable. A last image, or one small forward-looking sentence. Do not summarise the essay, and do not tell them why they should admit you — the essay has already done that or it has not.",
+        "suggested_words": 100
+      }
+    ]
+  },
+  {
+    "id": "rhetorical-analysis",
+    "name": "Rhetorical Analysis",
+    "tradition": "academic",
+    "description": "An essay about how a text persuades, not about whether you agree with it. Standard in first-year composition and on the AP English Language exam: you take the argument apart and show the machinery.",
+    "sections": [
+      {
+        "title": "The text and its rhetorical situation",
+        "guide": "Name the speaker, the occasion, the audience, the purpose and the subject. Two or three sentences of summary and no more: the reader needs orientation, not a retelling.",
+        "suggested_words": 200
+      },
+      {
+        "title": "Thesis: how it works",
+        "guide": "One or two sentences on which strategies the text leans on and what effect they produce. 'The author uses ethos, pathos and logos' is not a thesis — say which appeal carries the weight, and why it suits this audience.",
+        "suggested_words": 100
+      },
+      {
+        "title": "Ethos: the speaker's standing",
+        "guide": "How does the text build authority — credentials, shared values, tone, an admission of doubt? Quote the moment where the speaker earns credibility, or spends it.",
+        "suggested_words": 250
+      },
+      {
+        "title": "Pathos: the audience's feelings",
+        "guide": "Which emotions are raised, by what means — anecdote, image, rhythm, word choice — and at which point? Emotion placed early buys attention; placed late it closes the deal.",
+        "suggested_words": 250
+      },
+      {
+        "title": "Logos: the reasoning",
+        "guide": "Reconstruct the argument as a chain of claims and evidence. Where is it strongest, and where does it rest on a premise this audience already accepts without noticing?",
+        "suggested_words": 250
+      },
+      {
+        "title": "Arrangement and style",
+        "guide": "What does the order of the parts do? Look at the opening, repetition, sentence length, metaphor, and at what is never said. Structure persuades before content does.",
+        "suggested_words": 250
+      },
+      {
+        "title": "Where it strains",
+        "guide": "Every text has a seam: an audience it cannot reach, an objection it steps around, a moment where the appeal is laid on too thick. Naming it is what separates analysis from admiration.",
+        "suggested_words": 200
+      },
+      {
+        "title": "Conclusion: the effect",
+        "guide": "What does the text accomplish for its audience, and what does your reading show that a first reading misses? No new evidence.",
+        "suggested_words": 150
+      }
+    ]
+  },
+  {
+    "id": "literature-review",
+    "name": "Literature Review",
+    "tradition": "academic",
+    "description": "A survey of what is already known about a question, organised by argument rather than by author. Not a row of summaries: the work is in the synthesis, and it earns its place by naming the gap your own research will fill.",
+    "sections": [
+      {
+        "title": "Scope and question",
+        "guide": "State the question the literature is being reviewed against, and the boundaries: years, disciplines, populations, languages. A review without borders cannot be judged complete.",
+        "suggested_words": 200
+      },
+      {
+        "title": "How the sources were found",
+        "guide": "Databases, search terms, inclusion and exclusion criteria, how many results you screened and how many survived. In a systematic review this is a section of its own; in an essay a paragraph will do, but never nothing.",
+        "suggested_words": 200
+      },
+      {
+        "title": "How this review is organised",
+        "guide": "Say whether you are grouping by theme, chronology, method or theoretical school, and why that cut reveals most. Most reviews mix two, and say which.",
+        "suggested_words": 150
+      },
+      {
+        "title": "Theme 1: the established position",
+        "guide": "The consensus, and who built it. Group the studies that agree and cite them together: a sentence ending in four references is doing more work than four sentences with one each.",
+        "suggested_words": 400
+      },
+      {
+        "title": "Theme 2: the disagreement",
+        "guide": "Where the field splits, and over what — findings, definitions, populations or method. Give both sides their best evidence.",
+        "suggested_words": 400
+      },
+      {
+        "title": "Theme 3: the recent turn",
+        "guide": "What has changed lately: a new instrument, a new dataset, a reframing. This is where a review dates fastest, so be specific about when.",
+        "suggested_words": 350
+      },
+      {
+        "title": "Methodological critique",
+        "guide": "Read the field as one body of work: small samples, a single country, self-report, publication bias, definitions that drift between studies. A weakness shared across studies matters more than any single flaw.",
+        "suggested_words": 300
+      },
+      {
+        "title": "The gap",
+        "guide": "State plainly what has not been examined, and distinguish 'nobody has done this' from 'nobody has done this well' and 'nobody has done this here'. The gap has to be one your question can actually close.",
+        "suggested_words": 250
+      },
+      {
+        "title": "Where your work fits",
+        "guide": "Connect the gap to what you propose to do, in one paragraph. This is the sentence your supervisor is reading for.",
+        "suggested_words": 200
+      },
+      {
+        "title": "References",
+        "guide": "Every work cited, in the required style, and nothing that is not cited. Check the list against the text in both directions before you submit.",
+        "suggested_words": 150
+      }
+    ]
+  }
+]

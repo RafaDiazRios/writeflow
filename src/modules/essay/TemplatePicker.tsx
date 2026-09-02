@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { X } from 'lucide-react'
-import { TEMPLATES, traditionLabel } from '@/lib/prompts'
+import { plantillas, traditionLabel } from '@/lib/prompts'
 import type { EssayTemplate } from '@/lib/types'
 import { useT } from '@/i18n/useT'
 
@@ -16,11 +16,11 @@ interface Props {
  */
 export default function TemplatePicker({ onPick, onClose }: Props) {
   const t = useT()
-  const [sel, setSel] = useState<EssayTemplate>(TEMPLATES[0])
+  const [sel, setSel] = useState<EssayTemplate>(plantillas()[0])
   const [title, setTitle] = useState('')
   const [filter, setFilter] = useState<string>('all')
 
-  const list = TEMPLATES.filter((p) => filter === 'all' || p.tradition === filter)
+  const list = plantillas().filter((p) => filter === 'all' || p.tradition === filter)
 
   return (
     <div className="fixed inset-0 z-40 grid place-items-center bg-ink-950/40 p-6 backdrop-blur-sm">
@@ -70,7 +70,9 @@ export default function TemplatePicker({ onPick, onClose }: Props) {
           <div className="flex min-w-0 flex-1 flex-col">
             <div className="flex-1 overflow-y-auto p-5">
               <h3 className="text-lg font-semibold">{sel.name}</h3>
-              <p className="mt-1 text-xs uppercase tracking-wide text-ink-400">{sel.name_en}</p>
+              {sel.name_en && (
+                <p className="mt-1 text-xs uppercase tracking-wide text-ink-400">{sel.name_en}</p>
+              )}
               <p className="mt-3 text-sm leading-relaxed text-ink-600 dark:text-ink-300">
                 {sel.description}
               </p>

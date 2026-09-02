@@ -8,6 +8,12 @@
 import { setIdiomaUI, t, num, traducirErrorNativo, IDIOMAS } from '../src/i18n'
 import es from '../src/i18n/es.json'
 import en from '../src/i18n/en.json'
+import promptsEs from '../src/data/es/prompts.json'
+import promptsEn from '../src/data/en/prompts.json'
+import ejerciciosEs from '../src/data/es/therapyExercises.json'
+import ejerciciosEn from '../src/data/en/therapyExercises.json'
+import plantillasEs from '../src/data/es/essayTemplates.json'
+import plantillasEn from '../src/data/en/essayTemplates.json'
 import {
   dayAndMonth,
   longDate,
@@ -216,6 +222,56 @@ for (const [familia, valores, sufijo] of conSufijo) {
     (v) => !(`${familia}.${v}.${sufijo}` in (es as Record<string, string>)),
   )
   check(`${familia}.*.${sufijo} completa`, faltan.length === 0, `→ faltan ${faltan.join(', ')}`)
+}
+
+console.log('\n— contenido en dos idiomas —')
+
+/* Los identificadores son los mismos en los dos juegos a proposito: el
+ * historial de prompts usados, el recuento de ejercicios hechos y el
+ * `prompt_id` de las entradas del diario dejan de valer si no lo son.
+ *
+ * Prompts y ejercicios van uno a uno. Las plantillas no: el juego ingles lleva
+ * generos que no existen en la tradicion espanola, asi que puede tener mas.
+ * Mientras un fichero ingles este vacio, ese dominio cae al espanol y aqui solo
+ * se avisa de que sigue pendiente. */
+type ConId = { id: string }
+const ids = (xs: unknown[]) => (xs as ConId[]).map((x) => x.id)
+
+const DOMINIOS: [string, unknown[], unknown[], 'uno-a-uno' | 'el-ingles-puede-tener-mas'][] = [
+  ['prompts', promptsEs, promptsEn, 'uno-a-uno'],
+  ['ejercicios', ejerciciosEs, ejerciciosEn, 'uno-a-uno'],
+  ['plantillas', plantillasEs, plantillasEn, 'el-ingles-puede-tener-mas'],
+]
+
+for (const [nombre, juegoEs, juegoEn, regla] of DOMINIOS) {
+  const idsEs = ids(juegoEs)
+  check(`${nombre}: los ids espanoles no se repiten`,
+    new Set(idsEs).size === idsEs.length)
+
+  if (juegoEn.length === 0) {
+    console.log(`  · ${nombre}: sin traducir todavia, cae al espanol`)
+    continue
+  }
+
+  const idsEn = ids(juegoEn)
+  const faltan = idsEs.filter((id) => !idsEn.includes(id))
+  check(`${nombre}: el ingles cubre todos los ids espanoles`, faltan.length === 0,
+    `→ faltan ${faltan.join(', ')}`)
+  check(`${nombre}: los ids ingleses no se repiten`,
+    new Set(idsEn).size === idsEn.length)
+
+  const sobran = idsEn.filter((id) => !idsEs.includes(id))
+  if (regla === 'uno-a-uno') {
+    check(`${nombre}: el ingles no tiene ids de mas`, sobran.length === 0,
+      `→ sobran ${sobran.join(', ')}`)
+  } else if (sobran.length) {
+    console.log(`  · ${nombre}: ${sobran.length} solo en ingles (${sobran.join(', ')})`)
+  }
+
+  // Un juego copiado del espanol sin traducir pasaria todas las de arriba.
+  const textos = (xs: unknown[]) => JSON.stringify(xs)
+  check(`${nombre}: el ingles no es una copia del espanol`,
+    textos(juegoEs) !== textos(juegoEn))
 }
 
 console.log(fails === 0 ? '\n✔ Idioma y fechas correctos\n' : `\n✖ ${fails} fallo(s)\n`)

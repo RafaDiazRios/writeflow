@@ -5,7 +5,7 @@ import { ArrowLeft, Dices, History, Shield, Trash2 } from 'lucide-react'
 import Editor from '@/components/Editor'
 import { therapy } from '@/lib/repo'
 import {
-  EXERCISES, exerciseById, exercisesByLevel, levelHelp, levelLabel, schools, suggestExercise,
+  ejercicios, exerciseById, exercisesByLevel, levelHelp, levelLabel, schools, suggestExercise,
 } from '@/lib/prompts'
 import { countWords, EMPTY_DOC, excerpt, parseDoc } from '@/lib/text'
 import { shortDate, toISODate } from '@/lib/dates'
@@ -243,7 +243,7 @@ export default function TherapyModule() {
           </button>
         </div>
         <p className="mb-5 max-w-2xl text-sm leading-relaxed text-ink-500 dark:text-ink-400">
-          {t('terapia.intro', { n: EXERCISES.length })}
+          {t('terapia.intro', { n: ejercicios().length })}
         </p>
 
         <div className="mb-4 flex flex-wrap items-center gap-2">

@@ -5,7 +5,8 @@ import { db, getMeta, one, run, setMeta } from '../src/lib/db'
 import { beats, characters, docs, globalStats, journal, pendingCounts, projects, tags, therapy, threads } from '../src/lib/repo'
 import { countWords, docToText, EMPTY_DOC, textToDoc } from '../src/lib/text'
 import { docToMarkdown, compileProject } from '../src/lib/export'
-import { promptForDay, rerollPrompt, PROMPTS, EXERCISES, TEMPLATES, suggestExercise } from '../src/lib/prompts'
+import { promptForDay, rerollPrompt, prompts, ejercicios, plantillas, suggestExercise } from '../src/lib/prompts'
+import { setIdiomaContenido } from '../src/i18n'
 import { hitRoute, indexSize, rebuildIndex, search, toMatchQuery } from '../src/lib/search'
 import { getGoal, recordDelta, setGoal, streaks, todayWords } from '../src/lib/stats'
 import { aIso, INDEXABLES, volverASubirTodo } from '../src/lib/sync'
@@ -91,7 +92,7 @@ async function main() {
   check('borrar carpeta arrastra los hijos', (await docs.forProject(novId)).length === 0)
 
   console.log('\n— ensayo —')
-  const plantilla = TEMPLATES.find(t => t.id === 'persuasive-toulmin')!
+  const plantilla = plantillas().find(p => p.id === 'persuasive-toulmin')!
   const ensId = await projects.create({ kind: 'essay', title: 'Sobre el ruido', template_id: plantilla.id })
   for (const [i, s] of plantilla.sections.entries()) {
     await docs.create({ project_id: ensId, kind: 'section', title: s.title, guide: s.guide, target_words: s.suggested_words, position: i * 100 })
@@ -102,7 +103,7 @@ async function main() {
   check('novelas y ensayos no se mezclan', (await projects.list('novel')).length === 1 && (await projects.list('essay')).length === 1)
 
   console.log('\n— terapia —')
-  const ex = EXERCISES[0]
+  const ex = ejercicios()[0]
   const tId = await therapy.create({
     session_date: '2026-08-12', exercise_id: ex.id, exercise_name: ex.name, school: ex.school,
     level: ex.level, prompt_text: ex.prompt, content_text: 'escrito de prueba', word_count: 3,
@@ -122,7 +123,20 @@ async function main() {
   const dias = new Set(Array.from({ length: 60 }, (_, i) => promptForDay(`2026-09-${String((i % 30) + 1).padStart(2, '0')}`, ['estoico', 'filosofico', 'psicologico']).id))
   check('varía a lo largo del mes', dias.size > 15, `→ ${dias.size} distintos en 30 días`)
   check('reroll devuelve otro distinto', rerollPrompt('2026-08-12', ['estoico'], [a.id]).id !== a.id)
-  check('catálogo completo', PROMPTS.length === 107 && EXERCISES.length === 47 && TEMPLATES.length === 13)
+  check('catálogo completo', prompts().length === 107 && ejercicios().length === 47 && plantillas().length === 13)
+
+  /* El ajuste de idioma del contenido tiene que cambiar el juego de verdad:
+   * hasta ahora existía en Ajustes y no hacía nada. Y cada dominio cae al
+   * español por separado, así que traducir las plantillas no puede dejar los
+   * prompts vacíos. */
+  setIdiomaContenido('en')
+  check('en inglés hay 17 plantillas', plantillas().length === 17, `→ ${plantillas().length}`)
+  check('las cuatro nuevas solo existen en inglés',
+    plantillas().some((p) => p.id === 'five-paragraph'))
+  check('los prompts caen al español mientras no estén traducidos', prompts().length === 107)
+  check('y los ejercicios también', ejercicios().length === 47)
+  setIdiomaContenido('es')
+  check('en español vuelven a ser 13 plantillas', plantillas().length === 13)
 
   console.log('\n— markdown —')
   const rico = {

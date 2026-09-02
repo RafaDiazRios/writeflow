@@ -176,7 +176,9 @@ export interface EssayTemplateSection {
 export interface EssayTemplate {
   id: string
   name: string
-  name_en: string
+  /** El nombre inglés, como subtítulo del selector. Solo en el juego español:
+   *  en el inglés repetiría el nombre principal. */
+  name_en?: string
   description: string
   tradition: 'academic' | 'literary' | 'journalistic'
   sections: EssayTemplateSection[]

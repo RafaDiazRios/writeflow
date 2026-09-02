@@ -41,6 +41,19 @@ export function idiomaUI(): Idioma {
   return actual
 }
 
+/* El idioma del **contenido** —prompts, ejercicios, plantillas— es un ajuste
+ * aparte del de la interfaz, y va aquí por la misma razón: lo consultan
+ * funciones que no son componentes de React. Lo fija el store al arrancar. */
+let contenido: Idioma = 'es'
+
+export function setIdiomaContenido(l: Idioma) {
+  contenido = l
+}
+
+export function idiomaContenido(): Idioma {
+  return contenido
+}
+
 /**
  * Traduce una clave. Si falta en el idioma activo cae al español, y si tampoco
  * está devuelve la propia clave: una cadena sin traducir se ve en pantalla como
