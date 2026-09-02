@@ -640,5 +640,845 @@
     "stream": "psicologico",
     "text": "At the end of the day, write a single sentence beginning \"today was the day when...\". Nothing more. Repeat it every night for a month and then read the thirty sentences in a row: you will see the plot of your life that no long entry would have shown you.",
     "source": "Minimal expressive writing; the practice of a daily narrative log"
+  },
+  {
+    "id": "cre-001",
+    "stream": "creativo",
+    "text": "Pick an object in your line of sight and describe it for ten minutes without ever naming it. You may not say what it is for. Only shape, weight, light, temperature, sound. The point is not a riddle: it is to find out how much you stop seeing the moment you know a thing's name.",
+    "source": "Francis Ponge, The Nature of Things"
+  },
+  {
+    "id": "cre-002",
+    "stream": "creativo",
+    "text": "Sit somewhere public and exhaust what happens: the buses going past, the clothes, who is looking at a phone, what repeats. Don't look for meaning, take inventory. Perec called this exhausting a place, and found that the interesting things arrive once the striking ones have run out.",
+    "source": "Georges Perec, An Attempt at Exhausting a Place in Paris"
+  },
+  {
+    "id": "cre-003",
+    "stream": "creativo",
+    "text": "Write the same minimal scene — someone boards a bus and sits down — three times: in the past tense, as a medical report, and as gossip told by a neighbour. Queneau wrote ninety-nine versions. Three are enough to see that style does not decorate a story: it changes it.",
+    "source": "Raymond Queneau, Exercises in Style"
+  },
+  {
+    "id": "cre-004",
+    "stream": "creativo",
+    "text": "Write a whole paragraph without using the most frequent letter in your language (the e, in English and in Spanish alike). The constraint is not a silly game: by closing off the comfortable words it forces you to find the ones you would never have gone looking for.",
+    "source": "OuLiPo; Georges Perec, A Void (a novel without the letter e)"
+  },
+  {
+    "id": "cre-005",
+    "stream": "creativo",
+    "text": "Write the last sentence first. Only that one, the one you want left ringing. Then write the text that deserves it. Working backwards from the ending removes the worst part of writing, which is deciding where to start.",
+    "source": "A classic craft practice; cf. Poe, The Philosophy of Composition"
+  },
+  {
+    "id": "cre-006",
+    "stream": "creativo",
+    "text": "Tell something that happened to you today in the voice of someone who was there and is not you: the waiter, the dog, the person behind you in the queue. Keep the facts, change only who is looking. What that narrator cannot know is exactly what you were taking for granted.",
+    "source": "Ursula K. Le Guin, Steering the Craft (point of view)"
+  },
+  {
+    "id": "cre-007",
+    "stream": "creativo",
+    "text": "Write for ten minutes without lifting your hand or correcting anything, not one comma. If you go blank, write \"nothing is coming\" until something comes. The only rule is not to stop: editing and inventing use the same part of the brain and get in each other's way.",
+    "source": "Peter Elbow, freewriting; Natalie Goldberg, Writing Down the Bones"
+  },
+  {
+    "id": "cre-008",
+    "stream": "creativo",
+    "text": "Think of something you are afraid to write. Don't write it yet: write why it frightens you, who would read it and what would happen then. The fear almost always has one specific reader with a name. Once you name them, the piece becomes possible.",
+    "source": "Anne Lamott, Bird by Bird"
+  },
+  {
+    "id": "cre-009",
+    "stream": "creativo",
+    "text": "Describe a stranger you saw today in five sentences, and make the fifth contradict the other four. A character starts to exist at exactly the point where they stop being consistent.",
+    "source": "John Gardner, The Art of Fiction"
+  },
+  {
+    "id": "cre-010",
+    "stream": "creativo",
+    "text": "Write a scene in which two people talk about one thing while arguing about another that is never named. All the subtext lives in what they choose not to say. If it reads too clearly, cut one more line.",
+    "source": "Hemingway's iceberg theory; cf. Chekhov, indirect dialogue"
+  },
+  {
+    "id": "cre-011",
+    "stream": "creativo",
+    "text": "Take a memory of yours and tell it as if it were false: invent an impossible detail and keep a straight face to the end. Seeing how much your memory can take without breaking tells you which part of it was already literature.",
+    "source": "The autofiction tradition; cf. Borges, Ficciones"
+  },
+  {
+    "id": "cre-012",
+    "stream": "creativo",
+    "text": "Write a list of twenty things you know how to do that almost nobody around you does: a knot, a dialect, telling an engine by its sound. Don't explain them yet. That list is your exclusive material, and it usually sits unused.",
+    "source": "Lynda Barry, Syllabus; the inventory as a quarry"
+  },
+  {
+    "id": "cre-013",
+    "stream": "creativo",
+    "text": "Write a full page in sentences of fewer than eight words. Not one subordinate clause. When you finish, read it aloud: the short rhythm is not poor, it is a different way of breathing, and some of your long sentences were only a fear of landing.",
+    "source": "Verlyn Klinkenborg, Several Short Sentences About Writing"
+  },
+  {
+    "id": "cre-014",
+    "stream": "creativo",
+    "text": "Describe a place you know well using only the other four senses: no sight. The smell of the entrance hall, how the floor sounds, the air on your face. Sight takes up nearly all writing, which is why nearly all writing looks alike.",
+    "source": "A classic sensory exercise; cf. Ray Bradbury, Zen in the Art of Writing"
+  },
+  {
+    "id": "cre-015",
+    "stream": "creativo",
+    "text": "Write the scene you are ashamed to write, but in the third person and under another name. When you finish, change the names back and see which sentences you can no longer stand behind. Those are the ones to work on, not to delete.",
+    "source": "Ethan Kross, self-distancing, applied to the writing craft"
+  },
+  {
+    "id": "cre-016",
+    "stream": "creativo",
+    "text": "Open a book you love at any page and copy a whole paragraph by hand. By hand, not on the keyboard. Copying is the oldest way to learn rhythm: you will feel where the author breathes and where you would have put a full stop.",
+    "source": "The practice of copying by hand; Hunter S. Thompson among others, with a medieval precedent"
+  },
+  {
+    "id": "cre-017",
+    "stream": "creativo",
+    "text": "Write a whole story in which nothing exceptional happens and the reader still wants to reach the end. Just someone waiting for something that does not arrive. If it works, you have learned that tension is not made by the event but by the expectation.",
+    "source": "Chekhov; and the tradition of the eventless short story"
+  },
+  {
+    "id": "cre-018",
+    "stream": "creativo",
+    "text": "Write three different opening sentences for the same piece: one that starts with a fact, one with a voice speaking, one with a place. Choose afterwards, not before. We usually lose the best opening by writing the first that comes to mind.",
+    "source": "Workshop practice; cf. Italo Calvino, Six Memos for the Next Millennium"
+  },
+  {
+    "id": "cre-019",
+    "stream": "creativo",
+    "text": "Describe someone you love without a single evaluative adjective: no kind, generous, difficult. Only what they do, what they say and what they keep quiet. The portrait will come out more exact, and probably more uncomfortable.",
+    "source": "Show, don't tell; cf. Flannery O'Connor, Mystery and Manners"
+  },
+  {
+    "id": "cre-020",
+    "stream": "creativo",
+    "text": "Write a letter you will not send, as raw as you like, then write the version you would actually send. Keep both. The distance between them is your public voice, and it is worth knowing exactly how much it lies.",
+    "source": "Expressive writing applied to style; cf. Lincoln's unsent letters"
+  },
+  {
+    "id": "cre-021",
+    "stream": "creativo",
+    "text": "Take a word you heard today and write its whole invented history: who said it first, in what situation, how it got deformed. A false etymology, carefully made. There is no better exercise for breaking the habit of treating words as if they were transparent.",
+    "source": "The tradition of fantastical etymology; cf. Borges and Cortázar"
+  },
+  {
+    "id": "cre-022",
+    "stream": "creativo",
+    "text": "Write about a moment when you changed your mind about something important, but tell it as a scene, not as reasoning: where you were, who said what, what you did with your hands. Ideas are remembered when they have a body.",
+    "source": "Scene versus summary; cf. Vivian Gornick, The Situation and the Story"
+  },
+  {
+    "id": "cre-023",
+    "stream": "creativo",
+    "text": "Make an arbitrary rule for today's piece and obey it to the end: every paragraph starts with the same word, or there is no first-person verb, or everything happens within one square metre. An arbitrary constraint yields more discoveries than total freedom, which mostly yields the usual.",
+    "source": "Brian Eno and Peter Schmidt, Oblique Strategies; the OuLiPo method"
+  },
+  {
+    "id": "cre-024",
+    "stream": "creativo",
+    "text": "Write the worst first draft you can: clumsy, sentimental, overblown, every cliché in it. On purpose. Lamott called it the shitty first draft and said it is compulsory. Writing badly on purpose is the only reliable way to start.",
+    "source": "Anne Lamott, Bird by Bird (\"shitty first drafts\")"
+  },
+  {
+    "id": "cre-025",
+    "stream": "creativo",
+    "text": "Write a scene in the present tense and then the same scene in the past. Read them one after the other. The present presses and allows no perspective; the past orders and cools. Choosing a tense is not grammar: it is deciding how far away you put the reader.",
+    "source": "Ursula K. Le Guin, Steering the Craft (tense and distance)"
+  },
+  {
+    "id": "cre-026",
+    "stream": "creativo",
+    "text": "Take something you wrote months ago and remove one word in every three without changing any of the others. Read what is left. It nearly always improves, and that stings just enough to teach you something.",
+    "source": "The practice of cutting; cf. Stephen King's \"kill your darlings\""
+  },
+  {
+    "id": "cre-027",
+    "stream": "creativo",
+    "text": "Write about what you don't remember: the gap of an afternoon, a face rubbed out, the name that won't come back. Don't fill it in with invention. Describe the exact shape of the hole. Honestly written memory has more holes than facts.",
+    "source": "The memoir-essay tradition; cf. Perec, W, or the Memory of Childhood"
+  },
+  {
+    "id": "cre-028",
+    "stream": "creativo",
+    "text": "Write a full page of dialogue with no attributions: no \"said\", no gestures. Only what they say. If on rereading you cannot tell who is speaking, the problem is not the attributions: it is that both voices are yours.",
+    "source": "A classic dialogue exercise; cf. Elmore Leonard, Ten Rules of Writing"
+  },
+  {
+    "id": "cre-029",
+    "stream": "creativo",
+    "text": "Describe someone's work by watching them do it: the baker's hands, the mechanic's, the person cutting your hair. Only the movement, no admiration. Other people's competence described precisely is one of the hardest things to write and one of the most welcome to read.",
+    "source": "Cf. Richard Sennett, The Craftsman; and the tradition of trade reportage"
+  },
+  {
+    "id": "cre-030",
+    "stream": "creativo",
+    "text": "Write a piece beginning \"I have never told anyone that...\" and don't stop for five minutes. Then decide calmly what to do with it: publish it, keep it, delete it. Writing it and deciding about it are two separate acts, and confusing them is what leaves us mute.",
+    "source": "James Pennebaker, expressive writing"
+  },
+  {
+    "id": "cre-031",
+    "stream": "creativo",
+    "text": "Turn something that angers you into a numbered list, dry, without adjectives. Only the facts, one per line. Anger arranged as an inventory stops being a vent and starts being an argument — and sometimes starts being funny.",
+    "source": "The list as a literary form; cf. Umberto Eco, The Infinity of Lists"
+  },
+  {
+    "id": "cre-032",
+    "stream": "creativo",
+    "text": "Write a scene in which the weather does exactly the opposite of what the character feels: a funeral on a glorious day, good news under hail. Having the weather match the mood is so worn out it has become invisible; the contrast is not.",
+    "source": "Against the pathetic fallacy; cf. John Ruskin, who named it"
+  },
+  {
+    "id": "cre-033",
+    "stream": "creativo",
+    "text": "Tell a story that was told to you and is not yours: a grandparent's, a colleague's, a stranger's on a train. Write it with respect for the facts and freedom with the rhythm. Being the keeper of other people's stories is a craft too.",
+    "source": "Studs Terkel, oral history; Svetlana Alexievich"
+  },
+  {
+    "id": "cre-034",
+    "stream": "creativo",
+    "text": "Write for fifteen minutes starting from the sentence already in your head right now, even if it is nonsense or a shopping list. Don't judge it. The blank page is not beaten with inspiration, it is beaten by getting in wherever you can.",
+    "source": "Julia Cameron, The Artist's Way (morning pages)"
+  },
+  {
+    "id": "cre-035",
+    "stream": "creativo",
+    "text": "Write what you would write if you knew nobody would ever read it, and then what you would write if you knew everybody would. Compare the two lists. In the gap between them sits exactly the book you have not written yet.",
+    "source": "Rilke, Letters to a Young Poet; the question of whether you would write the same with no readers"
+  },
+  {
+    "id": "mem-001",
+    "stream": "memoria",
+    "text": "Draw the house of your childhood in your head and walk it room by room. Pick one room and describe all of it: the floor, the light in mid-afternoon, where the socket was, what could be heard from there. Start with the floor plan; memories come hanging off the architecture.",
+    "source": "Georges Perec, Species of Spaces; the method of loci"
+  },
+  {
+    "id": "mem-002",
+    "stream": "memoria",
+    "text": "Write about something you inherited: who had it before, how it reached you, where it is now. And then the uncomfortable question: do you keep it because you like it, or because you don't dare let it go?",
+    "source": "Material culture and family memory; cf. Edmund de Waal, The Hare with Amber Eyes"
+  },
+  {
+    "id": "mem-003",
+    "stream": "memoria",
+    "text": "What is your first memory? Write it in all the detail you can and then mark honestly which parts are memory and which are photographs or things you were told. Almost no first memory is first-hand, and that does not make it any less yours.",
+    "source": "The psychology of autobiographical memory; childhood amnesia"
+  },
+  {
+    "id": "mem-004",
+    "stream": "memoria",
+    "text": "Write about the first time you said no to someone with power over you: a parent, a teacher, a boss. What happened afterwards, and what you learned that day about the price of saying it.",
+    "source": "Autobiographical turning points; the developmental psychology of autonomy"
+  },
+  {
+    "id": "mem-005",
+    "stream": "memoria",
+    "text": "Pick one specific year of your life and write what it smelled of: the food in that house, the detergent, the car, the street. Smell is the only sense wired straight into the limbic system, which is why it brings back the whole memory instead of the summary.",
+    "source": "The Proust effect; olfactory memory"
+  },
+  {
+    "id": "mem-006",
+    "stream": "memoria",
+    "text": "Write about someone who mattered to you for a short time and whom you never saw again. What they gave you, what you took, why it ended. Not every relationship that shaped you lasted.",
+    "source": "Brief bonds in the narrative of the self; cf. Ricoeur, narrative identity"
+  },
+  {
+    "id": "mem-007",
+    "stream": "memoria",
+    "text": "Which dish takes you straight back to a place? Write out the recipe as if explaining it to someone and let the memory slip in between the steps. Family recipes are historical documents disguised as instructions.",
+    "source": "Culinary memory; cf. the family recipe-book tradition"
+  },
+  {
+    "id": "mem-008",
+    "stream": "memoria",
+    "text": "Write about the day you stopped believing something you had been taught at home. Not the conclusion: the day, the scene, who was in front of you. Changes of belief have a date even when we tell them as processes.",
+    "source": "Rupture moments in autobiographical memory"
+  },
+  {
+    "id": "mem-009",
+    "stream": "memoria",
+    "text": "Describe one of your grandparents doing something ordinary: not a portrait, a three-minute action. How they sat, how they peeled a piece of fruit, what their hands did while they talked. If you can't remember, write that too.",
+    "source": "Portrait through action; intergenerational memory"
+  },
+  {
+    "id": "mem-010",
+    "stream": "memoria",
+    "text": "Write about a place you cannot return to: because it no longer exists, because it changed hands, or because you are no longer the person who used to walk in. Describe it as it was, in the present tense, until it runs out.",
+    "source": "Topophilia and loss; cf. Gaston Bachelard, The Poetics of Space"
+  },
+  {
+    "id": "mem-011",
+    "stream": "memoria",
+    "text": "Which song takes you back to an exact period? Write where you heard it, who with, and what was happening in your life then. The involuntary soundtrack of a life says more than a list of favourite songs.",
+    "source": "Autobiographical musical memory; the reminiscence bump"
+  },
+  {
+    "id": "mem-012",
+    "stream": "memoria",
+    "text": "Write a list of every house you have lived in, with how long you spent in each. Then pick the one that took the least time and that you remember most, and ask yourself why that one.",
+    "source": "Autobiographical cartography; the inventory of addresses"
+  },
+  {
+    "id": "mem-013",
+    "stream": "memoria",
+    "text": "Write about one specific summer of your adolescence. Only one, and only that summer: who was there, what you did in the afternoons, what you were waiting to happen. Adolescence is remembered better than any other age, and it is worth using that.",
+    "source": "The reminiscence bump: we remember ages 15 to 25 disproportionately"
+  },
+  {
+    "id": "mem-014",
+    "stream": "memoria",
+    "text": "Write about a job you had and would not take again. The colleagues, the smell of the place, what you learned without meaning to. Bad jobs usually leave better material than good ones.",
+    "source": "Work memory; cf. Studs Terkel, Working"
+  },
+  {
+    "id": "mem-015",
+    "stream": "memoria",
+    "text": "Write about a scene you witnessed rather than starred in, and that stuck with you without your quite knowing why. Don't interpret it: tell it. What memory keeps without asking permission usually has its reasons.",
+    "source": "Involuntary memory; cf. Proust, In Search of Lost Time"
+  },
+  {
+    "id": "mem-016",
+    "stream": "memoria",
+    "text": "What frightened you as a child? Write it from the inside, with the logic it had then, without explaining it from your current age. Childhood fears are coherent; what fails is the information, not the reasoning.",
+    "source": "Memory of childhood fear; developmental psychology"
+  },
+  {
+    "id": "mem-017",
+    "stream": "memoria",
+    "text": "Write about a lie you told years ago that was never found out. What you were protecting with it. And whether you would say the same today or would no longer need to.",
+    "source": "Moral memory; the self that judges itself over time"
+  },
+  {
+    "id": "mem-018",
+    "stream": "memoria",
+    "text": "Describe the handwriting of someone in your family. How they made capitals, whether they pressed hard, whether the line slanted. And what they wrote: lists, notes, birthday cards. Handwriting is the closest thing to a voice that the dead leave behind.",
+    "source": "Everyday written culture and grief"
+  },
+  {
+    "id": "mem-019",
+    "stream": "memoria",
+    "text": "Write about the first time you saw the sea, or a mountain, or a big city. Not what you felt: what you saw, in order, as you were arriving.",
+    "source": "Perceptual first times; travel writing"
+  },
+  {
+    "id": "mem-020",
+    "stream": "memoria",
+    "text": "List the things that were done in your house that you thought were normal until you found out nobody else did them. Customs, invented words, odd schedules. A good part of what shaped you is in there.",
+    "source": "Domestic anthropology; the family idiolect"
+  },
+  {
+    "id": "mem-021",
+    "stream": "memoria",
+    "text": "Write about a goodbye you did not know was the last one: the last time you played in the street, saw someone, stood in a place. Last times almost never announce themselves.",
+    "source": "Cf. the notion of the \"last time\" in autobiographical memory"
+  },
+  {
+    "id": "mem-022",
+    "stream": "memoria",
+    "text": "Write what you wanted to be when you grew up at eight years old, and what exactly attracted you about it. Not the profession: the specific detail you liked. That detail is often still alive somewhere you did not expect.",
+    "source": "Continuity of early motivations; vocational psychology"
+  },
+  {
+    "id": "mem-023",
+    "stream": "memoria",
+    "text": "Write about a day that was ordinary and that you remember in full. No drama, no event. And ask yourself what fixed it: it is nearly always a combination of light, company and the absence of hurry.",
+    "source": "Episodic memory of the everyday"
+  },
+  {
+    "id": "mem-024",
+    "stream": "memoria",
+    "text": "Write a letter to the person you were exactly ten years ago. Don't give them advice: tell them what happened. The advice is for you; what they are owed is the news.",
+    "source": "Letters to the past self; writing the self across time"
+  },
+  {
+    "id": "mem-025",
+    "stream": "memoria",
+    "text": "Write about money in your house when you were small: whether it was talked about, how, who decided. No figures needed. What you learn about money as a child is more like a grammar than an account.",
+    "source": "Early economic socialisation"
+  },
+  {
+    "id": "mem-026",
+    "stream": "memoria",
+    "text": "Describe the walk to school, step by step, with the corners in order. You will find that body memory outlasts names: your legs remember streets whose names you have forgotten.",
+    "source": "Spatial and procedural memory"
+  },
+  {
+    "id": "mem-027",
+    "stream": "memoria",
+    "text": "Write about a teacher who marked you, for better or worse, and be specific: what exactly they said, in which class, in front of whom. A thirty-second sentence can last forty years.",
+    "source": "School memory; the disproportionate weight of adult remarks"
+  },
+  {
+    "id": "mem-028",
+    "stream": "memoria",
+    "text": "Write about a friendship that cooled without a fight. The hard part with these is that there is no break-up scene to tell, only a list of times you didn't call. Write it anyway.",
+    "source": "The dissolution of bonds without conflict"
+  },
+  {
+    "id": "mem-029",
+    "stream": "memoria",
+    "text": "What were you wearing on an important day of your life? Start with the clothes and pull the thread: who chose them, where you put them on, what became of them. Clothes date memories better than the calendar does.",
+    "source": "The material memory of clothing"
+  },
+  {
+    "id": "mem-030",
+    "stream": "memoria",
+    "text": "Write about something that mortified you at fifteen and looks minor today. Not to laugh at that person: to notice that shame has a shelf life, and that today's will have one too.",
+    "source": "Temporal perspective on shame"
+  },
+  {
+    "id": "mem-031",
+    "stream": "memoria",
+    "text": "Write the story of how your parents met, or whoever raised you, exactly as you were told it. Then mark which parts are clearly a tale polished by time. Every family has its founding mythology.",
+    "source": "Family myths and oral transmission"
+  },
+  {
+    "id": "mem-032",
+    "stream": "memoria",
+    "text": "Write about a decision you made quickly that changed years of your life. Reconstruct the minute before: what you knew, what you didn't, why you didn't think about it longer. Big forks rarely look big from the inside.",
+    "source": "Biographical turning points"
+  },
+  {
+    "id": "mem-033",
+    "stream": "memoria",
+    "text": "Write about a tradition you no longer keep: a meal, a date, a ritual. Tell how it was and when it stopped. Traditions are not abandoned by decision, they are abandoned by an accumulation of years when it just didn't happen.",
+    "source": "Domestic ritual and its disappearance"
+  },
+  {
+    "id": "mem-034",
+    "stream": "memoria",
+    "text": "Pick a photograph of yourself you know well and write what the photograph does not show: the minute before, who took it, what happened afterwards. A photograph fixes an instant and erases the rest; a diary does the opposite.",
+    "source": "Cf. Roland Barthes, Camera Lucida"
+  },
+  {
+    "id": "mem-035",
+    "stream": "memoria",
+    "text": "Write what you want someone to remember about you in fifty years, and then what they are actually going to remember. They tend to be different lists, and the second is the more interesting one.",
+    "source": "Posthumous memory; cf. the distinction between the remembering self and the experiencing self (Kahneman)"
+  },
+  {
+    "id": "asm-001",
+    "stream": "asombro",
+    "text": "Look at the sky for three minutes, properly, then describe it without using the word blue or the word cloud. You will have to notice edges, depth, how it changes from one side to the other. Almost nobody has looked at the sky today.",
+    "source": "An attention practice; cf. John Ruskin, who taught cloud drawing in order to teach seeing"
+  },
+  {
+    "id": "asm-002",
+    "stream": "asombro",
+    "text": "Watch an animal — a bird, a dog, an insect — for five minutes and write what it does without attributing a single human intention. It is harder than it sounds, and the discipline of not projecting is exactly what lets you see the animal.",
+    "source": "Ethology; cf. Konrad Lorenz and the critique of anthropomorphism"
+  },
+  {
+    "id": "asm-003",
+    "stream": "asombro",
+    "text": "Walk with no destination for twenty minutes, turning whenever you feel like it, then write the five things you would not have seen if you had been going somewhere. Having a destination is a very efficient way of seeing nothing on the way.",
+    "source": "The situationist dérive; Guy Debord"
+  },
+  {
+    "id": "asm-004",
+    "stream": "asombro",
+    "text": "Write about a plant you see every day and whose name you don't know. Describe it precisely, then look it up. Learning the name after looking is a different thing from looking after learning the name.",
+    "source": "Cf. Robert Macfarlane, Landmarks; and naturalist practice"
+  },
+  {
+    "id": "asm-005",
+    "stream": "asombro",
+    "text": "The nearest stone to you is older than any living thing you have ever known. Write what was happening in the world when it formed, even if you have to imagine it, and how it feels to be passing over something that slow.",
+    "source": "Deep time; cf. John McPhee, who coined the term, and James Hutton"
+  },
+  {
+    "id": "asm-006",
+    "stream": "asombro",
+    "text": "Write about the water you drank today: where it came from, what it passed through, how long it has been in circulation. No water molecule is new. You have drunk water that was in a glacier and in the body of someone you never met.",
+    "source": "The hydrological cycle; cf. popular accounts of the water cycle"
+  },
+  {
+    "id": "asm-007",
+    "stream": "asombro",
+    "text": "Listen for two minutes with your eyes closed and list every sound, ordered from nearest to furthest. The furthest one you can identify tells you the real size of the place you are in.",
+    "source": "Soundscape; R. Murray Schafer, The Soundscape"
+  },
+  {
+    "id": "asm-008",
+    "stream": "asombro",
+    "text": "Describe today's light: its colour, its hardness, which way the shadows fall and what time it started to change. Painters have organised their working day around this for centuries, and most of us cannot tell eleven in the morning from six in the evening.",
+    "source": "The painterly practice of light; cf. the Impressionists and Monet's series"
+  },
+  {
+    "id": "asm-009",
+    "stream": "asombro",
+    "text": "Write about one specific tree you know. How old it might be, what it has watched go past, who planted it. And if it is still there when you are gone, who will look at it.",
+    "source": "Tree longevity; cf. Peter Wohlleben, The Hidden Life of Trees"
+  },
+  {
+    "id": "asm-010",
+    "stream": "asombro",
+    "text": "Write what the weather is doing today as if explaining it to someone who lives in another climate and cannot picture it. No meteorological terms: what the air does on your skin, what clothing is too much, what is possible today and what is not.",
+    "source": "Writing everyday weather; cf. Thoreau's weather journals"
+  },
+  {
+    "id": "asm-011",
+    "stream": "asombro",
+    "text": "Think of the last time you really saw the night sky, far from a city. Write what occurred to you there that does not occur to you here. Light pollution does not only hide stars: it hides a way of thinking.",
+    "source": "Cf. Paul Bogard, The End of Night"
+  },
+  {
+    "id": "asm-012",
+    "stream": "asombro",
+    "text": "Pick something small off the ground — a leaf, a stone, a screw — and describe it for ten minutes as if it were the only thing left of our era and you had to explain it to whoever came next.",
+    "source": "The object as document; the archaeology of the everyday"
+  },
+  {
+    "id": "asm-013",
+    "stream": "asombro",
+    "text": "Write about the season we are in right now, but skip the cliché: what is actually happening out there this particular week, what has opened or closed or left. Seasons are not four, they are fifty-two.",
+    "source": "Phenology, the study of annual cycles; cf. the Japanese calendar of seventy-two micro-seasons"
+  },
+  {
+    "id": "asm-014",
+    "stream": "asombro",
+    "text": "Write about the ground you stand on: what is under these tiles, what was here two hundred years ago, what was dug out to put in what you now use. Every city is built in layers and the only one we see is the top.",
+    "source": "Urban stratigraphy; cf. the archaeology of living cities"
+  },
+  {
+    "id": "asm-015",
+    "stream": "asombro",
+    "text": "Describe today's sunrise or sunset if you saw it, and if you didn't, write that: how many days it has been since you saw either, and what you were doing instead.",
+    "source": "Circadian rhythms and indoor life"
+  },
+  {
+    "id": "asm-016",
+    "stream": "asombro",
+    "text": "Write about an animal that lives in your city and that you don't count as wildlife: pigeons, rats, gulls, wild boar. Describe it with the respect you would give a documentary. The wild has not left, it has adapted.",
+    "source": "Urban ecology; cf. Menno Schilthuizen, Darwin Comes to Town"
+  },
+  {
+    "id": "asm-017",
+    "stream": "asombro",
+    "text": "Write what you ate today and where each thing came from: which plant, which animal, which country, how many hands. No moralising. Just the chain, as complete as you know it, and the gap where you don't.",
+    "source": "Cf. Michael Pollan, The Omnivore's Dilemma"
+  },
+  {
+    "id": "asm-018",
+    "stream": "asombro",
+    "text": "Write about today's wind, or its absence. Where it comes from, what it moves, what sound it makes in which materials. Wind is the hardest thing to describe because you only see it in what it touches.",
+    "source": "Describing the invisible; cf. Lyall Watson, Heaven's Breath"
+  },
+  {
+    "id": "asm-019",
+    "stream": "asombro",
+    "text": "Go out at night and write what only exists at night in your neighbourhood: which lights are left, who is working, which animals come out, how the sound changes. The same place has two versions and we only know one well.",
+    "source": "Night ethnography; cf. the tradition of the nocturnal flâneur"
+  },
+  {
+    "id": "asm-020",
+    "stream": "asombro",
+    "text": "Write about something you have watched grow or rot over days: a plant, a forgotten piece of fruit, building work in the street. Describe the change, not the state. Almost everything we write is a photograph of something that is really a film.",
+    "source": "Longitudinal observation; cf. naturalists' field notebooks"
+  },
+  {
+    "id": "asm-021",
+    "stream": "asombro",
+    "text": "Write about the last time you got soaked by rain you hadn't planned for. What you did: ran, took shelter, kept walking. And how old you were the last time rain struck you as good news.",
+    "source": "The sensory experience of weather; body memory"
+  },
+  {
+    "id": "asm-022",
+    "stream": "asombro",
+    "text": "Your body holds more bacterial cells than human ones, and not one of the cells you had ten years ago is exactly the same. Write what that does to the idea that you are a single thing with a clear edge.",
+    "source": "The microbiome and cell turnover; cf. the holobiont debate"
+  },
+  {
+    "id": "asm-023",
+    "stream": "asombro",
+    "text": "Write about an everyday phenomenon you can't explain: why the sky changes colour, why ice floats, why a bulb hums. Write your own hypothesis first and then look it up. Having a hypothesis before you search changes what you understand.",
+    "source": "Learning through prior prediction; science pedagogy"
+  },
+  {
+    "id": "asm-024",
+    "stream": "asombro",
+    "text": "Write about the most complete silence you can remember. Where you were, what could be heard inside the silence (there is always something) and what went through your head. Absolute silence does not exist: what exists is the absence of us.",
+    "source": "Cf. Gordon Hempton, One Square Inch of Silence"
+  },
+  {
+    "id": "asm-025",
+    "stream": "asombro",
+    "text": "Write a description of your street as someone arriving from very far away would write it, having never seen anything like it. Take nothing as known: what those boxes on wheels are, why people walk in a line down one side.",
+    "source": "Defamiliarisation; Viktor Shklovsky, Art as Device"
+  },
+  {
+    "id": "asm-026",
+    "stream": "asombro",
+    "text": "Look at the palm of your hand for a whole minute, as if it were not yours, and describe it. It is the part of you that you have seen most and looked at least.",
+    "source": "Attention to one's own body; contemplative practice"
+  },
+  {
+    "id": "asm-027",
+    "stream": "asombro",
+    "text": "Write about what can be seen from the nearest window, with one rule: only what has changed since yesterday. If you think nothing has, look for five more minutes.",
+    "source": "A daily observation practice; cf. Thoreau's notebooks"
+  },
+  {
+    "id": "asm-028",
+    "stream": "asombro",
+    "text": "Write about a mountain, a river or a coastline you know, and about what it was like ten thousand years ago. That landscape you take for the fixed backdrop of things is really one frame of something moving very slowly.",
+    "source": "Geomorphology; cf. Marcia Bjornerud, Timefulness"
+  },
+  {
+    "id": "asm-029",
+    "stream": "asombro",
+    "text": "Write down which animals, plants or insects are in the room with you right now, counting the ones you can't see. You are never alone in a room; you are only without company at your own scale.",
+    "source": "Domestic biodiversity; cf. Rob Dunn, Never Home Alone"
+  },
+  {
+    "id": "asm-030",
+    "stream": "asombro",
+    "text": "Write about the last time you felt small in front of something: a storm, a cathedral, a clear sky, the sea. Awe shrinks the self for a while, and that is probably its function.",
+    "source": "The psychology of awe; Dacher Keltner, the \"small self\""
+  },
+  {
+    "id": "asm-031",
+    "stream": "asombro",
+    "text": "Describe a material with your hands rather than your eyes: the wood of that table, the fabric of that chair, the metal of the handle. Close your eyes, touch it for a minute, then write. Touch has a very poor vocabulary, which is why it needs the exercise.",
+    "source": "Cf. Juhani Pallasmaa, The Eyes of the Skin"
+  },
+  {
+    "id": "asm-032",
+    "stream": "asombro",
+    "text": "Write about something broken or abandoned that you see often: a crooked shutter, an empty lot, a car that never moves. How long it has been like that, what grows on it, who left it. Decay is the one thing that happens without anyone organising it.",
+    "source": "The aesthetics of ruin; cf. modern ruins and the ecology of abandonment"
+  },
+  {
+    "id": "asm-033",
+    "stream": "asombro",
+    "text": "The sunlight that fell on you today left the Sun's core tens of thousands of years ago and its surface eight minutes ago. Write what that makes you feel, if it makes you feel anything, and be honest if the answer is nothing.",
+    "source": "Solar physics; the photon diffusion time"
+  },
+  {
+    "id": "asm-034",
+    "stream": "asombro",
+    "text": "Write about the landscape you see when you close your eyes and think \"somewhere I'd like to be\". Describe it as if it were real: the temperature, the ground, the noise. Then ask yourself when you were there, or where you got it from.",
+    "source": "Inner landscapes; affective geography"
+  },
+  {
+    "id": "asm-035",
+    "stream": "asombro",
+    "text": "Write today's weather-and-nature report in five lines, as if you were your street's chronicler: temperature, light, what had bloomed or fallen, what animal you saw. Do it daily for a year and you will have something no weather service keeps.",
+    "source": "The phenological diary; the tradition of amateur naturalist recording"
+  },
+  {
+    "id": "ofi-001",
+    "stream": "oficio",
+    "text": "Write what you learned today by doing something badly. Not the mistake: what the mistake taught you about how the thing works. Nearly all practical knowledge arrives that way, and almost nobody writes it down.",
+    "source": "Cf. Richard Sennett, The Craftsman: learning through failure"
+  },
+  {
+    "id": "ofi-002",
+    "stream": "oficio",
+    "text": "Describe a movement in your work that now comes without thinking and that used to be hard. Break it into steps as if you had to teach it. You will see how difficult it is to explain what you already know: that is tacit knowledge.",
+    "source": "Michael Polanyi, The Tacit Dimension (\"we know more than we can tell\")"
+  },
+  {
+    "id": "ofi-003",
+    "stream": "oficio",
+    "text": "Write what your parents did for a living, or whoever raised you, and which part of their trade stuck to you even though you do something else: the way of measuring, of dealing with a customer, of tidying up at the end. Trades are inherited sideways.",
+    "source": "Intergenerational transmission of practical knowledge"
+  },
+  {
+    "id": "ofi-004",
+    "stream": "oficio",
+    "text": "Write what you would do with your work if nobody paid you for it: which part you would keep, which would be the first to go. The answer does not tell you whether to quit; it tells you where the core is.",
+    "source": "Intrinsic and extrinsic motivation; Deci and Ryan"
+  },
+  {
+    "id": "ofi-005",
+    "stream": "oficio",
+    "text": "Describe the tool you use most, be it a knife, a keyboard or a spreadsheet. What you have changed about it, what habits you have with it, what you would do if it were gone tomorrow. Working tools end up shaped like their owner.",
+    "source": "Cf. Sennett on the relation between hand and tool"
+  },
+  {
+    "id": "ofi-006",
+    "stream": "oficio",
+    "text": "Write about someone you learned your trade from. Not what they taught you: how they taught it. Whether they let you fail, corrected you in front of others, explained things or simply worked while you watched.",
+    "source": "Learning by observation; the apprenticeship tradition"
+  },
+  {
+    "id": "ofi-007",
+    "stream": "oficio",
+    "text": "Write which part of your work you would be embarrassed to show someone who admires you. No judgement: just name it. It is nearly always the part you have known for years ought to be fixed.",
+    "source": "Craft standards and professional honesty"
+  },
+  {
+    "id": "ofi-008",
+    "stream": "oficio",
+    "text": "Write about the last time you did something really well and nobody noticed. Describe it in technical detail, without playing it down. Good work that goes unseen needs at least one witness, and today you can be it.",
+    "source": "Cf. Matthew Crawford, Shop Class as Soulcraft: good work as its own standard"
+  },
+  {
+    "id": "ofi-009",
+    "stream": "oficio",
+    "text": "Write the vocabulary of your trade that an outsider would not understand: five words and what they actually mean. Then look at which of them you use in order to avoid having to explain yourself.",
+    "source": "Professional jargon; the sociolinguistics of work"
+  },
+  {
+    "id": "ofi-010",
+    "stream": "oficio",
+    "text": "Write how you know when something is finished. Not when it is due: how you yourself know it is done. If you have no criterion of your own, you are borrowing someone's, and that is a good place to start looking.",
+    "source": "Internal quality criteria; cf. the ethics of the craftsman"
+  },
+  {
+    "id": "ofi-011",
+    "stream": "oficio",
+    "text": "Describe your working day in blocks of real time, not what you had planned. How much was craft, how much coordination, how much waiting. The gap between what you think you do and what you do is usually the whole problem.",
+    "source": "Time-use studies; cf. time diaries in the sociology of work"
+  },
+  {
+    "id": "ofi-012",
+    "stream": "oficio",
+    "text": "Write about a work problem you solved and could not explain how. Reconstruct the hunch: what you had seen before that resembled it. Expert intuition is compressed memory, not magic.",
+    "source": "Gary Klein, naturalistic decision making; recognition-primed decisions"
+  },
+  {
+    "id": "ofi-013",
+    "stream": "oficio",
+    "text": "Write what you would tell someone starting out in your field that appears in no manual. The thing that takes years to learn and, with luck, twenty seconds to pass on.",
+    "source": "Practical know-how and oral transmission in the professions"
+  },
+  {
+    "id": "ofi-014",
+    "stream": "oficio",
+    "text": "Write about a rule at work that you follow without knowing why it exists. Interrogate it: does it protect against something real, or is it the fossil of a problem that is gone? Both answers are useful.",
+    "source": "Cf. Chesterton's fence: don't remove a fence until you know why it was put up"
+  },
+  {
+    "id": "ofi-015",
+    "stream": "oficio",
+    "text": "Write about the physical side of your work, even if you think it has none: where it hurts at the end of the day, which posture you repeat, what your eyes do. Every trade leaves a mark on the body, including the ones done sitting down.",
+    "source": "Ergonomics and the embodiment of work"
+  },
+  {
+    "id": "ofi-016",
+    "stream": "oficio",
+    "text": "Write about a colleague from whom you learned something that wasn't technical: patience, how to say no, how to run a meeting. Trades are learned in company, and that part never shows up on a CV.",
+    "source": "Situated learning at work; Lave and Wenger, communities of practice"
+  },
+  {
+    "id": "ofi-017",
+    "stream": "oficio",
+    "text": "Write what would disappear if you were not in your post. Not what would stop being done: what would be done differently and worse without anyone knowing why. That is your real contribution, and it rarely matches the job description.",
+    "source": "Tacit organisational knowledge"
+  },
+  {
+    "id": "ofi-018",
+    "stream": "oficio",
+    "text": "Write about the worst professional advice you were given and why it sounded good. Bad advice is rarely stupid: it is usually good advice from another era, or another job.",
+    "source": "The transfer of rules out of context"
+  },
+  {
+    "id": "ofi-019",
+    "stream": "oficio",
+    "text": "Write which part of your work a machine will do within ten years and which part it won't. Be concrete and be honest in both directions: overstating the danger and denying it are the same way of not thinking about it.",
+    "source": "Automation and tasks; cf. the occupations-versus-tasks distinction in labour economics"
+  },
+  {
+    "id": "ofi-020",
+    "stream": "oficio",
+    "text": "Write about a trade that has all but vanished and that you saw practised: a knife grinder, a linotypist, a switchboard operator, a cobbler. Whatever you remember, however little. What is not written down is lost in one generation.",
+    "source": "The memory of vanished trades; oral history of work"
+  },
+  {
+    "id": "ofi-021",
+    "stream": "oficio",
+    "text": "Write about a time you got something wrong and said so, and what happened next. If you never have, write why not. The culture of a workplace is measured exactly there, not on its website.",
+    "source": "Amy Edmondson, psychological safety in teams"
+  },
+  {
+    "id": "ofi-022",
+    "stream": "oficio",
+    "text": "List the things you do at work because they have always been done that way. Mark which ones you would still do if you started from scratch today. The difference is the dead weight you drag around every week.",
+    "source": "Process debt; cf. the critique of \"we've always done it this way\""
+  },
+  {
+    "id": "ofi-023",
+    "stream": "oficio",
+    "text": "Write about the difference between being busy and working, with examples from this week. It is not a moral distinction: they produce different kinds of tiredness and only one of them leaves something finished.",
+    "source": "Cf. the deep-work / shallow-work distinction (Cal Newport)"
+  },
+  {
+    "id": "ofi-024",
+    "stream": "oficio",
+    "text": "Write about the invisible work that holds yours up: who cleans, who invoices, who answers the phone, who cooked what you ate. Name them if you know their names. If you don't, write that too.",
+    "source": "Care work and invisible labour; cf. the sociology of reproductive work"
+  },
+  {
+    "id": "ofi-025",
+    "stream": "oficio",
+    "text": "Write about a skill you had and lost through disuse. How long it took you to notice, and whether you miss it or are only annoyed at having lost it. They are not the same thing.",
+    "source": "Skill decay; the psychology of expertise"
+  },
+  {
+    "id": "ofi-026",
+    "stream": "oficio",
+    "text": "Write how you start working: the exact order of the first ten minutes. Coffee, email, window, chair. That ritual is not wasted time, it is what tells your head it has begun; worth knowing what yours is so you don't break it by accident.",
+    "source": "Starting rituals; cf. Mason Currey, Daily Rituals"
+  },
+  {
+    "id": "ofi-027",
+    "stream": "oficio",
+    "text": "Write about something you made with your hands that still exists: a piece of furniture, a meal, a repair, a garden. And about how it feels to be able to point at the result. A good deal of modern work's unease fits in that sentence.",
+    "source": "Cf. Matthew Crawford on agency and the visible result"
+  },
+  {
+    "id": "ofi-028",
+    "stream": "oficio",
+    "text": "Write the question you always get asked at work and how you now answer it without thinking. Then answer it properly, in writing, as if it were the first time. Automatic answers go stale without warning.",
+    "source": "The erosion of thought through repetition"
+  },
+  {
+    "id": "ofi-029",
+    "stream": "oficio",
+    "text": "Write about the last time you were absorbed in what you were doing and lost track of time. Which task it was, how hard it was, what was around you. That state can be engineered if you know what produced it.",
+    "source": "Mihály Csíkszentmihályi, flow"
+  },
+  {
+    "id": "ofi-030",
+    "stream": "oficio",
+    "text": "Write who your work serves. Not the company: the specific person at the end of the chain. If you cannot name anyone, write why the chain broke and at which link.",
+    "source": "Adam Grant, on perceived impact and meaning at work"
+  },
+  {
+    "id": "ofi-031",
+    "stream": "oficio",
+    "text": "Write about a time a client, a patient, a student or a user taught you something about your own trade. What they said and why it was hard to accept.",
+    "source": "Learning from the recipient; the critique of expert-user asymmetry"
+  },
+  {
+    "id": "ofi-032",
+    "stream": "oficio",
+    "text": "Write what you would do on the first Monday if you were given a paid year with no obligation to work. And in the second month. The first answer is the rest you are owed; the second tells you what your real trade is.",
+    "source": "A classic question in vocational clarification"
+  },
+  {
+    "id": "ofi-033",
+    "stream": "oficio",
+    "text": "Write the story of how you ended up doing what you do, told honestly: with the accident in it, the grant that came through, the person who called. Almost no career is a plan; almost all of them are told afterwards as if they were.",
+    "source": "John Krumboltz, planned happenstance theory"
+  },
+  {
+    "id": "ofi-034",
+    "stream": "oficio",
+    "text": "Write what you would like whoever takes your job to learn from you when you leave. Write it as you would write it to that person. It is the most useful document you can leave behind, and almost nobody writes it until it is too late.",
+    "source": "Knowledge transfer in organisations"
+  },
+  {
+    "id": "ofi-035",
+    "stream": "oficio",
+    "text": "Write what doing things well means to you, with a definition you can apply to a specific task tomorrow. No abstract excellence: what you would check, what you would not let through, how much extra time you would give it.",
+    "source": "Cf. Sennett: the craftsman as one who does things well for the sake of doing them well"
   }
 ]

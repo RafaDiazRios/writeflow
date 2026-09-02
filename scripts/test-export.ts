@@ -4,6 +4,10 @@
 import { writeFileSync } from 'node:fs'
 import JSZip from 'jszip'
 import { bytesDeDataUrl, buildDocx, medirImagen } from '../src/lib/docx'
+import { setIdiomaUI } from '../src/i18n'
+
+// Igual que en test-i18n: `setIdiomaUI` escribe en document.documentElement.
+;(globalThis as Record<string, unknown>).document = { documentElement: {} }
 import { buildEpub } from '../src/lib/epub'
 import { tiptapToXhtml } from '../src/lib/epub'
 import { tiptapToDocxBlocks } from '../src/lib/docx'
@@ -127,6 +131,41 @@ async function main() {
     check(`${style}: es un zip (PK)`, bytes[0] === 0x50 && bytes[1] === 0x4b)
     writeFileSync(`node_modules/.tmp/prueba-${style}.docx`, bytes)
   }
+
+  /* El idioma del documento. Sin la declaración, Word usa el del ordenador que
+   * abre el archivo y subraya en rojo un manuscrito impecable. Y la portada del
+   * formato manuscrito llevaba dos frases en español fijo. */
+  console.log('\n— idioma del .docx —')
+  const portada = async (idioma: 'es' | 'en') => {
+    setIdiomaUI(idioma)
+    const bytes = await buildDocx({
+      title: 'La casa vacía',
+      author: 'Rafael Díaz Ríos',
+      style: 'manuscrito',
+      titlePage: true,
+      wordCount: 81234,
+      chapters: [{ title: 'Capítulo 1', text: 'Texto.', level: 1 }],
+    })
+    const z = await new JSZip().loadAsync(bytes)
+    return {
+      estilos: await z.file('word/styles.xml')!.async('string'),
+      cuerpo: await z.file('word/document.xml')!.async('string'),
+    }
+  }
+
+  const docEs = await portada('es')
+  const docEn = await portada('en')
+  setIdiomaUI('es')
+
+  check('en español el documento declara es-ES', docEs.estilos.includes('w:val="es-ES"'))
+  check('en inglés declara en-GB', docEn.estilos.includes('w:val="en-GB"'))
+  check('y no se queda el español pegado', !docEn.estilos.includes('w:val="es-ES"'))
+  check('la portada dice «por» en español', docEs.cuerpo.includes('por Rafael'))
+  check('y «by» en inglés', docEn.cuerpo.includes('by Rafael'))
+  check('el recuento va en español', docEs.cuerpo.includes('palabras'))
+  check('y en inglés', docEn.cuerpo.includes('words'))
+  check('y los miles se agrupan según el idioma',
+    docEs.cuerpo.includes('81.200') && docEn.cuerpo.includes('81,200'))
 
   console.log('\n— .epub —')
   const epub = await buildEpub({

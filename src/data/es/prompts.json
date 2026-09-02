@@ -640,5 +640,845 @@
   "stream": "psicologico",
   "text": "Al final del día, escribe una sola frase que empiece por «hoy fue el día en que...». Nada más. Repítelo cada noche durante un mes y luego lee las treinta frases seguidas: verás la trama de tu vida que ninguna entrada larga te habría mostrado.",
   "source": "Escritura expresiva mínima; práctica de registro narrativo diario"
+ },
+ {
+  "id": "cre-001",
+  "stream": "creativo",
+  "text": "Elige un objeto que tengas a la vista y descríbelo durante diez minutos sin nombrarlo nunca. Prohibido decir para qué sirve. Solo forma, peso, luz, temperatura, ruido. El objetivo no es adivinanza: es comprobar cuánto dejas de mirar en cuanto sabes cómo se llama algo.",
+  "source": "Francis Ponge, De parte de las cosas"
+ },
+ {
+  "id": "cre-002",
+  "stream": "creativo",
+  "text": "Siéntate en un sitio público y agota lo que ocurre: los autobuses que pasan, la ropa, quién mira el móvil, qué se repite. No busques significado, haz inventario. Perec llamó a esto agotar un lugar, y descubrió que lo interesante aparece cuando lo llamativo ya se ha acabado.",
+  "source": "Georges Perec, Tentativa de agotar un lugar parisino"
+ },
+ {
+  "id": "cre-003",
+  "stream": "creativo",
+  "text": "Escribe la misma escena mínima —alguien sube a un autobús y se sienta— tres veces: en pasado, como un parte médico y como un chisme contado por una vecina. Queneau escribió noventa y nueve versiones. Con tres basta para ver que el estilo no adorna la historia: la cambia.",
+  "source": "Raymond Queneau, Ejercicios de estilo"
+ },
+ {
+  "id": "cre-004",
+  "stream": "creativo",
+  "text": "Escribe un párrafo entero sin usar la letra más frecuente de tu idioma (la e en español, la e también en inglés). La restricción no es un juego tonto: al cerrarte las palabras cómodas te obliga a encontrar las que no habrías buscado nunca.",
+  "source": "OuLiPo; Georges Perec, El secuestro (novela sin la letra e)"
+ },
+ {
+  "id": "cre-005",
+  "stream": "creativo",
+  "text": "Escribe primero la última frase. Solo esa, la que quieres que quede sonando. Después escribe el texto que la merezca. Trabajar hacia atrás desde el final quita de en medio la peor parte de escribir, que es decidir por dónde empezar.",
+  "source": "Práctica clásica del oficio; cf. Poe, Filosofía de la composición"
+ },
+ {
+  "id": "cre-006",
+  "stream": "creativo",
+  "text": "Cuenta algo que te pasó hoy desde la voz de alguien que estaba allí y no eres tú: el camarero, el perro, la persona de la fila de atrás. Mantén los hechos, cambia solo quién mira. Lo que ese narrador no puede saber es exactamente lo que tú dabas por evidente.",
+  "source": "Ursula K. Le Guin, Steering the Craft (punto de vista)"
+ },
+ {
+  "id": "cre-007",
+  "stream": "creativo",
+  "text": "Escribe diez minutos sin levantar la mano ni corregir nada, ni una tilde. Si te quedas en blanco, escribe «no se me ocurre nada» hasta que se te ocurra. La regla única es no parar: la corrección y la invención usan la misma parte del cerebro y se estorban.",
+  "source": "Peter Elbow, escritura libre; Natalie Goldberg, El gozo de escribir"
+ },
+ {
+  "id": "cre-008",
+  "stream": "creativo",
+  "text": "Piensa en algo que te dé miedo escribir. No lo escribas todavía: escribe por qué te da miedo, quién lo leería y qué pasaría entonces. Casi siempre el miedo tiene un lector concreto con nombre. Cuando lo nombras, el texto se vuelve posible.",
+  "source": "Anne Lamott, Pájaro a pájaro"
+ },
+ {
+  "id": "cre-009",
+  "stream": "creativo",
+  "text": "Describe a un desconocido que hayas visto hoy en cinco frases, y que la quinta contradiga a las cuatro primeras. Un personaje empieza a existir justo en el punto donde deja de ser coherente.",
+  "source": "John Gardner, El arte de la ficción"
+ },
+ {
+  "id": "cre-010",
+  "stream": "creativo",
+  "text": "Escribe una escena en la que dos personas hablan de una cosa mientras discuten de otra que no se nombra nunca. Todo el subtexto va en lo que eligen no decir. Si al releer se entiende demasiado, quita una frase más.",
+  "source": "Hemingway, teoría del iceberg; cf. Chéjov, diálogo indirecto"
+ },
+ {
+  "id": "cre-011",
+  "stream": "creativo",
+  "text": "Coge un recuerdo tuyo y cuéntalo como si fuera falso: invéntale un detalle imposible y sostenlo hasta el final con toda naturalidad. Ver cuánto aguanta tu recuerdo sin romperse te dice qué parte de él era ya literatura.",
+  "source": "Tradición de la autoficción; cf. Borges, Ficciones"
+ },
+ {
+  "id": "cre-012",
+  "stream": "creativo",
+  "text": "Escribe una lista de veinte cosas que sabes hacer y que casi nadie a tu alrededor sabe: un nudo, un dialecto, reconocer un motor por el ruido. No las expliques todavía. Esa lista es tu material exclusivo, y suele estar sin usar.",
+  "source": "Lynda Barry, Syllabus; el inventario como cantera"
+ },
+ {
+  "id": "cre-013",
+  "stream": "creativo",
+  "text": "Escribe una página entera con frases de menos de ocho palabras. Ni una sola subordinada. Cuando termines, léela en voz alta: verás que el ritmo corto no es pobre, es otra respiración, y que algunas de tus frases largas solo eran miedo a rematar.",
+  "source": "Verlyn Klinkenborg, Several Short Sentences About Writing"
+ },
+ {
+  "id": "cre-014",
+  "stream": "creativo",
+  "text": "Describe un lugar que conoces bien usando solo los otros cuatro sentidos: nada de vista. El olor del portal, cómo suena el suelo, el aire en la cara. La vista se lleva casi toda la escritura y por eso casi toda la escritura se parece.",
+  "source": "Ejercicio sensorial clásico; cf. Ray Bradbury, Zen en el arte de escribir"
+ },
+ {
+  "id": "cre-015",
+  "stream": "creativo",
+  "text": "Escribe la escena que te da vergüenza escribir, pero en tercera persona y con otro nombre. Cuando termines, cambia los nombres de vuelta y comprueba qué frases ya no puedes sostener. Esas son las que hay que trabajar, no borrar.",
+  "source": "Ethan Kross, distanciamiento; aplicado al oficio de escribir"
+ },
+ {
+  "id": "cre-016",
+  "stream": "creativo",
+  "text": "Abre un libro que te guste por una página cualquiera y copia a mano un párrafo entero. A mano, no con el teclado. Copiar es la manera más antigua de aprender ritmo: notarás dónde el autor respira y dónde tú habrías puesto un punto.",
+  "source": "Práctica de copia manuscrita; Hunter S. Thompson y otros, con precedente medieval"
+ },
+ {
+  "id": "cre-017",
+  "stream": "creativo",
+  "text": "Escribe una historia entera en la que no pase nada excepcional y aun así el lector quiera llegar al final. Solo alguien esperando algo que no llega. Si funciona, has aprendido que la tensión no la hace el suceso, la hace la expectativa.",
+  "source": "Chéjov; y la tradición del cuento sin acontecimiento"
+ },
+ {
+  "id": "cre-018",
+  "stream": "creativo",
+  "text": "Escribe tres primeras frases distintas para el mismo texto: una que empiece por un hecho, otra por una voz hablando y otra por un lugar. Elige después, no antes. Casi siempre descartamos la mejor apertura por escribir la primera que se nos ocurre.",
+  "source": "Práctica de taller; cf. Italo Calvino, Seis propuestas para el próximo milenio"
+ },
+ {
+  "id": "cre-019",
+  "stream": "creativo",
+  "text": "Describe a alguien a quien quieres sin usar ni un solo adjetivo valorativo: nada de bueno, generoso, difícil. Solo lo que hace, lo que dice y lo que calla. El retrato saldrá más exacto, y probablemente más incómodo.",
+  "source": "Mostrar en vez de contar; cf. Flannery O'Connor, Mystery and Manners"
+ },
+ {
+  "id": "cre-020",
+  "stream": "creativo",
+  "text": "Escribe una carta que no vas a enviar, con toda la crudeza que quieras, y después escribe la versión que sí enviarías. Guarda las dos. La distancia entre ambas es tu voz pública, y conviene saber exactamente cuánto miente.",
+  "source": "Escritura expresiva aplicada al estilo; cf. las cartas no enviadas de Lincoln"
+ },
+ {
+  "id": "cre-021",
+  "stream": "creativo",
+  "text": "Escoge una palabra que hayas oído hoy y escribe su historia completa inventada: quién la dijo por primera vez, en qué situación, cómo se deformó. Etimología falsa, hecha con cuidado. Es el mejor ejercicio que existe para dejar de usar las palabras como si fueran transparentes.",
+  "source": "Tradición de la etimología fantástica; cf. Borges y Cortázar"
+ },
+ {
+  "id": "cre-022",
+  "stream": "creativo",
+  "text": "Escribe sobre un momento en el que cambiaste de opinión sobre algo importante, pero cuéntalo como escena, no como razonamiento: dónde estabas, quién dijo qué, qué hiciste con las manos. Las ideas se recuerdan cuando tienen cuerpo.",
+  "source": "Escena frente a resumen; cf. Vivian Gornick, La situación y la historia"
+ },
+ {
+  "id": "cre-023",
+  "stream": "creativo",
+  "text": "Haz una regla arbitraria para el texto de hoy y obedécela hasta el final: cada párrafo empieza por la misma palabra, o no hay ningún verbo en primera persona, o todo ocurre en un metro cuadrado. La restricción arbitraria produce más hallazgos que la libertad total, que casi siempre produce lo de siempre.",
+  "source": "Brian Eno y Peter Schmidt, Estrategias oblicuas; método OuLiPo"
+ },
+ {
+  "id": "cre-024",
+  "stream": "creativo",
+  "text": "Escribe el peor primer borrador que puedas: torpe, cursi, exagerado, con todos los tópicos. A propósito. Lamott lo llamaba el borrador de mierda y decía que es obligatorio. Escribir mal a conciencia es la única forma fiable de empezar.",
+  "source": "Anne Lamott, Pájaro a pájaro («shitty first drafts»)"
+ },
+ {
+  "id": "cre-025",
+  "stream": "creativo",
+  "text": "Escribe una escena en presente y luego la misma en pasado. Léelas seguidas. El presente aprieta y no deja perspectiva; el pasado ordena y enfría. Elegir tiempo verbal no es gramática: es decidir a qué distancia pones al lector.",
+  "source": "Ursula K. Le Guin, Steering the Craft (tiempo y distancia)"
+ },
+ {
+  "id": "cre-026",
+  "stream": "creativo",
+  "text": "Coge un texto tuyo de hace meses y quítale una de cada tres palabras sin cambiar ninguna otra. Lee lo que queda. Casi siempre mejora, y eso duele lo justo para aprender algo.",
+  "source": "Práctica de poda; cf. la regla de Stephen King, «mata a tus criaturas»"
+ },
+ {
+  "id": "cre-027",
+  "stream": "creativo",
+  "text": "Escribe sobre lo que no recuerdas: el hueco de una tarde, una cara borrada, el nombre que no vuelve. No lo rellenes con invención. Describe la forma exacta del agujero. La memoria escrita honestamente tiene más agujeros que datos.",
+  "source": "Tradición del ensayo memorialístico; cf. Perec, W o el recuerdo de la infancia"
+ },
+ {
+  "id": "cre-028",
+  "stream": "creativo",
+  "text": "Escribe un diálogo de una página entera sin acotaciones: nada de «dijo», nada de gestos. Solo lo que dicen. Si al releerlo no sabes quién habla, no es un problema de acotaciones: es que las dos voces son la tuya.",
+  "source": "Ejercicio clásico de diálogo; cf. Elmore Leonard, Ten Rules of Writing"
+ },
+ {
+  "id": "cre-029",
+  "stream": "creativo",
+  "text": "Describe el trabajo de alguien viéndolo hacer: las manos del panadero, del mecánico, del que te corta el pelo. Solo el movimiento, sin admiración. La competencia ajena descrita con precisión es una de las cosas más difíciles de escribir y de las que más se agradecen leer.",
+  "source": "Cf. Richard Sennett, El artesano; y la crónica de oficios"
+ },
+ {
+  "id": "cre-030",
+  "stream": "creativo",
+  "text": "Escribe un texto que empiece por «Nunca le he contado a nadie que...» y no te detengas en cinco minutos. Después decide con calma qué haces con él: publicarlo, guardarlo o borrarlo. Escribirlo y decidir son dos actos distintos, y confundirlos es lo que nos deja mudos.",
+  "source": "James Pennebaker, escritura expresiva"
+ },
+ {
+  "id": "cre-031",
+  "stream": "creativo",
+  "text": "Convierte una cosa que te enfada en una lista numerada, seca, sin adjetivos. Solo los hechos, uno por línea. La ira ordenada en forma de inventario deja de ser desahogo y empieza a ser argumento, y a veces también empieza a ser gracioso.",
+  "source": "La lista como forma literaria; cf. Umberto Eco, El vértigo de las listas"
+ },
+ {
+  "id": "cre-032",
+  "stream": "creativo",
+  "text": "Escribe una escena en la que el clima haga exactamente lo contrario de lo que siente el personaje: un entierro con un día espléndido, una buena noticia bajo granizo. El truco de que el tiempo acompañe al ánimo está tan gastado que ya no se ve; el contraste sí.",
+  "source": "Contra la falacia patética; cf. John Ruskin, que le puso el nombre"
+ },
+ {
+  "id": "cre-033",
+  "stream": "creativo",
+  "text": "Cuenta una historia que te contaron y que no es tuya: la de un abuelo, la de un compañero de trabajo, la de un desconocido en un tren. Escríbela con respeto por los hechos y libertad con el ritmo. Ser depositario de historias ajenas también es un oficio.",
+  "source": "Studs Terkel, historia oral; Svetlana Aleksiévich"
+ },
+ {
+  "id": "cre-034",
+  "stream": "creativo",
+  "text": "Escribe durante quince minutos empezando por la frase que tienes ahora mismo en la cabeza, aunque sea una tontería o una lista de la compra. No la juzgues. La página en blanco no se vence con inspiración, se vence entrando por donde se pueda.",
+  "source": "Julia Cameron, El camino del artista (páginas matutinas)"
+ },
+ {
+  "id": "cre-035",
+  "stream": "creativo",
+  "text": "Escribe qué escribirías si supieras que nadie va a leerlo nunca, y después qué escribirías si supieras que lo va a leer todo el mundo. Compara las dos listas. En el hueco entre ambas está exactamente el libro que aún no has escrito.",
+  "source": "Rilke, Cartas a un joven poeta; la pregunta de si escribirías igual sin lectores"
+ },
+ {
+  "id": "mem-001",
+  "stream": "memoria",
+  "text": "Dibuja mentalmente la casa de tu infancia y recórrela habitación por habitación. Elige una sola y descríbela entera: el suelo, la luz a media tarde, dónde estaba el enchufe, qué se oía desde allí. Empieza por el plano; los recuerdos vienen colgados de la arquitectura.",
+  "source": "Georges Perec, Especies de espacios; el método de los lugares"
+ },
+ {
+  "id": "mem-002",
+  "stream": "memoria",
+  "text": "Escribe sobre un objeto que heredaste: quién lo tuvo antes, cómo llegó a ti, dónde está ahora. Y después la pregunta incómoda: ¿lo conservas porque te gusta o porque no te atreves a soltarlo?",
+  "source": "Cultura material y memoria familiar; cf. Edmund de Waal, La liebre con ojos de ámbar"
+ },
+ {
+  "id": "mem-003",
+  "stream": "memoria",
+  "text": "¿Cuál es el primer recuerdo que tienes? Escríbelo con todo el detalle que puedas y después señala honestamente qué partes son recuerdo y cuáles son fotografías o cosas que te contaron. Casi ningún primer recuerdo es de primera mano, y eso no lo hace menos tuyo.",
+  "source": "Psicología de la memoria autobiográfica; amnesia infantil"
+ },
+ {
+  "id": "mem-004",
+  "stream": "memoria",
+  "text": "Escribe sobre la primera vez que dijiste que no a alguien con poder sobre ti: un padre, un profesor, un jefe. Qué pasó después, y qué aprendiste ese día sobre el precio de decirlo.",
+  "source": "Hitos autobiográficos; psicología del desarrollo de la autonomía"
+ },
+ {
+  "id": "mem-005",
+  "stream": "memoria",
+  "text": "Elige un año concreto de tu vida y escribe a qué olía: la comida de esa casa, el detergente, el coche, la calle. El olfato es el único sentido con línea directa al sistema límbico, y por eso trae el recuerdo entero en vez de la ficha.",
+  "source": "Efecto Proust; memoria olfativa"
+ },
+ {
+  "id": "mem-006",
+  "stream": "memoria",
+  "text": "Escribe sobre una persona que fue importante en tu vida durante un tiempo corto y a la que no volviste a ver. Qué te dio, qué te llevaste, por qué se acabó. No todas las relaciones que te formaron duraron.",
+  "source": "Vínculos breves en la narrativa del yo; cf. Ricoeur, identidad narrativa"
+ },
+ {
+  "id": "mem-007",
+  "stream": "memoria",
+  "text": "¿Qué comida te devuelve inmediatamente a un sitio? Escribe la receta como si se la explicaras a alguien y deja que la memoria se cuele entre los pasos. Las recetas familiares son documentos históricos disfrazados de instrucciones.",
+  "source": "Memoria culinaria; cf. la tradición del recetario familiar"
+ },
+ {
+  "id": "mem-008",
+  "stream": "memoria",
+  "text": "Escribe sobre el día en que dejaste de creer algo que te habían enseñado en casa. No la conclusión: el día, la escena, quién estaba delante. Los cambios de creencia tienen fecha aunque los contemos como procesos.",
+  "source": "Momentos de ruptura en la memoria autobiográfica"
+ },
+ {
+  "id": "mem-009",
+  "stream": "memoria",
+  "text": "Describe a uno de tus abuelos haciendo algo cotidiano: no un retrato, una acción de tres minutos. Cómo se sentaba, cómo pelaba una fruta, qué hacía con las manos al hablar. Si no lo recuerdas, escribe también eso.",
+  "source": "Retrato por la acción; memoria intergeneracional"
+ },
+ {
+  "id": "mem-010",
+  "stream": "memoria",
+  "text": "Escribe sobre un lugar al que no puedes volver: porque ya no existe, porque cambió de dueño o porque tú ya no eres el que entraba allí. Descríbelo tal como era, en presente, hasta que se acabe.",
+  "source": "Topofilia y pérdida; cf. Gaston Bachelard, La poética del espacio"
+ },
+ {
+  "id": "mem-011",
+  "stream": "memoria",
+  "text": "¿Qué canción te devuelve a una época exacta? Escribe dónde la oías, con quién y qué estaba pasando en tu vida entonces. La banda sonora involuntaria de una vida dice más que la lista de canciones favoritas.",
+  "source": "Memoria musical autobiográfica; reminiscence bump"
+ },
+ {
+  "id": "mem-012",
+  "stream": "memoria",
+  "text": "Escribe una lista de todas las casas en las que has vivido, con el tiempo que estuviste en cada una. Después elige la que menos tiempo ocupó y más recuerdas, y pregúntate por qué esa.",
+  "source": "Cartografía autobiográfica; el inventario de domicilios"
+ },
+ {
+  "id": "mem-013",
+  "stream": "memoria",
+  "text": "Escribe sobre un verano concreto de tu adolescencia. Solo uno, y solo ese verano: quién estaba, qué se hacía por las tardes, qué estabas esperando que pasara. La adolescencia se recuerda mejor que ninguna otra edad, y conviene aprovecharlo.",
+  "source": "Pico de reminiscencia: recordamos desproporcionadamente entre los 15 y los 25"
+ },
+ {
+  "id": "mem-014",
+  "stream": "memoria",
+  "text": "Escribe sobre un trabajo que tuviste y que ya no harías. Los compañeros, el olor del sitio, lo que aprendiste sin querer. Los trabajos malos suelen dejar mejor material que los buenos.",
+  "source": "Memoria laboral; cf. Studs Terkel, Working"
+ },
+ {
+  "id": "mem-015",
+  "stream": "memoria",
+  "text": "Escribe una escena de la que fuiste testigo y no protagonista, y que se te quedó grabada sin que sepas bien por qué. No la interpretes: cuéntala. Lo que la memoria guarda sin permiso suele tener sus razones.",
+  "source": "Memoria involuntaria; cf. Proust, En busca del tiempo perdido"
+ },
+ {
+  "id": "mem-016",
+  "stream": "memoria",
+  "text": "¿Qué te daba miedo de pequeño? Escríbelo desde dentro, con la lógica que tenía entonces, sin explicarlo desde tu edad de ahora. Los miedos infantiles son coherentes; lo que falla es la información, no el razonamiento.",
+  "source": "Memoria del miedo infantil; psicología del desarrollo"
+ },
+ {
+  "id": "mem-017",
+  "stream": "memoria",
+  "text": "Escribe sobre una mentira que dijiste hace años y que nunca se descubrió. Qué protegías con ella. Y si hoy dirías lo mismo o ya no te haría falta.",
+  "source": "Memoria moral; el yo que se juzga a sí mismo con el tiempo"
+ },
+ {
+  "id": "mem-018",
+  "stream": "memoria",
+  "text": "Describe la letra manuscrita de alguien de tu familia. Cómo hacía las mayúsculas, si apretaba, si torcía la línea. Y qué escribía: listas, notas, felicitaciones. La letra es lo más parecido a la voz que dejan los que ya no están.",
+  "source": "Cultura escrita cotidiana y duelo"
+ },
+ {
+  "id": "mem-019",
+  "stream": "memoria",
+  "text": "Escribe sobre la primera vez que viste el mar, o una montaña, o una ciudad grande. No lo que sentiste: lo que viste, en orden, según ibas llegando.",
+  "source": "Primeras veces perceptivas; escritura de viaje"
+ },
+ {
+  "id": "mem-020",
+  "stream": "memoria",
+  "text": "Haz una lista de las cosas que se hacían en tu casa y que creías normales hasta que descubriste que no las hacía nadie más. Costumbres, palabras inventadas, horarios raros. Ahí está buena parte de lo que te formó.",
+  "source": "Antropología doméstica; el idiolecto familiar"
+ },
+ {
+  "id": "mem-021",
+  "stream": "memoria",
+  "text": "Escribe sobre una despedida que no supiste que era la última: la última vez que jugaste en la calle, que viste a alguien, que estuviste en un sitio. Las últimas veces casi nunca se anuncian.",
+  "source": "Cf. la noción de «última vez» en la memoria autobiográfica"
+ },
+ {
+  "id": "mem-022",
+  "stream": "memoria",
+  "text": "Escribe qué querías ser de mayor a los ocho años y qué te atraía exactamente de eso. No la profesión: el detalle concreto que te gustaba. Muchas veces ese detalle sigue vivo en un sitio que no esperabas.",
+  "source": "Continuidad de motivaciones tempranas; psicología vocacional"
+ },
+ {
+  "id": "mem-023",
+  "stream": "memoria",
+  "text": "Escribe sobre un día que fue ordinario y que recuerdas entero. Sin drama, sin acontecimiento. Y pregúntate qué lo fijó: casi siempre es una combinación de luz, compañía y ausencia de prisa.",
+  "source": "Memoria episódica de lo cotidiano"
+ },
+ {
+  "id": "mem-024",
+  "stream": "memoria",
+  "text": "Escribe una carta a la persona que eras hace exactamente diez años. No le des consejos: cuéntale qué pasó. Los consejos son para ti; a él le corresponde la noticia.",
+  "source": "Cartas al yo pasado; escritura del yo en el tiempo"
+ },
+ {
+  "id": "mem-025",
+  "stream": "memoria",
+  "text": "Escribe sobre el dinero en tu casa cuando eras pequeño: si se hablaba de él, cómo, quién decidía. No hace falta cifra ninguna. Lo que se aprende de niño sobre el dinero se parece más a una gramática que a una cuenta.",
+  "source": "Socialización económica temprana"
+ },
+ {
+  "id": "mem-026",
+  "stream": "memoria",
+  "text": "Describe el camino que hacías al colegio, paso a paso, con las esquinas en su orden. Verás que la memoria del cuerpo dura más que la de los nombres: las piernas se acuerdan de calles cuyo nombre has olvidado.",
+  "source": "Memoria espacial y procedimental"
+ },
+ {
+  "id": "mem-027",
+  "stream": "memoria",
+  "text": "Escribe sobre un profesor que te marcó, para bien o para mal, y sé concreto: qué dijo exactamente, en qué clase, delante de quién. Una frase de treinta segundos puede durar cuarenta años.",
+  "source": "Memoria escolar; el peso desproporcionado de los comentarios adultos"
+ },
+ {
+  "id": "mem-028",
+  "stream": "memoria",
+  "text": "Escribe sobre una amistad que se enfrió sin pelea. Lo difícil de estas es que no hay escena de ruptura que contar, solo una lista de veces que no llamaste. Escríbela igual.",
+  "source": "Disolución de vínculos sin conflicto"
+ },
+ {
+  "id": "mem-029",
+  "stream": "memoria",
+  "text": "¿Qué llevabas puesto en un día importante de tu vida? Empieza por la ropa y tira del hilo: quién te la eligió, dónde te la pusiste, qué fue de ella. La ropa fecha los recuerdos mejor que el calendario.",
+  "source": "Memoria material del vestir"
+ },
+ {
+  "id": "mem-030",
+  "stream": "memoria",
+  "text": "Escribe sobre algo que te avergonzó a los quince años y que hoy te parece menor. No para reírte de aquel: para reconocer que la vergüenza tiene fecha de caducidad y que la de hoy también la tendrá.",
+  "source": "Perspectiva temporal sobre la vergüenza"
+ },
+ {
+  "id": "mem-031",
+  "stream": "memoria",
+  "text": "Escribe la historia de cómo se conocieron tus padres, o quienes te criaron, tal y como te la contaron. Después señala qué partes son claramente relato pulido por el tiempo. Toda familia tiene su mitología fundacional.",
+  "source": "Mitos familiares y transmisión oral"
+ },
+ {
+  "id": "mem-032",
+  "stream": "memoria",
+  "text": "Escribe sobre una decisión que tomaste rápido y que cambió años de tu vida. Reconstruye el minuto anterior: qué sabías, qué no, por qué no lo pensaste más. Las bifurcaciones grandes rara vez se ven grandes desde dentro.",
+  "source": "Puntos de inflexión biográficos"
+ },
+ {
+  "id": "mem-033",
+  "stream": "memoria",
+  "text": "Escribe sobre una tradición que ya no cumples: una comida, una fecha, un ritual. Cuenta cómo era y cuándo dejó de hacerse. Las tradiciones no se abandonan con una decisión, se abandonan por acumulación de años en los que no tocó.",
+  "source": "Ritual doméstico y su desaparición"
+ },
+ {
+  "id": "mem-034",
+  "stream": "memoria",
+  "text": "Elige una fotografía tuya que conozcas bien y escribe lo que la foto no muestra: el minuto anterior, quién la hizo, qué pasó después. La fotografía fija un instante y borra el resto; el diario hace justo lo contrario.",
+  "source": "Cf. Roland Barthes, La cámara lúcida"
+ },
+ {
+  "id": "mem-035",
+  "stream": "memoria",
+  "text": "Escribe qué quieres que alguien recuerde de ti dentro de cincuenta años, y después qué es lo que realmente van a recordar. Suelen ser cosas distintas, y la segunda lista es más interesante.",
+  "source": "Memoria póstuma; cf. la distinción entre el yo recordado y el yo que recuerda (Kahneman)"
+ },
+ {
+  "id": "asm-001",
+  "stream": "asombro",
+  "text": "Mira el cielo durante tres minutos, de verdad, y después descríbelo sin usar la palabra azul ni la palabra nube. Tendrás que fijarte en los bordes, en la profundidad, en cómo cambia de un lado al otro. Casi nadie ha mirado el cielo hoy.",
+  "source": "Práctica de atención; cf. John Ruskin, que enseñaba a dibujar nubes para enseñar a mirar"
+ },
+ {
+  "id": "asm-002",
+  "stream": "asombro",
+  "text": "Observa un animal —un pájaro, un perro, un insecto— durante cinco minutos y escribe lo que hace sin atribuirle ni una intención humana. Es más difícil de lo que parece, y la disciplina de no proyectar es exactamente lo que te deja ver al animal.",
+  "source": "Etología; cf. Konrad Lorenz y la crítica al antropomorfismo"
+ },
+ {
+  "id": "asm-003",
+  "stream": "asombro",
+  "text": "Sal a caminar sin destino durante veinte minutos, girando cuando te apetezca, y escribe después las cinco cosas que no habrías visto yendo a algún sitio. Tener un destino es una forma muy eficaz de no ver nada por el camino.",
+  "source": "La deriva situacionista; Guy Debord"
+ },
+ {
+  "id": "asm-004",
+  "stream": "asombro",
+  "text": "Escribe sobre una planta que veas a diario y de la que no sabes el nombre. Descríbela con precisión y después búscala. Saber el nombre después de haber mirado es distinto de mirar después de saber el nombre.",
+  "source": "Cf. Robert Macfarlane, Palabras perdidas; y la práctica naturalista"
+ },
+ {
+  "id": "asm-005",
+  "stream": "asombro",
+  "text": "La piedra que puedas tener más cerca es más antigua que cualquier ser vivo que hayas conocido. Escribe qué pasaba en el mundo cuando se formó, aunque tengas que imaginártelo, y qué te hace sentir estar de paso sobre algo tan lento.",
+  "source": "Tiempo profundo; cf. John McPhee, que acuñó el término, y James Hutton"
+ },
+ {
+  "id": "asm-006",
+  "stream": "asombro",
+  "text": "Escribe sobre el agua que has bebido hoy: de dónde vino, por dónde pasó, cuánto tiempo lleva circulando. Ninguna molécula de agua es nueva. Has bebido agua que estuvo en un glaciar y en el cuerpo de alguien que no conociste.",
+  "source": "Ciclo hidrológico; cf. la divulgación del ciclo del agua"
+ },
+ {
+  "id": "asm-007",
+  "stream": "asombro",
+  "text": "Escucha durante dos minutos con los ojos cerrados y haz la lista de todos los sonidos, ordenados de más cercano a más lejano. El más lejano que consigas identificar te dice el tamaño real del sitio en el que estás.",
+  "source": "Paisaje sonoro; R. Murray Schafer, The Soundscape"
+ },
+ {
+  "id": "asm-008",
+  "stream": "asombro",
+  "text": "Describe la luz de hoy: su color, su dureza, hacia dónde caen las sombras y a qué hora empezó a cambiar. Los pintores llevan siglos organizando su jornada alrededor de esto y la mayoría de nosotros no notamos la diferencia entre las once y las seis.",
+  "source": "Práctica pictórica de la luz; cf. los impresionistas y las series de Monet"
+ },
+ {
+  "id": "asm-009",
+  "stream": "asombro",
+  "text": "Escribe sobre un árbol concreto que conozcas. Cuántos años puede tener, qué ha visto pasar delante, quién lo plantó. Y si sigue ahí cuando ya no estés, quién lo mirará.",
+  "source": "Longevidad arbórea; cf. Peter Wohlleben, La vida secreta de los árboles"
+ },
+ {
+  "id": "asm-010",
+  "stream": "asombro",
+  "text": "Escribe qué tiempo hace hoy como si tuvieras que explicárselo a alguien que vive en otro clima y no puede imaginarlo. Sin términos meteorológicos: qué hace el aire en la piel, qué ropa sobra, qué se puede hacer y qué no.",
+  "source": "Escritura del clima cotidiano; cf. los diarios meteorológicos de Thoreau"
+ },
+ {
+  "id": "asm-011",
+  "stream": "asombro",
+  "text": "Piensa en la última vez que viste el cielo nocturno de verdad, lejos de una ciudad. Escribe qué se te ocurrió allí que no se te ocurre aquí. La contaminación lumínica no solo tapa estrellas: tapa una forma de pensar.",
+  "source": "Cf. Paul Bogard, El fin de la noche"
+ },
+ {
+  "id": "asm-012",
+  "stream": "asombro",
+  "text": "Coge algo pequeño del suelo —una hoja, una piedra, un tornillo— y descríbelo durante diez minutos como si fuera lo único que quedara de nuestra época y tuvieras que explicarlo a quien viniera después.",
+  "source": "El objeto como documento; arqueología de lo cotidiano"
+ },
+ {
+  "id": "asm-013",
+  "stream": "asombro",
+  "text": "Escribe sobre la estación en la que estamos ahora mismo, pero sin el tópico: qué está pasando de verdad ahí fuera esta semana concreta, qué se ha abierto o cerrado o marchado. Las estaciones no son cuatro, son cincuenta y dos.",
+  "source": "Fenología: el estudio de los ciclos anuales; cf. los calendarios japoneses de setenta y dos microestaciones"
+ },
+ {
+  "id": "asm-014",
+  "stream": "asombro",
+  "text": "Escribe sobre el suelo que pisas: qué hay debajo de estas baldosas, qué había aquí hace doscientos años, qué se excavó para poner lo que ahora usas. Toda ciudad está construida sobre capas y la única que vemos es la de arriba.",
+  "source": "Estratigrafía urbana; cf. la arqueología de las ciudades vivas"
+ },
+ {
+  "id": "asm-015",
+  "stream": "asombro",
+  "text": "Describe el amanecer o el atardecer de hoy si lo has visto, y si no lo has visto escribe eso: cuántos días llevas sin ver ninguno de los dos y qué estabas haciendo en su lugar.",
+  "source": "Ritmos circadianos y vida de interior"
+ },
+ {
+  "id": "asm-016",
+  "stream": "asombro",
+  "text": "Escribe sobre un animal que vive en tu ciudad y al que no consideras fauna: palomas, ratas, gaviotas, jabalíes. Descríbelo con el mismo respeto que le darías a un documental. Lo salvaje no se ha ido, se ha adaptado.",
+  "source": "Ecología urbana; cf. Menno Schilthuizen, Darwin Comes to Town"
+ },
+ {
+  "id": "asm-017",
+  "stream": "asombro",
+  "text": "Escribe qué comiste hoy y de dónde vino cada cosa: qué planta, qué animal, qué país, cuántas manos. Sin moralina. Solo la cadena, tan completa como la sepas, y el hueco donde no la sabes.",
+  "source": "Cf. Michael Pollan, El dilema del omnívoro"
+ },
+ {
+  "id": "asm-018",
+  "stream": "asombro",
+  "text": "Escribe sobre el viento de hoy, o su ausencia. De dónde viene, qué mueve, qué sonido hace en qué materiales. El viento es lo más difícil de describir porque solo se ve en lo que toca.",
+  "source": "Descripción de lo invisible; cf. Lyall Watson, Heaven's Breath"
+ },
+ {
+  "id": "asm-019",
+  "stream": "asombro",
+  "text": "Sal por la noche y escribe lo que solo existe de noche en tu barrio: qué luces quedan, quién trabaja, qué animales salen, cómo suena distinto. El mismo lugar tiene dos versiones y solo conocemos bien una.",
+  "source": "Etnografía nocturna; cf. la tradición del flâneur nocturno"
+ },
+ {
+  "id": "asm-020",
+  "stream": "asombro",
+  "text": "Escribe sobre algo que hayas visto crecer o pudrirse a lo largo de días: una planta, una fruta olvidada, una obra en la calle. Describe el cambio, no el estado. Casi todo lo que escribimos es una foto de algo que en realidad es una película.",
+  "source": "Observación longitudinal; cf. los cuadernos de campo de los naturalistas"
+ },
+ {
+  "id": "asm-021",
+  "stream": "asombro",
+  "text": "Escribe sobre la última vez que te mojaste con lluvia sin querer. Qué hiciste: correr, refugiarte, seguir andando. Y qué edad tenías la última vez que la lluvia te pareció buena noticia.",
+  "source": "Experiencia sensorial del clima; memoria del cuerpo"
+ },
+ {
+  "id": "asm-022",
+  "stream": "asombro",
+  "text": "En tu cuerpo hay más células bacterianas que humanas, y ninguna de las que tenías hace diez años sigue exactamente igual. Escribe qué significa eso para la idea de que eres una sola cosa con un borde claro.",
+  "source": "Microbioma y recambio celular; cf. la discusión sobre el holobionte"
+ },
+ {
+  "id": "asm-023",
+  "stream": "asombro",
+  "text": "Escribe sobre un fenómeno cotidiano que no sabes explicar: por qué el cielo cambia de color, por qué flota el hielo, por qué zumba una bombilla. Escribe primero tu hipótesis y después búscalo. Tener una hipótesis propia antes de buscar cambia lo que entiendes.",
+  "source": "Aprendizaje por predicción previa; pedagogía de la ciencia"
+ },
+ {
+  "id": "asm-024",
+  "stream": "asombro",
+  "text": "Escribe sobre el silencio más completo que recuerdes. Dónde estabas, qué se oía dentro del silencio (siempre queda algo) y qué te pasó por la cabeza. El silencio absoluto no existe: existe la ausencia de nosotros.",
+  "source": "Cf. Gordon Hempton, One Square Inch of Silence"
+ },
+ {
+  "id": "asm-025",
+  "stream": "asombro",
+  "text": "Escribe una descripción de tu calle como la haría alguien que llega de muy lejos y no ha visto nunca nada parecido. Sin dar nada por sabido: qué son esas cajas con ruedas, por qué la gente camina en fila por un lado.",
+  "source": "Extrañamiento; Viktor Shklovski, El arte como artificio"
+ },
+ {
+  "id": "asm-026",
+  "stream": "asombro",
+  "text": "Mira la palma de tu mano durante un minuto entero, como si no fuera tuya, y descríbela. Es la parte de ti que más has visto y la que menos has mirado.",
+  "source": "Atención al propio cuerpo; práctica contemplativa"
+ },
+ {
+  "id": "asm-027",
+  "stream": "asombro",
+  "text": "Escribe sobre lo que se ve desde la ventana más cercana, con una regla: solo lo que ha cambiado desde ayer. Si crees que no ha cambiado nada, mira otros cinco minutos.",
+  "source": "Práctica diaria de observación; cf. los cuadernos de Thoreau"
+ },
+ {
+  "id": "asm-028",
+  "stream": "asombro",
+  "text": "Escribe sobre una montaña, un río o una costa que conozcas, y sobre cómo era hace diez mil años. Ese paisaje que te parece el fondo fijo de las cosas es en realidad un fotograma de algo que se está moviendo muy despacio.",
+  "source": "Geomorfología; cf. Marcia Bjornerud, Timefulness"
+ },
+ {
+  "id": "asm-029",
+  "stream": "asombro",
+  "text": "Escribe qué animales, plantas o insectos hay ahora mismo dentro de la habitación en la que estás, contando los que no se ven. Nunca estás solo en una habitación; solo estás sin compañía a tu escala.",
+  "source": "Biodiversidad doméstica; cf. Rob Dunn, Never Home Alone"
+ },
+ {
+  "id": "asm-030",
+  "stream": "asombro",
+  "text": "Escribe sobre la última vez que te sentiste pequeño delante de algo: una tormenta, una catedral, un cielo despejado, el mar. El asombro encoge el yo durante un rato, y esa es probablemente su función.",
+  "source": "Psicología del asombro; Dacher Keltner, el «yo pequeño»"
+ },
+ {
+  "id": "asm-031",
+  "stream": "asombro",
+  "text": "Describe un material con las manos, no con los ojos: la madera de esa mesa, la tela de esa silla, el metal del pomo. Cierra los ojos, tócalo un minuto y escribe. El tacto tiene un vocabulario pobrísimo y por eso conviene ejercitarlo.",
+  "source": "Cf. Juhani Pallasmaa, Los ojos de la piel"
+ },
+ {
+  "id": "asm-032",
+  "stream": "asombro",
+  "text": "Escribe sobre algo roto o abandonado que veas a menudo: una persiana torcida, un solar, un coche que no se mueve. Cuánto lleva así, qué crece encima, quién lo dejó. El deterioro es la única cosa que ocurre sin que nadie la organice.",
+  "source": "Estética de la ruina; cf. las «ruinas modernas» y la ecología del abandono"
+ },
+ {
+  "id": "asm-033",
+  "stream": "asombro",
+  "text": "La luz del sol que te ha dado hoy salió del centro del Sol hace decenas de miles de años y de su superficie hace ocho minutos. Escribe qué te hace sentir, si es que te hace sentir algo, y sé honesto si la respuesta es nada.",
+  "source": "Física solar; el tiempo de difusión del fotón"
+ },
+ {
+  "id": "asm-034",
+  "stream": "asombro",
+  "text": "Escribe sobre el paisaje que ves cuando cierras los ojos y piensas «en algún sitio querría estar». Descríbelo como si fuera real: la temperatura, el suelo, el ruido. Después pregúntate cuándo estuviste allí, o de dónde lo has sacado.",
+  "source": "Paisajes interiores; geografía afectiva"
+ },
+ {
+  "id": "asm-035",
+  "stream": "asombro",
+  "text": "Escribe la crónica meteorológica y natural de hoy en cinco líneas, como si fueras el cronista de tu calle: temperatura, luz, qué había florecido o caído, qué animal viste. Hazlo a diario un año y tendrás algo que ningún servicio meteorológico guarda.",
+  "source": "Diario fenológico; la tradición del registro naturalista amateur"
+ },
+ {
+  "id": "ofi-001",
+  "stream": "oficio",
+  "text": "Escribe qué aprendiste hoy haciendo algo mal. No el error: lo que el error te enseñó sobre cómo funciona la cosa. Casi todo el conocimiento práctico entra por ahí, y casi nadie lo anota.",
+  "source": "Cf. Richard Sennett, El artesano: aprender por el fallo"
+ },
+ {
+  "id": "ofi-002",
+  "stream": "oficio",
+  "text": "Describe un gesto de tu trabajo que ya te sale sin pensar y que al principio te costaba. Descompónlo en pasos como si tuvieras que enseñárselo a alguien. Verás lo difícil que es explicar lo que ya sabes: eso es conocimiento tácito.",
+  "source": "Michael Polanyi, El conocimiento tácito («sabemos más de lo que podemos decir»)"
+ },
+ {
+  "id": "ofi-003",
+  "stream": "oficio",
+  "text": "Escribe a qué se dedicaban tus padres o quienes te criaron, y qué parte de su oficio se te pegó aunque hagas otra cosa: la manera de medir, de tratar al cliente, de recoger al final. Los oficios se heredan de lado.",
+  "source": "Transmisión intergeneracional del saber práctico"
+ },
+ {
+  "id": "ofi-004",
+  "stream": "oficio",
+  "text": "Escribe qué harías con tu trabajo si nadie te pagara por hacerlo: qué parte conservarías, cuál sería la primera en desaparecer. La respuesta no dice si debes dejarlo; dice dónde está el núcleo.",
+  "source": "Motivación intrínseca y extrínseca; Deci y Ryan"
+ },
+ {
+  "id": "ofi-005",
+  "stream": "oficio",
+  "text": "Describe la herramienta que más usas, sea un cuchillo, un teclado o una hoja de cálculo. Qué le has cambiado, qué manías tienes con ella, qué harías si mañana no estuviera. Las herramientas de trabajo acaban teniendo forma de su dueño.",
+  "source": "Cf. Sennett y la relación entre mano y herramienta"
+ },
+ {
+  "id": "ofi-006",
+  "stream": "oficio",
+  "text": "Escribe sobre alguien de quien aprendiste el oficio. No lo que te enseñó: cómo te lo enseñó. Si te dejaba fallar, si te corregía delante de otros, si te explicaba o solo hacía y tú mirabas.",
+  "source": "Aprendizaje por observación; la tradición del aprendiz de taller"
+ },
+ {
+  "id": "ofi-007",
+  "stream": "oficio",
+  "text": "Escribe qué parte de tu trabajo te avergonzaría enseñar a alguien que te admira. Sin juicio: solo nómbrala. Casi siempre es la parte que llevas años sabiendo que habría que arreglar.",
+  "source": "Estándares de oficio y honestidad profesional"
+ },
+ {
+  "id": "ofi-008",
+  "stream": "oficio",
+  "text": "Escribe sobre la última vez que hiciste algo bien de verdad y nadie se dio cuenta. Descríbelo con detalle técnico, sin rebajarlo. El trabajo bien hecho que no se ve necesita al menos un testigo, y hoy puedes serlo tú.",
+  "source": "Cf. Matthew Crawford, Elogio del oficio: el trabajo bien hecho como criterio propio"
+ },
+ {
+  "id": "ofi-009",
+  "stream": "oficio",
+  "text": "Escribe el vocabulario de tu oficio que no entendería alguien de fuera: cinco palabras y qué significan de verdad. Después mira cuáles de ellas usas para no tener que explicarte.",
+  "source": "Jerga profesional; sociolingüística del trabajo"
+ },
+ {
+  "id": "ofi-010",
+  "stream": "oficio",
+  "text": "Escribe cómo sabes que has terminado algo. No cuándo se entrega: cómo sabes tú que ya está. Si no tienes un criterio propio, lo tienes prestado, y ese es un buen sitio por donde empezar a mirar.",
+  "source": "Criterio de calidad interno; cf. la ética del artesano"
+ },
+ {
+  "id": "ofi-011",
+  "stream": "oficio",
+  "text": "Describe tu jornada de trabajo por bloques de tiempo real, no por lo que tenías previsto. Cuánto fue oficio, cuánto coordinación, cuánto espera. La diferencia entre lo que crees que haces y lo que haces suele ser el problema entero.",
+  "source": "Estudio del uso del tiempo; cf. los diarios de tiempo en sociología del trabajo"
+ },
+ {
+  "id": "ofi-012",
+  "stream": "oficio",
+  "text": "Escribe sobre un problema de trabajo que resolviste y no supiste explicar cómo. Reconstruye la corazonada: qué habías visto antes que se parecía. La intuición del experto es memoria comprimida, no magia.",
+  "source": "Gary Klein, decisión naturalista; el modelo de reconocimiento de patrones"
+ },
+ {
+  "id": "ofi-013",
+  "stream": "oficio",
+  "text": "Escribe qué le dirías a alguien que empieza en lo tuyo y que no viene en ningún manual. Lo que se aprende a base de años y se transmite en veinte segundos si hay suerte.",
+  "source": "Saber práctico y transmisión oral en las profesiones"
+ },
+ {
+  "id": "ofi-014",
+  "stream": "oficio",
+  "text": "Escribe sobre una regla de tu trabajo que sigues sin saber por qué existe. Investígala mentalmente: ¿protege de algo real o es el fósil de un problema que ya no está? Las dos respuestas son útiles.",
+  "source": "Cf. la valla de Chesterton: no quites una valla hasta saber por qué se puso"
+ },
+ {
+  "id": "ofi-015",
+  "stream": "oficio",
+  "text": "Escribe sobre la parte física de tu trabajo, aunque creas que no la tiene: dónde te duele al final del día, qué postura repites, qué hacen tus ojos. Todo oficio deja marca en el cuerpo, incluso los que se hacen sentado.",
+  "source": "Ergonomía y corporalidad del trabajo"
+ },
+ {
+  "id": "ofi-016",
+  "stream": "oficio",
+  "text": "Escribe sobre un compañero de trabajo del que aprendiste algo que no era técnico: paciencia, cómo decir que no, cómo llevar una reunión. Los oficios se aprenden en compañía y esa parte nunca aparece en el currículum.",
+  "source": "Aprendizaje social en el puesto de trabajo; Lave y Wenger, comunidades de práctica"
+ },
+ {
+  "id": "ofi-017",
+  "stream": "oficio",
+  "text": "Escribe qué desaparecería si tú no estuvieras en tu puesto. No lo que dejaría de hacerse: lo que se haría distinto y peor sin que nadie supiera por qué. Ahí está tu aportación real, y casi nunca coincide con la descripción del puesto.",
+  "source": "Conocimiento organizacional tácito"
+ },
+ {
+  "id": "ofi-018",
+  "stream": "oficio",
+  "text": "Escribe sobre el peor consejo profesional que te dieron y por qué sonaba bien. Los malos consejos rara vez son estúpidos: suelen ser buenos consejos de otra época o de otro puesto.",
+  "source": "Transferencia de reglas fuera de contexto"
+ },
+ {
+  "id": "ofi-019",
+  "stream": "oficio",
+  "text": "Escribe qué parte de lo tuyo hará una máquina antes de diez años y qué parte no. Sé concreto y sé honesto en las dos direcciones: exagerar el peligro y negarlo son la misma forma de no pensarlo.",
+  "source": "Automatización y tareas; cf. la distinción entre ocupaciones y tareas en economía laboral"
+ },
+ {
+  "id": "ofi-020",
+  "stream": "oficio",
+  "text": "Escribe sobre un oficio que ya casi no existe y que viste hacer: afilador, linotipista, telefonista, zapatero remendón. Lo que recuerdes, aunque sea poco. Lo que no se escribe se pierde en una generación.",
+  "source": "Memoria de los oficios desaparecidos; historia oral del trabajo"
+ },
+ {
+  "id": "ofi-021",
+  "stream": "oficio",
+  "text": "Escribe sobre una vez que te equivocaste y lo dijiste, y qué pasó después. Si nunca lo has hecho, escribe por qué no. La cultura de un sitio se mide exactamente ahí y no en lo que dice su web.",
+  "source": "Amy Edmondson, seguridad psicológica en los equipos"
+ },
+ {
+  "id": "ofi-022",
+  "stream": "oficio",
+  "text": "Escribe la lista de cosas que haces en el trabajo porque siempre se han hecho así. Marca al lado cuáles seguirías haciendo si empezaras hoy de cero. La diferencia es el peso muerto que arrastras cada semana.",
+  "source": "Deuda de proceso; cf. la crítica del «siempre se ha hecho así»"
+ },
+ {
+  "id": "ofi-023",
+  "stream": "oficio",
+  "text": "Escribe sobre la diferencia entre estar ocupado y estar trabajando, con ejemplos de esta semana. No es una distinción moral: es que producen cansancios distintos y solo uno deja algo hecho.",
+  "source": "Cf. la distinción entre trabajo profundo y superficial (Cal Newport)"
+ },
+ {
+  "id": "ofi-024",
+  "stream": "oficio",
+  "text": "Escribe sobre el trabajo invisible que sostiene el tuyo: quién limpia, quién factura, quién contesta el teléfono, quién cocinó lo que comiste. Nómbralos si sabes sus nombres. Si no los sabes, escribe también eso.",
+  "source": "Trabajo de cuidados y trabajo invisible; cf. la sociología del trabajo reproductivo"
+ },
+ {
+  "id": "ofi-025",
+  "stream": "oficio",
+  "text": "Escribe sobre una habilidad que tenías y has perdido por no usarla. Cuánto tardaste en darte cuenta, y si la echas de menos o solo te molesta haberla perdido. No es lo mismo.",
+  "source": "Decaimiento de habilidades; psicología de la pericia"
+ },
+ {
+  "id": "ofi-026",
+  "stream": "oficio",
+  "text": "Escribe cómo empiezas a trabajar: el orden exacto de los primeros diez minutos. Café, correo, ventana, silla. Ese ritual no es tiempo perdido, es lo que le dice a tu cabeza que ha empezado; conviene saber cuál es el tuyo para no romperlo sin querer.",
+  "source": "Rituales de inicio; cf. Mason Currey, Rituales cotidianos"
+ },
+ {
+  "id": "ofi-027",
+  "stream": "oficio",
+  "text": "Escribe sobre algo que hiciste con las manos y que sigue existiendo: un mueble, una comida, un arreglo, un jardín. Y sobre qué se siente al poder señalar el resultado. Buena parte del malestar del trabajo moderno cabe en esa frase.",
+  "source": "Cf. Matthew Crawford sobre la agencia y el resultado visible"
+ },
+ {
+  "id": "ofi-028",
+  "stream": "oficio",
+  "text": "Escribe qué pregunta te hacen siempre en tu trabajo y cómo la contestas ya sin pensar. Después contéstala bien, por escrito, como si fuera la primera vez. Las respuestas automáticas envejecen sin avisar.",
+  "source": "Erosión del pensamiento por repetición"
+ },
+ {
+  "id": "ofi-029",
+  "stream": "oficio",
+  "text": "Escribe sobre la última vez que te sentiste absorbido por lo que hacías y perdiste la noción del tiempo. Qué tarea era, qué nivel de dificultad tenía, qué había alrededor. Ese estado se puede provocar si sabes qué lo produjo.",
+  "source": "Mihály Csíkszentmihályi, flujo"
+ },
+ {
+  "id": "ofi-030",
+  "stream": "oficio",
+  "text": "Escribe a quién sirve tu trabajo. No la empresa: la persona concreta al final de la cadena. Si no puedes nombrar a nadie, escribe por qué se rompió la cadena y en qué eslabón.",
+  "source": "Adam Grant, sobre el impacto percibido y el sentido del trabajo"
+ },
+ {
+  "id": "ofi-031",
+  "stream": "oficio",
+  "text": "Escribe sobre una vez que un cliente, un paciente, un alumno o un usuario te enseñó algo de tu propio oficio. Qué te dijo y por qué te costó aceptarlo.",
+  "source": "Aprendizaje desde el destinatario; crítica de la asimetría experto-usuario"
+ },
+ {
+  "id": "ofi-032",
+  "stream": "oficio",
+  "text": "Escribe qué harías el primer lunes si te dieran un año pagado sin obligación de trabajar. Y el segundo mes. La primera respuesta es el descanso que te debes; la segunda dice qué es tu oficio de verdad.",
+  "source": "Pregunta clásica de clarificación vocacional"
+ },
+ {
+  "id": "ofi-033",
+  "stream": "oficio",
+  "text": "Escribe la historia de cómo acabaste haciendo lo que haces, contada honestamente: con la casualidad, la beca que salió, la persona que llamó. Casi ninguna carrera es un plan; casi todas se cuentan después como si lo fueran.",
+  "source": "John Krumboltz, teoría de la casualidad planificada"
+ },
+ {
+  "id": "ofi-034",
+  "stream": "oficio",
+  "text": "Escribe qué te gustaría que aprendiera de ti quien ocupe tu puesto cuando lo dejes. Escríbelo como se lo escribirías a esa persona. Es el documento más útil que puedes dejar y casi nadie lo escribe hasta que ya no está a tiempo.",
+  "source": "Transferencia de conocimiento en las organizaciones"
+ },
+ {
+  "id": "ofi-035",
+  "stream": "oficio",
+  "text": "Escribe qué significa para ti hacer las cosas bien, con una definición que puedas aplicar mañana a una tarea concreta. Nada de excelencia en abstracto: qué comprobarías, qué no dejarías pasar, cuánto tiempo de más le darías.",
+  "source": "Cf. Sennett: el artesano como quien hace bien las cosas por el hecho de hacerlas bien"
  }
 ]

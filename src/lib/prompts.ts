@@ -4,6 +4,7 @@ import ejerciciosEs from '@/data/es/therapyExercises.json'
 import ejerciciosEn from '@/data/en/therapyExercises.json'
 import plantillasEs from '@/data/es/essayTemplates.json'
 import plantillasEn from '@/data/en/essayTemplates.json'
+import { CORRIENTES } from './types'
 import type { DailyPrompt, EssayTemplate, PromptStream, TherapyExercise } from './types'
 import { getMeta, one, run, setMeta } from './db'
 import { idiomaContenido, t } from '@/i18n'
@@ -82,11 +83,38 @@ export function promptById(id: string | null | undefined): DailyPrompt | undefin
 
 const STREAMS_KEY = 'prompt_streams'
 
+/* Marca de que ya se ha mirado la preferencia guardada con las corrientes
+ * nuevas de la 0.3.0 delante. Hace falta una marca y no basta con comparar:
+ * sin ella, a quien desmarcara a mano las cuatro nuevas se las volveríamos a
+ * activar en cada arranque. */
+const STREAMS_MIGRADAS_KEY = 'prompt_streams_migradas'
+
+/* Las tres corrientes que existían hasta la 0.2.5. Quien tenga guardadas
+ * exactamente estas tres nunca desmarcó nada —lo tenía todo encendido—, así
+ * que hereda las nuevas. Quien hubiera elegido un subconjunto conserva su
+ * elección: eso sí fue una decisión suya. */
+const CORRIENTES_0_2: PromptStream[] = ['estoico', 'filosofico', 'psicologico']
+
+const mismoJuego = (a: PromptStream[], b: PromptStream[]) =>
+  a.length === b.length && a.every((s) => b.includes(s))
+
 export async function getStreams(): Promise<PromptStream[]> {
-  const v = await getMeta(STREAMS_KEY)
-  if (!v) return ['estoico', 'filosofico', 'psicologico']
-  const parsed = v.split(',').filter(Boolean) as PromptStream[]
-  return parsed.length ? parsed : ['estoico', 'filosofico', 'psicologico']
+  const guardadas = await getMeta(STREAMS_KEY)
+  const yaMigrada = await getMeta(STREAMS_MIGRADAS_KEY)
+  if (!yaMigrada) await setMeta(STREAMS_MIGRADAS_KEY, '1')
+
+  /* Se descarta lo que no reconocemos: una preferencia escrita por una versión
+   * más nueva no puede dejar la lista con un valor que no existe. */
+  const parsed = (guardadas ?? '')
+    .split(',')
+    .filter((s): s is PromptStream => (CORRIENTES as readonly string[]).includes(s))
+  if (!parsed.length) return [...CORRIENTES]
+
+  if (!yaMigrada && mismoJuego(parsed, CORRIENTES_0_2)) {
+    await setStreams([...CORRIENTES])
+    return [...CORRIENTES]
+  }
+  return parsed
 }
 
 export async function setStreams(streams: PromptStream[]) {

@@ -8,7 +8,7 @@ import type { IParagraphOptions, IRunOptions, ParagraphChild } from 'docx'
 /** `IRunOptions` es de solo lectura; aquí se va construyendo campo a campo. */
 type MutableRun = { -readonly [K in keyof IRunOptions]: IRunOptions[K] }
 import type { JSONContent } from '@tiptap/react'
-import { num } from '@/i18n'
+import { idiomaUI, LOCALE_INTL, num, t } from '@/i18n'
 
 /**
  * Exportación a .docx nativo.
@@ -461,7 +461,7 @@ export async function buildDocx(options: DocxOptions): Promise<Uint8Array> {
         new Paragraph({
           children: [
             new TextRun({
-              text: manuscript ? `por ${options.author}` : options.author,
+              text: manuscript ? t('exportar.por', { autor: options.author }) : options.author,
               font: manuscript ? 'Times New Roman' : 'Georgia',
               size: 24,
             }),
@@ -477,7 +477,7 @@ export async function buildDocx(options: DocxOptions): Promise<Uint8Array> {
         new Paragraph({
           children: [
             new TextRun({
-              text: `unas ${num(rounded)} palabras`,
+              text: t('exportar.palabras', { n: num(rounded) }),
               font: 'Times New Roman',
               size: 24,
             }),
@@ -522,6 +522,17 @@ export async function buildDocx(options: DocxOptions): Promise<Uint8Array> {
     creator: options.author ?? 'WriteFlow',
     title: options.title,
     description: options.subtitle ?? undefined,
+    /* El idioma del documento. Sin él, Word aplica el del ordenador que lo
+     * abra y subraya en rojo un texto perfectamente escrito. Va en los estilos
+     * por defecto, así que lo heredan todos los párrafos sin tocarlos uno a
+     * uno. Sigue al idioma de la interfaz, que es la misma pista que usa el
+     * corrector del editor mientras no exista un ajuste propio para el idioma
+     * en el que se escribe. */
+    styles: {
+      default: {
+        document: { run: { language: { value: LOCALE_INTL[idiomaUI()] } } },
+      },
+    },
     numbering: {
       config: [
         {

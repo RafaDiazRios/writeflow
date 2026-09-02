@@ -7,6 +7,7 @@ import { countWords, docToText, EMPTY_DOC, textToDoc } from '../src/lib/text'
 import { docToMarkdown, compileProject } from '../src/lib/export'
 import { promptForDay, rerollPrompt, prompts, ejercicios, plantillas, suggestExercise } from '../src/lib/prompts'
 import { setIdiomaContenido } from '../src/i18n'
+import { CORRIENTES } from '../src/lib/types'
 import promptsEs from '../src/data/es/prompts.json'
 import { hitRoute, indexSize, rebuildIndex, search, toMatchQuery } from '../src/lib/search'
 import { getGoal, recordDelta, setGoal, streaks, todayWords } from '../src/lib/stats'
@@ -121,10 +122,11 @@ async function main() {
   const b = promptForDay('2026-08-12', ['estoico'])
   check('el prompt del día es determinista', a.id === b.id)
   check('respeta la corriente elegida', a.stream === 'estoico')
-  const dias = new Set(Array.from({ length: 60 }, (_, i) => promptForDay(`2026-09-${String((i % 30) + 1).padStart(2, '0')}`, ['estoico', 'filosofico', 'psicologico']).id))
+  const dias = new Set(Array.from({ length: 60 }, (_, i) => promptForDay(`2026-09-${String((i % 30) + 1).padStart(2, '0')}`, [...CORRIENTES]).id))
   check('varía a lo largo del mes', dias.size > 15, `→ ${dias.size} distintos en 30 días`)
   check('reroll devuelve otro distinto', rerollPrompt('2026-08-12', ['estoico'], [a.id]).id !== a.id)
-  check('catálogo completo', prompts().length === 107 && ejercicios().length === 47 && plantillas().length === 13)
+  check('catálogo completo', prompts().length === 247 && ejercicios().length === 47 && plantillas().length === 13,
+    `→ ${prompts().length} prompts, ${ejercicios().length} ejercicios, ${plantillas().length} plantillas`)
 
   const promptEs = (id: string) =>
     (promptsEs as { id: string; text: string }[]).find((p) => p.id === id)?.text
@@ -137,7 +139,7 @@ async function main() {
   check('en inglés hay 17 plantillas', plantillas().length === 17, `→ ${plantillas().length}`)
   check('las cuatro nuevas solo existen en inglés',
     plantillas().some((p) => p.id === 'five-paragraph'))
-  check('en inglés hay 107 prompts', prompts().length === 107, `→ ${prompts().length}`)
+  check('en inglés hay 247 prompts', prompts().length === 247, `→ ${prompts().length}`)
   check('y están de verdad en inglés',
     prompts().every((p) => p.text !== promptEs(p.id)))
   check('los ejercicios caen al español mientras no estén traducidos', ejercicios().length === 47)

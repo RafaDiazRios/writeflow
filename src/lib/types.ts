@@ -148,7 +148,22 @@ export interface TherapyEntry extends SyncFields {
 
 // ── Contenido semilla (archivos JSON en src/data) ──
 
-export type PromptStream = 'estoico' | 'filosofico' | 'psicologico'
+/* Las corrientes de las que sale la sugerencia diaria. La lista es el origen
+ * de todo lo demás: el tipo, el orden en Ajustes, los valores por defecto y
+ * las comprobaciones de `npm test`. Añadir una corriente es añadirla aquí,
+ * escribir sus prompts en los dos idiomas y darle sus dos claves de idioma
+ * (`corriente.x` y `corriente.x.desc`). */
+export const CORRIENTES = [
+  'estoico',
+  'filosofico',
+  'psicologico',
+  'creativo',
+  'memoria',
+  'asombro',
+  'oficio',
+] as const
+
+export type PromptStream = (typeof CORRIENTES)[number]
 
 export interface DailyPrompt {
   id: string

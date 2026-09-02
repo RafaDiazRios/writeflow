@@ -12,6 +12,7 @@ import { openConflicts, resolveConflict, syncNow } from '@/lib/sync'
 import ClaveCompartida from './ClaveCompartida'
 import { pendingCounts } from '@/lib/repo'
 import { indexedAt, indexSize, rebuildIndex } from '@/lib/search'
+import { CORRIENTES } from '@/lib/types'
 import type { PromptStream } from '@/lib/types'
 import { num, fechaHora } from '@/i18n'
 import { IDIOMAS, NOMBRE_IDIOMA, type Idioma } from '@/i18n'
@@ -116,7 +117,7 @@ export default function Settings() {
             {t('ajustes.promptsAyuda')}
           </p>
           <div className="space-y-2">
-            {(['estoico', 'filosofico', 'psicologico'] as PromptStream[]).map((s) => (
+            {CORRIENTES.map((s) => (
               <label key={s} className="flex cursor-pointer items-start gap-2.5 rounded-md border border-ink-200 p-2.5 dark:border-ink-800">
                 <input
                   type="checkbox"

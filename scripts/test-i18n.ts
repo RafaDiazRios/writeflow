@@ -6,6 +6,7 @@
  * de verdad independiente del idioma, que fue la decisión de Rafa.
  */
 import { setIdiomaUI, t, num, traducirErrorNativo, IDIOMAS } from '../src/i18n'
+import { CORRIENTES } from '../src/lib/types'
 import es from '../src/i18n/es.json'
 import en from '../src/i18n/en.json'
 import promptsEs from '../src/data/es/prompts.json'
@@ -172,7 +173,7 @@ console.log('\n— claves que se componen en marcha —')
 
 const FAMILIAS: [string, string[]][] = [
   ['animo', ['1', '2', '3', '4', '5']],
-  ['corriente', ['estoico', 'filosofico', 'psicologico']],
+  ['corriente', [...CORRIENTES]],
   ['nivel', ['1', '2', '3']],
   ['tradicion', ['academic', 'literary', 'journalistic']],
   ['estado', ['idea', 'borrador', 'revisado', 'final', 'descartado']],
@@ -208,7 +209,7 @@ check('los codigos de error de Rust tienen traduccion', sinClave.length === 0,
 // Las que llevan sufijo: la descripción de la corriente, la ayuda del nivel y
 // la pista de cada campo de la ficha.
 const conSufijo: [string, string[], string][] = [
-  ['corriente', ['estoico', 'filosofico', 'psicologico'], 'desc'],
+  ['corriente', [...CORRIENTES], 'desc'],
   ['nivel', ['1', '2', '3'], 'ayuda'],
   [
     'ficha',
@@ -242,6 +243,20 @@ const DOMINIOS: [string, unknown[], unknown[], 'uno-a-uno' | 'el-ingles-puede-te
   ['ejercicios', ejerciciosEs, ejerciciosEn, 'uno-a-uno'],
   ['plantillas', plantillasEs, plantillasEn, 'el-ingles-puede-tener-mas'],
 ]
+
+/* Una corriente sin prompts no falla: cae al conjunto entero y el usuario ve
+ * sugerencias de corrientes que había desmarcado, sin enterarse. Por eso se
+ * comprueba que las dos listas cubran las siete. */
+type ConStream = { stream: string }
+for (const [idioma, juego] of [['espanol', promptsEs], ['ingles', promptsEn]] as [string, unknown[]][]) {
+  const presentes = new Set((juego as ConStream[]).map((p) => p.stream))
+  const vacias = CORRIENTES.filter((c) => !presentes.has(c))
+  check(`prompts: en ${idioma} las siete corrientes tienen prompts`, vacias.length === 0,
+    `→ sin prompts: ${vacias.join(', ')}`)
+  const sobran = [...presentes].filter((s) => !(CORRIENTES as readonly string[]).includes(s))
+  check(`prompts: en ${idioma} no hay corrientes inventadas`, sobran.length === 0,
+    `→ desconocidas: ${sobran.join(', ')}`)
+}
 
 for (const [nombre, juegoEs, juegoEn, regla] of DOMINIOS) {
   const idsEs = ids(juegoEs)

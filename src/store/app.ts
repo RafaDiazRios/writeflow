@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { getMeta, setMeta } from '@/lib/db'
+import { CORRIENTES } from '@/lib/types'
 import type { PromptStream } from '@/lib/types'
 import { getStreams, setStreams } from '@/lib/prompts'
 import { idiomaDelSistema, setIdiomaContenido, setIdiomaUI, type Idioma } from '@/i18n'
@@ -63,7 +64,7 @@ export const useApp = create<AppState>((set, get) => ({
   focusMode: false,
   typewriter: false,
   fontScale: 1,
-  streams: ['estoico', 'filosofico', 'psicologico'],
+  streams: [...CORRIENTES],
 
   uiLang: 'es',
   contentLang: 'es',

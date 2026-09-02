@@ -31,6 +31,10 @@ export default function PromptCard({ date, onWriteAbout }: Props) {
     estoico: 'border-l-amber-500',
     filosofico: 'border-l-violet-500',
     psicologico: 'border-l-emerald-500',
+    creativo: 'border-l-rose-500',
+    memoria: 'border-l-sky-500',
+    asombro: 'border-l-teal-500',
+    oficio: 'border-l-stone-500',
   }
 
   return (
