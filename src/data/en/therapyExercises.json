@@ -1,1 +1,630 @@
-[]
+[
+  {
+    "id": "externalizacion-nombrar-problema",
+    "name": "Give the problem a name",
+    "school": "Narrative Therapy",
+    "level": 1,
+    "prompt": "Choose something that has been weighing on you lately. Don't write \"I'm anxious\" or \"I'm disorganised\": write the problem as if it were a creature or a presence that visits you, and give it a proper name (The Fog, The Foreman, the Midnight Watchman). Describe it for ten minutes the way you would describe a character: what it looks like, what tone of voice it uses, what time of day it tends to show up, what it likes you to do. Write in the third person: \"The Foreman arrives when...\".",
+    "followups": [
+      "When did it first come into your life, and who or what opened the door?",
+      "What does this character gain when you obey it?",
+      "If it had to confess one weakness of its own, what would it be?"
+    ],
+    "source": "Michael White, statement of position map 1 (externalising conversations), Maps of Narrative Practice"
+  },
+  {
+    "id": "sfbt-mejores-esperanzas",
+    "name": "Your best hopes",
+    "school": "Solution-Focused Brief Therapy",
+    "level": 1,
+    "prompt": "Imagine that three months from now you look back and say: \"that was worth it\". Write what would have to have happened for you to say that. Don't write abstract goals (\"being better\"): describe concrete, observable scenes, things a camera could record. Start every sentence with \"I would be...\" or \"I would have...\", never with \"I would have stopped...\".",
+    "followups": [
+      "What very small sign would tell you that you had started moving in that direction?",
+      "Who would be the first to notice, and what exactly would they notice?",
+      "Of everything you have described, what already happens even 5% of the time?"
+    ],
+    "source": "Steve de Shazer and Insoo Kim Berg; the \"best hopes\" formulation from BRIEF (London)"
+  },
+  {
+    "id": "sfbt-escala-de-avance",
+    "name": "The 0 to 10 scale",
+    "school": "Solution-Focused Brief Therapy",
+    "level": 1,
+    "prompt": "On a scale of 0 to 10, where 10 is the day after everything is resolved and 0 is the worst you have been, where are you today? Write the number. Now the important part: explain why that number and not one lower. If you put a 4, write for ten minutes about everything that already holds that 4 up and keeps it from being a 3.",
+    "followups": [
+      "What did you do this week, however small, that helped keep it from dropping?",
+      "What would half a point higher look like? Describe an ordinary Tuesday at that half point.",
+      "Has there been a recent day when you were a point higher? What was different about that day?"
+    ],
+    "source": "Insoo Kim Berg, scaling questions in SFBT"
+  },
+  {
+    "id": "arbol-vida-raices",
+    "name": "The roots of the tree",
+    "school": "Narrative Therapy",
+    "level": 1,
+    "prompt": "Draw, or simply write, the roots of your tree. The roots are where you come from: the place, the people, the songs, the food, the trades, the languages or dialects of your family. Name three things from your inheritance that you want to acknowledge, even if your relationship with them is complicated. Include at least one piece of practical know-how you learned from someone older and still use.",
+    "followups": [
+      "Which childhood memory would you choose as the most yours, and why that one?",
+      "Is there a piece of your people's knowledge you have stopped using and would like back?",
+      "If one of those roots could speak to you today, what would it say?"
+    ],
+    "source": "Ncazelo Ncube and David Denborough, The Tree of Life, Dulwich Centre"
+  },
+  {
+    "id": "escritura-expresiva-quince",
+    "name": "Fifteen minutes, no brakes",
+    "school": "Expressive Writing (Pennebaker)",
+    "level": 1,
+    "prompt": "Set a timer for fifteen minutes and write without stopping about something that has been going round your head. Don't correct, don't reread, don't worry about spelling, grammar or whether it makes sense. If you go blank, repeat the last sentence until the next one turns up. Nobody is going to read this, not even you, unless you want them to. The only rule is not to lift your hand from the keyboard or the paper.",
+    "followups": [
+      "In one sentence: how do you feel right now, compared with before you wrote?",
+      "Did anything appear on the page that you didn't know was there?",
+      "What did you avoid writing? You don't have to write it now; just name it."
+    ],
+    "source": "James W. Pennebaker, the expressive writing paradigm (short introductory version)"
+  },
+  {
+    "id": "tcc-registro-simple",
+    "name": "Situation, thought, emotion",
+    "school": "Cognitive Behavioural Therapy",
+    "level": 1,
+    "prompt": "Recall a moment in the last 48 hours when your mood shifted suddenly. Write three things on three separate lines: (1) the situation, in video-camera terms, with no interpretation; (2) the exact thought that went through your head, in the same words it arrived in; (3) the emotion and its intensity from 0 to 100. Don't argue with the thought yet: just capture it as it is, like catching an insect without crushing it.",
+    "followups": [
+      "Does that thought have a voice? Who does it sound like?",
+      "What did you do immediately after having it?",
+      "Is it a thought that shows up often, or is it new?"
+    ],
+    "source": "The thought record, in the Beck / Greenberger and Padesky tradition"
+  },
+  {
+    "id": "pausa-autocompasiva",
+    "name": "The three-sentence pause",
+    "school": "Self-Compassion (Neff)",
+    "level": 1,
+    "prompt": "Think of something you are finding hard right now, of medium intensity (not the hardest thing in your life). Write three short paragraphs, one for each sentence: (1) \"This hurts, and this is how it hurts...\"; (2) \"I am not the only one: other people right now are feeling something similar, for example...\"; (3) \"May I be kind to myself in this; specifically, being kind today would mean...\". Write the third one as practical instructions, not as good wishes.",
+    "followups": [
+      "Which of the three was hardest to write, and why do you think it was that one?",
+      "What would you say to a close friend in your situation? Write it in the words you would use.",
+      "How does the tone you use with yourself differ from the one you would use with them?"
+    ],
+    "source": "Kristin Neff, the Self-Compassion Break (the three components of self-compassion)"
+  },
+  {
+    "id": "act-brujula-valores",
+    "name": "A compass, not a map",
+    "school": "Acceptance and Commitment Therapy",
+    "level": 1,
+    "prompt": "Pick a single domain of your life: partner, family, friendships, work, health, community, growth or leisure. Write what kind of person you want to be within that domain, using adverbs rather than achievements: not \"have a stable relationship\", but \"treat the person I love with patience and curiosity\". Then write one five-minute action, to do today or tomorrow, that points in that direction.",
+    "followups": [
+      "If nobody were ever going to find out that you acted on that value, would it still matter to you?",
+      "What has pulled you away from it this week, and what were you avoiding feeling as you moved away?",
+      "Is that value yours, or did you inherit it from someone who expected something of you?"
+    ],
+    "source": "Steven Hayes, Kirk Strosahl and Kelly Wilson; values clarification in ACT"
+  },
+  {
+    "id": "sfbt-conversacion-sin-problema",
+    "name": "Talk about what isn't broken",
+    "school": "Solution-Focused Brief Therapy",
+    "level": 1,
+    "prompt": "For fifteen minutes write about your life without mentioning the problem that brought you here even once. Tell what you do well, what amuses you, what other people recognise in you, what you can do with your hands, what made you laugh this week. If the problem tries to slip into a sentence, deliberately change the subject.",
+    "followups": [
+      "Which skills from this list might also serve you in the difficult part of your life?",
+      "How long has it been since you gave this part of yourself any attention?",
+      "What would someone say about you if they only knew you through what you have just written?"
+    ],
+    "source": "Problem-free talk, a classic Solution-Focused Brief Therapy practice"
+  },
+  {
+    "id": "narrativa-resultado-unico-pequeno",
+    "name": "The day it didn't win",
+    "school": "Narrative Therapy",
+    "level": 1,
+    "prompt": "Think of a recent moment when the problem expected to get its way and didn't: you sat through a hard conversation, you went out for a walk instead of staying in bed, you said no. Write that moment in lavish detail: the time, the light, what you were wearing, what you thought just before you acted. Don't shrink it with a \"but it was nothing\".",
+    "followups": [
+      "What made it possible for that to happen that day rather than the usual thing?",
+      "What does it say about you that you were able to? Give that quality a name.",
+      "Who in your life would not be at all surprised to hear this story?"
+    ],
+    "source": "Michael White, unique outcomes and statement of position map 2"
+  },
+  {
+    "id": "cft-carta-breve-amable",
+    "name": "A short letter from the kind self",
+    "school": "Compassion-Focused Therapy",
+    "level": 1,
+    "prompt": "Imagine a version of you ten years older who has been through the same thing and come out well: wise, warm, unhurried, incapable of judging you. Write a short letter, about ten lines, in which that version addresses you today. Have it start by acknowledging what you are carrying before proposing anything. The word \"should\" is banned.",
+    "followups": [
+      "What tone of voice did that version have while you wrote? What pace?",
+      "Which part of the letter was hard to believe?",
+      "Who in your life does that compassionate voice resemble?"
+    ],
+    "source": "Paul Gilbert, Compassion Focused Therapy: compassionate self training"
+  },
+  {
+    "id": "sfbt-preguntas-afrontamiento",
+    "name": "How have you kept going?",
+    "school": "Solution-Focused Brief Therapy",
+    "level": 1,
+    "prompt": "Instead of asking yourself why you feel bad, write for fifteen minutes answering this: given everything that has happened, how have you managed to get this far? What exactly have you done to keep from going under? Make an inventory of your survival manoeuvres, the inelegant ones included.",
+    "followups": [
+      "Which of those manoeuvres has served you well, and which one is costing you?",
+      "Who did you learn to endure like this from?",
+      "If a stranger read this list, what would they say it takes to live your life?"
+    ],
+    "source": "Coping questions, Insoo Kim Berg"
+  },
+  {
+    "id": "estrategica-diario-de-a-bordo",
+    "name": "The ship's log",
+    "school": "Strategic Brief Therapy (Palo Alto / Nardone)",
+    "level": 1,
+    "prompt": "Over the next few days, every time the symptom or the behaviour you want to change appears, note it down there and then, not afterwards, with five dry facts: date and time, place, people present, what happened just before, what you did. No interpretation, no adjectives, no blame. You are the captain recording the weather, not the one with opinions about it. Today, write the first entry using the most recent episode you can remember.",
+    "followups": [
+      "What pattern shows up when you read three entries in a row?",
+      "What do the moments just before it appears have in common?",
+      "What changes through the simple fact of having to write it down?"
+    ],
+    "source": "Giorgio Nardone, the ship's log prescription; the Palo Alto school"
+  },
+  {
+    "id": "narrativa-carta-de-reconocimiento",
+    "name": "A letter to whoever held you up",
+    "school": "Narrative Therapy",
+    "level": 1,
+    "prompt": "Write a letter (you don't have to send it) to someone who at some point saw you in a way you did not see yourself. Tell them what exactly they did or said, what effect it had on your life, and what you think they saw in you that day. Finish by telling them how it shows today, in your ordinary life, that this happened.",
+    "followups": [
+      "What do you think that person gained from knowing you? Be specific.",
+      "If they saw you again today, what would they say has changed and what has stayed the same?",
+      "What small habit could remind you daily of the way they looked at you?"
+    ],
+    "source": "Michael White, therapeutic letters and re-membering conversations"
+  },
+  {
+    "id": "mapa-posicion-efectos",
+    "name": "The map of effects",
+    "school": "Narrative Therapy",
+    "level": 2,
+    "prompt": "Take the problem you have already named and trace its effects across four territories: (1) your work or study; (2) your relationships; (3) your body and your routines; (4) the picture you hold of yourself and of your future. Write one paragraph per territory, with facts, not judgements. Then answer in writing and without hurrying: do you agree with these effects? Are they all right with you or not? And the key question: why? Why is this not acceptable to you?",
+    "followups": [
+      "What you have just defended by saying \"this is not acceptable to me\" — what is it called? Give that value a name.",
+      "How long have you held that position, even in silence?",
+      "Which territory has best resisted the problem's influence, and why that one in particular?"
+    ],
+    "source": "Michael White, statement of position map 1: definition, effects, evaluation and justification"
+  },
+  {
+    "id": "doble-escucha-ausente-implicito",
+    "name": "Absent but implicit",
+    "school": "Narrative Therapy",
+    "level": 2,
+    "prompt": "Choose a pain that will not pass: a disappointment, an injustice, a loss. First write it exactly as it hurts, unadorned, for ten minutes. Then do this: every pain is testimony to something you value that was violated. If this hurt so much, it is because you were holding something. Spend another ten minutes naming what you were holding. What did you expect of the world, or of that person? What tacit agreement was broken?",
+    "followups": [
+      "When did you learn that things ought to be the other way?",
+      "Where else in your life have you defended that same thing, even in small ways?",
+      "Who would have been glad to know that you hold that?"
+    ],
+    "source": "Michael White, the \"absent but implicit\" and double listening (after Derrida)"
+  },
+  {
+    "id": "sfbt-pregunta-milagro",
+    "name": "The miracle question",
+    "school": "Solution-Focused Brief Therapy",
+    "level": 2,
+    "prompt": "Suppose that tonight, while you sleep and the house is quiet, a miracle happens: the problem that brings you here is solved. But because you were asleep, you don't know it has happened. Tomorrow you wake up. Write the whole day, hour by hour, from the moment you open your eyes: what is the first different thing you notice, what you have for breakfast, how you get to work, how you greet people, what the afternoon is like, what you are doing at eleven at night. Write in the present tense and in screenplay detail.",
+    "followups": [
+      "Which fragment of that day already happens sometimes, even in patches?",
+      "Who would notice the miracle first without you telling them, and in which gesture of yours?",
+      "Which small piece of that day could you act out tomorrow as if the miracle had already happened?",
+      "If you had to pick the moment of the day you most enjoyed writing, which would it be and what does that tell you?"
+    ],
+    "source": "Steve de Shazer and Insoo Kim Berg, the miracle question (original formulation)"
+  },
+  {
+    "id": "sfbt-excepciones-detalladas",
+    "name": "Archaeology of exceptions",
+    "school": "Solution-Focused Brief Therapy",
+    "level": 2,
+    "prompt": "Comb through the last two weeks looking for moments when the problem should have appeared and didn't, or appeared with less force. Find at least three. For each one write: what you were doing, who with, what you did differently, and what other people did differently. Treat it as a detective looking for traces, not as someone marking their own work.",
+    "followups": [
+      "Of all this, what is repeatable on purpose and what depended on luck?",
+      "What would have to happen for the repeatable part to occur twice more this week?",
+      "What stops you believing that these exceptions count?"
+    ],
+    "source": "Exception seeking, Solution-Focused Brief Therapy"
+  },
+  {
+    "id": "pennebaker-cuatro-dias",
+    "name": "The four-day protocol",
+    "school": "Expressive Writing (Pennebaker)",
+    "level": 2,
+    "prompt": "For four consecutive days, write for twenty minutes without stopping about the most emotionally upsetting experience of your life, or about something that deeply worries you now. Explore your deepest emotions and thoughts, and connect the subject to your childhood, your relationships, who you were, who you are and who you want to be. You may write on the same subject all four days or change. Don't correct spelling or structure. This is day one's entry.",
+    "followups": [
+      "From 0 to 100: how much did writing stir you up today? And how much do you feel now, half an hour later?",
+      "Which causal words (because, so, therefore) turned up in today's text?",
+      "What would you like to write tomorrow that you left out today?"
+    ],
+    "source": "James W. Pennebaker and Joshua Smyth, the standard expressive writing protocol (4 days, 15-20 min)"
+  },
+  {
+    "id": "tcc-registro-siete-columnas",
+    "name": "The full thought record",
+    "school": "Cognitive Behavioural Therapy",
+    "level": 2,
+    "prompt": "Take an episode with a high emotional charge and work it through in seven written steps: (1) the objective situation; (2) emotions and intensity 0-100; (3) the hottest automatic thought, the one that hurts most; (4) evidence for that thought, facts only; (5) evidence against, facts only, including the ones you ignored; (6) an alternative thought that accounts for all the evidence, not a positive slogan; (7) re-rate the emotion 0-100.",
+    "followups": [
+      "Which piece of evidence against was hardest to admit, and why?",
+      "If a jury had to decide on the evidence in columns 4 and 5, what would the verdict be?",
+      "Which distortion do you recognise here: catastrophising, mind reading, mental filter, all-or-nothing?"
+    ],
+    "source": "Christine Padesky and Dennis Greenberger, Mind Over Mood; the Aaron Beck tradition"
+  },
+  {
+    "id": "act-defusion-escrita",
+    "name": "I'm having the thought that",
+    "school": "Acceptance and Commitment Therapy",
+    "level": 2,
+    "prompt": "Write the cruellest sentence your mind repeats about you, exactly as it comes, in its own words. Now rewrite it five times with these layers: (1) \"I'm having the thought that...\"; (2) \"I notice I'm having the thought that...\"; (3) as if read by a very solemn radio announcer; (4) as if sung by a cartoon voice; (5) titled, as if it were an old song of your mind: \"there it goes again, the one about...\". Then write down what you notice.",
+    "followups": [
+      "How old were you the first time that song played?",
+      "What has that thought stopped you doing in the last week?",
+      "If the thought stayed forever but lost its power to give orders, what would you do today?"
+    ],
+    "source": "ACT, cognitive defusion techniques (Hayes; Harris, ACT Made Simple)"
+  },
+  {
+    "id": "act-ochenta-cumpleanos",
+    "name": "Your 80th birthday",
+    "school": "Acceptance and Commitment Therapy",
+    "level": 2,
+    "prompt": "It is your 80th birthday. There is a room full of the people who have mattered in your life. Three of them are going to speak about you: someone from your family, someone from your love life or your friendships, and someone from your work or your community. Write all three speeches in full, in their own voices. Write what you would truly like them to say, not what you fear they would say.",
+    "followups": [
+      "How far are those speeches from the ones that would be given if the birthday were tomorrow?",
+      "Which of the three was hardest to write, and what does that tell you?",
+      "Which action this week shortens that distance, even by a millimetre?"
+    ],
+    "source": "The 80th Birthday Exercise, a classic ACT values clarification exercise (ACBS)"
+  },
+  {
+    "id": "cft-carta-autocompasiva",
+    "name": "The long self-compassionate letter",
+    "school": "Compassion-Focused Therapy",
+    "level": 2,
+    "prompt": "Write about something in you that makes you feel inadequate, ashamed or not enough. Describe it honestly and note the emotions it brings. Now write yourself a letter from the perspective of an imaginary friend who loves you unconditionally and knows every one of your flaws and everything you have lived through. Have that friend mention: what they understand about why you are like this, which circumstances you did not choose, how it pains them to see you suffer over this, and what changes they would suggest out of affection rather than demand.",
+    "followups": [
+      "Which sentence in the letter would you like to be able to believe completely?",
+      "Which part of you resisted while you wrote, and what does it fear losing if you stop punishing yourself?",
+      "What among the things you did not choose explains, without excusing, what you reproach yourself for today?",
+      "Keep the letter and read it in a week. What sounds different then?"
+    ],
+    "source": "Kristin Neff, the self-compassionate letter exercise (Greater Good in Action); Paul Gilbert, CFT"
+  },
+  {
+    "id": "narrativa-re-membranza",
+    "name": "A re-membering conversation",
+    "school": "Narrative Therapy",
+    "level": 2,
+    "prompt": "Choose an important figure in your life, living or dead, present or absent; it can be a person, a teacher, even an animal or a character from a book. Write in four blocks: (1) what that figure contributed to your life, with one concrete episode; (2) how they saw you, through their eyes and in their words; (3) what you contributed to their life; (4) what it meant for their identity to have known you, what it let them be or do.",
+    "followups": [
+      "What place do you want to give that figure in your life today: closer, further away, different?",
+      "What would you ask them if you could ask one single question now?",
+      "What would that figure do or say if they saw you in your current situation?"
+    ],
+    "source": "Michael White, re-membering conversations and the \"club of life\" (after Barbara Myerhoff)"
+  },
+  {
+    "id": "arbol-vida-completo",
+    "name": "The full Tree of Life",
+    "school": "Narrative Therapy",
+    "level": 2,
+    "prompt": "Draw a tree and fill it in part by part, writing a paragraph in each. Roots: where you come from, your people, your culture. Ground: what you do daily that holds you up now. Trunk: your skills and values, the ones that have got you out of hard places. Branches: your hopes and dreams, and where they come from. Leaves: the important people, living or not. Flowers: the gifts you have received from them. Fruit: what you have given, or want to leave behind.",
+    "followups": [
+      "Which part of the tree is fullest and which is sparsest? What does that imbalance tell you?",
+      "Now the storms: which difficulties shake your tree, and what have you done to protect it?",
+      "No tree grows alone: who makes up your forest, and which other trees do you give shade to?"
+    ],
+    "source": "Ncazelo Ncube, Dulwich Centre, the Tree of Life (extended version with storms and forest)"
+  },
+  {
+    "id": "estrategica-como-empeorar",
+    "name": "How to make everything worse",
+    "school": "Strategic Brief Therapy (Palo Alto / Nardone)",
+    "level": 2,
+    "prompt": "Draft the perfect manual for ruining your situation. If you wanted this problem to be far worse in a month, what exactly would you have to do, think, say and avoid? Be exhaustive and technical, like an engineer of disaster: at least ten instructions. Then underline the ones you are already following.",
+    "followups": [
+      "Which of your sabotage instructions do you practise most consistently?",
+      "Which well-meant attempted solution of yours is actually feeding the problem?",
+      "If you could stop doing only one of the underlined things, which would you choose?"
+    ],
+    "source": "Giorgio Nardone and Paul Watzlawick, the \"how to make it worse\" technique; the Palo Alto school"
+  },
+  {
+    "id": "narrativa-carta-terapeutica-futuro",
+    "name": "A letter from the other side",
+    "school": "Narrative Therapy",
+    "level": 2,
+    "prompt": "Write a letter from your self two years from now, who has already come through this. Don't let them console you in the abstract: have them tell you exactly how the process went, what changed first, which was the hardest month and what made it bearable, who was there, which of your ideas you had to abandon and which skill you had to learn. Have them finish by telling you what they are grateful for today in what you are doing now.",
+    "followups": [
+      "Which detail of that letter surprised you as you wrote it?",
+      "Which idea of yours, according to that letter, has to fall? Are you willing?",
+      "What is the first step that letter takes for granted you have already taken?"
+    ],
+    "source": "Michael White and David Epston, Narrative Means to Therapeutic Ends: therapeutic letters"
+  },
+  {
+    "id": "sfbt-un-punto-mas",
+    "name": "One point higher",
+    "school": "Solution-Focused Brief Therapy",
+    "level": 2,
+    "prompt": "Go back to your number on the 0 to 10 scale. Now describe in microscopic detail what being one point higher would be like — not two, not five: one point. What would you do in the morning that you don't do today? What would you say in a conversation that you keep quiet about today? What would you stop checking? Write at least fifteen observable differences, all of them small.",
+    "followups": [
+      "Which three of those fifteen are within reach this week?",
+      "What would it take for the rest to stop looking impossible?",
+      "If you started with the smallest, what domino effect would it have on the others?"
+    ],
+    "source": "Scaling questions and small steps, Solution-Focused Brief Therapy"
+  },
+  {
+    "id": "cft-tres-flujos",
+    "name": "The three flows of compassion",
+    "school": "Compassion-Focused Therapy",
+    "level": 2,
+    "prompt": "Compassion flows in three directions. Write a piece for each. (1) From you to others: tell of a recent time you felt compassion for someone; describe what you felt in your body. (2) From others to you: tell of a time someone was compassionate towards you; what did you do with it, did you let it in or deflect it? (3) From you to yourself: tell of the last time you treated yourself with compassion, and if you can't find one, write about what gets in the way.",
+    "followups": [
+      "Which of the three flows is most blocked in you, and what blocks it?",
+      "What do you fear would happen if you treated yourself with the warmth you show others?",
+      "Who would find it easy to be compassionate towards you if you let them?"
+    ],
+    "source": "Paul Gilbert, the three flows of compassion and the fears of compassion (CFT)"
+  },
+  {
+    "id": "gratitud-carta-entregada",
+    "name": "The gratitude letter",
+    "school": "Positive Psychology",
+    "level": 2,
+    "prompt": "Think of someone still living who did something for you that changed your life and whom you never thanked properly. Write a letter of about 300 words. Don't be generic: describe the concrete event, what you were going through at the time, what exactly that person did, and how your life is different today because of it. Finish by saying how often you think about it.",
+    "followups": [
+      "What held you back from telling them all these years?",
+      "Are you willing to read it to them in person or over the phone? What do you fear about that scene?",
+      "What does what you chose to be grateful for tell you about yourself?"
+    ],
+    "source": "Martin Seligman and Robert Emmons, the gratitude visit / letter"
+  },
+  {
+    "id": "re-autoria-dos-paisajes",
+    "name": "Re-authoring: the two landscapes",
+    "school": "Narrative Therapy",
+    "level": 3,
+    "prompt": "Choose a significant exception: a moment when you acted in a way that contradicts the dominant story you hold about yourself. Now build an alternative story across two interwoven landscapes. Landscape of action: put that event at the centre and search backwards in time for three earlier events (from months ago, years ago, childhood) belonging to the same plot, and forwards for one possible event. Landscape of identity: after each event, write what it reveals about your intentions, your purposes and what you give value to. Finish by giving this alternative story a title.",
+    "followups": [
+      "What name would you give the plot that links those five episodes?",
+      "Who in your life has witnessed a chapter of this story and could confirm it?",
+      "What would you have to do next month for this story to keep growing?",
+      "What does the old story of you lose as this other one thickens?"
+    ],
+    "source": "Michael White, the re-authoring map: landscape of action and landscape of identity (after Bruner)"
+  },
+  {
+    "id": "ceremonia-definitoria-testigo",
+    "name": "Definitional ceremony: the outsider witness",
+    "school": "Narrative Therapy",
+    "level": 3,
+    "prompt": "First write, on one page, the story of your life that matters most to you to tell right now. Then close your eyes, choose someone real who deeply respects you, and write their response to what you have just told, in four movements and in their voice: (1) which expression or phrase of yours caught their attention; (2) what image of your life and of what you value that expression evoked in them; (3) what in their own history explains why those words touched them; (4) where that person has been moved to by having heard your account, what they take away. They are not allowed to applaud or give you advice.",
+    "followups": [
+      "What does it feel like to be seen that way rather than assessed?",
+      "Which part of the witness's response could you not have imagined about yourself alone?",
+      "Who would you choose as a second witness, and how would the response change?"
+    ],
+    "source": "Michael White, definitional ceremonies and the four categories of outsider-witness response (after Barbara Myerhoff)"
+  },
+  {
+    "id": "narrativa-fracaso-personal",
+    "name": "An inquiry into failure",
+    "school": "Narrative Therapy",
+    "level": 3,
+    "prompt": "Take a sense of personal failure you carry around. Investigate it in five written questions, a paragraph each: (1) failure against which norm exactly? Write the norm in the voice you hear it in. (2) What have you done across your life to try to meet it, sacrifices included? (3) At what moments have you refused it, dodged it, or met it only halfway on purpose? (4) What did that refusal make possible, however tiny? (5) What other way of living were you defending with it?",
+    "followups": [
+      "Who benefits from your measuring your life against that norm?",
+      "Where did that norm come from, and who put it into circulation?",
+      "If you had to draft your own criterion for judging a life well lived, what would it be?"
+    ],
+    "source": "Michael White, conversations on personal failure and the modern norms of power (after Foucault)"
+  },
+  {
+    "id": "carta-al-problema-y-respuesta",
+    "name": "A letter to the problem, and its reply",
+    "school": "Narrative Therapy",
+    "level": 3,
+    "prompt": "Two letters. First: write a direct letter to the problem you gave a name to. Tell it how long it has been occupying your house, what it has taken from you, what tactics it uses, and what territory you do not intend to hand over. Be specific and firm, not melodramatic. Second: turn the page over and let the problem answer. Let it defend itself: let it tell you what it believes it does for you, what it protects you from, what would happen if it left altogether.",
+    "followups": [
+      "What did the problem say in its letter that was, uncomfortably, true?",
+      "What has it really protected you from, and what price has it charged for that protection?",
+      "What kind of agreement, truce or farewell could you propose in a third letter?",
+      "What skill would you have to develop to do the work it was doing?"
+    ],
+    "source": "David Epston and Michael White, letters to the problem and externalising correspondence"
+  },
+  {
+    "id": "pennebaker-tres-perspectivas",
+    "name": "The same event, three times",
+    "school": "Expressive Writing (Pennebaker)",
+    "level": 3,
+    "prompt": "Choose a hard episode that you have been telling yourself the same way for years. Write it three times, twenty minutes each, on three different days. Day one: in the first person and the present tense, as you lived it, with your body inside it. Day two: in the third person, as an outside narrator who observes that character from a distance and also sees the context, the period and the other people. Day three: from the point of view of another person who was there, including the one you are still in conflict with.",
+    "followups": [
+      "What turned up in someone else's version that did not fit in yours?",
+      "What changed in your body between day one and day three?",
+      "Which sentence of the story you told yourself can you no longer hold in the same way?",
+      "Which version do you want to be the one you tell someone next time?"
+    ],
+    "source": "Pennebaker (expressive writing) combined with perspective change and self-distancing (Ethan Kross)"
+  },
+  {
+    "id": "tcc-flecha-descendente",
+    "name": "The downward arrow",
+    "school": "Cognitive Behavioural Therapy",
+    "level": 3,
+    "prompt": "Start from one concrete automatic thought that hurt you this week. Write it down. Now ask yourself in writing, in a chain: \"and if that were true, what would it mean about me?\". Answer. Ask the same of that answer. Repeat five to eight times, without escaping into consoling reasoning, until you reach the bare sentence at the bottom, the one of three or four words. Write it alone on a line and stay there a moment.",
+    "followups": [
+      "How old were you when that bottom sentence first made sense?",
+      "Who taught it to you, with words or without them?",
+      "What evidence from your adult life contradicts that belief and has gone uncounted for years?",
+      "What would someone who believed the opposite do differently tomorrow?"
+    ],
+    "source": "The downward arrow technique for core beliefs, CBT (Burns, Beck)"
+  },
+  {
+    "id": "esquemas-carta-al-nino",
+    "name": "A letter to the child you were",
+    "school": "Schema Therapy",
+    "level": 3,
+    "prompt": "Choose one concrete scene from your childhood or adolescence in which you needed something you did not get. Describe it first from the inside, with the eyes of that age: what you saw, what you feared, what conclusion you drew about yourself and about the world. Then write that child a letter from your adult self: tell them what they needed and that it was not their fault they didn't get it, name explicitly what the adults got wrong, tell them what is in fact true about them, and promise them one concrete, keepable thing you will do for them this week.",
+    "followups": [
+      "Which schema formed that day: abandonment, defectiveness, self-sacrifice, unrelenting standards, mistrust?",
+      "Where does that same schema fire in your adult life today, and who triggers it?",
+      "Which voice in the letter sounded like your inner critic slipping in? Rewrite that part.",
+      "What would that child need from you if they turned up again on Thursday afternoon?"
+    ],
+    "source": "Jeffrey Young, schema therapy: limited reparenting and work with the Vulnerable Child mode"
+  },
+  {
+    "id": "ifs-dialogo-con-la-parte",
+    "name": "A dialogue with a protector part",
+    "school": "Internal Family Systems (IFS)",
+    "level": 3,
+    "prompt": "Identify a part of you that fires often: the one that criticises, the one that procrastinates, the one that eats at night, the one that leaves. Write a dialogue in turns following six steps: find it (where do you feel it in your body?), focus on it, flesh it out (what does it look like, how old is it?), and then ask in writing: how do you feel towards it? If it isn't curiosity and calm, ask the irritated part to step aside. Then ask it directly: what are you afraid of if you stop doing your job? Who are you protecting inside me? How old do you think I am? Let it answer in its own words.",
+    "followups": [
+      "How old did that part think you were, and how long has it been doing this job?",
+      "What would you sincerely thank it for, without irony?",
+      "What would it need from you to relax a little, even if it doesn't leave?",
+      "Which younger, wounded part is it protecting, and what is that one called?"
+    ],
+    "source": "Richard Schwartz, Internal Family Systems: the 6 Fs (find, focus, flesh out, feel toward, befriend, fear)"
+  },
+  {
+    "id": "ifs-carta-al-exiliado",
+    "name": "A letter to the exiled part",
+    "school": "Internal Family Systems (IFS)",
+    "level": 3,
+    "prompt": "Behind every protector there is something young carrying a pain nobody wanted to see. First write a description of that part: how old it is, where it is, what it is wearing, what it is feeling. Then write to it from your adult Self, calmly, with curiosity and without hurry: tell it that you see it, that you know it was alone, that you no longer need it to carry this by itself. Ask what it wants you to know, and write its answer. Finish by asking what burden (a belief, an emotion, a shame) it would be willing to put down, and what it would want in its place.",
+    "followups": [
+      "Which protector got nervous while you did this, and what did it say to you?",
+      "Which specific burden did that part name, and who did it originally receive it from?",
+      "How will you keep in touch with it this week, in three minutes a day?",
+      "What changes in your ordinary life if that part is no longer in the basement?"
+    ],
+    "source": "Richard Schwartz, IFS: exiles, burdens and unburdening"
+  },
+  {
+    "id": "act-yo-observador-dolor-valores",
+    "name": "Pain as a mirror of values",
+    "school": "Acceptance and Commitment Therapy",
+    "level": 3,
+    "prompt": "List your three most persistent pains: not the events, but what hurts about them. For each one write out the full equation: the value is written inside the pain. If loneliness hurts, it is because you value connection; if failure hurts, it is because you value mastery or contribution. Write which value is inscribed in each pain, and then write with brutal honesty what you have done for years to avoid feeling that pain, and what that avoidance has cost you in terms of life not lived.",
+    "followups": [
+      "What exact price have you paid for avoiding? Quantify it in years, relationships, opportunities.",
+      "Would you be willing to feel that pain in exchange for living by that value? What stops you?",
+      "What small, concrete action could you take this week with the pain still on, without waiting for it to go?",
+      "Who are you — the one who has been watching all these pains for decades and is still here?"
+    ],
+    "source": "ACT: creative hopelessness, values as direction and self-as-context (Hayes, Wilson)"
+  },
+  {
+    "id": "cft-yo-compasivo-vs-critico",
+    "name": "The critic and the compassionate self sit down together",
+    "school": "Compassion-Focused Therapy",
+    "level": 3,
+    "prompt": "Write in three acts. Act one: let your inner critic speak uncensored for a full page, in its exact words and its own tone. Act two: describe it as a character — face, posture, age, what it actually feels underneath the anger — and ask it what it fears would happen to you if it stopped shouting. Act three: your compassionate self sits down opposite and answers, not to defeat it but to relieve it of its post: acknowledging what it was trying to protect, showing it why the method doesn't work, and offering it another job within your life.",
+    "followups": [
+      "Whose voice does your critic sound like?",
+      "What good has that critic achieved in your life, and at what cost?",
+      "What does it take for your compassionate self to carry authority rather than be soft consolation?",
+      "Which specific sentence will you use next time the critic takes the microphone?"
+    ],
+    "source": "Paul Gilbert, CFT: working with self-criticism, the compassionate empty chair and compassionate self training"
+  },
+  {
+    "id": "estrategica-peor-fantasia-escrita",
+    "name": "The worst fantasy, in writing",
+    "school": "Strategic Brief Therapy (Palo Alto / Nardone)",
+    "level": 3,
+    "prompt": "Shut yourself away for half an hour, undisturbed, at the same time each day. Deliberately write the worst possible scenario of what you fear, in the first person and the present tense, without softening it, actively seeking to provoke as much discomfort as you can. Don't look for consolation, don't add reassuring endings, don't reason: write the whole film to the end. When the half hour is up, close the notebook and go back to your ordinary day. This exercise inverts the logic: instead of fleeing the fear, you summon it to an appointment.",
+    "followups": [
+      "What happened to the intensity of the fear between minute five and minute twenty-five?",
+      "Did you reach the bottom of the fantasy, or did the script run out first?",
+      "What do you notice in the following hours of the day, outside the half hour?",
+      "Reading it cold the next day, which part still frightens you and which has become almost ridiculous?"
+    ],
+    "source": "Giorgio Nardone, the Worst Fantasy technique (the \"be spontaneous\" paradox), Centro di Terapia Strategica"
+  },
+  {
+    "id": "narrativa-club-de-vida",
+    "name": "The club of your life",
+    "school": "Narrative Therapy",
+    "level": 3,
+    "prompt": "Imagine your identity is a club with members: the people, living or dead, present or absent, who have a say in who you are. Make the full list, including the ones you would rather not. Now, as director of the club, set down three decisions in writing: whose rank you raise and why they have earned it; whose membership you revoke or downgrade to silent honorary member, and on what grounds; whom you invite for the first time, even if it is someone you never met or a character from a book. Justify each decision with real episodes.",
+    "followups": [
+      "Which voice in the club talks most inside your head, and what rank has it actually earned?",
+      "What does it take to revoke the membership of someone who has already died?",
+      "What does your life sound like when the members you have just promoted speak?",
+      "What letter would you write to the newly invited member explaining why you called them in?"
+    ],
+    "source": "Michael White, the \"club of life\" and re-membering conversations (after Barbara Myerhoff)"
+  },
+  {
+    "id": "duelo-decir-hola-de-nuevo",
+    "name": "Saying hullo again",
+    "school": "Narrative Therapy",
+    "level": 3,
+    "prompt": "Grief is not always about saying goodbye. Write about someone you lost from another angle: what did that person see in you that nobody else saw? Write the scene in which their way of seeing you was most present. Then write what of them is still alive in your gestures, your habits, the way you cook, the way you work, the way you treat people. Finish by setting down what they would say to you today about what you are going through, in their vocabulary and their accent, not in generic words of comfort.",
+    "followups": [
+      "Which skill or value of theirs are you wearing without noticing?",
+      "What would you tell them about your current life that would make them proud, and what would worry them?",
+      "How could you give them an inhabited place in your life rather than a closed one?",
+      "What small monthly ritual could keep that conversation alive?"
+    ],
+    "source": "Michael White, \"Saying hullo again: the incorporation of the lost relationship in the resolution of grief\""
+  },
+  {
+    "id": "escritura-crecimiento-postraumatico",
+    "name": "What broke and what I learned",
+    "school": "Expressive Writing / Post-Traumatic Growth",
+    "level": 3,
+    "prompt": "Write about an experience that split you in two. First, twenty minutes, without looking for any meaning: only the damage, the injustice, what you lost, no morals. Then, in a second session, write with the same honesty about what is different in you since: in your priorities, your relationships, your personal strength, your understanding of life, your possibilities. Don't write that it was good it happened; write what you built out of the rubble. The difference between those two things is everything.",
+    "followups": [
+      "Which sentence rang false as you wrote the second part? Cross it out and write the truth.",
+      "What have you lost that has not been compensated by anything, and won't be?",
+      "Who can you be useful to today precisely because of what you now know?",
+      "Which version of you died there, and have you grieved for them?"
+    ],
+    "source": "Richard Tedeschi and Lawrence Calhoun, post-traumatic growth; Pennebaker's writing protocol"
+  },
+  {
+    "id": "apego-narrativa-coherente",
+    "name": "The coherent attachment narrative",
+    "school": "Attachment Theory",
+    "level": 3,
+    "prompt": "Choose five adjectives that describe your relationship with your main caregiver in childhood. Now, for each adjective, write one specific, concrete memory that justifies it: not a generalisation, an episode with a date, a place and detail. If you cannot find the memory, write that too — that you cannot find it. Then describe what you did when you were frightened, ill or sad, and what happened then.",
+    "followups": [
+      "How far apart are the adjectives you chose and the memories you could supply?",
+      "Which strategy did you learn as a child to get closeness or to protect yourself, and where do you use it today?",
+      "Who has been a secure base in your adult life, even for a short time?",
+      "What would you ask someone who loves you today if you knew they wouldn't leave for being asked?"
+    ],
+    "source": "Mary Main, the Adult Attachment Interview (AAI): narrative coherence; John Bowlby, the secure base"
+  },
+  {
+    "id": "sfbt-narrativa-hibrida-testigo-escala",
+    "name": "The witness to your progress",
+    "school": "Solution-Focused / Narrative",
+    "level": 3,
+    "prompt": "Choose someone who has watched you change over the years and who is not idealised in your head. Write a report from their point of view, in their voice, on how you have changed over the last five years: what you were capable of then and what you are capable of now, what they have watched you go through, at what point they thought you wouldn't make it and what changed their mind. Make it an observational text, not a tribute.",
+    "followups": [
+      "Which piece of evidence of change does that witness mention that you would not have put on the list?",
+      "What in their report do you find hardest to believe?",
+      "What do you think worries that person about where you are now?",
+      "If they wrote the report five years from now, what would you want it to say?"
+    ],
+    "source": "A combination of outsider witnesses (White) and difference and progress questions (de Shazer)"
+  }
+]

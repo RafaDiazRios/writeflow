@@ -258,6 +258,18 @@ for (const [idioma, juego] of [['espanol', promptsEs], ['ingles', promptsEn]] as
     `→ desconocidas: ${sobran.join(', ')}`)
 }
 
+/* Lo mismo por niveles en los ejercicios: `suggestExercise` filtra por nivel y
+ * después indexa, así que un nivel sin ejercicios en un idioma no da una lista
+ * vacía, da `undefined`. */
+type ConNivel = { level: number }
+for (const [idioma, juego] of [['espanol', ejerciciosEs], ['ingles', ejerciciosEn]] as [string, unknown[]][]) {
+  if (!juego.length) continue
+  const niveles = new Set((juego as ConNivel[]).map((e) => e.level))
+  const vacios = [1, 2, 3].filter((n) => !niveles.has(n))
+  check(`ejercicios: en ${idioma} los tres niveles tienen ejercicios`, vacios.length === 0,
+    `→ sin ejercicios: ${vacios.join(', ')}`)
+}
+
 for (const [nombre, juegoEs, juegoEn, regla] of DOMINIOS) {
   const idsEs = ids(juegoEs)
   check(`${nombre}: los ids espanoles no se repiten`,

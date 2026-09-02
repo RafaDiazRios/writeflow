@@ -9,6 +9,7 @@ import { promptForDay, rerollPrompt, prompts, ejercicios, plantillas, suggestExe
 import { setIdiomaContenido } from '../src/i18n'
 import { CORRIENTES } from '../src/lib/types'
 import promptsEs from '../src/data/es/prompts.json'
+import ejerciciosEs from '../src/data/es/therapyExercises.json'
 import { hitRoute, indexSize, rebuildIndex, search, toMatchQuery } from '../src/lib/search'
 import { getGoal, recordDelta, setGoal, streaks, todayWords } from '../src/lib/stats'
 import { aIso, INDEXABLES, volverASubirTodo } from '../src/lib/sync'
@@ -130,6 +131,8 @@ async function main() {
 
   const promptEs = (id: string) =>
     (promptsEs as { id: string; text: string }[]).find((p) => p.id === id)?.text
+  const ejercicioEs = (id: string) =>
+    (ejerciciosEs as { id: string; prompt: string }[]).find((e) => e.id === id)?.prompt
 
   /* El ajuste de idioma del contenido tiene que cambiar el juego de verdad:
    * hasta ahora existía en Ajustes y no hacía nada. Y cada dominio cae al
@@ -142,7 +145,12 @@ async function main() {
   check('en inglés hay 247 prompts', prompts().length === 247, `→ ${prompts().length}`)
   check('y están de verdad en inglés',
     prompts().every((p) => p.text !== promptEs(p.id)))
-  check('los ejercicios caen al español mientras no estén traducidos', ejercicios().length === 47)
+  check('en inglés hay 47 ejercicios', ejercicios().length === 47, `→ ${ejercicios().length}`)
+  check('y también están en inglés', ejercicios().every((e) => e.prompt !== ejercicioEs(e.id)))
+  /* `suggestExercise` indexa una lista filtrada por nivel: un nivel vacío en un
+   * idioma devuelve undefined y revienta la pantalla de terapia. */
+  check('los tres niveles tienen ejercicios en inglés',
+    [1, 2, 3].every((n) => ejercicios().some((e) => e.level === n)))
   setIdiomaContenido('es')
   check('en español vuelven a ser 13 plantillas', plantillas().length === 13)
 

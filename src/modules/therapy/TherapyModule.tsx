@@ -26,7 +26,17 @@ export default function TherapyModule() {
   const [usage, setUsage] = useState<Record<string, number>>({})
   const [followups, setFollowups] = useState<FollowupAnswer[]>([])
 
-  const allSchools = useMemo(() => schools(), [])
+  /* La lista de escuelas sale del catálogo, así que cambia con el idioma del
+   * contenido. Con `[]` se quedaba congelada en el idioma en que se montó el
+   * módulo: el desplegable enseñaba «Terapia Narrativa» mientras los ejercicios
+   * ya decían «Narrative Therapy», y filtrar no devolvía nada. Y el filtro
+   * elegido se reinicia, porque su valor es una cadena del idioma anterior.
+   * Lo guardado en `therapy_entries` no se toca: las sesiones viejas siguen
+   * mostrando el nombre de escuela con el que se escribieron. */
+  const allSchools = useMemo(() => schools(), [app.contentLang])
+  useEffect(() => {
+    setSchool('all')
+  }, [app.contentLang])
 
   const reload = useCallback(async () => {
     setHistory(await therapy.recent())
