@@ -48,7 +48,8 @@ jobs:
           key: android
 
       - run: npm ci
-
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1  
       # Gradle se cachea entre ejecuciones, así que a partir de la segunda vez ni
       # siquiera hay que descargarlo.
       - uses: gradle/actions/setup-gradle@v4
