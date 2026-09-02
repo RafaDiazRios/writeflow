@@ -78,3 +78,25 @@ export function idiomaDelSistema(): Idioma {
   const l = (navigator.languages?.[0] ?? navigator.language ?? 'es').toLowerCase()
   return l.startsWith('en') ? 'en' : 'es'
 }
+
+/**
+ * Traduce un error que viene del backend en Rust.
+ *
+ * Rust no sabe en qué idioma está la interfaz, y darle un diccionario propio
+ * significaría mantener dos que se desincronizan. En vez de eso devuelve
+ * **códigos** —`error.algo`, con el detalle técnico detrás de una barra— y aquí
+ * se convierten en texto con las mismas claves que usa el resto de la app.
+ *
+ * Si la clave no está en el diccionario se deja pasar el mensaje tal cual: es
+ * preferible un texto en el idioma equivocado a un «error.loQueSea» en pantalla.
+ */
+export function traducirErrorNativo(e: unknown): string {
+  const texto = e instanceof Error ? e.message : String(e)
+  const barra = texto.indexOf('|')
+  const clave = barra === -1 ? texto : texto.slice(0, barra)
+  if (!clave.startsWith('error.')) return texto
+  const traducido = t(clave)
+  if (traducido === clave) return texto
+  const detalle = barra === -1 ? '' : texto.slice(barra + 1).trim()
+  return detalle ? `${traducido} (${detalle})` : traducido
+}

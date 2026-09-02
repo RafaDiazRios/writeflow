@@ -5,7 +5,7 @@
  * palabras— al cambiar de idioma, y que el día en que empieza la semana sea
  * de verdad independiente del idioma, que fue la decisión de Rafa.
  */
-import { setIdiomaUI, t, num, IDIOMAS } from '../src/i18n'
+import { setIdiomaUI, t, num, traducirErrorNativo, IDIOMAS } from '../src/i18n'
 import es from '../src/i18n/es.json'
 import en from '../src/i18n/en.json'
 import {
@@ -56,6 +56,26 @@ setIdiomaUI('en')
 const milEn = num(1234567)
 check('el español agrupa los miles', milEs.replace(/[\d]/g, '') !== '')
 check('el inglés separa distinto que el español', milEs !== milEn, `→ ${milEs} vs ${milEn}`)
+
+console.log('\n— errores que vienen de Rust —')
+
+setIdiomaUI('es')
+check('un codigo suelto se traduce',
+  traducirErrorNativo('error.fraseIncorrecta').startsWith('No se pudo descifrar'),
+  `→ ${traducirErrorNativo('error.fraseIncorrecta')}`)
+check('el detalle tecnico se conserva entre parentesis',
+  traducirErrorNativo('error.compartirNoEscribe|disco lleno').endsWith('(disco lleno)'),
+  `→ ${traducirErrorNativo('error.compartirNoEscribe|disco lleno')}`)
+setIdiomaUI('en')
+check('y cambia con el idioma',
+  traducirErrorNativo('error.fraseIncorrecta').startsWith('Could not decrypt'),
+  `→ ${traducirErrorNativo('error.fraseIncorrecta')}`)
+// Lo importante del respaldo: una clave que no existe no debe salir en pantalla
+// como «error.loQueSea», sino dejar pasar el mensaje crudo.
+check('una clave desconocida se deja pasar tal cual',
+  traducirErrorNativo('error.noExiste|detalle') === 'error.noExiste|detalle')
+check('un error que no es un codigo no se toca',
+  traducirErrorNativo(new Error('Ha fallado la red')) === 'Ha fallado la red')
 
 console.log('\n— fechas —')
 
@@ -164,6 +184,20 @@ for (const [familia, valores] of FAMILIAS) {
   const faltan = valores.filter((v) => !(`${familia}.${v}` in (es as Record<string, string>)))
   check(`${familia}.* completa`, faltan.length === 0, `→ faltan ${faltan.join(', ')}`)
 }
+
+/* Los códigos que devuelve el backend en Rust. No los ve el compilador de
+ * TypeScript —viajan como cadenas desde el otro lado del puente— así que si
+ * alguien borra una clave, esto es lo único que se entera. La lista se mantiene
+ * a mano, en paralelo a `src-tauri/src/compartir.rs` y `crypto.rs`. */
+const CODIGOS_RUST = [
+  'error.compartirNombreVacio', 'error.compartirSinCache', 'error.compartirSinCarpeta',
+  'error.compartirNoEscribe', 'error.compartirSinPlugin', 'error.compartirRechazado',
+  'error.compartirSoloAndroid', 'error.salCorta', 'error.claveInvalida', 'error.noCifra',
+  'error.formatoDesconocido', 'error.nonceInvalido', 'error.fraseIncorrecta',
+]
+const sinClave = CODIGOS_RUST.filter((c) => !(c in (es as Record<string, string>)))
+check('los codigos de error de Rust tienen traduccion', sinClave.length === 0,
+  `→ faltan ${sinClave.join(', ')}`)
 
 // Las que llevan sufijo: la descripción de la corriente, la ayuda del nivel y
 // la pista de cada campo de la ficha.

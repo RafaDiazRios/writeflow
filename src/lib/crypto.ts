@@ -1,4 +1,5 @@
-import { invoke } from '@tauri-apps/api/core'
+// `invocar` es `invoke` con los errores del backend traducidos (ver nativo.ts).
+import { invocar as invoke } from './nativo'
 import { getMeta, setMeta } from './db'
 import { t } from '@/i18n'
 

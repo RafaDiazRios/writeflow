@@ -70,15 +70,15 @@ pub async fn compartir_archivo<R: Runtime>(
         .collect();
     let limpio = limpio.trim().trim_start_matches('.').to_string();
     if limpio.is_empty() {
-        return Err("El nombre del archivo está vacío".into());
+        return Err("error.compartirNombreVacio".into());
     }
 
     let dir = app
         .path()
         .app_cache_dir()
-        .map_err(|e| format!("No se encontró la carpeta de caché: {e}"))?
+        .map_err(|e| format!("error.compartirSinCache|{e}"))?
         .join("compartir");
-    std::fs::create_dir_all(&dir).map_err(|e| format!("No se pudo crear {dir:?}: {e}"))?;
+    std::fs::create_dir_all(&dir).map_err(|e| format!("error.compartirSinCarpeta|{e}"))?;
 
     // Se vacía antes de escribir: si no, cada exportación deja una copia en la
     // caché y el usuario nunca ve esa carpeta para limpiarla.
@@ -89,13 +89,13 @@ pub async fn compartir_archivo<R: Runtime>(
     }
 
     let ruta = dir.join(&limpio);
-    std::fs::write(&ruta, &datos).map_err(|e| format!("No se pudo escribir el archivo: {e}"))?;
+    std::fs::write(&ruta, &datos).map_err(|e| format!("error.compartirNoEscribe|{e}"))?;
 
     #[cfg(target_os = "android")]
     {
         let estado = app
             .try_state::<Compartidor<R>>()
-            .ok_or_else(|| "El plugin de compartir no está registrado".to_string())?;
+            .ok_or_else(|| "error.compartirSinPlugin".to_string())?;
         estado
             .0
             .run_mobile_plugin::<RespuestaVacia>(
@@ -106,7 +106,7 @@ pub async fn compartir_archivo<R: Runtime>(
                     titulo: limpio,
                 },
             )
-            .map_err(|e| format!("Android rechazó el envío: {e}"))?;
+            .map_err(|e| format!("error.compartirRechazado|{e}"))?;
         Ok(())
     }
 
@@ -115,10 +115,6 @@ pub async fn compartir_archivo<R: Runtime>(
         // Silencia los avisos de «campo sin usar» en escritorio.
         let _ = (mime, RespuestaVacia {});
         let _ = std::mem::size_of::<PeticionCompartir>();
-        Err(format!(
-            "Compartir solo existe en Android; en este sistema usa «guardar como». \
-             (El archivo de prueba quedó en {})",
-            ruta.display()
-        ))
+        Err(format!("error.compartirSoloAndroid|{}", ruta.display()))
     }
 }

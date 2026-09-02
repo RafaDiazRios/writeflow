@@ -487,5 +487,18 @@
   "ajustes.propietarioPista": "tu-usuario",
   "ajustes.repositorioPista": "mi-archivo-de-escritura",
   "libro.indice": "Índice",
-  "libro.comienzo": "Comienzo"
+  "libro.comienzo": "Comienzo",
+  "error.compartirNombreVacio": "El nombre del archivo está vacío",
+  "error.compartirSinCache": "No se encontró la carpeta de caché",
+  "error.compartirSinCarpeta": "No se pudo crear la carpeta para compartir",
+  "error.compartirNoEscribe": "No se pudo escribir el archivo",
+  "error.compartirSinPlugin": "El plugin de compartir no está registrado",
+  "error.compartirRechazado": "Android rechazó el envío",
+  "error.compartirSoloAndroid": "Compartir solo existe en Android; en este sistema usa «guardar como»",
+  "error.salCorta": "La sal es demasiado corta",
+  "error.claveInvalida": "Clave inválida: se esperaban 32 bytes",
+  "error.noCifra": "No se pudo cifrar el contenido",
+  "error.formatoDesconocido": "Formato de payload cifrado no reconocido",
+  "error.nonceInvalido": "Nonce inválido",
+  "error.fraseIncorrecta": "No se pudo descifrar: frase de paso incorrecta o dato alterado"
 }

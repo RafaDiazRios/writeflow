@@ -42,7 +42,7 @@ pub fn crypto_new_salt() -> String {
 pub fn crypto_derive_key(passphrase: String, salt_b64: String) -> Result<String, String> {
     let salt = B64.decode(salt_b64.trim()).map_err(|e| e.to_string())?;
     if salt.len() < 8 {
-        return Err("La sal es demasiado corta".into());
+        return Err("error.salCorta".into());
     }
     let mut key = [0u8; KEY_LEN];
     argon2()?
@@ -65,7 +65,7 @@ pub fn crypto_key_fingerprint(key_b64: String) -> Result<String, String> {
 fn key_from_b64(key_b64: &str) -> Result<Key<Aes256Gcm>, String> {
     let raw = B64.decode(key_b64.trim()).map_err(|e| e.to_string())?;
     if raw.len() != KEY_LEN {
-        return Err("Clave inválida: se esperaban 32 bytes".into());
+        return Err("error.claveInvalida".into());
     }
     Ok(*Key::<Aes256Gcm>::from_slice(&raw))
 }
@@ -79,7 +79,7 @@ pub fn crypto_encrypt(key_b64: String, plaintext: String) -> Result<String, Stri
     let nonce = Nonce::from_slice(&nonce_bytes);
     let ct = cipher
         .encrypt(nonce, plaintext.as_bytes())
-        .map_err(|_| "No se pudo cifrar el contenido".to_string())?;
+        .map_err(|_| "error.noCifra".to_string())?;
     Ok(format!(
         "{}.{}.{}",
         FORMAT,
@@ -93,17 +93,17 @@ pub fn crypto_encrypt(key_b64: String, plaintext: String) -> Result<String, Stri
 pub fn crypto_decrypt(key_b64: String, payload: String) -> Result<String, String> {
     let parts: Vec<&str> = payload.trim().split('.').collect();
     if parts.len() != 3 || parts[0] != FORMAT {
-        return Err("Formato de payload cifrado no reconocido".into());
+        return Err("error.formatoDesconocido".into());
     }
     let nonce_bytes = B64.decode(parts[1]).map_err(|e| e.to_string())?;
     if nonce_bytes.len() != NONCE_LEN {
-        return Err("Nonce inválido".into());
+        return Err("error.nonceInvalido".into());
     }
     let ct = B64.decode(parts[2]).map_err(|e| e.to_string())?;
     let cipher = Aes256Gcm::new(&key_from_b64(&key_b64)?);
     let pt = cipher
         .decrypt(Nonce::from_slice(&nonce_bytes), ct.as_ref())
-        .map_err(|_| "No se pudo descifrar: frase de paso incorrecta o dato alterado".to_string())?;
+        .map_err(|_| "error.fraseIncorrecta".to_string())?;
     String::from_utf8(pt).map_err(|e| e.to_string())
 }
 

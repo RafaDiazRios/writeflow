@@ -487,5 +487,18 @@
   "ajustes.propietarioPista": "your-username",
   "ajustes.repositorioPista": "my-writing-archive",
   "libro.indice": "Contents",
-  "libro.comienzo": "Start"
+  "libro.comienzo": "Start",
+  "error.compartirNombreVacio": "The file name is empty",
+  "error.compartirSinCache": "The cache folder could not be found",
+  "error.compartirSinCarpeta": "The share folder could not be created",
+  "error.compartirNoEscribe": "The file could not be written",
+  "error.compartirSinPlugin": "The share plugin is not registered",
+  "error.compartirRechazado": "Android refused the share",
+  "error.compartirSoloAndroid": "Sharing only exists on Android; on this system use “save as”",
+  "error.salCorta": "The salt is too short",
+  "error.claveInvalida": "Invalid key: 32 bytes expected",
+  "error.noCifra": "The content could not be encrypted",
+  "error.formatoDesconocido": "Unrecognised encrypted payload format",
+  "error.nonceInvalido": "Invalid nonce",
+  "error.fraseIncorrecta": "Could not decrypt: wrong passphrase, or the data was altered"
 }
