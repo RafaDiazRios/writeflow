@@ -7,6 +7,7 @@ import { countWords, docToText, EMPTY_DOC, textToDoc } from '../src/lib/text'
 import { docToMarkdown, compileProject } from '../src/lib/export'
 import { promptForDay, rerollPrompt, prompts, ejercicios, plantillas, suggestExercise } from '../src/lib/prompts'
 import { setIdiomaContenido } from '../src/i18n'
+import promptsEs from '../src/data/es/prompts.json'
 import { hitRoute, indexSize, rebuildIndex, search, toMatchQuery } from '../src/lib/search'
 import { getGoal, recordDelta, setGoal, streaks, todayWords } from '../src/lib/stats'
 import { aIso, INDEXABLES, volverASubirTodo } from '../src/lib/sync'
@@ -125,16 +126,21 @@ async function main() {
   check('reroll devuelve otro distinto', rerollPrompt('2026-08-12', ['estoico'], [a.id]).id !== a.id)
   check('catálogo completo', prompts().length === 107 && ejercicios().length === 47 && plantillas().length === 13)
 
+  const promptEs = (id: string) =>
+    (promptsEs as { id: string; text: string }[]).find((p) => p.id === id)?.text
+
   /* El ajuste de idioma del contenido tiene que cambiar el juego de verdad:
    * hasta ahora existía en Ajustes y no hacía nada. Y cada dominio cae al
-   * español por separado, así que traducir las plantillas no puede dejar los
-   * prompts vacíos. */
+   * español por separado, así que traducir un dominio no puede dejar otro
+   * vacío. */
   setIdiomaContenido('en')
   check('en inglés hay 17 plantillas', plantillas().length === 17, `→ ${plantillas().length}`)
   check('las cuatro nuevas solo existen en inglés',
     plantillas().some((p) => p.id === 'five-paragraph'))
-  check('los prompts caen al español mientras no estén traducidos', prompts().length === 107)
-  check('y los ejercicios también', ejercicios().length === 47)
+  check('en inglés hay 107 prompts', prompts().length === 107, `→ ${prompts().length}`)
+  check('y están de verdad en inglés',
+    prompts().every((p) => p.text !== promptEs(p.id)))
+  check('los ejercicios caen al español mientras no estén traducidos', ejercicios().length === 47)
   setIdiomaContenido('es')
   check('en español vuelven a ser 13 plantillas', plantillas().length === 13)
 

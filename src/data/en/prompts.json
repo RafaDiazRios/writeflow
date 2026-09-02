@@ -1,1 +1,644 @@
-[]
+[
+  {
+    "id": "est-001",
+    "stream": "estoico",
+    "text": "Make two columns right now for whatever is taking up most of your head. Left: what depends entirely on you (your judgement, your effort, your word, your desire). Right: what does not (the body, reputation, position, what other people decide). Be ruthless sorting them. How much of today's energy went into the right-hand column?",
+    "source": "Epictetus, Enchiridion, 1"
+  },
+  {
+    "id": "est-002",
+    "stream": "estoico",
+    "text": "This morning, before getting up, say to yourself: today I will meet a meddler, an ingrate, an arrogant man, a cheat, an envious man, someone who cannot be lived with. Write down who that person concretely is in your day today, and prepare now, in writing, how you will answer them without letting them take your composure.",
+    "source": "Marcus Aurelius, Meditations, II.1"
+  },
+  {
+    "id": "est-003",
+    "stream": "estoico",
+    "text": "Practise the premeditation of evils on something specific you are afraid to lose. Write it as already lost: it has happened, it is done. Describe your life the following day in practical detail. What would you still have? What would you have to learn? Imagining it in advance takes away the part of the blow that is surprise, which is usually the worst part.",
+    "source": "Seneca, Letters to Lucilius, 91 and 107 (premeditatio malorum)"
+  },
+  {
+    "id": "est-004",
+    "stream": "estoico",
+    "text": "Go up. Look at yourself from the roof of your house, then from the neighbourhood, then from the country, then from space. From there, today's worry is one dot among millions of dots that are also worrying. Now come slowly back down and write what part of your problem survived the journey and what evaporated on the way.",
+    "source": "Marcus Aurelius, Meditations, VII.48 and IX.30 (the view from above)"
+  },
+  {
+    "id": "est-005",
+    "stream": "estoico",
+    "text": "Before sleeping, be your own judge without being your own executioner: what fault of mine did I cure today? Which vice did I stand against? In what am I better than yesterday? No excuses and no self-flagellation — go through the whole day, and forgive what is already done.",
+    "source": "Seneca, On Anger, III.36 (the evening review)"
+  },
+  {
+    "id": "est-006",
+    "stream": "estoico",
+    "text": "It is not things that disturb you but your opinions about things. Take whatever irritated you most yesterday, write the bare fact in one sentence with no adjectives, and then write separately everything you added to it. Compare the two texts: which of them is the one that kept you awake?",
+    "source": "Epictetus, Enchiridion, 5"
+  },
+  {
+    "id": "est-007",
+    "stream": "estoico",
+    "text": "You could leave life right now: let that determine what you do, what you say and what you think. If today were the last, what on your plan would still stand, and what would fall off the list on its own for being ridiculous?",
+    "source": "Marcus Aurelius, Meditations, II.11"
+  },
+  {
+    "id": "est-008",
+    "stream": "estoico",
+    "text": "No one loses any life other than the one they are living, nor lives any other than the one they lose. Even if you lived three thousand years you could only lose this instant. Write what someone who had truly understood that sentence would do differently today.",
+    "source": "Marcus Aurelius, Meditations, II.14"
+  },
+  {
+    "id": "est-009",
+    "stream": "estoico",
+    "text": "Remember that you are an actor in a play whose author is not you. This is the part you were given: this body, this family, this period, this health. Write what exactly your current part is, and what it would mean to play it excellently without spending energy complaining about the casting.",
+    "source": "Epictetus, Enchiridion, 17"
+  },
+  {
+    "id": "est-010",
+    "stream": "estoico",
+    "text": "Never say of anything 'I have lost it', but 'I have given it back'. Think of something or someone no longer in your life and rewrite their story with the verb to return in place of the verb to lose. What changes in your chest when you change the verb?",
+    "source": "Epictetus, Enchiridion, 11"
+  },
+  {
+    "id": "est-011",
+    "stream": "estoico",
+    "text": "What stands in the way becomes the way. Take the most irritating obstacle of your week and write which specific virtue it is asking you to practise: patience, courage, justice, temperance? Then write the first action that exercises it.",
+    "source": "Marcus Aurelius, Meditations, V.20"
+  },
+  {
+    "id": "est-012",
+    "stream": "estoico",
+    "text": "Give today over to practised poverty: eat the plainest food, wear the humblest clothes, do without one comfort. At night write this question: is this what I was afraid of? And a second: how much of my anxiety is built on the fear of losing things I have discovered today I do not need so much?",
+    "source": "Seneca, Letters to Lucilius, 18"
+  },
+  {
+    "id": "est-013",
+    "stream": "estoico",
+    "text": "It is not that we have little time, but that we waste much of it. Reconstruct yesterday hour by hour and mark with a cross every stretch you did not choose. Add up the crosses. Who did you give those hours to, and in exchange for what?",
+    "source": "Seneca, On the Shortness of Life, I"
+  },
+  {
+    "id": "est-014",
+    "stream": "estoico",
+    "text": "Amor fati: do not wish things to be as you want them, want them to be as they are. Write the fact of your current life you resist most, and then write, with all the honesty you can manage, what would open up if you stopped spending your strength denying it.",
+    "source": "Epictetus, Enchiridion, 8; Nietzsche's formulation"
+  },
+  {
+    "id": "est-015",
+    "stream": "estoico",
+    "text": "Someone spoke badly of you. Epictetus would say: they did not know everything, because had they known they would have mentioned your other faults too. Write down the criticism that stings most, keep whatever grain of truth it holds, and write what you would do with that grain if you were not busy defending yourself.",
+    "source": "Epictetus, Enchiridion, 33 and 48"
+  },
+  {
+    "id": "est-016",
+    "stream": "estoico",
+    "text": "Think of someone famous two hundred years ago whose name nobody remembers today. Now write: which part of what you do, do you do in order to be remembered? What would you do if you were absolutely certain nobody will remember your name in a hundred years?",
+    "source": "Marcus Aurelius, Meditations, IV.19 and IV.33"
+  },
+  {
+    "id": "est-017",
+    "stream": "estoico",
+    "text": "Time is a river of events: a thing has hardly appeared before the current has carried it off, and another comes. Write three things in your life that five years ago seemed settled and no longer exist. Which of the things that seem settled today will be on that list five years from now?",
+    "source": "Marcus Aurelius, Meditations, IV.43"
+  },
+  {
+    "id": "est-018",
+    "stream": "estoico",
+    "text": "Before undertaking anything today, say: I will do this, if nothing prevents it. Write your most important plan of the week, adding that reserve clause to the end of every sentence. What changes in the way you hold the plan when the outcome stops being your property?",
+    "source": "Stoicism: the reserve clause (hypexairesis); Seneca, On Tranquillity of Mind, XIII"
+  },
+  {
+    "id": "est-019",
+    "stream": "estoico",
+    "text": "Be angry in writing, in full, with whoever wronged you. Now read it back and apply the Stoic filter: did that person mean to harm you, or did they do what seemed right to them out of ignorance? Nobody errs willingly. Write the scene again from that premise.",
+    "source": "Seneca, On Anger, II; Marcus Aurelius, Meditations, II.1"
+  },
+  {
+    "id": "est-020",
+    "stream": "estoico",
+    "text": "Describe yourself as one thing among things: a body that eats, digests and ages, with borrowed opinions and inherited habits. This exercise in physical definition takes the shine off whatever hypnotises us. Apply it today to the object of your strongest desire or your strongest fear: describe it taken apart into its pieces.",
+    "source": "Marcus Aurelius, Meditations, VI.13 (objective definition)"
+  },
+  {
+    "id": "est-021",
+    "stream": "estoico",
+    "text": "Each morning, when getting up is hard, remember: I was not born to keep myself warm under blankets. Write today what exactly you get up for, in one sentence without rhetoric. If you cannot find the sentence, that is today's exercise.",
+    "source": "Marcus Aurelius, Meditations, V.1"
+  },
+  {
+    "id": "est-022",
+    "stream": "estoico",
+    "text": "Draw the circles of Hierocles: you at the centre, then your family, your friends, your neighbours, your fellow citizens, humanity. The work consists of pulling the outer circles inward. Choose someone from a distant circle and write what you would do this week to bring them one circle closer.",
+    "source": "Hierocles, the circles of oikeiosis (Stoicism)"
+  },
+  {
+    "id": "est-023",
+    "stream": "estoico",
+    "text": "If you are going to the public baths, prepare yourself: there will be shoving, splashing, thieving. Apply it to your day: write the list of predictable annoyances ahead (the traffic, the meeting, the same message as always) and decide your response in advance. Surprise is the door anger comes in through.",
+    "source": "Epictetus, Enchiridion, 4"
+  },
+  {
+    "id": "est-024",
+    "stream": "estoico",
+    "text": "Choose an object or a person you are strongly attached to. When you kiss your child, Epictetus said, tell yourself quietly: tomorrow they may die. Not to make yourself miserable, but to love without the blindness of believing it is permanent. Write how you would look at that person today with that awareness switched on.",
+    "source": "Epictetus, Enchiridion, 3"
+  },
+  {
+    "id": "est-025",
+    "stream": "estoico",
+    "text": "Write the list of your current desires. Now sort them: which are natural and necessary, which natural but unnecessary, which neither. The last kind have no bottom. How much of your life is organised around a desire with no bottom?",
+    "source": "Epictetus and the Hellenistic tradition; cf. Epicurus, Letter to Menoeceus"
+  },
+  {
+    "id": "est-026",
+    "stream": "estoico",
+    "text": "Do not talk about how a good man should be: be one. Take a principle you defend out loud and write about the last time you betrayed it in private, with no witnesses. Without punishing yourself: just write what made it easy.",
+    "source": "Marcus Aurelius, Meditations, X.16"
+  },
+  {
+    "id": "est-027",
+    "stream": "estoico",
+    "text": "Take an inventory of what you owe other people: who taught you to read, who fed you without charging, who corrected you in time. Marcus Aurelius opened the Meditations with this exercise, thanking each person for something specific. Write your own Book I: five people, five specific debts.",
+    "source": "Marcus Aurelius, Meditations, Book I"
+  },
+  {
+    "id": "est-028",
+    "stream": "estoico",
+    "text": "Live each day as a complete day and not a fragment: whoever has finished their day does not fear tomorrow. Write what today is missing before you could say at eleven at night: this day is already whole, even if there is no other.",
+    "source": "Seneca, Letters to Lucilius, 12 and 101"
+  },
+  {
+    "id": "est-029",
+    "stream": "estoico",
+    "text": "Imagine a god grants you exactly what you most want today, but hands you in the same lot everything that comes with it: the obligations, other people's envy, the fear of losing it. Write the full invoice. Would you still sign?",
+    "source": "Seneca, Letters to Lucilius, 119; Marcus Aurelius, Meditations, VI.51"
+  },
+  {
+    "id": "est-030",
+    "stream": "estoico",
+    "text": "Withdraw inward: there is no retreat quieter or less troubled than one's own soul. Write today what your inner refuge is like: which sentences furnish it, which principles hold it up. If you go to step inside and find nothing there, write what you would have to build this week.",
+    "source": "Marcus Aurelius, Meditations, IV.3"
+  },
+  {
+    "id": "est-031",
+    "stream": "estoico",
+    "text": "Seneca wrote that we have two homelands: the one we were born into and the world. Write what concrete obligation the second imposes on you today that the first does not, and whether you are meeting it.",
+    "source": "Seneca, On Leisure, IV; Stoic cosmopolitanism"
+  },
+  {
+    "id": "est-032",
+    "stream": "estoico",
+    "text": "Write the letter you would send a friend going through exactly what you are going through. Do not spare them the hard advice. Now read it as though it had been sent to you. Seneca wrote his letters to cure himself while curing Lucilius.",
+    "source": "Seneca, Letters to Lucilius (the letter as therapy)"
+  },
+  {
+    "id": "est-033",
+    "stream": "estoico",
+    "text": "Today, do not try to make things go your way. Just watch what happens inside you when they do not. At night, write the exact anatomy of one small frustration: what you thought first, what you felt, how long it lasted, what dissolved it.",
+    "source": "Epictetus, Enchiridion, 8; the practice of attention (prosoche)"
+  },
+  {
+    "id": "est-034",
+    "stream": "estoico",
+    "text": "Put yourself in the place of whoever offended you and write their version of events in the first person, with their reasons, which seem good to them. Not to absolve them: to understand that their mistake is not a personal attack on your worth.",
+    "source": "Marcus Aurelius, Meditations, VII.26"
+  },
+  {
+    "id": "est-035",
+    "stream": "estoico",
+    "text": "Everything you can see will change and cease to exist. Think it through with your house, your city, your trade, your face. Now write what you do with that truth: does it paralyse you, free you, give you urgency? The Stoics used that awareness to act better today, not to stop acting.",
+    "source": "Marcus Aurelius, Meditations, VIII.5 and XII.21"
+  },
+  {
+    "id": "fil-001",
+    "stream": "filosofico",
+    "text": "Sartre said we are condemned to be free, and that bad faith consists of pretending we are not choosing. Write a situation where you tell yourself 'I have no choice'. Now list the choices you do have and the real price of each. Having no choice is almost always the refusal to pay a price: name it.",
+    "source": "Jean-Paul Sartre, Being and Nothingness (bad faith)"
+  },
+  {
+    "id": "fil-002",
+    "stream": "filosofico",
+    "text": "Nietzsche proposes the heaviest weight: a demon tells you that you will live this same life, with every pain and every joy, innumerable times. Would you throw yourself down and curse, or say 'never have I heard anything more divine'? Write which exact part of your current life you could not bear to repeat, and what you will do with that information.",
+    "source": "Friedrich Nietzsche, The Gay Science, 341 (eternal recurrence)"
+  },
+  {
+    "id": "fil-003",
+    "stream": "filosofico",
+    "text": "Camus says we must imagine Sisyphus happy: lucid awareness of the absurd leads not to suicide but to revolt. Write what your rock is, the one you push each day knowing it will roll back. Then write what there is in the pushing that belongs to you alone.",
+    "source": "Albert Camus, The Myth of Sisyphus"
+  },
+  {
+    "id": "fil-004",
+    "stream": "filosofico",
+    "text": "Simone Weil wrote that absolutely pure attention is prayer, and that it consists of emptying yourself to let the other in as they are. Choose a person you believe you know well. Write what you would learn about them if you suspended everything you already think you know. What would you ask them from that emptiness?",
+    "source": "Simone Weil, Waiting for God and Gravity and Grace (attention)"
+  },
+  {
+    "id": "fil-005",
+    "stream": "filosofico",
+    "text": "Kierkegaard: life can only be understood backwards, but it must be lived forwards. Write about an episode of your past you only understand now. Then write what you are living now without understanding it, and trust that it too will have its retroactive meaning. Can you act without waiting to understand?",
+    "source": "Søren Kierkegaard, Journals (1843)"
+  },
+  {
+    "id": "fil-006",
+    "stream": "filosofico",
+    "text": "Montaigne asked 'what do I know?' and made doubt a method. Take the firmest conviction you hold about yourself. Write three experiences from your own life that contradict it. Not to destroy it: to make it honest.",
+    "source": "Michel de Montaigne, Essays, 'Que sais-je?'"
+  },
+  {
+    "id": "fil-007",
+    "stream": "filosofico",
+    "text": "Heidegger distinguishes living according to the impersonal 'they' (one does this, one thinks that) from living as one's own. Write three important decisions of your life and ask of each: did I make it, or did the 'they'? Who exactly is that 'they' in your case — your parents, your profession, your class?",
+    "source": "Martin Heidegger, Being and Time (das Man and authentic existence)"
+  },
+  {
+    "id": "fil-008",
+    "stream": "filosofico",
+    "text": "In Buddhism, the first arrow is unavoidable pain; the second one you fire at yourself with your reaction to the pain. Write this week's first arrow in a single sentence. Then write every second arrow you added: the rumination, the reproach, the comparison, the forecast.",
+    "source": "Sallatha Sutta (Samyutta Nikaya 36.6), the simile of the two arrows"
+  },
+  {
+    "id": "fil-009",
+    "stream": "filosofico",
+    "text": "Aristotle says we are what we repeatedly do, and that virtue is a habit. Do not ask what you want to be: write what you are being, according to the record of your last seven days. Then choose a single small repeatable act that starts manufacturing the person you want to be.",
+    "source": "Aristotle, Nicomachean Ethics, II"
+  },
+  {
+    "id": "fil-010",
+    "stream": "filosofico",
+    "text": "Levinas says the face of the other addresses me before I decide anything: their vulnerability commands me not to kill them. Write about a person you have turned into a function (the waiter, the one who answers the phone, the one in your way). What would happen if you saw their face?",
+    "source": "Emmanuel Levinas, Totality and Infinity (the ethics of the face)"
+  },
+  {
+    "id": "fil-011",
+    "stream": "filosofico",
+    "text": "Nietzsche calls ressentiment the morality of those who, unable to act, turn their impotence into moral superiority. Write bravely about where there is ressentiment in you: what do you despise today that deep down you want and cannot get?",
+    "source": "Friedrich Nietzsche, On the Genealogy of Morality, first essay"
+  },
+  {
+    "id": "fil-012",
+    "stream": "filosofico",
+    "text": "Husserl proposed the epoché: bracketing what we take for granted and describing experience as it gives itself. Choose an everyday object in your house and describe it for ten minutes as if seeing it for the first time, without naming it by its function. What happens to your attention while you do it?",
+    "source": "Edmund Husserl, Ideas I (phenomenological reduction)"
+  },
+  {
+    "id": "fil-013",
+    "stream": "filosofico",
+    "text": "Merleau-Ponty says I do not have a body, I am my body, and that the body knows things consciousness does not. Write what your body is saying today: where it tightens, what it avoids, what posture it takes with certain people. Which of your opinions does your body know before you do?",
+    "source": "Maurice Merleau-Ponty, Phenomenology of Perception"
+  },
+  {
+    "id": "fil-014",
+    "stream": "filosofico",
+    "text": "Everything compounded falls apart: anicca. Write a list of five things in your life you cling to as though they were permanent. Beside each, write what would change in the way you enjoy it if you fully accepted that it is on loan.",
+    "source": "Buddhism, impermanence (anicca); Mahaparinibbana Sutta"
+  },
+  {
+    "id": "fil-015",
+    "stream": "filosofico",
+    "text": "Kierkegaard describes despair as not wanting to be oneself, or desperately wanting to be a self one is not. Write which of the two applies to you more today, and how it shows in your ordinary life — in concrete gestures, not abstractions.",
+    "source": "Søren Kierkegaard, The Sickness Unto Death"
+  },
+  {
+    "id": "fil-016",
+    "stream": "filosofico",
+    "text": "Montaigne wrote that to philosophise is to learn to die, and also that death worries us more from a distance than up close. Write a letter to your own death: tell it what you ask of it, what you fear, what you are grateful for, and what you would want to have finished before it arrives.",
+    "source": "Michel de Montaigne, Essays, I.20"
+  },
+  {
+    "id": "fil-017",
+    "stream": "filosofico",
+    "text": "Buber distinguishes two ways of saying the world: I-Thou and I-It. With It I use, classify, exploit; with Thou I enter into whole relation. Write how many of yesterday's interactions were I-It. Pick one and describe what it would take to turn it into I-Thou tomorrow.",
+    "source": "Martin Buber, I and Thou"
+  },
+  {
+    "id": "fil-018",
+    "stream": "filosofico",
+    "text": "Ortega wrote: I am myself and my circumstance, and if I do not save it I do not save myself. Write what your circumstance is today, without complaining about it, and what saving it would mean exactly, as opposed to fleeing from it.",
+    "source": "José Ortega y Gasset, Meditations on Quixote"
+  },
+  {
+    "id": "fil-019",
+    "stream": "filosofico",
+    "text": "Spinoza says that each thing strives to persevere in its being, and that freedom is understanding the causes of our affects. Take an emotion that ruled you this week and write its full genealogy: what caused it, what fed it, what would have defused it. To understand is already to change.",
+    "source": "Baruch Spinoza, Ethics, parts III and IV (conatus and the bondage of the affects)"
+  },
+  {
+    "id": "fil-020",
+    "stream": "filosofico",
+    "text": "Hannah Arendt calls natality the human capacity to begin something new, to interrupt the chain of causes. Write which chain in your life (family, work, mental) is running on sheer inertia, and what act would interrupt it.",
+    "source": "Hannah Arendt, The Human Condition"
+  },
+  {
+    "id": "fil-021",
+    "stream": "filosofico",
+    "text": "Simone Weil distinguishes affliction (malheur) from mere suffering: affliction marks the soul, isolates, and makes the one who suffers it invisible to others. Write about someone invisible around you. What would it take for their affliction to reach you without them having to shout it?",
+    "source": "Simone Weil, The Love of God and Affliction"
+  },
+  {
+    "id": "fil-022",
+    "stream": "filosofico",
+    "text": "Nietzsche quotes Pindar: become what you are. It is not an invitation to comfortable authenticity but to the discipline of giving a character its shape. Write what you would have to stop doing — not what you would have to start — in order to look more like yourself.",
+    "source": "Friedrich Nietzsche, Ecce Homo; Pindar, Pythian II"
+  },
+  {
+    "id": "fil-023",
+    "stream": "filosofico",
+    "text": "Aristotle distinguishes three kinds of friendship: of utility, of pleasure and of virtue. Only the third lasts, because it loves the other for what they are. Classify your five most frequent relationships honestly. How many friendships of the third kind do you have, and what have you done for them lately?",
+    "source": "Aristotle, Nicomachean Ethics, VIII"
+  },
+  {
+    "id": "fil-024",
+    "stream": "filosofico",
+    "text": "Buddhism calls anatta the absence of a fixed self: you are a process, not a thing. Write the three sentences you use most to define yourself (\"I'm the kind of person who...\"). Now write one piece of evidence from your life showing that each is only a habit and not an essence.",
+    "source": "Buddhism, anatta (non-self); Anattalakkhana Sutta"
+  },
+  {
+    "id": "fil-025",
+    "stream": "filosofico",
+    "text": "Wittgenstein wrote that the limits of my language are the limits of my world. Write about an experience of yours for which you have no word. Invent one and define it precisely, as in a dictionary. What becomes visible when something of yours can finally be named?",
+    "source": "Ludwig Wittgenstein, Tractatus Logico-Philosophicus, 5.6"
+  },
+  {
+    "id": "fil-026",
+    "stream": "filosofico",
+    "text": "Ricoeur argues that personal identity is narrative: we are the story we are able to tell about ourselves. Write your life in five chapters with their titles. Then ask yourself which stories were left out of the table of contents, and why those in particular.",
+    "source": "Paul Ricoeur, Oneself as Another (narrative identity)"
+  },
+  {
+    "id": "fil-027",
+    "stream": "filosofico",
+    "text": "Thich Nhat Hanh speaks of interbeing: in this sheet of paper are the cloud, the forest, the logger, the wheat the logger ate. Take an object you are using right now and write backwards the whole chain of people and elements that made it possible. How does that change your sense of being alone?",
+    "source": "Thich Nhat Hanh, The Heart of Understanding (interbeing)"
+  },
+  {
+    "id": "fil-028",
+    "stream": "filosofico",
+    "text": "Sartre: hell is other people — not because they are wicked, but because we see ourselves through their gaze. Write whose gaze you are wearing when you judge yourself. Did you grant them that authority consciously, or did they take it without permission?",
+    "source": "Jean-Paul Sartre, No Exit"
+  },
+  {
+    "id": "fil-029",
+    "stream": "filosofico",
+    "text": "Kierkegaard describes the aesthetic stage (living for the interesting), the ethical (living for commitment) and the religious (living for the absolute). Write which one you are living in now, without idealising yourself, and what you would have to risk to make the next leap.",
+    "source": "Søren Kierkegaard, Either/Or and Stages on Life's Way"
+  },
+  {
+    "id": "fil-030",
+    "stream": "filosofico",
+    "text": "Aristotelian phronesis is practical wisdom: knowing what to do in this concrete situation, not in general. Recall a recent decision you got right. Write what you perceived in the situation that someone else would have missed. That is your practical wisdom: name it so you can use it again.",
+    "source": "Aristotle, Nicomachean Ethics, VI (phronesis)"
+  },
+  {
+    "id": "fil-031",
+    "stream": "filosofico",
+    "text": "Pierre Hadot argues that ancient philosophy was not a theory but a set of spiritual exercises meant to transform the way one sees. Write which exercise — not which idea — has actually changed the way you live. And which one you have abandoned without noticing.",
+    "source": "Pierre Hadot, Philosophy as a Way of Life"
+  },
+  {
+    "id": "fil-032",
+    "stream": "filosofico",
+    "text": "Montaigne wrote of his friend La Boétie: if I am pressed to say why I loved him, I can only answer \"because it was he, because it was I\". Write about a bond of yours that you cannot justify with reasons. What does it tell you that there are loyalties without an argument?",
+    "source": "Michel de Montaigne, Essays, I.28, \"Of Friendship\""
+  },
+  {
+    "id": "fil-033",
+    "stream": "filosofico",
+    "text": "Weil said that gravity drags the soul downward as it does bodies, and that only grace rises. Write what your automatic movements of gravity are: complaint, comparison, the quick consolation. What have you seen enter your life that did not come from your own effort?",
+    "source": "Simone Weil, Gravity and Grace"
+  },
+  {
+    "id": "fil-034",
+    "stream": "filosofico",
+    "text": "In virtue ethics the question is not \"what should I do?\" but \"what kind of person do I want to become?\". Think of someone you truly admire, not for their achievements but for their character. Write the three qualities you admire and one situation this week where you could rehearse one of them.",
+    "source": "The virtue ethics tradition (Aristotle; Alasdair MacIntyre, After Virtue)"
+  },
+  {
+    "id": "fil-035",
+    "stream": "filosofico",
+    "text": "Camus distinguishes philosophical suicide (leaping into an explanation that soothes) from living without appeal. Write what certainty you have manufactured so as not to have to bear an open question. Can you hold the question one more day without covering it up?",
+    "source": "Albert Camus, The Myth of Sisyphus"
+  },
+  {
+    "id": "fil-036",
+    "stream": "filosofico",
+    "text": "Stoics and Buddhists agree: wanting things to be other than they are is the engine of suffering. But injustice does have to be changed. Write where the border lies today between accepting and resigning yourself, and how you tell one from the other in your own life.",
+    "source": "The Four Noble Truths (Buddhism) in dialogue with the Stoic dichotomy of control"
+  },
+  {
+    "id": "psi-001",
+    "stream": "psicologico",
+    "text": "Write what you are reproaching yourself for right now, in your exact words. Then write the same paragraph addressed to your best friend, who has done exactly the same thing. Read both aloud. The distance between the two texts is the exact measure of your self-compassion deficit: what do you gain by keeping it?",
+    "source": "Kristin Neff, \"How would you treat a friend?\" exercise"
+  },
+  {
+    "id": "psi-002",
+    "stream": "psicologico",
+    "text": "Three things that went well today, however small, and beside each one, your part in making it happen. The second half is the important one: this is not an inventory of luck, it is an inventory of agency.",
+    "source": "Martin Seligman, \"Three Good Things\" exercise"
+  },
+  {
+    "id": "psi-003",
+    "stream": "psicologico",
+    "text": "Mental subtraction: pick something good in your life right now and write out in detail the chain of accidents that had to happen for it to exist. Now write your life if just one of those accidents had failed. Gratitude comes more easily through the door of absence than through the door of abundance.",
+    "source": "Koo, Algoe, Wilson and Gilbert, mental subtraction; Greater Good in Action exercise"
+  },
+  {
+    "id": "psi-004",
+    "stream": "psicologico",
+    "text": "Write about a part of you that embarrasses you: the one that procrastinates, the one that gets angry, the one that eats at night. Now ask it in writing: what are you afraid would happen if you stopped doing your job? Let it answer in its own words, without correcting it. No part is bad; they all have a positive intention.",
+    "source": "Richard Schwartz, Internal Family Systems"
+  },
+  {
+    "id": "psi-005",
+    "stream": "psicologico",
+    "text": "Write a list of everything you are avoiding feeling this week and, beside each item, the concrete manoeuvre you use to avoid feeling it: the phone, the fridge, the series, the extra work, the conversation you are not having. Be literal. Experiential avoidance is not weakness, it is a strategy; write down what it is costing you.",
+    "source": "ACT, experiential avoidance (Hayes, Wilson)"
+  },
+  {
+    "id": "psi-006",
+    "stream": "psicologico",
+    "text": "The Japanese ikigai is not an overlap of four circles but something more domestic: the small joys that make getting up worthwhile. Write five tiny things from your week that gave you that push: the seven o'clock coffee, a message, the smell of something. There is no career on this list.",
+    "source": "Mieko Kamiya, On the Meaning of Life (ikigai ni tsuite)"
+  },
+  {
+    "id": "psi-007",
+    "stream": "psicologico",
+    "text": "Write your best possible self: a year from now everything has gone reasonably well, you have worked hard and things have settled. Describe that ordinary day in sensory detail for twenty minutes, with no constraint of realism but no magical fantasy either.",
+    "source": "Laura King, Best Possible Self exercise"
+  },
+  {
+    "id": "psi-008",
+    "stream": "psicologico",
+    "text": "Think of the last time you felt rejected. Before analysing anything, write a sentence of acknowledgement: this is a moment of suffering. Then: rejection is part of human experience, and right now thousands of people feel this. And finally: what do I need to hear right now, and who can say it, myself included?",
+    "source": "Kristin Neff, the three components of self-compassion"
+  },
+  {
+    "id": "psi-009",
+    "stream": "psicologico",
+    "text": "Identify the schema most active in you these days: abandonment, mistrust, emotional deprivation, defectiveness, failure, dependence, self-sacrifice, unrelenting standards, approval-seeking. Write which one it is and then the childhood scene that installed it. Don't analyse it: just tell it as a scene from a film.",
+    "source": "Jeffrey Young, schema therapy: early maladaptive schemas"
+  },
+  {
+    "id": "psi-010",
+    "stream": "psicologico",
+    "text": "When you are distressed, do you move toward, move away, or freeze? Write exactly what you do in the first two hours after a conflict with someone who matters. Then write what you did at ten years old when you felt the same. The overlap is usually embarrassing and highly informative.",
+    "source": "John Bowlby and Mary Ainsworth, attachment strategies; Sue Johnson, EFT"
+  },
+  {
+    "id": "psi-011",
+    "stream": "psicologico",
+    "text": "Write about something that makes you envious. Envy is a dirty but reliable compass: it points at a desire you do not allow yourself to have. What does that person have that you want and do not authorise yourself to want? Who taught you it was not for you?",
+    "source": "The psychology of values and envy; cf. the psychodynamic tradition and ACT"
+  },
+  {
+    "id": "psi-012",
+    "stream": "psicologico",
+    "text": "Shame is \"I am bad\"; guilt is \"I did something bad\". Take an episode you are still dragging around and write it twice: once in the key of shame and once in the key of guilt. Notice what concrete action becomes possible from the second text, and what paralysis the first one produces.",
+    "source": "Brené Brown and June Tangney, the shame-guilt distinction"
+  },
+  {
+    "id": "psi-013",
+    "stream": "psicologico",
+    "text": "Write to yourself in the third person about the problem on your mind: \"Anna is going through...\", \"Michael is finding it hard to...\". Linguistic distancing reduces rumination and improves reasoning. Write for ten minutes this way and notice what advice appears that did not appear in the first person.",
+    "source": "Ethan Kross, distanced self-talk"
+  },
+  {
+    "id": "psi-014",
+    "stream": "psicologico",
+    "text": "Make a list of your current roles: son, mother, boss, friend, patient, neighbour. Score from 1 to 10 how much energy each one consumes and how much meaning it gives back. Write which role has the worst balance and what you have been avoiding saying about it.",
+    "source": "ACT, values domains; and role clarification in the psychology of meaning"
+  },
+  {
+    "id": "psi-015",
+    "stream": "psicologico",
+    "text": "Write the list of your \"shoulds\" for this week, all of them, unfiltered. Then, in front of each one, write who is saying it: you, your mother, your boss, a version of you from fifteen years ago, a magazine? Cross out the ones you don't recognise as yours and rewrite the ones you do as \"I choose\".",
+    "source": "CBT (the tyranny of the shoulds, Ellis) and values work in ACT"
+  },
+  {
+    "id": "psi-016",
+    "stream": "psicologico",
+    "text": "Frankl said we cannot choose what happens to us but we can choose our attitude, and that life questions us and we answer. Write what your life is asking you this week, phrased as a direct question, and what a worthy answer would be.",
+    "source": "Viktor Frankl, Man's Search for Meaning; logotherapy"
+  },
+  {
+    "id": "psi-017",
+    "stream": "psicologico",
+    "text": "Write a letter to your body. Not about it: to it. Thank it for something concrete it does for you without being asked, apologise for something, and ask it what it needs this week. Then write its reply.",
+    "source": "Expressive writing applied to body image; the somatic tradition"
+  },
+  {
+    "id": "psi-018",
+    "stream": "psicologico",
+    "text": "Identify the loudest protector in your internal system: the critic, the perfectionist, the controller, the one who dissociates. Write its CV: when it started work, in which crisis it became indispensable, what disaster it has spent years preventing. End by thanking it for the shift and asking whether it would accept reduced hours.",
+    "source": "Richard Schwartz, IFS: protector parts (managers and firefighters)"
+  },
+  {
+    "id": "psi-019",
+    "stream": "psicologico",
+    "text": "Write about someone you have not forgiven. Don't force yourself to forgive: first write, in detail, exactly what they owe you. Put it in the form of an invoice. Then write what it costs you every month to go on being the creditor of that debt.",
+    "source": "Everett Worthington, the REACH model of forgiveness"
+  },
+  {
+    "id": "psi-020",
+    "stream": "psicologico",
+    "text": "Which of your needs have you left unnamed for so long that you no longer even feel it? Write it as a concrete request to a concrete person, in the exact words you would use. You don't have to send it. Just check whether you can put it into words.",
+    "source": "Marshall Rosenberg, Nonviolent Communication: needs and requests"
+  },
+  {
+    "id": "psi-021",
+    "stream": "psicologico",
+    "text": "Write what you do when nobody is watching and nobody is going to assess you: a whole free Sunday, no obligations and no witnesses. That is usually where what you truly value lives, underneath what you think you value. Does it match what you say about yourself?",
+    "source": "Values clarification in ACT; the psychology of intrinsic motivation (Deci and Ryan)"
+  },
+  {
+    "id": "psi-022",
+    "stream": "psicologico",
+    "text": "Think of the person you clash with most. Write what legitimate need of theirs lies underneath the behaviour that annoys you. Then write what need of yours, equally legitimate, lies underneath your reaction. Almost no conflict is about needs: almost all of them are about strategies.",
+    "source": "Marshall Rosenberg, NVC; and Sue Johnson, the negative cycle in EFT"
+  },
+  {
+    "id": "psi-023",
+    "stream": "psicologico",
+    "text": "Write what you would tell yourself if you knew you had only one year of full health left. Not a year of life: a year of energy. The constraint changes the arithmetic of what you are postponing. What falls off the list, and what moves to first place?",
+    "source": "The psychology of meaning; cf. Irvin Yalom, Existential Psychotherapy"
+  },
+  {
+    "id": "psi-024",
+    "stream": "psicologico",
+    "text": "Take the thought that repeats most in your head this week. Write it down. Then write: how long have I had it? Does it move me toward what matters to me or away from it? What would I do today if that thought were present but not in charge? The question is not whether it is true, but whether it is useful.",
+    "source": "ACT, workability and cognitive defusion"
+  },
+  {
+    "id": "psi-025",
+    "stream": "psicologico",
+    "text": "Write a scene in which you felt deeply seen by someone. Describe it in sensory detail: where you were, what they said, what loosened in your body. That memory is material: you can return to it when the threat system fires.",
+    "source": "Paul Gilbert, the soothing and affiliative system in CFT"
+  },
+  {
+    "id": "psi-026",
+    "stream": "psicologico",
+    "text": "Write an inventory of what you carry for others: tasks, care, silences, money, encouragement. Now write what others carry for you. If the scales are uneven, write what you think would happen if you started asking. Self-sacrifice usually has a belief underneath it: name it.",
+    "source": "Jeffrey Young, the self-sacrifice schema in schema therapy"
+  },
+  {
+    "id": "psi-027",
+    "stream": "psicologico",
+    "text": "Think of something you left unfinished that still takes up mental space. Write why you left it, without the official explanation you give other people. Then decide and write one of three sentences: I pick it up again on (date), I bury it today deliberately, or I put it on hold until (date).",
+    "source": "The Zeigarnik effect; goal psychology (Gollwitzer, implementation intentions)"
+  },
+  {
+    "id": "psi-028",
+    "stream": "psicologico",
+    "text": "Write about your relationship with rest. What do you think would happen if you really stopped? Who would you be letting down? What idea about your own worth depends on producing? Be specific: name the person who taught you that equation.",
+    "source": "Schema therapy (unrelenting standards) and the psychology of burnout"
+  },
+  {
+    "id": "psi-029",
+    "stream": "psicologico",
+    "text": "Write a dialogue between the part of you that wants the change and the part that sabotages it. Give them equal speaking time and forbid yourself from letting the first one win. End the dialogue with a question the saboteur asks the other, one the other cannot answer.",
+    "source": "IFS (polarised parts) and Gestalt therapy chair work"
+  },
+  {
+    "id": "psi-030",
+    "stream": "psicologico",
+    "text": "Write about a failure of yours from the angle of what it taught you, with one strict rule: no stock phrases about overcoming adversity. If you cannot find a real, concrete lesson, write that — that there isn't one, and that sometimes things simply go badly.",
+    "source": "Expressive writing and benefit finding, with the critique of forced positivity"
+  },
+  {
+    "id": "psi-031",
+    "stream": "psicologico",
+    "text": "Note the three things you are proudest of and ask after each one: who was I trying to prove it to? The answer may be \"nobody\", and then you have found a clean value. Or it may be a name, and then you have found a debt.",
+    "source": "The psychology of autonomous motivation (Deci and Ryan) and values work"
+  },
+  {
+    "id": "psi-032",
+    "stream": "psicologico",
+    "text": "Write which version of you appears when you are with each of three different people in your life. Describe them as if they were three named characters. Which one do you like most? Which one exhausts you? With whom are you the version closest to the one you would want to be always?",
+    "source": "The psychology of the relational self; IFS and ego state theory"
+  },
+  {
+    "id": "psi-033",
+    "stream": "psicologico",
+    "text": "Ikigai in four honest questions: what do I love doing, what do I do reasonably well, what does the world around me need, and what would I be paid for? Write a short answer to each and then point out where the real conflict between them lies, because there always is one.",
+    "source": "The popular ikigai framework (the four-circle diagram), with Mieko Kamiya's caveat"
+  },
+  {
+    "id": "psi-034",
+    "stream": "psicologico",
+    "text": "Write the list of emotions that were allowed in the home you grew up in and the list of those that were not. Then look at which of the forbidden ones is hardest for you to feel or express today. Write a recent scene in which that emotion showed up and what you did with it.",
+    "source": "Diane Fosha (AEDP) and experiential therapy: affect phobia"
+  },
+  {
+    "id": "psi-035",
+    "stream": "psicologico",
+    "text": "Write what you are grateful for today toward someone you have a complicated relationship with. Not to reconcile and not to justify anything: only to check whether you can hold two truths at once about the same person.",
+    "source": "Gratitude (Emmons) combined with tolerance of ambivalence (dialectical thinking, DBT)"
+  },
+  {
+    "id": "psi-036",
+    "stream": "psicologico",
+    "text": "At the end of the day, write a single sentence beginning \"today was the day when...\". Nothing more. Repeat it every night for a month and then read the thirty sentences in a row: you will see the plot of your life that no long entry would have shown you.",
+    "source": "Minimal expressive writing; the practice of a daily narrative log"
+  }
+]
