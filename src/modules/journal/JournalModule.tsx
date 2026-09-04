@@ -8,6 +8,7 @@ import Calendar from './Calendar'
 import PromptCard from './PromptCard'
 import OnThisDay from './OnThisDay'
 import Editor from '@/components/Editor'
+import Divisor, { useAnchoPanel } from '@/components/Divisor'
 import { journal, tags as tagRepo } from '@/lib/repo'
 import { countWords, EMPTY_DOC, excerpt, parseDoc, textToDoc } from '@/lib/text'
 import { endOfMonth, longDate, monthLabel, shortDate, startOfMonth, toISODate } from '@/lib/dates'
@@ -32,6 +33,10 @@ export default function JournalModule() {
   const t = useT()
   const app = useApp()
   const [date, setDate] = useState(() => toISODate())
+  /* La columna del calendario y la sugerencia del día. 320 px de fábrica —lo que
+   * tenía clavado— y hasta 560, que es donde el prompt deja de partirse en
+   * líneas de tres palabras. */
+  const diario = useAnchoPanel('ancho_diario', 320, 260, 560)
   const [entries, setEntries] = useState<JournalEntry[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)
@@ -149,7 +154,10 @@ export default function JournalModule() {
   return (
     <div className="flex h-full min-h-0">
       {/* ── Panel izquierdo ── */}
-      <div className="flex w-[320px] shrink-0 flex-col gap-3 overflow-y-auto border-r border-ink-200 p-3 dark:border-ink-800">
+      <div
+        style={{ width: diario.ancho }}
+        className="flex shrink-0 flex-col gap-3 overflow-y-auto p-3"
+      >
         <div className="relative">
           <Search size={15} className="absolute left-2.5 top-2.5 text-ink-400" />
           <input
@@ -277,6 +285,17 @@ export default function JournalModule() {
           </>
         )}
       </div>
+
+      {/* La barra hace de borde derecho de la columna, que por eso ya no lleva
+          `border-r`. */}
+      <Divisor
+        ancho={diario.ancho}
+        onAncho={diario.setAncho}
+        onSoltar={diario.guardar}
+        min={diario.min}
+        max={diario.max}
+        porDefecto={diario.porDefecto}
+      />
 
       {/* ── Panel derecho: escritura ── */}
       <div className="flex min-w-0 flex-1 flex-col">

@@ -58,13 +58,16 @@ export default function PromptCard({ date, onWriteAbout }: Props) {
         </button>
       </div>
 
-      <p className="font-serif text-[15px] leading-relaxed text-ink-800 dark:text-ink-100">
+      {/* El prompt es lo que hay que leer, no un pie de foto: 18 px con la serif
+          y el interlineado holgado. La columna se puede ensanchar hasta 560 px,
+          así que a este tamaño sigue sin partirse en líneas cortas. */}
+      <p className="font-serif text-[18px] leading-relaxed text-ink-800 dark:text-ink-100">
         {prompt.text}
       </p>
 
       {prompt.source && (
-        <p className="mt-2 flex items-start gap-1.5 text-xs italic text-ink-500 dark:text-ink-400">
-          <Quote size={12} className="mt-0.5 shrink-0" />
+        <p className="mt-2 flex items-start gap-1.5 text-sm italic text-ink-500 dark:text-ink-400">
+          <Quote size={13} className="mt-1 shrink-0" />
           {prompt.source}
         </p>
       )}

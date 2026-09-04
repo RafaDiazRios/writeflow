@@ -314,10 +314,51 @@ const binderTope = await valor(1)
 check('el ancho no se sale del máximo', binderTope === 480, `→ ${binderTope}`)
 
 await page.screenshot({ path: 'node_modules/.tmp/capturas/paneles.png' })
+
+/* ── la columna del diario y el tamaño del prompt ──
+ *
+ * Otra ruta, otra columna: en el diario solo hay dos barras, la del armazón y
+ * la de la columna del calendario. Y de paso se mide el tamaño real del texto
+ * del prompt, que es de las cosas que se encogen sin que nadie se entere: una
+ * clase de Tailwind mal escrita no rompe nada, simplemente no se aplica. */
+console.log('\n— el diario —')
+
+await page.goto('http://localhost:4334/#/diario')
+await page.waitForTimeout(1500)
+
+const barrasDiario = page.locator("div[role='separator']")
+const cuantasDiario = await barrasDiario.count()
+check('en el diario hay dos barras', cuantasDiario === 2, `→ ${cuantasDiario}`)
+
+const anchoDiarioAntes = Number(await barrasDiario.nth(1).getAttribute('aria-valuenow'))
+const cajaD = await barrasDiario.nth(1).boundingBox()
+await page.mouse.move(cajaD.x + cajaD.width / 2, cajaD.y + cajaD.height / 2)
+await page.mouse.down()
+await page.mouse.move(cajaD.x + cajaD.width / 2 + 90, cajaD.y + cajaD.height / 2, { steps: 8 })
+await page.mouse.up()
+await page.waitForTimeout(250)
+const anchoDiarioDespues = Number(await barrasDiario.nth(1).getAttribute('aria-valuenow'))
+check('la columna del diario se ensancha',
+  anchoDiarioDespues - anchoDiarioAntes >= 70, `→ ${anchoDiarioAntes} → ${anchoDiarioDespues}`)
+check('y se guarda con su propia clave',
+  guardado('ancho_diario') === anchoDiarioDespues,
+  `→ meta ${guardado('ancho_diario')} vs ${anchoDiarioDespues}`)
+
+const tipografia = await page.evaluate(() => {
+  const p = document.querySelector('.card.border-l-4 p.font-serif')
+  if (!p) return { falta: true }
+  const e = getComputedStyle(p)
+  return { px: parseFloat(e.fontSize), familia: e.fontFamily, cuantos: document.querySelectorAll('.card.border-l-4 p.font-serif').length }
+})
+check('el prompt se pinta a 18 px', tipografia.px === 18, `→ ${JSON.stringify(tipografia)}`)
+check('y con la serif', /serif|Georgia/i.test(tipografia.familia ?? ''), `→ ${tipografia.familia}`)
+check('y solo hay un párrafo de prompt', tipografia.cuantos === 1, `→ ${tipografia.cuantos}`)
+
+await page.screenshot({ path: 'node_modules/.tmp/capturas/diario.png' })
 console.log('  errores de página:', errores.length ? errores : '[]')
 if (errores.length) fallos++
 
 await browser.close()
 srv.close()
-console.log(fallos === 0 ? '\n✔ Arrastrar, los anchos y el idioma del corrector funcionan\n' : `\n✖ ${fallos} fallo(s)\n`)
+console.log(fallos === 0 ? '\n✔ El banco de pruebas de interfaz pasa\n' : `\n✖ ${fallos} fallo(s)\n`)
 process.exit(fallos === 0 ? 0 : 1)
