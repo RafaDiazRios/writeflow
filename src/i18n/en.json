@@ -406,7 +406,7 @@
   "ajustes.apariencia": "Appearance and writing",
   "ajustes.tema": "Theme",
   "ajustes.prompt.tamano": "Prompt size",
-  "ajustes.prompt.tamanoAyuda": "In pixels, the size at which you read the daily suggestion and the epigraph above the editor. It does not affect what you write or what you export.",
+  "ajustes.prompt.tamanoAyuda": "In pixels, the size at which you read every prompt: the daily suggestion and its epigraph, the narrative-therapy exercises and follow-up questions, and the guide for each essay section. It does not affect what you write or what you export.",
   "ajustes.maquinaEscribir": "Typewriter mode",
   "ajustes.maquinaEscribirAyuda": "Keeps the line you're writing centred on screen.",
   "ajustes.concentracion": "Focus mode",

@@ -210,8 +210,15 @@ export default function EssayModule() {
                     await docRepo.update(active.id, { title })
                   }}
                 />
+                {/* La guía de la plantilla ocupa el mismo sitio que el epígrafe
+                    del diario —encima del editor, con el mismo marco— y ahora
+                    también el mismo tamaño. Estaba en 12 px, dos tercios del
+                    cuerpo del editor: se leía como una nota al pie. */}
                 {showGuide && active.guide && (
-                  <p className="mt-2 rounded-md border-l-2 border-accent-400 bg-accent-50/60 px-3 py-2 text-xs leading-relaxed text-ink-600 dark:bg-accent-950/30 dark:text-ink-300">
+                  <p
+                    style={{ fontSize: `${app.promptPx}px` }}
+                    className="mt-2 rounded-md border-l-2 border-accent-400 bg-accent-50/60 px-3 py-2.5 font-serif italic leading-relaxed text-ink-600 dark:bg-accent-950/30 dark:text-ink-300"
+                  >
                     {active.guide}
                   </p>
                 )}

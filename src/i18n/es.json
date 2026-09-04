@@ -406,7 +406,7 @@
   "ajustes.apariencia": "Apariencia y escritura",
   "ajustes.tema": "Tema",
   "ajustes.prompt.tamano": "Tamaño de los prompts",
-  "ajustes.prompt.tamanoAyuda": "En píxeles, con el que se leen la sugerencia del día y el epígrafe que queda sobre el editor. No afecta a lo que escribes ni a lo que exportas.",
+  "ajustes.prompt.tamanoAyuda": "En píxeles, con el que se leen todos los prompts: la sugerencia del día y su epígrafe, las consignas y preguntas de la terapia narrativa, y la guía de cada sección del ensayo. No afecta a lo que escribes ni a lo que exportas.",
   "ajustes.maquinaEscribir": "Modo máquina de escribir",
   "ajustes.maquinaEscribirAyuda": "Mantiene la línea activa centrada en la pantalla.",
   "ajustes.concentracion": "Modo concentración",

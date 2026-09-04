@@ -150,7 +150,14 @@ export default function TherapyModule() {
           <div className="mx-auto max-w-3xl px-4 py-4 sm:px-6 sm:py-5">
             <div className="card mb-5 border-l-4 border-l-emerald-500 p-4">
               <p className="panel-title mb-1.5">{t('terapia.consigna')}</p>
-              <p className="font-serif text-[15px] leading-relaxed">{entry.prompt_text}</p>
+              {/* La consigna es el prompt de este módulo: va al mismo tamaño que
+                  el del diario, que es el que elige el usuario en Ajustes. */}
+              <p
+                style={{ fontSize: `${app.promptPx}px` }}
+                className="font-serif leading-relaxed"
+              >
+                {entry.prompt_text}
+              </p>
               {ex?.source && (
                 <p className="mt-2 text-[11px] italic text-ink-500">
                   {t('terapia.fuente', { fuente: ex.source })}
@@ -175,7 +182,15 @@ export default function TherapyModule() {
                 <div className="space-y-3">
                   {followups.map((f, i) => (
                     <div key={i} className="card p-3">
-                      <p className="mb-1.5 text-sm font-medium">{f.q}</p>
+                      {/* También son prompts: se leen para contestarlas. El
+                          cuadro de respuesta no las sigue, que eso ya es
+                          escribir. */}
+                      <p
+                        style={{ fontSize: `${app.promptPx}px` }}
+                        className="mb-1.5 font-serif leading-relaxed"
+                      >
+                        {f.q}
+                      </p>
                       <textarea
                         className="input min-h-[70px] resize-y font-serif text-[14px] leading-relaxed"
                         value={f.a}
@@ -313,7 +328,13 @@ export default function TherapyModule() {
               <p className="mb-2 text-[11px] font-medium uppercase tracking-wide text-accent-600 dark:text-accent-400">
                 {ex.school}
               </p>
-              <p className="line-clamp-4 text-xs leading-relaxed text-ink-600 dark:text-ink-300">
+              {/* El catálogo se lee para elegir, así que es texto de prompt y no
+                  un pie de tarjeta. `line-clamp-4` mantiene la rejilla pareja
+                  aunque se suba a 24 px. */}
+              <p
+                style={{ fontSize: `${app.promptPx}px` }}
+                className="line-clamp-4 font-serif leading-relaxed text-ink-600 dark:text-ink-300"
+              >
                 {ex.prompt}
               </p>
             </button>

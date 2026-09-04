@@ -204,13 +204,15 @@ export interface FollowupAnswer {
   a: string
 }
 
-/* Los tamaños en los que se pueden leer los prompts: la tarjeta del diario y el
- * epígrafe que queda sobre el editor. Son **píxeles, no porcentajes**: se eligió
- * así porque un porcentaje obliga a saber de qué, y aquí lo que se quiere es
- * decir «quiero esta letra de este tamaño».
+/* Los tamaños en los que se pueden leer los prompts. Son **píxeles, no
+ * porcentajes**: se eligió así porque un porcentaje obliga a saber de qué, y
+ * aquí lo que se quiere es decir «quiero esta letra de este tamaño».
  *
- * Los dos sitios leen el mismo número, así que no pueden separarse por
- * descuido: es el mismo texto en dos pantallas y verlo a dos tamaños confunde.
+ * Un único número para los seis sitios donde hay un prompt que leer: la tarjeta
+ * del día y el epígrafe del diario, la consigna, el catálogo y las preguntas de
+ * seguimiento de la terapia, y la guía de sección del ensayo. Todos leen esta
+ * lista, así que no pueden separarse por descuido: son textos de la misma clase
+ * y verlos a tamaños distintos en cada módulo confunde.
  *
  * Vive aquí y no en un CSS porque es un ajuste del usuario y se aplica en
  * línea; una clase de Tailwind no puede llevar un número variable.

@@ -35,6 +35,16 @@ doc('e2', 'La casa por dentro', 'scene', 'acto1', 100)
 doc('e3', 'El reloj parado', 'scene', 'acto1', 200)
 doc('acto2', 'Segundo acto', 'folder', null, 100)
 
+/* Y un ensayo con una sección que trae guía de plantilla: la guía es el prompt
+ * de ese módulo, y sin proyecto no hay manera de llegar hasta ella. */
+db.exec(`INSERT INTO projects (id, kind, title, created_at, updated_at, rev, dirty)
+         VALUES ('p2', 'essay', 'El oficio de mirar', '${ahora}', '${ahora}', 1, 0)`)
+db.exec(`INSERT INTO documents (id, project_id, position, kind, title, guide,
+           content_json, content_text, word_count, in_compile, created_at, updated_at, rev, dirty)
+         VALUES ('s1', 'p2', 0, 'section', 'Introducción',
+           'Presenta el tema y anuncia la tesis sin adelantar todavía las pruebas.',
+           '', '', 0, 1, '${ahora}', '${ahora}', 1, 0)`)
+
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml' }
 const srv = createServer(async (req, res) => {
   if (req.url === '/sql') {
@@ -445,6 +455,58 @@ check('el tamaño de la barra cambia el texto del editor', conZoom.px === 26,
 check('y los encabezados crecen con el cuerpo',
   conZoom.titulo !== null && Math.abs(conZoom.titulo - 26 * 1.875) < 1,
   `→ ${JSON.stringify(conZoom)}`)
+/* Los otros dos módulos que tienen prompts. El ajuste es uno solo a propósito
+ * —la queja era justamente que cada módulo iba por su cuenta—, así que lo que
+ * se comprueba no es que cada sitio tenga un tamaño razonable, sino que los
+ * seis lean el mismo número. `prompt_px` sigue en 24 desde más arriba. */
+await page.goto('http://localhost:4334/#/terapia')
+await page.waitForTimeout(1200)
+
+const catalogo = await page.evaluate(() => {
+  const p = document.querySelector('p.line-clamp-4')
+  return p ? parseFloat(getComputedStyle(p).fontSize) : null
+})
+check('el catalogo de terapia usa el tamaño de los prompts', catalogo === 24, `→ ${catalogo}`)
+
+await page.screenshot({ path: 'node_modules/.tmp/capturas/terapia-catalogo.png' })
+
+// Abrir un ejercicio deja la consigna arriba y las preguntas de seguimiento
+// debajo del editor. Las dos son prompts y van al mismo tamaño.
+await page.locator('p.line-clamp-4').first().click()
+await page.waitForTimeout(1200)
+
+const sesion = await page.evaluate(() => {
+  const consigna = document.querySelector('.border-l-emerald-500 p.font-serif')
+  const todos = [...document.querySelectorAll('p.font-serif')]
+  return {
+    consigna: consigna ? parseFloat(getComputedStyle(consigna).fontSize) : null,
+    cuantos: todos.length,
+    tamanos: [...new Set(todos.map((p) => parseFloat(getComputedStyle(p).fontSize)))],
+  }
+})
+check('la consigna de terapia también', sesion.consigna === 24, `→ ${JSON.stringify(sesion)}`)
+check('y las preguntas de seguimiento van con ella',
+  sesion.cuantos >= 2 && sesion.tamanos.length === 1 && sesion.tamanos[0] === 24,
+  `→ ${JSON.stringify(sesion)}`)
+
+await page.screenshot({ path: 'node_modules/.tmp/capturas/terapia-prompt.png' })
+
+/* Y la guía de sección del ensayo, que ocupa el mismo sitio que el epígrafe del
+ * diario y comparte hasta el marco. Estuvo en 12 px desde el principio. */
+await page.goto('http://localhost:4334/#/ensayos')
+await page.waitForTimeout(1200)
+await page.getByText('El oficio de mirar').first().click()
+await page.waitForTimeout(1200)
+
+const guia = await page.evaluate(() => {
+  const g = document.querySelector('.border-l-2.border-accent-400')
+  return { px: g ? parseFloat(getComputedStyle(g).fontSize) : null, texto: (g?.textContent ?? '').slice(0, 30) }
+})
+check('la guia de seccion del ensayo se pinta', guia.texto.length > 10, `→ ${JSON.stringify(guia)}`)
+check('y al mismo tamaño que los demas prompts', guia.px === 24, `→ ${JSON.stringify(guia)}`)
+
+await page.screenshot({ path: 'node_modules/.tmp/capturas/ensayo-guia.png' })
+
 console.log('  errores de página:', errores.length ? errores : '[]')
 if (errores.length) fallos++
 

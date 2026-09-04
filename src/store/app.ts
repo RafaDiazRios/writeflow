@@ -31,8 +31,8 @@ interface AppState {
    * idioma ya resuelto vive en el módulo de i18n, que es donde lo consultan
    * el editor y los exportadores. */
   writeLang: PrefEscritura
-  /* Tamaño en píxeles con el que se leen los prompts: la tarjeta del diario y
-   * el epígrafe que queda sobre el editor. */
+  /* Tamaño en píxeles con el que se leen todos los prompts, en los tres
+   * módulos que los tienen: diario, terapia y ensayo. Ver TAMANOS_PROMPT. */
   promptPx: number
   weekStart: InicioSemana
 
