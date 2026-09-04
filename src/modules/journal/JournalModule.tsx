@@ -379,8 +379,12 @@ export default function JournalModule() {
                 />
               </div>
 
+              {/* El prompt que dio pie a la entrada, como epígrafe sobre el editor.
+                  16 px: uno menos que el cuerpo del editor (17), porque es un
+                  recordatorio de lo que estás escribiendo, no el texto. Estaba en
+                  12, que es menos de tres cuartos de lo que se lee debajo. */}
               {active.prompt_text && (
-                <div className="mt-2.5 rounded-md border-l-2 border-accent-400 bg-accent-50/60 px-3 py-2 text-xs italic leading-relaxed text-ink-600 dark:bg-accent-950/30 dark:text-ink-300">
+                <div className="mt-2.5 rounded-md border-l-2 border-accent-400 bg-accent-50/60 px-3 py-2.5 font-serif text-[16px] italic leading-relaxed text-ink-600 dark:bg-accent-950/30 dark:text-ink-300">
                   {active.prompt_text}
                 </div>
               )}

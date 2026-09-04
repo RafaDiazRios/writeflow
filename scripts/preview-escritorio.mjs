@@ -355,6 +355,31 @@ check('y con la serif', /serif|Georgia/i.test(tipografia.familia ?? ''), `→ ${
 check('y solo hay un párrafo de prompt', tipografia.cuantos === 1, `→ ${tipografia.cuantos}`)
 
 await page.screenshot({ path: 'node_modules/.tmp/capturas/diario.png' })
+
+/* «Escribir sobre esto» crea la entrada y deja el prompt de epígrafe sobre el
+ * editor. Se comprueba el camino entero —clic, entrada creada, epígrafe pintado—
+ * y el tamaño computado del epígrafe, que tiene que quedarse por debajo del
+ * cuerpo del editor: es un recordatorio, no el texto que se escribe. */
+await page.getByRole('button', { name: 'Escribir sobre esto' }).click()
+await page.waitForTimeout(900)
+
+const epigrafe = await page.evaluate(() => {
+  const d = document.querySelector('.border-l-2.border-accent-400')
+  const prosa = document.querySelector('.wf-prose')
+  if (!d || !prosa) return { falta: !d ? 'epigrafe' : 'editor' }
+  return {
+    px: parseFloat(getComputedStyle(d).fontSize),
+    cuerpo: parseFloat(getComputedStyle(prosa).fontSize),
+    texto: (d.textContent ?? '').slice(0, 40),
+  }
+})
+check('«Escribir sobre esto» abre el editor con el prompt de epigrafe',
+  (epigrafe.texto ?? '').length > 10, `→ ${JSON.stringify(epigrafe)}`)
+check('el epigrafe se pinta a 16 px', epigrafe.px === 16, `→ ${JSON.stringify(epigrafe)}`)
+check('y no le gana al cuerpo del editor', epigrafe.px < epigrafe.cuerpo,
+  `→ epigrafe ${epigrafe.px} vs cuerpo ${epigrafe.cuerpo}`)
+
+await page.screenshot({ path: 'node_modules/.tmp/capturas/epigrafe.png' })
 console.log('  errores de página:', errores.length ? errores : '[]')
 if (errores.length) fallos++
 
