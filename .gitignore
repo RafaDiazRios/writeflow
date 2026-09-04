@@ -49,3 +49,6 @@ _to_delete/
 
 # Iconos de iOS: los genera «tauri icon» y aquí no hay objetivo iOS todavía.
 src-tauri/icons/ios/
+
+# Registros de las herramientas de desarrollo (tauri dev, mirar, npm).
+*.log
