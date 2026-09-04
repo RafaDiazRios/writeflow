@@ -420,6 +420,31 @@ const cuerpo = await page.evaluate(() => {
   return p ? parseFloat(getComputedStyle(p).fontSize) : null
 })
 check('el cuerpo del editor son los 17 px que declara EDITOR_PX', cuerpo === 17, `→ ${cuerpo}`)
+
+/* Y que el selector de tamaño de la barra **sirva de algo**. Estuvo roto desde
+ * el principio y nadie lo notó: el contenedor se escalaba en `em` mientras
+ * `.wf-prose` traía su propio `text-[17px]` absoluto, así que el texto no se
+ * movía. Elegir un tamaño y que no pase nada es un fallo que no rompe ninguna
+ * prueba de tipos ni deja ningún error en consola. */
+meta('font_scale', '1.5')
+await page.reload()
+await page.waitForTimeout(1500)
+await page.getByText('Sin título').first().click()
+await page.waitForTimeout(700)
+const conZoom = await page.evaluate(() => {
+  const p = document.querySelector('.wf-prose')
+  const h1 = document.createElement('h1')
+  p?.appendChild(h1)
+  const px = p ? parseFloat(getComputedStyle(p).fontSize) : null
+  const titulo = h1.isConnected ? parseFloat(getComputedStyle(h1).fontSize) : null
+  h1.remove()
+  return { px, titulo }
+})
+check('el tamaño de la barra cambia el texto del editor', conZoom.px === 26,
+  `→ ${JSON.stringify(conZoom)}`)
+check('y los encabezados crecen con el cuerpo',
+  conZoom.titulo !== null && Math.abs(conZoom.titulo - 26 * 1.875) < 1,
+  `→ ${JSON.stringify(conZoom)}`)
 console.log('  errores de página:', errores.length ? errores : '[]')
 if (errores.length) fallos++
 

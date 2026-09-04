@@ -93,8 +93,16 @@
   padding: 2.4cm 2.6cm;
 }
 
+/* El tamaño NO se declara aquí: lo pone el editor en línea, multiplicando
+ * `EDITOR_PX` por el zoom que haya elegido el usuario en la barra. Cuando este
+ * bloque llevaba un `text-[17px]` absoluto, el selector de tamaño no hacía
+ * nada: el padre se escalaba y el texto se quedaba clavado.
+ *
+ * Por eso todo lo de dentro va en `em` y no en tamaños fijos: encabezados,
+ * código y tablas tienen que crecer con el cuerpo. */
 .wf-prose {
-  @apply font-serif text-[17px] leading-[1.75] text-ink-900 dark:text-ink-100;
+  @apply font-serif leading-[1.75] text-ink-900 dark:text-ink-100;
+  font-size: inherit;
 }
 .wf-prose:focus {
   outline: none;
@@ -103,13 +111,16 @@
   margin: 0 0 0.85em;
 }
 .wf-prose h1 {
-  @apply mb-4 mt-8 font-sans text-3xl font-bold tracking-tight;
+  @apply mb-4 mt-8 font-sans font-bold tracking-tight;
+  font-size: 1.875em;
 }
 .wf-prose h2 {
-  @apply mb-3 mt-7 font-sans text-2xl font-semibold tracking-tight;
+  @apply mb-3 mt-7 font-sans font-semibold tracking-tight;
+  font-size: 1.5em;
 }
 .wf-prose h3 {
-  @apply mb-2 mt-6 font-sans text-xl font-semibold;
+  @apply mb-2 mt-6 font-sans font-semibold;
+  font-size: 1.25em;
 }
 .wf-prose blockquote {
   @apply my-4 border-l-4 border-accent-300 pl-4 italic text-ink-600 dark:border-accent-700 dark:text-ink-300;
@@ -127,7 +138,8 @@
   @apply rounded bg-ink-100 px-1.5 py-0.5 font-mono text-[0.85em] dark:bg-ink-800;
 }
 .wf-prose pre {
-  @apply my-4 overflow-x-auto rounded-md bg-ink-900 p-4 font-mono text-sm text-ink-100;
+  @apply my-4 overflow-x-auto rounded-md bg-ink-900 p-4 font-mono text-ink-100;
+  font-size: 0.875em;
 }
 .wf-prose pre code {
   @apply bg-transparent p-0 text-inherit;
@@ -152,7 +164,8 @@
   @apply border border-ink-300 px-3 py-1.5 align-top dark:border-ink-700;
 }
 .wf-prose th {
-  @apply bg-ink-100 font-sans text-sm font-semibold dark:bg-ink-800;
+  @apply bg-ink-100 font-sans font-semibold dark:bg-ink-800;
+  font-size: 0.875em;
 }
 .wf-prose ul[data-type='taskList'] {
   @apply list-none pl-1;

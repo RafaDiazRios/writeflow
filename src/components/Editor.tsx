@@ -28,6 +28,7 @@ import { imagenesDe, prepararImagen } from '@/lib/imagenes'
 import EditorToolbar from './EditorToolbar'
 import MobileToolbar from './MobileToolbar'
 import { LOCALE_INTL, resolverEscritura, t } from '@/i18n'
+import { EDITOR_PX } from '@/lib/types'
 
 export interface EditorProps {
   value: JSONContent | null
@@ -214,7 +215,11 @@ export default function Editor({
       <div className={`min-h-0 flex-1 overflow-y-auto ${paged ? 'bg-ink-100 py-8 dark:bg-ink-950' : ''}`}>
         <div
           className={paged ? 'wf-page' : isMobile ? 'px-4 py-3' : 'px-6 py-4'}
-          style={{ fontSize: `${fontScale}em` }}
+          /* En píxeles y no en `em`: `.wf-prose` ya no declara tamaño y hereda
+             de aquí, que es lo que hace que el selector de la barra funcione.
+             Con `em` sobre un hijo que traía su propio `text-[17px]`, el zoom
+             no movía nada. */
+          style={{ fontSize: `${Math.round(EDITOR_PX * fontScale)}px` }}
         >
           <div className={typewriter && !isMobile ? 'wf-typewriter' : ''}>
             <EditorContent editor={editor} />
