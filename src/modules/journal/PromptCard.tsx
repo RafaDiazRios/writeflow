@@ -3,6 +3,7 @@ import { Quote, RefreshCw, Sparkles } from 'lucide-react'
 import { markPromptShown, promptForDay, rerollPrompt, streamLabel } from '@/lib/prompts'
 import { useT } from '@/i18n/useT'
 import { useApp } from '@/store/app'
+import { PROMPT_PX } from '@/lib/types'
 import type { DailyPrompt } from '@/lib/types'
 
 interface Props {
@@ -17,6 +18,7 @@ interface Props {
 export default function PromptCard({ date, onWriteAbout }: Props) {
   const t = useT()
   const streams = useApp((s) => s.streams)
+  const escala = useApp((s) => s.promptScale)
   const [prompt, setPrompt] = useState<DailyPrompt>(() => promptForDay(date, streams))
   const [seen, setSeen] = useState<string[]>([])
 
@@ -58,10 +60,14 @@ export default function PromptCard({ date, onWriteAbout }: Props) {
         </button>
       </div>
 
-      {/* El prompt es lo que hay que leer, no un pie de foto: 18 px con la serif
-          y el interlineado holgado. La columna se puede ensanchar hasta 560 px,
-          así que a este tamaño sigue sin partirse en líneas cortas. */}
-      <p className="font-serif text-[18px] leading-relaxed text-ink-800 dark:text-ink-100">
+      {/* El prompt es lo que hay que leer, no un pie de foto: la serif, el
+          interlineado holgado y el tamaño que haya elegido el usuario en
+          Ajustes. La columna se ensancha hasta 560 px, así que aguanta los
+          tamaños grandes sin partirse en líneas de tres palabras. */}
+      <p
+        style={{ fontSize: `${Math.round(PROMPT_PX * escala)}px` }}
+        className="font-serif leading-relaxed text-ink-800 dark:text-ink-100"
+      >
         {prompt.text}
       </p>
 

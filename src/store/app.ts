@@ -31,6 +31,9 @@ interface AppState {
    * idioma ya resuelto vive en el módulo de i18n, que es donde lo consultan
    * el editor y los exportadores. */
   writeLang: PrefEscritura
+  /* Multiplicador del tamaño con el que se leen los prompts: la tarjeta del
+   * diario y el epígrafe que queda sobre el editor. 1 = 18 px. */
+  promptScale: number
   weekStart: InicioSemana
 
   // nube
@@ -59,6 +62,7 @@ interface AppState {
   setUiLang: (l: Idioma) => Promise<void>
   setContentLang: (l: Idioma) => Promise<void>
   setWriteLang: (v: PrefEscritura) => Promise<void>
+  setPromptScale: (n: number) => Promise<void>
   setWeekStart: (v: InicioSemana) => Promise<void>
   set: (patch: Partial<AppState>) => void
   notify: (kind: 'ok' | 'error' | 'info', text: string) => void
@@ -82,6 +86,7 @@ export const useApp = create<AppState>((set, get) => ({
   uiLang: 'es',
   contentLang: 'es',
   writeLang: 'auto',
+  promptScale: 1,
   weekStart: 1,
 
   cloudConfigured: false,
@@ -111,6 +116,9 @@ export const useApp = create<AppState>((set, get) => ({
      * guardado aquí y hasta ahora escribía en el idioma de la interfaz. Con
      * 'auto' sigue igual, sin migración ni sorpresas. */
     const writeLang = ((await getMeta('write_lang')) as PrefEscritura) || 'auto'
+    /* Se limita al leerlo: un valor escrito por una versión más nueva —o a
+     * mano en la tabla— no puede dejar el prompt ilegible ni gigante. */
+    const promptScale = Math.min(2, Math.max(1, Number((await getMeta('prompt_scale')) || '1') || 1))
     // El lunes por defecto vale para España y para el Reino Unido.
     const weekStart = (Number((await getMeta('week_start')) ?? 1) === 0 ? 0 : 1) as InicioSemana
 
@@ -119,7 +127,10 @@ export const useApp = create<AppState>((set, get) => ({
     setIdiomaEscritura(resolverEscritura(writeLang, uiLang))
     setInicioSemana(weekStart)
     applyTheme(theme)
-    set({ ready: true, theme, fontScale, streams, uiLang, contentLang, writeLang, weekStart })
+    set({
+      ready: true, theme, fontScale, streams,
+      uiLang, contentLang, writeLang, promptScale, weekStart,
+    })
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
       if (get().theme === 'system') applyTheme('system')
     })
@@ -164,6 +175,12 @@ export const useApp = create<AppState>((set, get) => ({
     await setMeta('write_lang', v)
     setIdiomaEscritura(resolverEscritura(v, get().uiLang))
     set({ writeLang: v })
+  },
+
+  async setPromptScale(n) {
+    const limitado = Math.min(2, Math.max(1, n))
+    await setMeta('prompt_scale', String(limitado))
+    set({ promptScale: limitado })
   },
 
   async setWeekStart(v) {

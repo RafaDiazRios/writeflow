@@ -365,21 +365,51 @@ await page.waitForTimeout(900)
 
 const epigrafe = await page.evaluate(() => {
   const d = document.querySelector('.border-l-2.border-accent-400')
-  const prosa = document.querySelector('.wf-prose')
-  if (!d || !prosa) return { falta: !d ? 'epigrafe' : 'editor' }
+  const tarjeta = document.querySelector('.card.border-l-4 p.font-serif')
+  if (!d || !tarjeta) return { falta: !d ? 'epigrafe' : 'tarjeta' }
   return {
     px: parseFloat(getComputedStyle(d).fontSize),
-    cuerpo: parseFloat(getComputedStyle(prosa).fontSize),
+    tarjeta: parseFloat(getComputedStyle(tarjeta).fontSize),
     texto: (d.textContent ?? '').slice(0, 40),
   }
 })
 check('«Escribir sobre esto» abre el editor con el prompt de epigrafe',
   (epigrafe.texto ?? '').length > 10, `→ ${JSON.stringify(epigrafe)}`)
-check('el epigrafe se pinta a 16 px', epigrafe.px === 16, `→ ${JSON.stringify(epigrafe)}`)
-check('y no le gana al cuerpo del editor', epigrafe.px < epigrafe.cuerpo,
-  `→ epigrafe ${epigrafe.px} vs cuerpo ${epigrafe.cuerpo}`)
+check('el epigrafe se pinta a 18 px sin tocar el ajuste', epigrafe.px === 18,
+  `→ ${JSON.stringify(epigrafe)}`)
+/* No se compara con el cuerpo del editor a propósito. Se probó a dejar el
+ * epígrafe por debajo —16 frente a 17— por jerarquía, y en la aplicación de
+ * verdad se leía pequeño. Manda que los dos sitios donde aparece el mismo
+ * prompt coincidan, y a partir de ahí lo elige el usuario. */
+check('y al mismo tamaño que la tarjeta de la columna', epigrafe.px === epigrafe.tarjeta,
+  `→ epigrafe ${epigrafe.px} vs tarjeta ${epigrafe.tarjeta}`)
 
 await page.screenshot({ path: 'node_modules/.tmp/capturas/epigrafe.png' })
+
+/* El ajuste de tamaño de los prompts. Lo que se comprueba no es solo que el
+ * número suba, sino que los **dos sitios se muevan juntos**: es el mismo texto
+ * en la columna y sobre el editor, y verlo a dos tamaños distintos confunde.
+ * Si alguien vuelve a poner una clase fija en uno de los dos, esto lo caza. */
+meta('prompt_scale', '1.5')
+await page.reload()
+await page.waitForTimeout(1500)
+await page.getByText('Sin título').first().click()
+await page.waitForTimeout(700)
+
+const grandes = await page.evaluate(() => {
+  const tarjeta = document.querySelector('.card.border-l-4 p.font-serif')
+  const epi = document.querySelector('.border-l-2.border-accent-400')
+  return {
+    tarjeta: tarjeta ? parseFloat(getComputedStyle(tarjeta).fontSize) : null,
+    epigrafe: epi ? parseFloat(getComputedStyle(epi).fontSize) : null,
+  }
+})
+check('el ajuste de tamaño llega a la tarjeta', grandes.tarjeta === 27, `→ ${JSON.stringify(grandes)}`)
+check('y al epigrafe', grandes.epigrafe === 27, `→ ${JSON.stringify(grandes)}`)
+check('los dos van al mismo tamaño', grandes.tarjeta === grandes.epigrafe,
+  `→ ${JSON.stringify(grandes)}`)
+
+await page.screenshot({ path: 'node_modules/.tmp/capturas/prompt-grande.png' })
 console.log('  errores de página:', errores.length ? errores : '[]')
 if (errores.length) fallos++
 

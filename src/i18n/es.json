@@ -405,6 +405,8 @@
   "ajustes.titulo": "Ajustes",
   "ajustes.apariencia": "Apariencia y escritura",
   "ajustes.tema": "Tema",
+  "ajustes.prompt.tamano": "Tamaño de los prompts",
+  "ajustes.prompt.tamanoAyuda": "Con el que se leen la sugerencia del día y el epígrafe que queda sobre el editor. No afecta a lo que escribes ni a lo que exportas.",
   "ajustes.maquinaEscribir": "Modo máquina de escribir",
   "ajustes.maquinaEscribirAyuda": "Mantiene la línea activa centrada en la pantalla.",
   "ajustes.concentracion": "Modo concentración",

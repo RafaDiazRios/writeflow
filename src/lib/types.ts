@@ -203,3 +203,15 @@ export interface FollowupAnswer {
   q: string
   a: string
 }
+
+/* El tamaño base con el que se leen los prompts, en píxeles: la tarjeta del
+ * diario y el epígrafe que queda sobre el editor. Los dos sitios salen de aquí
+ * multiplicados por `promptScale`, así que no pueden separarse por descuido —
+ * es el mismo texto en dos pantallas y verlo a dos tamaños confunde.
+ *
+ * Vive aquí y no en un CSS porque el multiplicador es un ajuste del usuario y
+ * se aplica en línea; una clase de Tailwind no puede llevar un número variable.
+ */
+export const PROMPT_PX = 18
+
+export const ESCALAS_PROMPT = [1, 1.15, 1.3, 1.5] as const

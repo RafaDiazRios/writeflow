@@ -16,6 +16,7 @@ import { SALIDA_COMPARTIDA, exportJournalDocx } from '@/lib/export'
 import { useRefrescoTrasSync } from '@/lib/refresco'
 import { markPromptUsed } from '@/lib/prompts'
 import { useApp } from '@/store/app'
+import { PROMPT_PX } from '@/lib/types'
 import type { DailyPrompt, JournalEntry } from '@/lib/types'
 import { num } from '@/i18n'
 import { useT } from '@/i18n/useT'
@@ -37,6 +38,7 @@ export default function JournalModule() {
    * tenía clavado— y hasta 560, que es donde el prompt deja de partirse en
    * líneas de tres palabras. */
   const diario = useAnchoPanel('ancho_diario', 320, 260, 560)
+  const escalaPrompt = useApp((s) => s.promptScale)
   const [entries, setEntries] = useState<JournalEntry[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)
@@ -379,12 +381,16 @@ export default function JournalModule() {
                 />
               </div>
 
-              {/* El prompt que dio pie a la entrada, como epígrafe sobre el editor.
-                  16 px: uno menos que el cuerpo del editor (17), porque es un
-                  recordatorio de lo que estás escribiendo, no el texto. Estaba en
-                  12, que es menos de tres cuartos de lo que se lee debajo. */}
+              {/* El prompt que dio pie a la entrada, como epígrafe sobre el
+                  editor. Mismo tamaño que en la tarjeta de la columna: es el
+                  mismo texto en dos sitios y leerlo a dos tamaños distintos
+                  confunde. Empezó en 12 px, que era menos de tres cuartos del
+                  cuerpo del editor, y pasó a seguir el ajuste del usuario. */}
               {active.prompt_text && (
-                <div className="mt-2.5 rounded-md border-l-2 border-accent-400 bg-accent-50/60 px-3 py-2.5 font-serif text-[16px] italic leading-relaxed text-ink-600 dark:bg-accent-950/30 dark:text-ink-300">
+                <div
+                  style={{ fontSize: `${Math.round(PROMPT_PX * escalaPrompt)}px` }}
+                  className="mt-2.5 rounded-md border-l-2 border-accent-400 bg-accent-50/60 px-3 py-2.5 font-serif italic leading-relaxed text-ink-600 dark:bg-accent-950/30 dark:text-ink-300"
+                >
                   {active.prompt_text}
                 </div>
               )}

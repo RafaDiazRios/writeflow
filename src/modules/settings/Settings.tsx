@@ -12,7 +12,7 @@ import { openConflicts, resolveConflict, syncNow } from '@/lib/sync'
 import ClaveCompartida from './ClaveCompartida'
 import { pendingCounts } from '@/lib/repo'
 import { indexedAt, indexSize, rebuildIndex } from '@/lib/search'
-import { CORRIENTES } from '@/lib/types'
+import { CORRIENTES, ESCALAS_PROMPT, PROMPT_PX } from '@/lib/types'
 import type { PromptStream } from '@/lib/types'
 import { num, fechaHora } from '@/i18n'
 import {
@@ -93,6 +93,25 @@ export default function Settings() {
 
         {/* ── Apariencia ── */}
         <Section icon={<Palette size={16} />} title={t('ajustes.apariencia')}>
+          <Row label={t('ajustes.prompt.tamano')} hint={t('ajustes.prompt.tamanoAyuda')}>
+            <div className="flex gap-1">
+              {ESCALAS_PROMPT.map((e) => (
+                <button
+                  key={e}
+                  onClick={() => app.setPromptScale(e)}
+                  title={`${Math.round(PROMPT_PX * e)} px`}
+                  className={`rounded px-3 py-1 transition ${
+                    app.promptScale === e ? 'bg-accent-600 text-white' : 'bg-ink-100 dark:bg-ink-800'
+                  }`}
+                  /* Cada botón se pinta a su propio tamaño: se elige viendo el
+                     resultado, no leyendo un porcentaje. */
+                  style={{ fontSize: `${Math.round(11 * e)}px` }}
+                >
+                  A
+                </button>
+              ))}
+            </div>
+          </Row>
           <Row label={t('ajustes.tema')}>
             <div className="flex gap-1">
               {(['light', 'dark', 'system'] as const).map((tema) => (
