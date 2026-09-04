@@ -3,7 +3,15 @@ import { getMeta, setMeta } from '@/lib/db'
 import { CORRIENTES } from '@/lib/types'
 import type { PromptStream } from '@/lib/types'
 import { getStreams, setStreams } from '@/lib/prompts'
-import { idiomaDelSistema, setIdiomaContenido, setIdiomaUI, type Idioma } from '@/i18n'
+import {
+  idiomaDelSistema,
+  resolverEscritura,
+  setIdiomaContenido,
+  setIdiomaEscritura,
+  setIdiomaUI,
+  type Idioma,
+  type PrefEscritura,
+} from '@/i18n'
 import { setInicioSemana, type InicioSemana } from '@/lib/dates'
 
 export type Theme = 'light' | 'dark' | 'system'
@@ -19,6 +27,10 @@ interface AppState {
   // idioma. Son preferencias del equipo: ni se cifran ni se sincronizan.
   uiLang: Idioma
   contentLang: Idioma
+  /* La preferencia tal cual la eligió el usuario, con 'auto' incluido. El
+   * idioma ya resuelto vive en el módulo de i18n, que es donde lo consultan
+   * el editor y los exportadores. */
+  writeLang: PrefEscritura
   weekStart: InicioSemana
 
   // nube
@@ -46,6 +58,7 @@ interface AppState {
   updateStreams: (s: PromptStream[]) => Promise<void>
   setUiLang: (l: Idioma) => Promise<void>
   setContentLang: (l: Idioma) => Promise<void>
+  setWriteLang: (v: PrefEscritura) => Promise<void>
   setWeekStart: (v: InicioSemana) => Promise<void>
   set: (patch: Partial<AppState>) => void
   notify: (kind: 'ok' | 'error' | 'info', text: string) => void
@@ -68,6 +81,7 @@ export const useApp = create<AppState>((set, get) => ({
 
   uiLang: 'es',
   contentLang: 'es',
+  writeLang: 'auto',
   weekStart: 1,
 
   cloudConfigured: false,
@@ -93,14 +107,19 @@ export const useApp = create<AppState>((set, get) => ({
     // manda lo que el usuario haya elegido, aunque cambie el del equipo.
     const uiLang = ((await getMeta('ui_lang')) as Idioma) || idiomaDelSistema()
     const contentLang = ((await getMeta('content_lang')) as Idioma) || uiLang
+    /* 'auto' por defecto, y a propósito: quien venga de la 0.3.0 no tiene nada
+     * guardado aquí y hasta ahora escribía en el idioma de la interfaz. Con
+     * 'auto' sigue igual, sin migración ni sorpresas. */
+    const writeLang = ((await getMeta('write_lang')) as PrefEscritura) || 'auto'
     // El lunes por defecto vale para España y para el Reino Unido.
     const weekStart = (Number((await getMeta('week_start')) ?? 1) === 0 ? 0 : 1) as InicioSemana
 
     setIdiomaUI(uiLang)
     setIdiomaContenido(contentLang)
+    setIdiomaEscritura(resolverEscritura(writeLang, uiLang))
     setInicioSemana(weekStart)
     applyTheme(theme)
-    set({ ready: true, theme, fontScale, streams, uiLang, contentLang, weekStart })
+    set({ ready: true, theme, fontScale, streams, uiLang, contentLang, writeLang, weekStart })
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
       if (get().theme === 'system') applyTheme('system')
     })
@@ -128,6 +147,10 @@ export const useApp = create<AppState>((set, get) => ({
   async setUiLang(l) {
     await setMeta('ui_lang', l)
     setIdiomaUI(l)
+    /* Mientras el idioma de escritura esté en 'auto' va detrás de este. Si no
+     * se recalculara aquí, cambiar la interfaz dejaría el corrector y el
+     * `.docx` en el idioma anterior hasta el siguiente arranque. */
+    setIdiomaEscritura(resolverEscritura(get().writeLang, l))
     set({ uiLang: l })
   },
 
@@ -135,6 +158,12 @@ export const useApp = create<AppState>((set, get) => ({
     await setMeta('content_lang', l)
     setIdiomaContenido(l)
     set({ contentLang: l })
+  },
+
+  async setWriteLang(v) {
+    await setMeta('write_lang', v)
+    setIdiomaEscritura(resolverEscritura(v, get().uiLang))
+    set({ writeLang: v })
   },
 
   async setWeekStart(v) {

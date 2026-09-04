@@ -5,6 +5,7 @@ import { ArrowLeft, LayoutGrid, PanelRightClose, PanelRightOpen, PenLine, Users 
 import ProjectList from '@/components/ProjectList'
 import ExportMenu from '@/components/ExportMenu'
 import Editor from '@/components/Editor'
+import Divisor, { useAnchoPanel } from '@/components/Divisor'
 import Binder from './Binder'
 import Inspector from './Inspector'
 import CharacterSheets from './CharacterSheets'
@@ -28,6 +29,11 @@ export default function NovelModule() {
   const [activeId, setActiveId] = useState<string | null>(null)
   const [tab, setTab] = useState<Tab>('write')
   const [inspector, setInspector] = useState(true)
+  /* Los anchos de fábrica son los que tenía clavados hasta ahora: 240 el binder
+   * y 288 el inspector. Cada panel lleva su propia clave en `meta`, así que
+   * ensanchar uno no toca al otro. */
+  const binder = useAnchoPanel('ancho_binder', 240, 180, 480)
+  const inspec = useAnchoPanel('ancho_inspector', 288, 220, 520)
   const [refreshKey, setRefreshKey] = useState(0)
 
   const active = items.find((d) => d.id === activeId) ?? null
@@ -186,7 +192,7 @@ export default function NovelModule() {
 
       {tab === 'write' && (
         <div className="flex min-h-0 flex-1">
-          <div className="w-60 shrink-0 border-r border-ink-200 dark:border-ink-800">
+          <div className="shrink-0" style={{ width: binder.ancho }}>
             <Binder
               docs={items}
               activeId={activeId}
@@ -203,6 +209,17 @@ export default function NovelModule() {
               }}
             />
           </div>
+
+          {/* Las barras hacen de borde de su panel, así que las columnas ya no
+              llevan `border-r` ni `border-l`. */}
+          <Divisor
+            ancho={binder.ancho}
+            onAncho={binder.setAncho}
+            onSoltar={binder.guardar}
+            min={binder.min}
+            max={binder.max}
+            porDefecto={binder.porDefecto}
+          />
 
           <div className="flex min-w-0 flex-1 flex-col">
             {active ? (
@@ -228,9 +245,22 @@ export default function NovelModule() {
           </div>
 
           {inspector && active && (
-            <div className="w-72 shrink-0 border-l border-ink-200 dark:border-ink-800">
-              <Inspector doc={active} characters={chars} onPatch={patchDoc} />
-            </div>
+            <>
+              {/* El inspector está a la derecha: la barra va invertida o el
+                  panel se estrecharía al arrastrar hacia fuera. */}
+              <Divisor
+                ancho={inspec.ancho}
+                onAncho={inspec.setAncho}
+                onSoltar={inspec.guardar}
+                min={inspec.min}
+                max={inspec.max}
+                porDefecto={inspec.porDefecto}
+                invertido
+              />
+              <div className="shrink-0" style={{ width: inspec.ancho }}>
+                <Inspector doc={active} characters={chars} onPatch={patchDoc} />
+              </div>
+            </>
           )}
         </div>
       )}

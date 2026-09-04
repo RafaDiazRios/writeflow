@@ -225,10 +225,99 @@ check('un capítulo no se mete dentro de su propia escena', tras3.includes('·/a
 
 await page.screenshot({ path: 'node_modules/.tmp/capturas/binder-despues.png' })
 console.log('  orden final:  ', await orden())
+
+/* ── el idioma del corrector ──
+ *
+ * El `lang` del editor es de donde el corrector del sistema saca qué
+ * diccionario usar, y es de las cosas que no se pueden comprobar leyendo el
+ * código: se pone en `editorProps` al crear el editor y se mantiene al día con
+ * un efecto, así que solo un editor de verdad, montado, dice si está bien.
+ *
+ * Se prueba con la interfaz en español a propósito: lo que estrena la 0.4.0 es
+ * que el idioma de escritura NO es el de la interfaz. */
+console.log('\n— el idioma del corrector —')
+
+const meta = (clave, valor) =>
+  db.exec(`INSERT INTO meta (key, value) VALUES ('${clave}', '${valor}')
+           ON CONFLICT(key) DO UPDATE SET value = excluded.value`)
+
+const langDelEditor = async () => {
+  await page.reload()
+  await page.waitForTimeout(1200)
+  const tarjeta2 = page.getByText('La casa vacía').first()
+  if (await tarjeta2.isVisible().catch(() => false)) {
+    await tarjeta2.click()
+    await page.waitForTimeout(700)
+  }
+  await page.locator("//div[@role='treeitem'][.//span[text()='Llega la carta']]").first().click()
+  await page.waitForTimeout(700)
+  return page.evaluate(() => document.querySelector('.tiptap')?.getAttribute('lang') ?? 'SIN EDITOR')
+}
+
+meta('ui_lang', 'es')
+const langAuto = await langDelEditor()
+check('sin elegir nada, el corrector sigue a la interfaz', langAuto === 'es-ES', `→ ${langAuto}`)
+
+meta('write_lang', 'en')
+const langElegido = await langDelEditor()
+check('elegir inglés cambia el corrector con la interfaz en español',
+  langElegido === 'en-GB', `→ ${langElegido}`)
+
+/* ── los anchos de los paneles ──
+ *
+ * Esto sí se puede arrastrar con el ratón de verdad: la barra usa eventos de
+ * puntero, no el arrastrar-y-soltar de HTML5, así que `page.mouse` sirve. Se
+ * comprueba con el documento ya abierto, que es cuando están las tres barras:
+ * la lateral, la del binder y la del inspector.
+ *
+ * Lo que hay que cazar aquí es el signo. La del inspector va **invertida** —el
+ * panel está a la derecha de la barra—, y sin eso el panel se estrecha cuando
+ * el gesto dice ensanchar. Es un fallo que se ve en un segundo usando la app y
+ * que ninguna prueba de tipos nota. */
+console.log('\n— los anchos de los paneles —')
+
+const barras = page.locator("div[role='separator']")
+const cuantas = await barras.count()
+check('están las tres barras', cuantas === 3, `→ ${cuantas}`)
+
+const valor = (i) => barras.nth(i).getAttribute('aria-valuenow').then(Number)
+const guardado = (clave) =>
+  Number(db.prepare('SELECT value FROM meta WHERE key = ?').get(clave)?.value ?? 0)
+
+async function arrastrarBarra(i, dx) {
+  const caja = await barras.nth(i).boundingBox()
+  await page.mouse.move(caja.x + caja.width / 2, caja.y + caja.height / 2)
+  await page.mouse.down()
+  await page.mouse.move(caja.x + caja.width / 2 + dx, caja.y + caja.height / 2, { steps: 8 })
+  await page.mouse.up()
+  await page.waitForTimeout(250)
+}
+
+const binderAntes = await valor(1)
+await arrastrarBarra(1, 80)
+const binderDespues = await valor(1)
+check('arrastrar a la derecha ensancha el binder',
+  binderDespues - binderAntes >= 60, `→ ${binderAntes} → ${binderDespues}`)
+check('y el ancho queda guardado en meta',
+  guardado('ancho_binder') === binderDespues,
+  `→ meta ${guardado('ancho_binder')} vs ${binderDespues}`)
+
+const inspecAntes = await valor(2)
+await arrastrarBarra(2, 80)
+const inspecDespues = await valor(2)
+check('la del inspector va al revés: a la derecha, el panel se estrecha',
+  inspecAntes - inspecDespues >= 60, `→ ${inspecAntes} → ${inspecDespues}`)
+
+// El tope: por muy lejos que se arrastre, el binder no pasa de su máximo.
+await arrastrarBarra(1, 900)
+const binderTope = await valor(1)
+check('el ancho no se sale del máximo', binderTope === 480, `→ ${binderTope}`)
+
+await page.screenshot({ path: 'node_modules/.tmp/capturas/paneles.png' })
 console.log('  errores de página:', errores.length ? errores : '[]')
 if (errores.length) fallos++
 
 await browser.close()
 srv.close()
-console.log(fallos === 0 ? '\n✔ Arrastrar funciona\n' : `\n✖ ${fallos} fallo(s)\n`)
+console.log(fallos === 0 ? '\n✔ Arrastrar, los anchos y el idioma del corrector funcionan\n' : `\n✖ ${fallos} fallo(s)\n`)
 process.exit(fallos === 0 ? 0 : 1)

@@ -4,7 +4,7 @@
 import { writeFileSync } from 'node:fs'
 import JSZip from 'jszip'
 import { bytesDeDataUrl, buildDocx, medirImagen } from '../src/lib/docx'
-import { setIdiomaUI } from '../src/i18n'
+import { setIdiomaEscritura, setIdiomaUI } from '../src/i18n'
 
 // Igual que en test-i18n: `setIdiomaUI` escribe en document.documentElement.
 ;(globalThis as Record<string, unknown>).document = { documentElement: {} }
@@ -134,10 +134,13 @@ async function main() {
 
   /* El idioma del documento. Sin la declaración, Word usa el del ordenador que
    * abre el archivo y subraya en rojo un manuscrito impecable. Y la portada del
-   * formato manuscrito llevaba dos frases en español fijo. */
+   * formato manuscrito llevaba dos frases en español fijo.
+   *
+   * Desde la 0.4.0 esto sigue al **idioma de escritura**, no al de la interfaz:
+   * el documento es del que escribe, no de los menús. */
   console.log('\n— idioma del .docx —')
   const portada = async (idioma: 'es' | 'en') => {
-    setIdiomaUI(idioma)
+    setIdiomaEscritura(idioma)
     const bytes = await buildDocx({
       title: 'La casa vacía',
       author: 'Rafael Díaz Ríos',
@@ -155,7 +158,6 @@ async function main() {
 
   const docEs = await portada('es')
   const docEn = await portada('en')
-  setIdiomaUI('es')
 
   check('en español el documento declara es-ES', docEs.estilos.includes('w:val="es-ES"'))
   check('en inglés declara en-GB', docEn.estilos.includes('w:val="en-GB"'))
@@ -166,6 +168,21 @@ async function main() {
   check('y en inglés', docEn.cuerpo.includes('words'))
   check('y los miles se agrupan según el idioma',
     docEs.cuerpo.includes('81.200') && docEn.cuerpo.includes('81,200'))
+
+  /* Lo que de verdad estrena la 0.4.0: que el documento NO mire el idioma de la
+   * interfaz. Con la aplicación en español y el ajuste de escritura en inglés,
+   * el .docx tiene que salir entero en inglés. Sin esta comprobación, volver a
+   * poner `idiomaUI()` en `docx.ts` pasaría las ocho de arriba sin despeinarse:
+   * las dos variables irían juntas y ninguna cazaría la diferencia. */
+  setIdiomaUI('es')
+  const mezclado = await portada('en')
+  check('el .docx sigue al idioma de escritura, no al de la interfaz',
+    mezclado.estilos.includes('w:val="en-GB"') && !mezclado.estilos.includes('w:val="es-ES"'))
+  check('y la portada también', mezclado.cuerpo.includes('by Rafael') &&
+    mezclado.cuerpo.includes('words') && mezclado.cuerpo.includes('81,200'))
+
+  setIdiomaUI('es')
+  setIdiomaEscritura('es')
 
   console.log('\n— .epub —')
   const epub = await buildEpub({
@@ -198,6 +215,21 @@ async function main() {
     rutas.filter((r) => !zip.files[r].dir && r.startsWith('OEBPS/imagenes/')).length === 1,
     `→ ${rutas.filter((r) => !zip.files[r].dir && r.startsWith('OEBPS/imagenes/')).join(', ')}`,
   )
+
+  /* El `dc:language` cuando no se pasa uno explícito. Un .epub que declara el
+   * idioma equivocado se lee con la separación silábica de otro. */
+  check('declara el idioma de escritura', opf.includes('<dc:language>es</dc:language>'))
+  setIdiomaEscritura('en')
+  const epubEn = await buildEpub({
+    title: 'The empty house',
+    chapters: [{ title: 'One', text: 'Text.' }],
+  })
+  const opfEn = await (await new JSZip().loadAsync(epubEn))
+    .file('OEBPS/content.opf')!
+    .async('string')
+  check('y cambia con él, con la interfaz en español',
+    opfEn.includes('<dc:language>en</dc:language>'))
+  setIdiomaEscritura('es')
 
   console.log('\n— imágenes —')
   const png = bytesDeDataUrl(PNG_APAISADO)

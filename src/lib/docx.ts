@@ -8,7 +8,7 @@ import type { IParagraphOptions, IRunOptions, ParagraphChild } from 'docx'
 /** `IRunOptions` es de solo lectura; aquí se va construyendo campo a campo. */
 type MutableRun = { -readonly [K in keyof IRunOptions]: IRunOptions[K] }
 import type { JSONContent } from '@tiptap/react'
-import { idiomaUI, LOCALE_INTL, num, t } from '@/i18n'
+import { idiomaEscritura, LOCALE_INTL, num, tIdioma } from '@/i18n'
 
 /**
  * Exportación a .docx nativo.
@@ -425,6 +425,11 @@ export async function buildDocx(options: DocxOptions): Promise<Uint8Array> {
   const manuscript = style === 'manuscrito'
   const surname = (options.author ?? '').trim().split(/\s+/).pop() || ''
 
+  /* Todo lo que sale impreso va en el idioma en el que se escribe, no en el de
+   * los menús: el idioma que declara el documento y las dos frases de la
+   * portada del manuscrito, que son parte del manuscrito. */
+  const lang = idiomaEscritura()
+
   const body: (Paragraph | Table)[] = []
 
   if (options.titlePage) {
@@ -461,7 +466,7 @@ export async function buildDocx(options: DocxOptions): Promise<Uint8Array> {
         new Paragraph({
           children: [
             new TextRun({
-              text: manuscript ? t('exportar.por', { autor: options.author }) : options.author,
+              text: manuscript ? tIdioma(lang, 'exportar.por', { autor: options.author }) : options.author,
               font: manuscript ? 'Times New Roman' : 'Georgia',
               size: 24,
             }),
@@ -477,7 +482,7 @@ export async function buildDocx(options: DocxOptions): Promise<Uint8Array> {
         new Paragraph({
           children: [
             new TextRun({
-              text: t('exportar.palabras', { n: num(rounded) }),
+              text: tIdioma(lang, 'exportar.palabras', { n: num(rounded, lang) }),
               font: 'Times New Roman',
               size: 24,
             }),
@@ -525,12 +530,10 @@ export async function buildDocx(options: DocxOptions): Promise<Uint8Array> {
     /* El idioma del documento. Sin él, Word aplica el del ordenador que lo
      * abra y subraya en rojo un texto perfectamente escrito. Va en los estilos
      * por defecto, así que lo heredan todos los párrafos sin tocarlos uno a
-     * uno. Sigue al idioma de la interfaz, que es la misma pista que usa el
-     * corrector del editor mientras no exista un ajuste propio para el idioma
-     * en el que se escribe. */
+     * uno. Sigue al idioma de escritura, igual que el corrector del editor. */
     styles: {
       default: {
-        document: { run: { language: { value: LOCALE_INTL[idiomaUI()] } } },
+        document: { run: { language: { value: LOCALE_INTL[lang] } } },
       },
     },
     numbering: {

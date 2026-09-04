@@ -27,7 +27,7 @@ import { useIsMobile } from '@/lib/platform'
 import { imagenesDe, prepararImagen } from '@/lib/imagenes'
 import EditorToolbar from './EditorToolbar'
 import MobileToolbar from './MobileToolbar'
-import { idiomaUI, LOCALE_INTL, t } from '@/i18n'
+import { LOCALE_INTL, resolverEscritura, t } from '@/i18n'
 
 export interface EditorProps {
   value: JSONContent | null
@@ -82,7 +82,12 @@ export default function Editor({
   className = '',
   autofocus = false,
 }: EditorProps) {
-  const { focusMode, typewriter, fontScale, notify } = useApp()
+  const { focusMode, typewriter, fontScale, notify, uiLang, writeLang } = useApp()
+  /* El corrector del sistema mira el `lang` del elemento. Se deriva aquí de los
+   * dos ajustes, y no de `idiomaEscritura()`, porque así el componente se vuelve
+   * a pintar cuando cambian: leer el módulo daría el valor correcto al montar y
+   * uno viejo para siempre después. */
+  const langEscritura = LOCALE_INTL[resolverEscritura(writeLang, uiLang)]
   const isMobile = useIsMobile()
   const timer = useRef<number | null>(null)
   const lastPushed = useRef<string>('')
@@ -126,10 +131,10 @@ export default function Editor({
         attributes: {
           class: 'wf-prose tiptap',
           spellcheck: 'true',
-          // El corrector del sistema mira este atributo. Sigue al idioma de la
-          // interfaz, que es la mejor pista que hay: la app no tiene (todavía)
-          // un ajuste propio para el idioma en el que escribes.
-          lang: LOCALE_INTL[idiomaUI()],
+          /* Valor inicial. A partir de aquí lo mantiene al día el efecto de más
+           * abajo: `useEditor` solo se vuelve a crear si cambian las
+           * extensiones, así que esto se evalúa una vez y no basta. */
+          lang: langEscritura,
         },
         // Pegar o arrastrar una imagen la incrusta ya reescalada. Se devuelve
         // `true` para quedarse el evento: si no, ProseMirror inserta por su
@@ -175,6 +180,14 @@ export default function Editor({
   useEffect(() => {
     if (editor) editor.setEditable(editable)
   }, [editor, editable])
+
+  /* Cambiar el idioma de escritura tiene que cambiar el diccionario del
+   * corrector sin cerrar el documento. Se toca el atributo del elemento y no
+   * las opciones del editor: reconstruirlo aquí perdería la selección y el
+   * historial de deshacer. */
+  useEffect(() => {
+    editor?.view.dom.setAttribute('lang', langEscritura)
+  }, [editor, langEscritura])
 
   useEffect(() => {
     editorRef.current = editor ?? null

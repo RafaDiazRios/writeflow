@@ -15,7 +15,13 @@ import { indexedAt, indexSize, rebuildIndex } from '@/lib/search'
 import { CORRIENTES } from '@/lib/types'
 import type { PromptStream } from '@/lib/types'
 import { num, fechaHora } from '@/i18n'
-import { IDIOMAS, NOMBRE_IDIOMA, type Idioma } from '@/i18n'
+import {
+  IDIOMAS,
+  NOMBRE_IDIOMA,
+  PREFS_ESCRITURA,
+  type Idioma,
+  type PrefEscritura,
+} from '@/i18n'
 import { useT } from '@/i18n/useT'
 
 export default function Settings() {
@@ -64,6 +70,9 @@ export default function Settings() {
           </Row>
           <Row label={t('ajustes.idioma.contenido')} hint={t('ajustes.idioma.contenidoAyuda')}>
             <Elector valor={app.contentLang} onElegir={(l) => app.setContentLang(l)} />
+          </Row>
+          <Row label={t('ajustes.idioma.escritura')} hint={t('ajustes.idioma.escrituraAyuda')}>
+            <ElectorEscritura valor={app.writeLang} onElegir={(v) => app.setWriteLang(v)} />
           </Row>
           <Row label={t('ajustes.semana.titulo')} hint={t('ajustes.semana.ayuda')}>
             <div className="flex gap-1">
@@ -464,7 +473,7 @@ function Row({
   )
 }
 
-/** Los dos ajustes de idioma comparten pinta: se elige de la misma manera. */
+/** Los ajustes de idioma comparten pinta: se elige de la misma manera. */
 function Elector({ valor, onElegir }: { valor: Idioma; onElegir: (l: Idioma) => void }) {
   return (
     <div className="flex gap-1">
@@ -477,6 +486,35 @@ function Elector({ valor, onElegir }: { valor: Idioma; onElegir: (l: Idioma) => 
           }`}
         >
           {NOMBRE_IDIOMA[l]}
+        </button>
+      ))}
+    </div>
+  )
+}
+
+/* El de escritura lleva una opción más, «Igual que la interfaz», que es la que
+ * trae de fábrica: sin ella, quien nunca entre aquí no sabría que existe un
+ * tercer idioma, y quien cambiara la aplicación de idioma se encontraría el
+ * corrector clavado en el de antes. */
+function ElectorEscritura({
+  valor,
+  onElegir,
+}: {
+  valor: PrefEscritura
+  onElegir: (v: PrefEscritura) => void
+}) {
+  const t = useT()
+  return (
+    <div className="flex gap-1">
+      {PREFS_ESCRITURA.map((v) => (
+        <button
+          key={v}
+          onClick={() => onElegir(v)}
+          className={`rounded px-3 py-1 text-xs transition ${
+            valor === v ? 'bg-accent-600 text-white' : 'bg-ink-100 dark:bg-ink-800'
+          }`}
+        >
+          {v === 'auto' ? t('ajustes.idioma.escrituraAuto') : NOMBRE_IDIOMA[v]}
         </button>
       ))}
     </div>

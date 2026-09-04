@@ -1,6 +1,6 @@
 import JSZip from 'jszip'
 import type { JSONContent } from '@tiptap/react'
-import { idiomaUI, t } from '@/i18n'
+import { idiomaEscritura, t } from '@/i18n'
 
 /**
  * Generador de EPUB 3 (con tabla de contenidos EPUB 2 para lectores antiguos).
@@ -263,9 +263,9 @@ function deBase64(b64: string): Uint8Array | null {
 // ─────────────────── construcción ───────────────────
 
 export async function buildEpub(options: EpubOptions): Promise<Uint8Array> {
-  // Sin idioma explícito, el de la interfaz. Iba fijo a 'es', y un .epub que
+  // Sin idioma explícito, el de escritura. Iba fijo a 'es', y un .epub que
   // declara el idioma equivocado se lee con la separación silábica de otro.
-  const lang = options.language ?? idiomaUI()
+  const lang = options.language ?? idiomaEscritura()
   const id = options.identifier ?? `urn:uuid:${crypto.randomUUID()}`
   const modified = (options.published ?? new Date().toISOString()).replace(/\.\d+Z$/, 'Z')
   const zip = new JSZip()

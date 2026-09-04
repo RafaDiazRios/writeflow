@@ -7,7 +7,7 @@ import type { DocxChapter, DocxStyle } from './docx'
 import type { EpubChapter } from './epub'
 import { longDate } from './dates'
 import { compartirArchivo, compartirTexto, salidaPorCompartir } from './share'
-import { idiomaUI, t } from '@/i18n'
+import { idiomaEscritura, t } from '@/i18n'
 
 /** Convierte un documento TipTap a Markdown legible. */
 export function docToMarkdown(doc: JSONContent | null): string {
@@ -282,7 +282,7 @@ export async function exportProjectEpub(projectId: string) {
     title: p.title,
     subtitle: p.subtitle,
     author: p.author,
-    language: idiomaUI(),
+    language: idiomaEscritura(),
     chapters: chapters.map<EpubChapter>((c) => ({ title: c.title, doc: c.doc })),
   })
   return saveBinaryFile(`${p.title}.epub`, bytes, 'epub')
@@ -304,7 +304,7 @@ export function markdownToStyledHtml(title: string, markdown: string): string {
         .replace(/\*(.+?)\*/g, '<em>$1</em>')}</p>`
     })
     .join('\n')
-  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><title>${esc(title)}</title>
+  return `<!doctype html><html lang="${idiomaEscritura()}"><head><meta charset="utf-8"><title>${esc(title)}</title>
 <style>body{font-family:Georgia,serif;font-size:12pt;line-height:1.6;max-width:17cm;margin:2.5cm auto}
 h1,h2,h3{font-family:'Segoe UI',sans-serif} blockquote{border-left:3px solid #ccc;padding-left:1em;color:#555}</style>
 </head><body>${html}</body></html>`

@@ -1,12 +1,13 @@
 /* Idioma de la interfaz.
  *
- * Dos ajustes independientes y globales, decididos así a propósito:
+ * Tres ajustes independientes y globales, decididos así a propósito:
  *
  *   - `uiLang`      el idioma de los menús, botones y avisos
  *   - `contentLang` el idioma de los prompts, ejercicios y plantillas
+ *   - `writeLang`   el idioma en el que **escribes**
  *
  * Separarlos permite tener la aplicación en inglés con los prompts en español,
- * que es lo que suele querer alguien bilingüe. Ninguno de los dos se cifra ni
+ * que es lo que suele querer alguien bilingüe. Ninguno de los tres se cifra ni
  * se sincroniza: son preferencias del equipo, no contenido.
  *
  * Las entradas del diario guardan `prompt_text` además de `prompt_id`, así que
@@ -54,13 +55,66 @@ export function idiomaContenido(): Idioma {
   return contenido
 }
 
+/* El idioma en el que **escribes**, que no es ninguno de los otros dos.
+ *
+ * Decide tres cosas, y las tres son propiedades del texto, no de la aplicación
+ * que lo enseña: el `lang` del editor —que es de donde saca el corrector del
+ * sistema qué diccionario usar—, el idioma que declara el `.docx` para que Word
+ * no subraye en rojo un manuscrito impecable, y el `dc:language` del `.epub`.
+ *
+ * Hasta la 0.3.0 los tres seguían al idioma de la interfaz, que era la mejor
+ * pista disponible pero no es lo mismo: se puede tener la app en inglés y
+ * escribir la novela en español.
+ *
+ * Aquí se guarda ya resuelto —siempre 'es' o 'en'—; quien decide si eso viene
+ * de la preferencia del usuario o heredado de la interfaz es el store. */
+let escritura: Idioma = 'es'
+
+export function setIdiomaEscritura(l: Idioma) {
+  escritura = l
+}
+
+export function idiomaEscritura(): Idioma {
+  return escritura
+}
+
+/**
+ * Lo que el usuario elige en Ajustes. `'auto'` no es un idioma: es «el que
+ * tenga la interfaz», y existe para que quien nunca toque este ajuste conserve
+ * exactamente el comportamiento de siempre, incluso si más adelante cambia el
+ * idioma de la aplicación.
+ */
+export type PrefEscritura = Idioma | 'auto'
+
+export const PREFS_ESCRITURA: PrefEscritura[] = ['auto', 'es', 'en']
+
+export function resolverEscritura(pref: PrefEscritura, ui: Idioma): Idioma {
+  return pref === 'auto' ? ui : pref
+}
+
 /**
  * Traduce una clave. Si falta en el idioma activo cae al español, y si tampoco
  * está devuelve la propia clave: una cadena sin traducir se ve en pantalla como
  * `ajustes.idioma`, que canta, en vez de quedarse en blanco y pasar inadvertida.
  */
 export function t(clave: string, params?: Record<string, string | number>): string {
-  let s = TABLAS[actual]?.[clave] ?? TABLAS.es[clave] ?? clave
+  return tIdioma(actual, clave, params)
+}
+
+/**
+ * Lo mismo, pero en un idioma concreto en vez de en el activo.
+ *
+ * Hace falta porque no todo el texto que produce la aplicación es de la
+ * aplicación: la portada del manuscrito («por Fulano», «unas 80.000 palabras»)
+ * es parte del documento, así que va en el idioma en el que se escribe, no en
+ * el de los menús.
+ */
+export function tIdioma(
+  l: Idioma,
+  clave: string,
+  params?: Record<string, string | number>,
+): string {
+  let s = TABLAS[l]?.[clave] ?? TABLAS.es[clave] ?? clave
   if (params) {
     for (const [k, v] of Object.entries(params)) {
       s = s.split(`{${k}}`).join(String(v))
@@ -75,9 +129,15 @@ export const LOCALE_INTL: Record<Idioma, string> = {
   en: 'en-GB',
 }
 
-/** Miles con el separador del idioma activo. Sustituye a `toLocaleString('es-ES')`. */
-export function num(n: number): string {
-  return n.toLocaleString(LOCALE_INTL[actual])
+/**
+ * Miles con el separador del idioma activo. Sustituye a `toLocaleString('es-ES')`.
+ *
+ * El segundo argumento es para los números que van dentro de un documento —el
+ * recuento de palabras de la portada—, que siguen al idioma en el que se
+ * escribe: 81.200 en español, 81,200 en inglés.
+ */
+export function num(n: number, l: Idioma = actual): string {
+  return n.toLocaleString(LOCALE_INTL[l])
 }
 
 /** Fecha y hora completas, para «última sincronización» y similares. */

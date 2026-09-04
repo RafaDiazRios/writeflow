@@ -5,7 +5,16 @@
  * palabras— al cambiar de idioma, y que el día en que empieza la semana sea
  * de verdad independiente del idioma, que fue la decisión de Rafa.
  */
-import { setIdiomaUI, t, num, traducirErrorNativo, IDIOMAS } from '../src/i18n'
+import {
+  setIdiomaUI,
+  t,
+  tIdioma,
+  num,
+  traducirErrorNativo,
+  resolverEscritura,
+  IDIOMAS,
+  PREFS_ESCRITURA,
+} from '../src/i18n'
 import { CORRIENTES } from '../src/lib/types'
 import es from '../src/i18n/es.json'
 import en from '../src/i18n/en.json'
@@ -63,6 +72,27 @@ setIdiomaUI('en')
 const milEn = num(1234567)
 check('el español agrupa los miles', milEs.replace(/[\d]/g, '') !== '')
 check('el inglés separa distinto que el español', milEs !== milEn, `→ ${milEs} vs ${milEn}`)
+
+console.log('\n— el idioma en el que escribes —')
+
+/* No es el de la interfaz ni el del contenido: decide el diccionario del
+ * corrector y el idioma que declaran el .docx y el .epub. 'auto' no es un
+ * idioma, es «el que tenga la interfaz», y es lo que trae de fábrica para que
+ * quien venga de la 0.3.0 no note ningún cambio. */
+check('«auto» hereda el idioma de la interfaz',
+  resolverEscritura('auto', 'en') === 'en' && resolverEscritura('auto', 'es') === 'es')
+check('y una elección explícita manda sobre la interfaz',
+  resolverEscritura('es', 'en') === 'es' && resolverEscritura('en', 'es') === 'en')
+check('las tres opciones son «auto» y los dos idiomas',
+  PREFS_ESCRITURA.length === IDIOMAS.length + 1 && PREFS_ESCRITURA[0] === 'auto')
+
+/* `tIdioma` es lo que permite que la portada del manuscrito vaya en el idioma
+ * en el que se escribe mientras los menús siguen en otro. */
+setIdiomaUI('es')
+check('tIdioma traduce en un idioma distinto del activo',
+  tIdioma('en', 'ajustes.semana.lunes') === 'Monday' && t('ajustes.semana.lunes') === 'Lunes')
+check('y agrupa los miles en el idioma que se le pida',
+  num(81200, 'es') !== num(81200, 'en'), `→ ${num(81200, 'es')} vs ${num(81200, 'en')}`)
 
 console.log('\n— errores que vienen de Rust —')
 

@@ -5,6 +5,7 @@ import {
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import GlobalSearch from './GlobalSearch'
+import Divisor, { useAnchoPanel } from './Divisor'
 import { ensureIndex } from '@/lib/search'
 import { useApp } from '@/store/app'
 import { syncNow, startAutoSync, stopAutoSync } from '@/lib/sync'
@@ -26,6 +27,9 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   const app = useApp()
   const navigate = useNavigate()
   const [searchOpen, setSearchOpen] = useState(false)
+  /* Los 212 px de siempre siguen siendo el ancho de fábrica, y el doble clic en
+   * la barra vuelve a ellos. El mínimo deja sitio al rótulo con su icono. */
+  const barra = useAnchoPanel('ancho_barra_lateral', 212, 180, 420)
 
   // Si el índice aún no existe (primer arranque tras actualizar), se construye
   // una vez en segundo plano.
@@ -81,7 +85,10 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-full">
       {/* ── Barra lateral ── */}
-      <aside className="flex w-[212px] shrink-0 flex-col border-r border-ink-200 bg-ink-100/60 dark:border-ink-800 dark:bg-ink-900/60">
+      <aside
+        style={{ width: barra.ancho }}
+        className="flex shrink-0 flex-col bg-ink-100/60 dark:bg-ink-900/60"
+      >
         <div className="flex items-center gap-2 px-4 py-4">
           <Feather size={20} className="text-accent-600 dark:text-accent-400" />
           <span className="text-[15px] font-semibold tracking-tight">WriteFlow</span>
@@ -151,6 +158,17 @@ export default function Shell({ children }: { children: React.ReactNode }) {
           </NavLink>
         </div>
       </aside>
+
+      {/* La barra hace de borde derecho del panel: por eso el `aside` ya no
+          lleva `border-r`, que se vería doble. */}
+      <Divisor
+        ancho={barra.ancho}
+        onAncho={barra.setAncho}
+        onSoltar={barra.guardar}
+        min={barra.min}
+        max={barra.max}
+        porDefecto={barra.porDefecto}
+      />
 
       {/* ── Contenido ── */}
       <main className="flex min-w-0 flex-1 flex-col">{children}</main>
