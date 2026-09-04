@@ -204,14 +204,24 @@ export interface FollowupAnswer {
   a: string
 }
 
-/* El tamaño base con el que se leen los prompts, en píxeles: la tarjeta del
- * diario y el epígrafe que queda sobre el editor. Los dos sitios salen de aquí
- * multiplicados por `promptScale`, así que no pueden separarse por descuido —
- * es el mismo texto en dos pantallas y verlo a dos tamaños confunde.
+/* Los tamaños en los que se pueden leer los prompts: la tarjeta del diario y el
+ * epígrafe que queda sobre el editor. Son **píxeles, no porcentajes**: se eligió
+ * así porque un porcentaje obliga a saber de qué, y aquí lo que se quiere es
+ * decir «quiero esta letra de este tamaño».
  *
- * Vive aquí y no en un CSS porque el multiplicador es un ajuste del usuario y
- * se aplica en línea; una clase de Tailwind no puede llevar un número variable.
+ * Los dos sitios leen el mismo número, así que no pueden separarse por
+ * descuido: es el mismo texto en dos pantallas y verlo a dos tamaños confunde.
+ *
+ * Vive aquí y no en un CSS porque es un ajuste del usuario y se aplica en
+ * línea; una clase de Tailwind no puede llevar un número variable.
  */
-export const PROMPT_PX = 18
+export const TAMANOS_PROMPT = [14, 16, 18, 20, 22, 24] as const
 
-export const ESCALAS_PROMPT = [1, 1.15, 1.3, 1.5] as const
+export const PROMPT_PX_DEFECTO = 18
+
+/* El cuerpo del editor, en píxeles, tal y como lo declara `.wf-prose` en
+ * `index.css`. Aquí solo se usa para poder enseñar en la barra a cuántos
+ * píxeles equivale cada porcentaje. Si se cambia el CSS hay que cambiarlo
+ * también aquí; una comprobación del banco de pruebas mide el tamaño real y
+ * falla si los dos números dejan de coincidir. */
+export const EDITOR_PX = 17

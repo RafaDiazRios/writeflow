@@ -12,7 +12,7 @@ import { openConflicts, resolveConflict, syncNow } from '@/lib/sync'
 import ClaveCompartida from './ClaveCompartida'
 import { pendingCounts } from '@/lib/repo'
 import { indexedAt, indexSize, rebuildIndex } from '@/lib/search'
-import { CORRIENTES, ESCALAS_PROMPT, PROMPT_PX } from '@/lib/types'
+import { CORRIENTES, TAMANOS_PROMPT } from '@/lib/types'
 import type { PromptStream } from '@/lib/types'
 import { num, fechaHora } from '@/i18n'
 import {
@@ -94,20 +94,21 @@ export default function Settings() {
         {/* ── Apariencia ── */}
         <Section icon={<Palette size={16} />} title={t('ajustes.apariencia')}>
           <Row label={t('ajustes.prompt.tamano')} hint={t('ajustes.prompt.tamanoAyuda')}>
-            <div className="flex gap-1">
-              {ESCALAS_PROMPT.map((e) => (
+            {/* Píxeles, no porcentajes: el botón dice el número que vas a
+                obtener. Y cada uno se pinta a su propio tamaño, para elegir
+                viendo la letra en vez de calculando. */}
+            <div className="flex items-center gap-1">
+              {TAMANOS_PROMPT.map((px) => (
                 <button
-                  key={e}
-                  onClick={() => app.setPromptScale(e)}
-                  title={`${Math.round(PROMPT_PX * e)} px`}
-                  className={`rounded px-3 py-1 transition ${
-                    app.promptScale === e ? 'bg-accent-600 text-white' : 'bg-ink-100 dark:bg-ink-800'
+                  key={px}
+                  onClick={() => app.setPromptPx(px)}
+                  title={`${px} px`}
+                  className={`rounded px-2 py-1 leading-none transition ${
+                    app.promptPx === px ? 'bg-accent-600 text-white' : 'bg-ink-100 dark:bg-ink-800'
                   }`}
-                  /* Cada botón se pinta a su propio tamaño: se elige viendo el
-                     resultado, no leyendo un porcentaje. */
-                  style={{ fontSize: `${Math.round(11 * e)}px` }}
+                  style={{ fontSize: `${px}px` }}
                 >
-                  A
+                  {px}
                 </button>
               ))}
             </div>

@@ -7,6 +7,7 @@ import {
   Underline as UnderlineIcon, Undo2,
 } from 'lucide-react'
 import { useApp } from '@/store/app'
+import { EDITOR_PX } from '@/lib/types'
 import { elegirImagenDelDisco } from '@/lib/imagenes'
 import { num } from '@/i18n'
 import { useT } from '@/i18n/useT'
@@ -114,14 +115,20 @@ export default function EditorToolbar({ editor }: { editor: Editor }) {
         <option value="'Courier New', monospace">Courier New</option>
       </select>
 
+      {/* Esto NO es el zoom de la página: es el tamaño al que se ve el texto
+          mientras escribes, y no cambia nada de lo que exportas. Se enseñaban
+          porcentajes a secas —«85 %», ¿de qué?—, así que ahora cada opción dice
+          a cuántos píxeles equivale, que es la pregunta que uno se hace. */}
       <select
         className="mx-1 h-7 rounded border border-ink-200 bg-transparent px-1.5 text-xs dark:border-ink-700"
         value={String(fontScale)}
         onChange={(e) => setFontScale(Number(e.target.value))}
-        title={t('editor.tamanoPagina')}
+        title={t('editor.tamanoTexto')}
       >
         {[0.85, 0.95, 1, 1.1, 1.25, 1.5].map((s) => (
-          <option key={s} value={s}>{Math.round(s * 100)} %</option>
+          <option key={s} value={s}>
+            {Math.round(s * EDITOR_PX)} px
+          </option>
         ))}
       </select>
 

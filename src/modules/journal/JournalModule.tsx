@@ -16,7 +16,6 @@ import { SALIDA_COMPARTIDA, exportJournalDocx } from '@/lib/export'
 import { useRefrescoTrasSync } from '@/lib/refresco'
 import { markPromptUsed } from '@/lib/prompts'
 import { useApp } from '@/store/app'
-import { PROMPT_PX } from '@/lib/types'
 import type { DailyPrompt, JournalEntry } from '@/lib/types'
 import { num } from '@/i18n'
 import { useT } from '@/i18n/useT'
@@ -38,7 +37,7 @@ export default function JournalModule() {
    * tenía clavado— y hasta 560, que es donde el prompt deja de partirse en
    * líneas de tres palabras. */
   const diario = useAnchoPanel('ancho_diario', 320, 260, 560)
-  const escalaPrompt = useApp((s) => s.promptScale)
+  const promptPx = useApp((s) => s.promptPx)
   const [entries, setEntries] = useState<JournalEntry[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)
@@ -388,7 +387,7 @@ export default function JournalModule() {
                   cuerpo del editor, y pasó a seguir el ajuste del usuario. */}
               {active.prompt_text && (
                 <div
-                  style={{ fontSize: `${Math.round(PROMPT_PX * escalaPrompt)}px` }}
+                  style={{ fontSize: `${promptPx}px` }}
                   className="mt-2.5 rounded-md border-l-2 border-accent-400 bg-accent-50/60 px-3 py-2.5 font-serif italic leading-relaxed text-ink-600 dark:bg-accent-950/30 dark:text-ink-300"
                 >
                   {active.prompt_text}

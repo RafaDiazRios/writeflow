@@ -390,7 +390,7 @@ await page.screenshot({ path: 'node_modules/.tmp/capturas/epigrafe.png' })
  * número suba, sino que los **dos sitios se muevan juntos**: es el mismo texto
  * en la columna y sobre el editor, y verlo a dos tamaños distintos confunde.
  * Si alguien vuelve a poner una clase fija en uno de los dos, esto lo caza. */
-meta('prompt_scale', '1.5')
+meta('prompt_px', '24')
 await page.reload()
 await page.waitForTimeout(1500)
 await page.getByText('Sin título').first().click()
@@ -404,12 +404,22 @@ const grandes = await page.evaluate(() => {
     epigrafe: epi ? parseFloat(getComputedStyle(epi).fontSize) : null,
   }
 })
-check('el ajuste de tamaño llega a la tarjeta', grandes.tarjeta === 27, `→ ${JSON.stringify(grandes)}`)
-check('y al epigrafe', grandes.epigrafe === 27, `→ ${JSON.stringify(grandes)}`)
+check('el ajuste de tamaño llega a la tarjeta', grandes.tarjeta === 24, `→ ${JSON.stringify(grandes)}`)
+check('y al epigrafe', grandes.epigrafe === 24, `→ ${JSON.stringify(grandes)}`)
 check('los dos van al mismo tamaño', grandes.tarjeta === grandes.epigrafe,
   `→ ${JSON.stringify(grandes)}`)
 
 await page.screenshot({ path: 'node_modules/.tmp/capturas/prompt-grande.png' })
+
+/* El numero que la barra del editor usa para traducir el porcentaje a pixeles
+ * vive en `lib/types.ts` (EDITOR_PX), pero el tamano de verdad lo pone
+ * `.wf-prose` en el CSS. Son dos sitios: si se separan, la barra miente y no
+ * falla nada. Por eso se mide el tamano real, con el zoom sin tocar. */
+const cuerpo = await page.evaluate(() => {
+  const p = document.querySelector('.wf-prose')
+  return p ? parseFloat(getComputedStyle(p).fontSize) : null
+})
+check('el cuerpo del editor son los 17 px que declara EDITOR_PX', cuerpo === 17, `→ ${cuerpo}`)
 console.log('  errores de página:', errores.length ? errores : '[]')
 if (errores.length) fallos++
 
