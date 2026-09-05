@@ -4,7 +4,7 @@
 import { db, getMeta, one, run, setMeta } from '../src/lib/db'
 import { beats, characters, docs, globalStats, journal, pendingCounts, projects, tags, therapy, threads } from '../src/lib/repo'
 import { countWords, docToText, EMPTY_DOC, textToDoc } from '../src/lib/text'
-import { diasDeRecuerdo, esBisiesto } from '../src/lib/dates'
+import { diasDeRecuerdo, esBisiesto, msHastaLaProximaHora } from '../src/lib/dates'
 import { docToMarkdown, compileProject } from '../src/lib/export'
 import { promptForDay, rerollPrompt, prompts, ejercicios, plantillas, suggestExercise } from '../src/lib/prompts'
 import { setIdiomaContenido } from '../src/i18n'
@@ -223,6 +223,17 @@ async function main() {
     !(await journal.onThisDay('2027-03-01')).some((e) => e.entry_date === '2024-02-29'))
   check('el contador cuenta el 29 rescatado', (await journal.onThisDayCount('2027-02-28')) === 2,
     `→ ${await journal.onThisDayCount('2027-02-28')}`)
+
+  /* El reloj de la aplicación. Lo que se puede probar sin navegador es la
+     aritmética del aviso: cuándo toca volver a mirar la hora. El resto —que al
+     cambiar el día se muevan el inicio y el diario— va en el banco de interfaz. */
+  console.log('\n— el reloj —')
+  const hasta = (h: number, m: number) => msHastaLaProximaHora(new Date(2026, 8, 5, h, m, 0))
+  check('avisa en la hora en punto siguiente', hasta(10, 0) === 3_602_000, `→ ${hasta(10, 0)}`)
+  check('y con el margen de dos segundos', hasta(23, 58) === 122_000, `→ ${hasta(23, 58)}`)
+  check('la ultima hora del anio apunta al anio siguiente',
+    msHastaLaProximaHora(new Date(2026, 11, 31, 23, 30, 0)) === 1_802_000,
+    `→ ${msHastaLaProximaHora(new Date(2026, 11, 31, 23, 30, 0))}`)
 
   console.log('\n— objetivo diario y racha —')
   await setGoal(300)

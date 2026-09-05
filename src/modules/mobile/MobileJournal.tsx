@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import type { JSONContent } from '@tiptap/react'
 import { ArrowLeft, CalendarDays, ChevronLeft, ChevronRight, Plus, Share2, Star, Trash2 } from 'lucide-react'
@@ -9,6 +9,7 @@ import PromptCard from '@/modules/journal/PromptCard'
 import { journal } from '@/lib/repo'
 import { countWords, EMPTY_DOC, excerpt, parseDoc, textToDoc } from '@/lib/text'
 import { endOfMonth, longDate, monthLabel, startOfMonth, toISODate } from '@/lib/dates'
+import { escribiendo, useHoy } from '@/lib/reloj'
 import { SALIDA_COMPARTIDA, exportJournalDocx } from '@/lib/export'
 import { useRefrescoTrasSync } from '@/lib/refresco'
 import { markPromptUsed } from '@/lib/prompts'
@@ -31,7 +32,18 @@ const MOODS = [
 export default function MobileJournal() {
   const t = useT()
   const app = useApp()
-  const [date, setDate] = useState(() => toISODate())
+  const hoy = useHoy()
+  const [date, setDate] = useState(hoy)
+  // Igual que en el escritorio: al pasar de día, el diario se mueve al día nuevo
+  // salvo que estuvieras en otro o escribiendo. En el móvil pasa aún más, porque
+  // la aplicación se queda en segundo plano días enteros en vez de cerrarse.
+  const diaPrevio = useRef(hoy)
+  useEffect(() => {
+    if (diaPrevio.current === hoy) return
+    const estabaEnHoy = date === diaPrevio.current
+    diaPrevio.current = hoy
+    if (estabaEnHoy && !escribiendo()) setDate(hoy)
+  }, [hoy, date])
   const [entries, setEntries] = useState<JournalEntry[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)

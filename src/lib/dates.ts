@@ -112,6 +112,19 @@ export function dayAndMonth(d: Date | string): string {
   return format(date, FORMATO[idiomaUI()].diaYMes, { locale: loc() })
 }
 
+/**
+ * Milisegundos hasta la hora en punto siguiente, con dos segundos de margen.
+ *
+ * El margen no es cosmético: un temporizador que despierta en el 59:59.998 del
+ * reloj del sistema todavía leería la hora anterior, y el cambio de día se
+ * quedaría sin dar hasta el siguiente aviso. Nunca devuelve menos de un segundo,
+ * para que un reloj que se mueva hacia atrás no encadene temporizadores a cero.
+ */
+export function msHastaLaProximaHora(d: Date = new Date()): number {
+  const enPunto = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours() + 1, 0, 2)
+  return Math.max(1000, enPunto.getTime() - d.getTime())
+}
+
 /** La regla entera, no solo el múltiplo de cuatro: 1900 no fue bisiesto y 2000 sí. */
 export function esBisiesto(anio: number): boolean {
   return anio % 4 === 0 && (anio % 100 !== 0 || anio % 400 === 0)

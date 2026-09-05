@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import type { JSONContent } from '@tiptap/react'
 import {
@@ -12,6 +12,7 @@ import Divisor, { useAnchoPanel } from '@/components/Divisor'
 import { journal, tags as tagRepo } from '@/lib/repo'
 import { countWords, EMPTY_DOC, excerpt, parseDoc, textToDoc } from '@/lib/text'
 import { endOfMonth, longDate, monthLabel, shortDate, startOfMonth, toISODate } from '@/lib/dates'
+import { escribiendo, useHoy } from '@/lib/reloj'
 import { SALIDA_COMPARTIDA, exportJournalDocx } from '@/lib/export'
 import { useRefrescoTrasSync } from '@/lib/refresco'
 import { markPromptUsed } from '@/lib/prompts'
@@ -32,7 +33,22 @@ const MOODS = [
 export default function JournalModule() {
   const t = useT()
   const app = useApp()
-  const [date, setDate] = useState(() => toISODate())
+  const hoy = useHoy()
+  const [date, setDate] = useState(hoy)
+  /* Pasar de día con la aplicación abierta. Sin esto, quien la deja puesta toda
+   * la noche se encuentra por la mañana el calendario en el día de ayer, con el
+   * prompt de ayer, y lo que escriba se guarda con la fecha de ayer. Solo se
+   * mueve si estabas en el día que acaba de terminar —si te habías ido a un día
+   * cualquiera de marzo, ahí te quedas— y si no estás escribiendo justo en ese
+   * momento, que cambiarle el texto de delante a alguien a media frase es peor
+   * que la fecha equivocada. Para ese caso está «Ir a hoy». */
+  const diaPrevio = useRef(hoy)
+  useEffect(() => {
+    if (diaPrevio.current === hoy) return
+    const estabaEnHoy = date === diaPrevio.current
+    diaPrevio.current = hoy
+    if (estabaEnHoy && !escribiendo()) setDate(hoy)
+  }, [hoy, date])
   /* La columna del calendario y la sugerencia del día. 320 px de fábrica —lo que
    * tenía clavado— y hasta 560, que es donde el prompt deja de partirse en
    * líneas de tres palabras. */

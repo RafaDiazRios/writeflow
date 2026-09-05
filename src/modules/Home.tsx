@@ -7,6 +7,7 @@ import { globalStats, journal } from '@/lib/repo'
 import { getGoal } from '@/lib/stats'
 import { promptForDay, streamLabel } from '@/lib/prompts'
 import { longDate, shortDate, toISODate } from '@/lib/dates'
+import { useAhora } from '@/lib/reloj'
 import { excerpt } from '@/lib/text'
 import { useApp } from '@/store/app'
 import type { JournalEntry } from '@/lib/types'
@@ -25,17 +26,25 @@ export default function Home() {
   const [goal, setGoal] = useState(500)
   const [memories, setMemories] = useState<JournalEntry[]>([])
 
-  const today = toISODate()
+  /* La aplicación se queda abierta de un día para otro, así que la fecha, el
+   * saludo y el prompt no se pueden leer una sola vez al montar: a la mañana
+   * siguiente seguirían siendo los de anoche. `useAhora` los mantiene al día. */
+  const ahora = useAhora()
+  const today = toISODate(ahora)
   const prompt = promptForDay(today, streams)
 
   useEffect(() => {
     globalStats().then(setStats)
     journal.recent(5).then(setRecent)
     getGoal().then(setGoal)
-    journal.onThisDay(toISODate(), 3).then(setMemories)
   }, [])
 
-  const hour = new Date().getHours()
+  // Los recuerdos son de un día concreto: al cambiar de día hay que volver a pedirlos.
+  useEffect(() => {
+    journal.onThisDay(today, 3).then(setMemories)
+  }, [today])
+
+  const hour = ahora.getHours()
   const greeting =
     hour < 6
       ? t('inicio.madrugada')

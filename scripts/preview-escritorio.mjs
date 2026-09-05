@@ -558,6 +558,80 @@ check('en un anio bisiesto el 28 no se lleva el 29',
     && enElBisiesto.some((s) => s.includes('Veintiocho de siempre')),
   `→ ${enElBisiesto.filter((s) => s.includes('febrero')).join(' | ') || 'nada'}`)
 
+/* Plegar el panel y que se quede plegado. Volvía a abrirse en cada arranque y en
+ * cada cambio de día: un panel plegable que no recuerda que lo plegaste solo
+ * sirve para tener que plegarlo otra vez. Se comprueba lo que se guarda en
+ * `meta` y lo que se ve en pantalla, que no es lo mismo: escribir la clave y no
+ * leerla al arrancar dejaría el guardado perfecto y el panel abierto. */
+console.log('\n— «en este día» se queda plegado —')
+
+const guardadoTexto = (clave) =>
+  db.prepare('SELECT value FROM meta WHERE key = ?').get(clave)?.value ?? null
+
+await page.goto('http://localhost:4334/#/')
+await page.waitForTimeout(400)
+await page.goto('http://localhost:4334/#/diario?date=2027-02-28')
+await page.waitForTimeout(1500)
+await page.getByText('En este día', { exact: true }).click()
+await page.waitForTimeout(400)
+
+check('plegar el panel se guarda', guardadoTexto('en_este_dia_abierto') === '0',
+  `→ ${guardadoTexto('en_este_dia_abierto')}`)
+const trasPlegar = await textos()
+check('y los recuerdos se esconden', !trasPlegar.some((s) => s.includes('Bisiesto rescatado')))
+
+await page.reload()
+await page.waitForTimeout(1500)
+await page.goto('http://localhost:4334/#/diario?date=2027-02-28')
+await page.waitForTimeout(1500)
+const trasArrancar = await textos()
+check('y sigue plegado en el arranque siguiente',
+  !trasArrancar.some((s) => s.includes('Bisiesto rescatado')),
+  `→ ${trasArrancar.filter((s) => s.includes('febrero')).join(' | ') || 'nada'}`)
+
+await page.getByText('En este día', { exact: true }).click()
+await page.waitForTimeout(400)
+check('y volver a abrirlo tambien se guarda', guardadoTexto('en_este_dia_abierto') === '1',
+  `→ ${guardadoTexto('en_este_dia_abierto')}`)
+const trasAbrir = await textos()
+check('y los recuerdos vuelven', trasAbrir.some((s) => s.includes('Bisiesto rescatado')))
+
+/* ── pasar de día con la aplicación abierta ──
+ *
+ * Esta no se puede comprobar esperando: hay que mover el reloj. Playwright puede
+ * hacerlo, pero el reloj falso se instala para toda una página, así que va en
+ * una pestaña aparte y al final, para no dejar al resto del banco escribiendo en
+ * un 2027 de mentira.
+ *
+ * Es el fallo que no se ve nunca durante el desarrollo, porque para verlo hay
+ * que dejar la aplicación abierta hasta la madrugada: el diario se quedaba en el
+ * día de ayer, con el prompt de ayer, y lo que escribieras se guardaba con la
+ * fecha de ayer. */
+console.log('\n— la aplicación pasa de día sola —')
+
+const relojero = await browser.newContext({ viewport: { width: 1360, height: 900 } })
+await relojero.clock.install({ time: new Date('2027-02-28T23:58:00') })
+const p2 = await relojero.newPage()
+p2.on('pageerror', (e) => errores.push(String(e)))
+await p2.addInitScript(STUB)
+await p2.goto('http://localhost:4334/#/diario')
+await p2.waitForTimeout(1500)
+
+const diaAntes = await p2.evaluate(() => document.body.innerText)
+check('arranca en el día que marca el reloj', /28 de febrero de 2027/.test(diaAntes),
+  `→ ${(diaAntes.match(/\w+ \d+ de \w+ de \d{4}/) ?? ['nada'])[0]}`)
+
+// Dos minutos y medio: cruzan la medianoche y el aviso de la hora en punto.
+await p2.clock.fastForward('00:02:30')
+await p2.waitForTimeout(1500)
+
+const diaDespues = await p2.evaluate(() => document.body.innerText)
+check('al pasar la medianoche se mueve al día nuevo', /1 de marzo de 2027/.test(diaDespues),
+  `→ ${(diaDespues.match(/\w+ \d+ de \w+ de \d{4}/) ?? ['nada'])[0]}`)
+
+await p2.screenshot({ path: 'node_modules/.tmp/capturas/cambio-de-dia.png' })
+await relojero.close()
+
 console.log('  errores de página:', errores.length ? errores : '[]')
 if (errores.length) fallos++
 

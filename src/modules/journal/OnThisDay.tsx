@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ChevronDown, ChevronRight, History } from 'lucide-react'
 import { journal } from '@/lib/repo'
+import { getMeta, setMeta } from '@/lib/db'
 import { excerpt } from '@/lib/text'
 import { dayAndMonth } from '@/lib/dates'
 import { useT } from '@/i18n/useT'
@@ -15,6 +16,9 @@ interface Props {
 }
 
 const MOOD_EMOJI: Record<number, string> = { 1: '😔', 2: '🙁', 3: '😐', 4: '🙂', 5: '😄' }
+
+/** Clave en `meta` donde se recuerda si el panel se dejó plegado. */
+const ABIERTO = 'en_este_dia_abierto'
 
 function yearsAgoLabel(entryDate: string, today: string): string {
   const diff = Number(today.slice(0, 4)) - Number(entryDate.slice(0, 4))
@@ -38,6 +42,27 @@ export default function OnThisDay({ date, onOpen, refreshKey = 0 }: Props) {
     journal.onThisDay(date).then(setItems)
   }, [date, refreshKey])
 
+  /* Si lo pliegas, se queda plegado. Volvía a abrirse en cada arranque y en cada
+   * cambio de día, que es justo lo contrario de lo que pide un panel plegable.
+   * Va en `meta`, como los anchos: es una preferencia del equipo y no viaja a la
+   * nube. Solo un '0' guardado lo cierra, así que quien no lo haya tocado nunca
+   * lo sigue encontrando abierto. */
+  useEffect(() => {
+    let vivo = true
+    getMeta(ABIERTO).then((v) => {
+      if (vivo && v === '0') setOpen(false)
+    })
+    return () => {
+      vivo = false
+    }
+  }, [])
+
+  const alternar = () => {
+    const siguiente = !open
+    setOpen(siguiente)
+    void setMeta(ABIERTO, siguiente ? '1' : '0')
+  }
+
   if (!items.length) return null
 
   const years = new Set(items.map((e) => e.entry_date.slice(0, 4))).size
@@ -46,7 +71,7 @@ export default function OnThisDay({ date, onOpen, refreshKey = 0 }: Props) {
     <div className="rounded-md border border-amber-200 bg-amber-50/60 dark:border-amber-900/50 dark:bg-amber-950/20">
       <button
         className="flex w-full items-center gap-2 px-2.5 py-2 text-left"
-        onClick={() => setOpen((v) => !v)}
+        onClick={alternar}
       >
         <History size={14} className="shrink-0 text-amber-700 dark:text-amber-500" />
         <span className="panel-title !text-amber-800 dark:!text-amber-400">{t('enEsteDia.titulo')}</span>
