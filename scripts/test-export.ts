@@ -3,7 +3,7 @@
    node_modules/.tmp para que el verificador externo compruebe que son válidos. */
 import { writeFileSync } from 'node:fs'
 import JSZip from 'jszip'
-import { bytesDeDataUrl, buildDocx, medirImagen } from '../src/lib/docx'
+import { aHexDocx, bytesDeDataUrl, buildDocx, medirImagen } from '../src/lib/docx'
 import { setIdiomaEscritura, setIdiomaUI } from '../src/i18n'
 
 // Igual que en test-i18n: `setIdiomaUI` escribe en document.documentElement.
@@ -183,6 +183,64 @@ async function main() {
 
   setIdiomaUI('es')
   setIdiomaEscritura('es')
+
+  /* Los colores que llegan de fuera. El selector de la barra es un
+   * `<input type="color">` y siempre da `#rrggbb`, pero **al pegar texto de una
+   * página web TipTap conserva el `color: rgb(...)` del HTML pegado**, y eso se
+   * guarda tal cual en la entrada. La librería `docx` solo acepta hex de seis
+   * dígitos: reventaba con «Invalid hex value» y **se llevaba por delante la
+   * exportación entera del mes**. Un trozo de texto pegado hace meses dejaba sin
+   * exportar todo lo demás. */
+  console.log('\n— colores pegados —')
+  check('el hex de siempre pasa igual', aHexDocx('#B0AEA6') === 'B0AEA6')
+  check('el hex corto se estira', aHexDocx('#abc') === 'AABBCC')
+  check('rgb() con comas', aHexDocx('rgb(176, 174, 166)') === 'B0AEA6')
+  check('rgb() con espacios', aHexDocx('rgb(176 174 166)') === 'B0AEA6')
+  check('rgba() descarta la opacidad', aHexDocx('rgba(176, 174, 166, 0.5)') === 'B0AEA6')
+  check('los porcentajes también', aHexDocx('rgb(100%, 0%, 0%)') === 'FF0000')
+  check('los nombres más comunes', aHexDocx('red') === 'FF0000' && aHexDocx('Black') === '000000')
+  check('lo que no se entiende no da color', aHexDocx('hsl(210 40% 50%)') === undefined
+    && aHexDocx('color(display-p3 1 0 0)') === undefined && aHexDocx(null) === undefined)
+
+  const conColor = async (color: string) =>
+    buildDocx({
+      title: 'Diario',
+      chapters: [{
+        title: 'Un día',
+        level: 2,
+        doc: {
+          type: 'doc',
+          content: [{
+            type: 'paragraph',
+            content: [{ type: 'text', marks: [{ type: 'textStyle', attrs: { color } }], text: 'Pegado.' }],
+          }],
+        },
+      }],
+    })
+
+  let pegado: Uint8Array | null = null
+  try {
+    pegado = await conColor('rgb(176, 174, 166)')
+  } catch (e) {
+    pegado = null
+    console.log('   ', e instanceof Error ? e.message : String(e))
+  }
+  check('un rgb() pegado ya no tumba la exportación', pegado !== null && pegado.length > 2000)
+  if (pegado) {
+    const z = await new JSZip().loadAsync(pegado)
+    const cuerpo = await z.file('word/document.xml')!.async('string')
+    check('y el color llega convertido a hex', cuerpo.includes('w:val="B0AEA6"'),
+      `→ ${(cuerpo.match(/w:color w:val="[^"]*"/) ?? ['ninguno'])[0]}`)
+  }
+
+  let raro: Uint8Array | null = null
+  try {
+    raro = await conColor('hsl(210 40% 50%)')
+  } catch {
+    raro = null
+  }
+  check('y un color que no se entiende sale sin color, pero sale',
+    raro !== null && raro.length > 2000)
 
   console.log('\n— .epub —')
   const epub = await buildEpub({

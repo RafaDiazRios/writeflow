@@ -51,6 +51,60 @@ export interface DocxOptions {
 const NUMBERING_BULLET = 'wf-bullet'
 const NUMBERING_ORDERED = 'wf-ordered'
 
+// ─────────────────────── colores ───────────────────────
+
+/* Los pocos nombres CSS que aparecen de verdad en texto pegado. La lista no
+ * pretende ser completa: lo que no se reconoce se exporta sin color, que es
+ * infinitamente mejor que no exportar. */
+const NOMBRES_CSS: Record<string, string> = {
+  black: '000000', white: 'FFFFFF', red: 'FF0000', green: '008000', blue: '0000FF',
+  yellow: 'FFFF00', orange: 'FFA500', purple: '800080', gray: '808080', grey: '808080',
+  silver: 'C0C0C0', maroon: '800000', navy: '000080', teal: '008080', olive: '808000',
+}
+
+const aDosDigitos = (n: number) =>
+  Math.min(255, Math.max(0, Math.round(n))).toString(16).padStart(2, '0')
+
+/**
+ * Un color CSS convertido al hex de seis dígitos que es lo único que acepta la
+ * librería `docx`.
+ *
+ * Hacía falta porque el color de una marca `textStyle` **no siempre lo escribe
+ * nuestro selector**. El de la barra es un `<input type="color">` y siempre da
+ * `#rrggbb`, pero al pegar texto de una página web TipTap conserva el
+ * `style="color: rgb(176, 174, 166)"` que traiga el HTML. Ese `rgb(...)` se
+ * guardaba tal cual y llegaba intacto al exportador, que reventaba con
+ * «Invalid hex value 'rgb(176, 174, 166)'. Expected 6 digit hex value» y se
+ * llevaba por delante **el mes entero**: un trozo de texto pegado hace meses
+ * dejaba sin exportar todo lo demás.
+ *
+ * Devuelve `undefined` cuando no entiende el color, y quien llama exporta el
+ * texto sin él. **Un color raro no puede costar el documento.**
+ */
+export function aHexDocx(valor: unknown): string | undefined {
+  if (typeof valor !== 'string') return undefined
+  const v = valor.trim().toLowerCase()
+
+  const hex = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/.exec(v)
+  if (hex) {
+    const h = hex[1]
+    return (h.length === 3 ? [...h].map((c) => c + c).join('') : h).toUpperCase()
+  }
+
+  // `rgb(1 2 3)`, `rgb(1,2,3)`, `rgba(1,2,3,.5)` y los porcentajes de los tres.
+  // La opacidad se descarta: en un .docx no hay dónde ponerla.
+  const rgb = /^rgba?\(([^)]*)\)$/.exec(v)
+  if (rgb) {
+    const partes = rgb[1].split(/[\s,/]+/).filter(Boolean).slice(0, 3)
+    if (partes.length === 3) {
+      const n = partes.map((p) => (p.endsWith('%') ? parseFloat(p) * 2.55 : Number(p)))
+      if (n.every((x) => Number.isFinite(x))) return n.map(aDosDigitos).join('').toUpperCase()
+    }
+  }
+
+  return NOMBRES_CSS[v]
+}
+
 // ─────────────────────── marcas en línea ───────────────────────
 
 function runsFromInline(nodes: JSONContent[] | undefined, base: IRunOptions): ParagraphChild[] {
@@ -83,9 +137,12 @@ function runsFromInline(nodes: JSONContent[] | undefined, base: IRunOptions): Pa
           opts.font = 'Consolas'
           opts.shading = { type: ShadingType.CLEAR, fill: 'F2F2F0' }
           break
-        case 'textStyle':
-          if (typeof m.attrs?.color === 'string') opts.color = String(m.attrs.color).replace('#', '')
+        case 'textStyle': {
+          // Si no se entiende el color, el texto sale sin él (ver `aHexDocx`).
+          const c = aHexDocx(m.attrs?.color)
+          if (c) opts.color = c
           break
+        }
         case 'link':
           if (typeof m.attrs?.href === 'string') href = m.attrs.href
           break
