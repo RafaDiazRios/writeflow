@@ -112,6 +112,30 @@ export function dayAndMonth(d: Date | string): string {
   return format(date, FORMATO[idiomaUI()].diaYMes, { locale: loc() })
 }
 
+/** La regla entera, no solo el múltiplo de cuatro: 1900 no fue bisiesto y 2000 sí. */
+export function esBisiesto(anio: number): boolean {
+  return anio % 4 === 0 && (anio % 100 !== 0 || anio % 400 === 0)
+}
+
+/**
+ * Los días (MM-DD) que cuentan como «este día» para una fecha dada.
+ *
+ * Casi siempre es uno solo, el suyo. La excepción es el 29 de febrero: lo que
+ * escribes ese día volvería a aparecer una vez cada cuatro años, y un diario que
+ * esconde un recuerdo durante tres años no está haciendo su trabajo. En los años
+ * que no son bisiestos lo recoge el 28.
+ *
+ * Se eligió el 28 de febrero y no el 1 de marzo por dos razones: el recuerdo se
+ * queda dentro de su mes —es una entrada de febrero— y el 28 es el último día
+ * que ese año tiene de febrero, que es donde lo busca quien lo escribió. La
+ * dirección no se invierte: el 29, cuando existe, solo trae otros 29.
+ */
+export function diasDeRecuerdo(date: string): string[] {
+  const diaYMes = date.slice(5)
+  if (diaYMes === '02-28' && !esBisiesto(Number(date.slice(0, 4)))) return ['02-28', '02-29']
+  return [diaYMes]
+}
+
 export { upperFirst }
 
 export {

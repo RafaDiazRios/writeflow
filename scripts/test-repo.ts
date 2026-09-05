@@ -4,6 +4,7 @@
 import { db, getMeta, one, run, setMeta } from '../src/lib/db'
 import { beats, characters, docs, globalStats, journal, pendingCounts, projects, tags, therapy, threads } from '../src/lib/repo'
 import { countWords, docToText, EMPTY_DOC, textToDoc } from '../src/lib/text'
+import { diasDeRecuerdo, esBisiesto } from '../src/lib/dates'
 import { docToMarkdown, compileProject } from '../src/lib/export'
 import { promptForDay, rerollPrompt, prompts, ejercicios, plantillas, suggestExercise } from '../src/lib/prompts'
 import { setIdiomaContenido } from '../src/i18n'
@@ -198,6 +199,30 @@ async function main() {
   check('cuenta los años con recuerdo', (await journal.onThisDayCount('2026-08-12')) === 2,
     `→ ${await journal.onThisDayCount('2026-08-12')}`)
   check('un día sin historia no devuelve nada', (await journal.onThisDay('2026-03-07')).length === 0)
+
+  console.log('\n— el 29 de febrero —')
+  check('1900 no fue bisiesto', !esBisiesto(1900))
+  check('2000 sí lo fue', esBisiesto(2000))
+  check('2024 sí y 2026 no', esBisiesto(2024) && !esBisiesto(2026))
+  check('un día normal cuenta un solo día', diasDeRecuerdo('2026-08-12').join() === '08-12')
+  check('el 28 de un año normal cuenta dos', diasDeRecuerdo('2027-02-28').join() === '02-28,02-29')
+  check('el 28 de un bisiesto cuenta uno', diasDeRecuerdo('2028-02-28').join() === '02-28')
+
+  await journal.create({ entry_date: '2024-02-29', title: 'El día que casi no existe', content_text: 'Escrito en un bisiesto.', word_count: 4 })
+  await journal.create({ entry_date: '2023-02-28', title: 'Ultimo de febrero', content_text: 'Un veintiocho cualquiera.', word_count: 3 })
+
+  const feb28 = await journal.onThisDay('2027-02-28')
+  check('el 28 rescata el 29 en un año no bisiesto', feb28.some((e) => e.entry_date === '2024-02-29'),
+    `→ ${feb28.map(e => e.entry_date).join(', ')}`)
+  check('y sigue trayendo los 28 de siempre', feb28.some((e) => e.entry_date === '2023-02-28'))
+  check('en un año bisiesto el 28 no se lleva el 29',
+    !(await journal.onThisDay('2028-02-28')).some((e) => e.entry_date === '2024-02-29'))
+  check('el 29 trae los 29 anteriores',
+    (await journal.onThisDay('2028-02-29')).some((e) => e.entry_date === '2024-02-29'))
+  check('el 1 de marzo no se queda con el 29',
+    !(await journal.onThisDay('2027-03-01')).some((e) => e.entry_date === '2024-02-29'))
+  check('el contador cuenta el 29 rescatado', (await journal.onThisDayCount('2027-02-28')) === 2,
+    `→ ${await journal.onThisDayCount('2027-02-28')}`)
 
   console.log('\n— objetivo diario y racha —')
   await setGoal(300)

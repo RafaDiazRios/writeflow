@@ -79,6 +79,14 @@ export default function OnThisDay({ date, onOpen, refreshKey = 0 }: Props) {
                 <span className="text-[10px] text-amber-700/70 dark:text-amber-500/60">
                   {yearsAgoLabel(e.entry_date, date)}
                 </span>
+                {/* Solo aparece cuando la entrada no es de este día y mes, que hoy
+                    significa una cosa: un 29 de febrero rescatado en el 28. Sin la
+                    fecha a la vista, el recuerdo parecería estar en el día que no es. */}
+                {e.entry_date.slice(5) !== date.slice(5) && (
+                  <span className="rounded bg-amber-200/70 px-1 text-[10px] text-amber-900 dark:bg-amber-900/40 dark:text-amber-300">
+                    {dayAndMonth(e.entry_date)}
+                  </span>
+                )}
                 {e.mood ? <span className="ml-auto text-xs">{MOOD_EMOJI[e.mood]}</span> : null}
               </div>
               <div className="truncate text-[13px] font-medium">{e.title || t('comun.sinTitulo')}</div>

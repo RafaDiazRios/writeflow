@@ -45,6 +45,18 @@ db.exec(`INSERT INTO documents (id, project_id, position, kind, title, guide,
            'Presenta el tema y anuncia la tesis sin adelantar todavía las pruebas.',
            '', '', 0, 1, '${ahora}', '${ahora}', 1, 0)`)
 
+/* Dos entradas de diario viejas para «En este día». Son de febrero a propósito:
+ * una del 29 de 2024 y otra del 28 de 2023. Con ellas se comprueba el rescate
+ * del 29 —que sin él se vería una vez cada cuatro años— y que el 28 de siempre
+ * sigue saliendo. Los títulos van sin acentos porque se buscan por texto. */
+const entrada = (id, fecha, titulo, texto) =>
+  db.exec(`INSERT INTO journal_entries (id, entry_date, title, content_json, content_text,
+             word_count, is_favorite, created_at, updated_at, rev, dirty)
+           VALUES ('${id}', '${fecha}', '${titulo}', '', '${texto}', 6, 0,
+             '${ahora}', '${ahora}', 1, 0)`)
+entrada('j29', '2024-02-29', 'Bisiesto rescatado', 'Escrito el dia que casi no existe.')
+entrada('j28', '2023-02-28', 'Veintiocho de siempre', 'Un ultimo de febrero cualquiera.')
+
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml' }
 const srv = createServer(async (req, res) => {
   if (req.url === '/sql') {
@@ -506,6 +518,45 @@ check('la guia de seccion del ensayo se pinta', guia.texto.length > 10, `→ ${J
 check('y al mismo tamaño que los demas prompts', guia.px === 24, `→ ${JSON.stringify(guia)}`)
 
 await page.screenshot({ path: 'node_modules/.tmp/capturas/ensayo-guia.png' })
+
+/* ── «En este día» y el 29 de febrero ──
+ *
+ * Lo que se comprueba aquí no se puede ver leyendo el SQL: que el rescate llegue
+ * hasta la pantalla y que el recuerdo diga de qué día es. Un 29 de febrero que
+ * aparece el 28 sin decirlo parece una entrada colocada en el día que no es.
+ * La ruta acepta `?date=`, así que se puede plantar el calendario en un 28 de
+ * febrero de un año que no es bisiesto sin depender de la fecha de hoy. */
+console.log('\n— «en este día» y el 29 de febrero —')
+
+await page.goto('http://localhost:4334/#/diario?date=2027-02-28')
+await page.waitForTimeout(1500)
+
+const textos = () =>
+  page.evaluate(() => [...document.querySelectorAll('button')].map((b) => b.textContent ?? ''))
+
+const enElVeintiocho = await textos()
+const rescatado = enElVeintiocho.find((s) => s.includes('Bisiesto rescatado')) ?? null
+check('el 28 de un anio normal rescata el 29 de febrero', Boolean(rescatado),
+  `→ ${enElVeintiocho.filter((s) => s.includes('febrero')).join(' | ') || 'nada'}`)
+check('y sigue trayendo los 28 de siempre',
+  enElVeintiocho.some((s) => s.includes('Veintiocho de siempre')))
+check('el recuerdo rescatado dice de que dia es', /29 de febrero/.test(rescatado ?? ''),
+  `→ ${rescatado}`)
+
+await page.screenshot({ path: 'node_modules/.tmp/capturas/en-este-dia-29f.png' })
+
+/* Y el contraste: en un año que sí es bisiesto, el 28 es solo el 28. El 29
+ * tiene su propio día y no hay nada que rescatar. */
+await page.goto('http://localhost:4334/#/')
+await page.waitForTimeout(400)
+await page.goto('http://localhost:4334/#/diario?date=2028-02-28')
+await page.waitForTimeout(1500)
+
+const enElBisiesto = await textos()
+check('en un anio bisiesto el 28 no se lleva el 29',
+  !enElBisiesto.some((s) => s.includes('Bisiesto rescatado'))
+    && enElBisiesto.some((s) => s.includes('Veintiocho de siempre')),
+  `→ ${enElBisiesto.filter((s) => s.includes('febrero')).join(' | ') || 'nada'}`)
 
 console.log('  errores de página:', errores.length ? errores : '[]')
 if (errores.length) fallos++

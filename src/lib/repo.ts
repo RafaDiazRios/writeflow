@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid'
+import { diasDeRecuerdo } from './dates'
 import { nowISO, one, query, run, softDelete, upsert } from './db'
 import { recordDelta, type WritingModule } from './stats'
 import { indexRow, removeFromIndex, type SearchKind } from './search'
@@ -152,19 +153,24 @@ export const journal = {
    * Solo mira el diario. La escritura terapéutica también está fechada, pero
    * sacarla a la superficie sin que la pidas puede caer en mal momento: ese
    * material se visita a propósito, no de refilón.
+   *
+   * Qué día es «el mismo día» lo decide `diasDeRecuerdo`, que casi siempre
+   * devuelve uno y en los años no bisiestos devuelve dos, para que el 29 de
+   * febrero no se pierda tres de cada cuatro años.
    */
   async onThisDay(date: string, limit = 20): Promise<JournalEntry[]> {
-    const monthDay = date.slice(5) // MM-DD
+    const dias = diasDeRecuerdo(date)
+    const huecos = dias.map(() => '?').join(', ')
     const year = date.slice(0, 4)
     return query<JournalEntry>(
       `SELECT * FROM journal_entries
         WHERE ${ALIVE}
-          AND substr(entry_date, 6) = ?
+          AND substr(entry_date, 6) IN (${huecos})
           AND substr(entry_date, 1, 4) < ?
           AND (content_text <> '' OR title <> '')
         ORDER BY entry_date DESC
         LIMIT ?`,
-      [monthDay, year, limit],
+      [...dias, year, limit],
     )
   },
 
@@ -173,16 +179,21 @@ export const journal = {
    *
    * Aplica exactamente los mismos filtros que `onThisDay`, incluida la exclusión
    * de entradas vacías: si no, el contador anunciaría recuerdos que la lista no
-   * enseña.
+   * enseña. También el rescate del 29 de febrero, por lo mismo.
+   *
+   * Cuenta años, no entradas: si en un año bisiesto escribiste el 28 y el 29,
+   * el 28 de un año normal los trae los dos y sigue siendo «un año».
    */
   async onThisDayCount(date: string): Promise<number> {
+    const dias = diasDeRecuerdo(date)
+    const huecos = dias.map(() => '?').join(', ')
     const r = await one<{ n: number }>(
       `SELECT COUNT(DISTINCT substr(entry_date, 1, 4)) n FROM journal_entries
         WHERE ${ALIVE}
-          AND substr(entry_date, 6) = ?
+          AND substr(entry_date, 6) IN (${huecos})
           AND substr(entry_date, 1, 4) < ?
           AND (content_text <> '' OR title <> '')`,
-      [date.slice(5), date.slice(0, 4)],
+      [...dias, date.slice(0, 4)],
     )
     return r?.n ?? 0
   },
